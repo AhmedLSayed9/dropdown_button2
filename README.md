@@ -658,3 +658,5 @@ class CustomDropdownButton2 extends StatelessWidget {
 ---
 
 If something is missing or you want to add some feature, feel free to open a ticket or contribute!
+
+## Thanks
