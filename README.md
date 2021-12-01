@@ -1,4 +1,13 @@
 # Flutter DropdownButton2
+<a href="https://pub.dev/packages/dropdown_button2">
+  <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub"/>
+</a>
+<a href="https://flutter.dev/">
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%202.0.0-green.svg"/>
+</a>
+<a href="https://opensource.org/licenses/MIT">
+  <img src="https://img.shields.io/badge/License-MIT-red"/>
+</a>
 
 ## Intro
 
