@@ -21,9 +21,6 @@ const EdgeInsets _kMenuItemPadding = EdgeInsets.symmetric(horizontal: 16.0);
 const EdgeInsetsGeometry _kAlignedButtonPadding =
     EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
 const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
-const EdgeInsets _kAlignedMenuMargin = EdgeInsets.zero;
-const EdgeInsetsGeometry _kUnalignedMenuMargin =
-    EdgeInsetsDirectional.only(start: 16.0, end: 24.0);
 
 /// A builder to customize dropdown buttons.
 ///
@@ -953,7 +950,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.value,
     this.hint,
     this.disabledHint,
-    required this.onChanged,
+    this.onChanged,
     this.onTap,
     this.elevation = 8,
     this.style,
@@ -1357,11 +1354,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   void _handleTap() {
     final TextDirection? textDirection = Directionality.maybeOf(context);
-    final EdgeInsetsGeometry menuMargin = widget.itemWidth != null
-        ? EdgeInsets.zero
-        : ButtonTheme.of(context).alignedDropdown
-            ? _kAlignedMenuMargin
-            : _kUnalignedMenuMargin;
+    const EdgeInsetsGeometry menuMargin = EdgeInsets.zero;
 
     final List<_MenuItem<T>> menuItems = <_MenuItem<T>>[
       for (int index = 0; index < widget.items!.length; index += 1)
@@ -1678,7 +1671,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     T? value,
     Widget? hint,
     Widget? disabledHint,
-    required this.onChanged,
+    this.onChanged,
     VoidCallback? onTap,
     int elevation = 8,
     TextStyle? style,

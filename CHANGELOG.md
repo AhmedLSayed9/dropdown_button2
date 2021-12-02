@@ -1,3 +1,3 @@
-## 1.0.1
+## 1.0.2
 
-* Add Example.
+* Add DropdownButtonFormField2 example and removed menu width margin.
