@@ -520,7 +520,7 @@ class MenuItems {
 
 ### 5 Using DropdownButtonFormField2 with Form:
 
-<img src="https://user-images.githubusercontent.com/70890146/144485818-f58da019-d612-4a46-8951-fee9a04c6a5f.jpg" alt="Image" width="400"/>
+<img src="https://user-images.githubusercontent.com/70890146/144485818-f58da019-d612-4a46-8951-fee9a04c6a5f.jpg" alt="Image" width="500"/>
 
 ```dart
 
