@@ -265,8 +265,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 4. DropdownButton2 as Popup menu button using customButton parameter and adding custom items with
-   different height like dividers:
+### 4. DropdownButton2 as Popup menu button using customButton parameter and adding custom items with different height like dividers:
 
 Example 1 using icon:
 
