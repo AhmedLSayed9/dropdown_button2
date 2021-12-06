@@ -15,10 +15,12 @@
 Flutter's core Dropdown Button widget with steady dropdown menu and many other options you can
 customize to your needs.
 
+<img src="https://user-images.githubusercontent.com/70890146/144847227-a1fbf63b-e4a0-4fac-ba73-33cc468b7075.jpg" alt="Image"/>
+
 ## Features
 
-* Dropdown menu always open below the button and you can edit its position by using the offset
-  parameter.
+* Dropdown menu always open below the button "as long as it's possible otherwise it'll open to the
+  end of the screen" and you can edit its position by using the offset parameter.
 * You can control how (button, button's icon, dropdown menu and menu items) will be displayed "read
   Options below".
 * You can align (hint & value) and customize them.
@@ -101,7 +103,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.0.5
+  dropdown_button2: ^1.0.6
 
 ```
 
@@ -114,8 +116,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 ```
 
 ## Usage & Examples
-
-<img src="https://user-images.githubusercontent.com/70890146/144772128-dc354db6-e4d5-4323-856f-c7e7d3a9a113.jpg" alt="Image" width="700"/>
 
 ### 1. Simple DropdownButton2 with no styling:
 
@@ -141,22 +141,22 @@ Widget build(BuildContext context) {
             style: TextStyle(
               fontSize: 14,
               color: Theme
-                  .of(context)
-                  .hintColor,
+                      .of(context)
+                      .hintColor,
             ),
           ),
           items: items
-              .map((item) =>
-              DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ))
-              .toList(),
+                  .map((item) =>
+                  DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
+                  .toList(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
@@ -222,20 +222,20 @@ Widget build(BuildContext context) {
             ],
           ),
           items: items
-              .map((item) =>
-              DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ))
-              .toList(),
+                  .map((item) =>
+                  DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
+                  .toList(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
@@ -345,8 +345,8 @@ Widget build(BuildContext context) {
             style: TextStyle(
               fontSize: 14,
               color: Theme
-                  .of(context)
-                  .hintColor,
+                      .of(context)
+                      .hintColor,
             ),
           ),
           items: _addDividersAfterItems(items),
@@ -400,19 +400,19 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             customItemsHeight: 8,
             items: [
               ...MenuItems.firstItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) =>
+                        DropdownMenuItem<MenuItem>(
+                          value: item,
+                          child: MenuItems.buildItem(item),
+                        ),
               ),
               const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) =>
+                        DropdownMenuItem<MenuItem>(
+                          value: item,
+                          child: MenuItems.buildItem(item),
+                        ),
               ),
             ],
             onChanged: (value) {
@@ -423,7 +423,7 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             itemPadding: const EdgeInsets.only(left: 16, right: 16),
             dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
             dropdownDecoration: BoxDecoration(
-              borderRadius:  BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(4),
               color: Colors.redAccent,
             ),
             dropdownElevation: 8,
@@ -458,9 +458,9 @@ class MenuItems {
     return Row(
       children: [
         Icon(
-            item.icon,
-            color: Colors.white,
-            size: 22
+                item.icon,
+                color: Colors.white,
+                size: 22
         ),
         const SizedBox(
           width: 10,
@@ -531,19 +531,19 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             customItemsHeight: 8,
             items: [
               ...MenuItems.firstItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) =>
+                        DropdownMenuItem<MenuItem>(
+                          value: item,
+                          child: MenuItems.buildItem(item),
+                        ),
               ),
               const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) =>
+                        DropdownMenuItem<MenuItem>(
+                          value: item,
+                          child: MenuItems.buildItem(item),
+                        ),
               ),
             ],
             onChanged: (value) {
@@ -630,6 +630,7 @@ class MenuItems {
 <img src="https://user-images.githubusercontent.com/70890146/144771294-4b98a3f4-5cb7-452f-a1be-5d3e1275fb93.jpg" alt="Image" width="500"/>
 
 ```dart
+
 final List<String> genderItems = [
   'Male',
   'Female',
@@ -691,17 +692,17 @@ Widget build(BuildContext context) {
                 borderRadius: BorderRadius.circular(15),
               ),
               items: genderItems
-                  .map((item) =>
-                  DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ))
-                  .toList(),
+                      .map((item) =>
+                      DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ))
+                      .toList(),
               validator: (value) {
                 if (value == null) {
                   return 'Please select gender.';
@@ -806,26 +807,29 @@ class CustomDropdownButton2 extends StatelessWidget {
             maxLines: 1,
             style: TextStyle(
               fontSize: 14,
-              color: Theme.of(context).hintColor,
+              color: Theme
+                      .of(context)
+                      .hintColor,
             ),
           ),
         ),
         value: value,
         items: dropdownItems
-                .map((item) => DropdownMenuItem<String>(
-          value: item,
-          child: Container(
-            alignment: valueAlignment,
-            child: Text(
-              item,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ))
+                .map((item) =>
+                DropdownMenuItem<String>(
+                  value: item,
+                  child: Container(
+                    alignment: valueAlignment,
+                    child: Text(
+                      item,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ))
                 .toList(),
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
