@@ -15,7 +15,7 @@
 Flutter's core Dropdown Button widget with steady dropdown menu and many other options you can
 customize to your needs.
 
-<img src="https://user-images.githubusercontent.com/70890146/144847227-a1fbf63b-e4a0-4fac-ba73-33cc468b7075.jpg" alt="Image"/>
+<img src="https://user-images.githubusercontent.com/70890146/144847227-a1fbf63b-e4a0-4fac-ba73-33cc468b7075.jpg" alt="Image" width="600"/>
 
 ## Features
 
