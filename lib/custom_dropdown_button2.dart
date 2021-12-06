@@ -6,11 +6,12 @@ class CustomDropdownButton2 extends StatelessWidget {
   final String? value;
   final List<String> dropdownItems;
   final ValueChanged<String?>? onChanged;
+  final DropdownButtonBuilder? selectedItemBuilder;
   final Alignment? hintAlignment;
   final Alignment? valueAlignment;
   final double? buttonHeight, buttonWidth;
   final EdgeInsetsGeometry? buttonPadding;
-  final Decoration? buttonDecoration;
+  final BoxDecoration? buttonDecoration;
   final int? buttonElevation;
   final Widget? icon;
   final double? iconSize;
@@ -20,10 +21,8 @@ class CustomDropdownButton2 extends StatelessWidget {
   final EdgeInsetsGeometry? itemPadding;
   final double? dropdownHeight;
   final EdgeInsetsGeometry? dropdownPadding;
-  final BorderRadius? dropdownBorderRadius;
-  final BoxBorder? dropdownBorder;
+  final BoxDecoration? dropdownDecoration;
   final int? dropdownElevation;
-  final Color? dropdownColor;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
@@ -34,6 +33,7 @@ class CustomDropdownButton2 extends StatelessWidget {
     required this.value,
     required this.dropdownItems,
     required this.onChanged,
+    this.selectedItemBuilder,
     this.hintAlignment,
     this.valueAlignment,
     this.buttonHeight,
@@ -50,10 +50,8 @@ class CustomDropdownButton2 extends StatelessWidget {
     this.itemPadding,
     this.dropdownHeight,
     this.dropdownPadding,
-    this.dropdownBorderRadius,
-    this.dropdownBorder,
+    this.dropdownDecoration,
     this.dropdownElevation,
-    this.dropdownColor,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
@@ -65,8 +63,8 @@ class CustomDropdownButton2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
-        isExpanded: true,
         //To avoid long text overflowing.
+        isExpanded: true,
         hint: Container(
           alignment: hintAlignment,
           child: Text(
@@ -97,6 +95,7 @@ class CustomDropdownButton2 extends StatelessWidget {
                 ))
             .toList(),
         onChanged: onChanged,
+        selectedItemBuilder: selectedItemBuilder,
         icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
         iconSize: iconSize ?? 12,
         iconEnabledColor: iconEnabledColor,
@@ -111,27 +110,25 @@ class CustomDropdownButton2 extends StatelessWidget {
               border: Border.all(
                 color: Colors.black45,
               ),
-              color: Theme.of(context).canvasColor,
-            ).copyWith(
-              boxShadow: kElevationToShadow[buttonElevation ?? 0],
             ),
+        buttonElevation: buttonElevation,
         itemHeight: itemHeight ?? 40,
         itemWidth: itemWidth ?? 140,
         itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        dropdownMaxHeight: dropdownHeight ?? 240,
         //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
+        dropdownMaxHeight: dropdownHeight ?? 200,
         dropdownPadding: dropdownPadding,
-        dropdownBorderRadius: dropdownBorderRadius ?? BorderRadius.circular(14),
-        dropdownBorder: dropdownBorder,
-        //Default has no border.
-        dropdownColor: dropdownColor ?? Theme.of(context).canvasColor,
-        elevation: dropdownElevation ?? 8,
+        dropdownDecoration: dropdownDecoration ??
+            BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+            ),
+        dropdownElevation: dropdownElevation ?? 8,
         scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),
         scrollbarThickness: scrollbarThickness,
         scrollbarAlwaysShow: scrollbarAlwaysShow,
-        offset: offset,
         //Null or Offset(0, 0) will open just under the button. You can edit as you want.
-        showAboveButton: false, //Default is false to show menu below button
+        offset: offset,
+        dropdownOverButton: false, //Default is false to show menu below button
       ),
     );
   }

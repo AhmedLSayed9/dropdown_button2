@@ -22,41 +22,48 @@ const EdgeInsetsGeometry _kAlignedButtonPadding =
     EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
 const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 
-/// A builder to customize dropdown buttons.
-///
-/// Used by [DropdownButton2.selectedItemBuilder].
-typedef DropdownButtonBuilder = List<Widget> Function(BuildContext context);
-
 class _DropdownMenuPainter extends CustomPainter {
   _DropdownMenuPainter({
     this.color,
     this.elevation,
     this.selectedIndex,
-    this.borderRadius,
     required this.resize,
     required this.getSelectedItemOffset,
     required this.itemHeight,
-    this.border,
-  })  : _painter = BoxDecoration(
-          // If you add an image here, you must provide a real
-          // configuration in the paint() function and you must provide some sort
-          // of onChanged callback here.
-          color: color,
-          borderRadius:
-              borderRadius ?? const BorderRadius.all(Radius.circular(2.0)),
-          border: border,
-          boxShadow: kElevationToShadow[elevation],
-        ).createBoxPainter(),
+    this.dropdownDecoration,
+  })  : _painter = dropdownDecoration
+                ?.copyWith(
+                  color: dropdownDecoration.color ?? color,
+                  boxShadow: kElevationToShadow[elevation],
+                )
+                .createBoxPainter() ??
+            BoxDecoration(
+              // If you add an image here, you must provide a real
+              // configuration in the paint() function and you must provide some sort
+              // of onChanged callback here.
+              color: color,
+              borderRadius: const BorderRadius.all(Radius.circular(2.0)),
+              boxShadow: kElevationToShadow[elevation],
+            ).createBoxPainter(),
+        /*BoxDecoration(
+            // If you add an image here, you must provide a real
+            // configuration in the paint() function and you must provide some sort
+            // of onChanged callback here.
+            color: color,
+            borderRadius:
+            borderRadius ?? const BorderRadius.all(Radius.circular(2.0)),
+        border: border,
+  boxShadow: kElevationToShadow[elevation],
+  ).createBoxPainter(),*/
         super(repaint: resize);
 
   final Color? color;
   final int? elevation;
   final int? selectedIndex;
-  final BorderRadius? borderRadius;
   final Animation<double> resize;
   final ValueGetter<double> getSelectedItemOffset;
   final double itemHeight;
-  final BoxBorder? border;
+  final BoxDecoration? dropdownDecoration;
 
   final BoxPainter _painter;
 
@@ -86,7 +93,8 @@ class _DropdownMenuPainter extends CustomPainter {
     return oldPainter.color != color ||
         oldPainter.elevation != elevation ||
         oldPainter.selectedIndex != selectedIndex ||
-        oldPainter.borderRadius != borderRadius ||
+        oldPainter.dropdownDecoration != dropdownDecoration ||
+        oldPainter.itemHeight != itemHeight ||
         oldPainter.resize != resize;
   }
 }
@@ -238,11 +246,9 @@ class _DropdownMenu<T> extends StatefulWidget {
     required this.route,
     required this.buttonRect,
     required this.constraints,
-    this.dropdownColor,
     required this.enableFeedback,
-    this.borderRadius,
-    this.border,
     required this.itemHeight,
+    this.dropdownDecoration,
     this.dropdownPadding,
     this.scrollbarRadius,
     this.scrollbarThickness,
@@ -256,11 +262,9 @@ class _DropdownMenu<T> extends StatefulWidget {
   final EdgeInsets? padding;
   final Rect buttonRect;
   final BoxConstraints constraints;
-  final Color? dropdownColor;
   final bool enableFeedback;
-  final BorderRadius? borderRadius;
-  final BoxBorder? border;
   final double itemHeight;
+  final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
@@ -319,7 +323,9 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           constraints: widget.constraints,
           itemIndex: itemIndex,
           enableFeedback: widget.enableFeedback,
-          borderRadius: widget.borderRadius ?? BorderRadius.zero,
+          borderRadius:
+              widget.dropdownDecoration?.borderRadius?.resolve(null) ??
+                  BorderRadius.zero,
           customItemsIndexes: widget.customItemsIndexes,
           customItemsHeight: widget.customItemsHeight,
         ),
@@ -329,17 +335,16 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
       opacity: _fadeOpacity,
       child: CustomPaint(
         painter: _DropdownMenuPainter(
-          color: widget.dropdownColor ?? Theme.of(context).canvasColor,
+          color: Theme.of(context).canvasColor,
           elevation: route.elevation,
           selectedIndex: route.selectedIndex,
           resize: _resize,
-          borderRadius: widget.borderRadius,
           // This offset is passed as a callback, not a value, because it must
           // be retrieved at paint time (after layout), not at build time.
           getSelectedItemOffset: () => route.getItemOffset(0),
           // 0 so that menu will always open from top to bottom
           itemHeight: widget.itemHeight,
-          border: widget.border,
+          dropdownDecoration: widget.dropdownDecoration,
         ),
         child: Semantics(
           scopesRoute: true,
@@ -498,9 +503,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.itemHeight,
     this.itemWidth,
     this.menuMaxHeight,
-    this.dropdownColor,
-    this.borderRadius,
-    this.border,
+    this.dropdownDecoration,
     this.dropdownPadding,
     this.scrollbarRadius,
     this.scrollbarThickness,
@@ -522,9 +525,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final double itemHeight;
   final double? itemWidth;
   final double? menuMaxHeight;
-  final Color? dropdownColor;
-  final BorderRadius? borderRadius;
-  final BoxBorder? border;
+  final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
@@ -564,10 +565,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
           elevation: elevation,
           capturedThemes: capturedThemes,
           style: style,
-          dropdownColor: dropdownColor,
           enableFeedback: enableFeedback,
-          borderRadius: borderRadius,
-          border: border,
+          dropdownDecoration: dropdownDecoration,
           dropdownPadding: dropdownPadding,
           menuMaxHeight: menuMaxHeight,
           itemHeight: itemHeight,
@@ -696,10 +695,8 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     this.elevation = 8,
     required this.capturedThemes,
     this.style,
-    required this.dropdownColor,
     required this.enableFeedback,
-    this.borderRadius,
-    this.border,
+    this.dropdownDecoration,
     this.dropdownPadding,
     this.menuMaxHeight,
     required this.itemHeight,
@@ -721,10 +718,8 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final int elevation;
   final CapturedThemes capturedThemes;
   final TextStyle? style;
-  final Color? dropdownColor;
   final bool enableFeedback;
-  final BorderRadius? borderRadius;
-  final BoxBorder? border;
+  final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
   final double? menuMaxHeight;
   final double itemHeight;
@@ -759,11 +754,9 @@ class _DropdownRoutePage<T> extends StatelessWidget {
       padding: padding.resolve(textDirection),
       buttonRect: buttonRect,
       constraints: constraints,
-      dropdownColor: dropdownColor,
       enableFeedback: enableFeedback,
-      borderRadius: borderRadius,
-      border: border,
       itemHeight: itemHeight,
+      dropdownDecoration: dropdownDecoration,
       dropdownPadding: dropdownPadding,
       scrollbarRadius: scrollbarRadius,
       scrollbarThickness: scrollbarThickness,
@@ -934,7 +927,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// if it is non-null. If [disabledHint] is null, then [hint] will be displayed
   /// if it is non-null.
   ///
-  /// The [elevation] and [iconSize] arguments must not be null (they both have
+  /// The [dropdownElevation] and [iconSize] arguments must not be null (they both have
   /// defaults, so do not need to be specified). The boolean [isDense] and
   /// [isExpanded] arguments must not be null.
   ///
@@ -952,7 +945,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.disabledHint,
     this.onChanged,
     this.onTap,
-    this.elevation = 8,
+    this.dropdownElevation = 8,
     this.style,
     this.underline,
     this.icon,
@@ -965,7 +958,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.focusColor,
     this.focusNode,
     this.autofocus = false,
-    this.dropdownColor,
     this.dropdownMaxHeight,
     this.enableFeedback,
     this.alignment = AlignmentDirectional.centerStart,
@@ -973,16 +965,16 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonWidth,
     this.buttonPadding,
     this.buttonDecoration,
+    this.buttonElevation,
     this.itemWidth,
     this.itemPadding,
-    this.dropdownBorderRadius,
     this.dropdownPadding,
-    this.dropdownBorder,
+    this.dropdownDecoration,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     this.offset,
-    this.showAboveButton = false,
+    this.dropdownOverButton = false,
     this.customButton,
     this.customItemsIndexes,
     this.customItemsHeight,
@@ -1008,16 +1000,17 @@ class DropdownButton2<T> extends StatefulWidget {
   final double? buttonHeight;
   final double? buttonWidth;
   final EdgeInsetsGeometry? buttonPadding;
-  final Decoration? buttonDecoration;
+  final BoxDecoration? buttonDecoration;
+  final int? buttonElevation;
   final double? itemWidth;
   final EdgeInsetsGeometry? itemPadding;
   final EdgeInsetsGeometry? dropdownPadding;
-  final BoxBorder? dropdownBorder;
+  final BoxDecoration? dropdownDecoration;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
   final Offset? offset;
-  final bool showAboveButton;
+  final bool dropdownOverButton;
   final Widget? customButton;
   final List<int>? customItemsIndexes;
   final double? customItemsHeight;
@@ -1099,7 +1092,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// 16, and 24. See [kElevationToShadow].
   ///
   /// Defaults to 8, the appropriate elevation for dropdown buttons.
-  final int elevation;
+  final int dropdownElevation;
 
   /// The text style to use for text in the dropdown button and the dropdown
   /// menu that appears when you tap the button.
@@ -1186,12 +1179,6 @@ class DropdownButton2<T> extends StatefulWidget {
   /// {@macro flutter.widgets.Focus.autofocus}
   final bool autofocus;
 
-  /// The background color of the dropdown.
-  ///
-  /// If it is not provided, the theme's [ThemeData.canvasColor] will be used
-  /// instead.
-  final Color? dropdownColor;
-
   /// The maximum height of the menu.
   ///
   /// The maximum height of the menu must be at least one row shorter than
@@ -1226,14 +1213,6 @@ class DropdownButton2<T> extends StatefulWidget {
   ///  * [AlignmentDirectional], like [Alignment] for specifying alignments
   ///    relative to text direction.
   final AlignmentGeometry alignment;
-
-  /// Defines the corner radii of the menu's rounded rectangle shape.
-  ///
-  /// The radii of the first menu item's top left and right corners are
-  /// defined by the corresponding properties of the [dropdownBorderRadius].
-  /// Similarly, the radii of the last menu item's bottom and right corners
-  /// are defined by the corresponding properties of the [dropdownBorderRadius].
-  final BorderRadius? dropdownBorderRadius;
 
   @override
   State<DropdownButton2<T>> createState() => _DropdownButton2State<T>();
@@ -1387,7 +1366,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       buttonRect: menuMargin.resolve(textDirection).inflateRect(itemRect),
       padding: widget.itemPadding ?? _kMenuItemPadding.resolve(textDirection),
       selectedIndex: _selectedIndex ?? 0,
-      elevation: widget.elevation,
+      elevation: widget.dropdownElevation,
       capturedThemes:
           InheritedTheme.capture(from: context, to: navigator.context),
       style: _textStyle!,
@@ -1396,15 +1375,13 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       itemHeight: widget.itemHeight,
       itemWidth: widget.itemWidth,
       menuMaxHeight: widget.dropdownMaxHeight,
-      dropdownColor: widget.dropdownColor,
-      borderRadius: widget.dropdownBorderRadius,
-      border: widget.dropdownBorder,
+      dropdownDecoration: widget.dropdownDecoration,
       dropdownPadding: widget.dropdownPadding,
       scrollbarRadius: widget.scrollbarRadius,
       scrollbarThickness: widget.scrollbarThickness,
       scrollbarAlwaysShow: widget.scrollbarAlwaysShow,
       offset: widget.offset ?? const Offset(0, 0),
-      showAboveButton: widget.showAboveButton,
+      showAboveButton: widget.dropdownOverButton,
       customItemsIndexes: widget.customItemsIndexes,
       customItemsHeight: widget.customItemsHeight,
     );
@@ -1506,7 +1483,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       Widget displayedHint =
           _enabled ? widget.hint! : widget.disabledHint ?? widget.hint!;
       if (widget.selectedItemBuilder == null) {
-        displayedHint = _DropdownMenuItemContainer(child: displayedHint);
+        displayedHint = _DropdownMenuItemContainer(
+          child: displayedHint,
+          alignment: widget.alignment,
+        );
       }
 
       hintIndex = items.length;
@@ -1548,7 +1528,13 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
           : _textStyle!.copyWith(color: Theme.of(context).disabledColor),
       child: widget.customButton ??
           Container(
-            decoration: widget.buttonDecoration ??
+            decoration: widget.buttonDecoration?.copyWith(
+                  color: _showHighlight
+                      ? widget.focusColor ?? Theme.of(context).focusColor
+                      : widget.buttonDecoration!.color ??
+                          Theme.of(context).canvasColor,
+                  boxShadow: kElevationToShadow[widget.buttonElevation ?? 0],
+                ) ??
                 (_showHighlight
                     ? BoxDecoration(
                         color:
@@ -1673,7 +1659,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? disabledHint,
     this.onChanged,
     VoidCallback? onTap,
-    int elevation = 8,
+    int dropdownElevation = 8,
     TextStyle? style,
     Widget? icon,
     Color? iconDisabledColor,
@@ -1685,28 +1671,27 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Color? focusColor,
     FocusNode? focusNode,
     bool autofocus = false,
-    Color? dropdownColor,
     InputDecoration? decoration,
     FormFieldSetter<T>? onSaved,
     FormFieldValidator<T>? validator,
     AutovalidateMode? autovalidateMode,
-    double? menuMaxHeight,
+    double? dropdownMaxHeight,
     bool? enableFeedback,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
     double? buttonHeight,
     double? buttonWidth,
     EdgeInsetsGeometry? buttonPadding,
-    Decoration? buttonDecoration,
+    BoxDecoration? buttonDecoration,
+    int? buttonElevation,
     double? itemWidth,
     EdgeInsetsGeometry? itemPadding,
     EdgeInsetsGeometry? dropdownPadding,
-    BorderRadius? dropdownBorderRadius,
-    BoxBorder? dropdownBorder,
+    BoxDecoration? dropdownDecoration,
     Radius? scrollbarRadius,
     double? scrollbarThickness,
     bool? scrollbarAlwaysShow,
     Offset? offset,
-    bool showAboveButton = false,
+    bool dropdownOverButton = false,
     Widget? customButton,
     List<int>? customItemsIndexes,
     double? customItemsHeight,
@@ -1779,7 +1764,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                       disabledHint: disabledHint,
                       onChanged: onChanged == null ? null : state.didChange,
                       onTap: onTap,
-                      elevation: elevation,
+                      dropdownElevation: dropdownElevation,
                       style: style,
                       icon: icon,
                       iconDisabledColor: iconDisabledColor,
@@ -1791,24 +1776,23 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                       focusColor: focusColor,
                       focusNode: focusNode,
                       autofocus: autofocus,
-                      dropdownColor: dropdownColor,
-                      dropdownMaxHeight: menuMaxHeight,
+                      dropdownMaxHeight: dropdownMaxHeight,
                       enableFeedback: enableFeedback,
                       alignment: alignment,
                       buttonHeight: buttonHeight,
                       buttonWidth: buttonWidth,
                       buttonPadding: buttonPadding,
                       buttonDecoration: buttonDecoration,
+                      buttonElevation: buttonElevation,
                       itemWidth: itemWidth,
                       itemPadding: itemPadding,
                       dropdownPadding: dropdownPadding,
-                      dropdownBorderRadius: dropdownBorderRadius,
-                      dropdownBorder: dropdownBorder,
+                      dropdownDecoration: dropdownDecoration,
                       scrollbarRadius: scrollbarRadius,
                       scrollbarThickness: scrollbarThickness,
                       scrollbarAlwaysShow: scrollbarAlwaysShow,
                       offset: offset,
-                      showAboveButton: showAboveButton,
+                      dropdownOverButton: dropdownOverButton,
                       customButton: customButton,
                       customItemsIndexes: customItemsIndexes,
                       customItemsHeight: customItemsHeight,

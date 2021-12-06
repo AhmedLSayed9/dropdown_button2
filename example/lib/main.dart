@@ -25,7 +25,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String? selectedValue;
-
   List<String> items = [
     'Item1',
     'Item2',
@@ -102,18 +101,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.black26,
               ),
               color: Colors.redAccent,
-            ).copyWith(
-              boxShadow: kElevationToShadow[2],
             ),
+            buttonElevation: 2,
             itemHeight: 40,
             itemWidth: 200,
             itemPadding: const EdgeInsets.only(left: 14, right: 14),
             dropdownMaxHeight: 200,
             dropdownPadding: null,
-            dropdownBorderRadius: BorderRadius.circular(14),
-            dropdownBorder: null,
-            dropdownColor: Colors.redAccent,
-            elevation: 8,
+            dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: Colors.redAccent,
+            ),
+            dropdownElevation: 8,
             scrollbarRadius: const Radius.circular(40),
             scrollbarThickness: 6,
             scrollbarAlwaysShow: true,

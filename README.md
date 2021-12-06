@@ -12,37 +12,86 @@
 
 ## Intro
 
-Flutter's core Dropdown Button widget with steady dropdown menu and many options you can customize
-to your needs.
+Flutter's core Dropdown Button widget with steady dropdown menu and many other options you can
+customize to your needs.
 
 ## Features
 
 * Dropdown menu always open below the button and you can edit its position by using the offset
   parameter.
-* You can make the menu open above the button by setting showAboveButton to true.
-* You can edit (button, menu and menu items) height, width and decoration as you want.
-* You can align hint or value and customize them.
+* You can control how (button, button's icon, dropdown menu and menu items) will be displayed "read
+  Options below".
+* You can align (hint & value) and customize them.
 * You can edit the scrollbar's radius,thickness and isAlwaysShow.
-* You can specify max height for the dropdown menu & it'll become scrollable if there are more
-  items.
+* You can set max height for the dropdown menu & it'll become scrollable if there are more items.
 * If you pass Null to dropdownMaxHeight parameter or didn't use it, the dropdown menu will take max
   height possible for the items and will become scrollable if there are more items.
-* If you have long scrollable list, the dropdown menu will auto scroll to last selected item and
+* If you have long scrollable list, the dropdown menu will auto scroll to current selected item and
   show it at the middle of the menu if possible.
-* Wrap the DropdownButton2 with DropdownButtonHideUnderline to hide the underline.
+* Wrap DropdownButton2 with DropdownButtonHideUnderline to hide the underline.
 * A Custom widget of the DropdownButton2 below to make it more reusable. You can customize it to
   your needs and use it throughout all your app easily as shown in the examples.
+* You can add dividers as items with different height by passing dividers indexes to
+  customItemsIndexes and the height to customItemsHeight as shown in the examples.
 * You can use DropdownButton2 as a popup menu button by using the parameter customButton. You can
-  pass Icon,Image or anything you want and customize it as shown in the examples.
-* You can make the popup menu open onLongPress instead of onTap by setting openWithLongPress
-  parameter to true.
-* You can Add dividers to the popup menu with different height by passing dividers indexes to
-  customItemsIndexes and the height to customItemsHeight.
-* You can also use DropdownButtonFormField2 the same way with all options above and customize it as
-  shown in the examples.
+  pass Icon,Image or any widget and customize it as shown in the examples.
+* You can also use DropdownButtonFormField2 the same way with all options above and use it inside
+  Form as shown in the examples.
 * Use decoration parameter for the DropdownButtonFormField2 to add borders, label and more.
-* You can customize the DropdownButtonFormField2 width by wrapping it with Padding or with SizedBox
-  and give it the width you want.
+* You can customize DropdownButtonFormField2 width by wrapping it with Padding or with SizedBox and
+  give it the width you want.
+
+## Options
+
+### For DropdownButton2:
+
+| Option | Description | Type | Required |
+|---|---|---|:---:|
+items | List of items user can select | List<DropdownMenuItem<T>> | Yes
+hint | Placeholder hint before you choose item | Widget | No
+disabledHint | Placeholder hint if the dropdown is disabled | Widget | No
+value | Value of the currently selected item | T | No
+onChanged | Called when the user selects an item | ValueChanged<T?> | No
+onTap | Called when the dropdown button is tapped | ValueChanged<T?> | No
+selectedItemBuilder | How selected item will be displayed on button | DropdownButtonBuilder | No
+buttonHeight | Button height | double | No
+buttonWidth | Button width | double | No
+buttonPadding | Button inner padding | EdgeInsetsGeometry | No
+buttonDecoration | Button decoration | BoxDecoration | No
+buttonElevation | Button elevation | int | No
+icon | Dropdown button's icon | Widget | No
+iconSize | Size of the icon | double | No
+iconEnabledColor | Color of icon if button is enabled | Color | No
+iconDisabledColor | Color of icon if button is disabled | Color | No
+itemHeight | Menu items height | double | No
+itemWidth | Menu items width | double | No
+itemPadding | Menu items padding | EdgeInsetsGeometry | No
+dropdownMaxHeight | Maximum height of the dropdown menu | double | No
+dropdownPadding | Dropdown menu inner padding | EdgeInsetsGeometry | No
+dropdownBorderRadius | BorderRadius of the dropdown menu | BorderRadius | No
+dropdownBorder | Border of the dropdown menu | BoxBorder | No
+dropdownElevation | Elevation of the dropdown menu | int | No
+dropdownColor | Background color of the dropdown menu | Color | No
+scrollbarRadius | Dropdown scrollbar radius | Radius | No
+scrollbarThickness | Dropdown scrollbar thickness | double | No
+scrollbarAlwaysShow | Always show Dropdown scrollbar or not | bool | No
+offset | Change position of the dropdown menu | Offset | No
+customButton | Use custom widget like icon,image,etc.. instead of the Button | Widget | No
+customItemsIndexes | Pass indexes of items you want to give different height (useful for adding dividers) | List<int> | No
+customItemsHeight | Height you want for the items you passed their indexes | double | No
+isExpanded | Make the button hint or selectedItem expanded (set true to avoid long text overflowing) | bool | No
+openWithLongPress | Open the dropdown menu by long pressing instead of normal tap | bool | No
+dropdownOverButton | Open dropdown menu over button instead of below it | bool | No
+focusColor | Button's color when it has the input focus using traditional interfaces (keyboard and mouse) | Color | No
+
+### For DropdownButtonFormField2 "In addition to the above":
+
+| Option | Description | Type | Required |
+|---|---|---|:---:|
+decoration | The decoration of the dropdown button form field | InputDecoration | No
+onSaved | Called when the form is saved with the current selected item | FormFieldSetter<T> | No
+validator | Called to validates if the input is invalid and display error text | FormFieldValidator<T> | No
+autovalidateMode | Used to enable/disable auto validation | AutovalidateMode | No
 
 ## Installation
 
@@ -52,7 +101,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.0.2
+  dropdown_button2: ^1.0.5
 
 ```
 
@@ -66,9 +115,11 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 ## Usage & Examples
 
-### 1. Simple DropdownButton2 without too many specifications:
+<img src="https://user-images.githubusercontent.com/70890146/144772128-dc354db6-e4d5-4323-856f-c7e7d3a9a113.jpg" alt="Image" width="700"/>
 
-<img src="https://user-images.githubusercontent.com/70890146/144161182-3cbd6867-6c3b-46c5-b07c-58c831b627b6.jpg" alt="Image" width="400"/>
+### 1. Simple DropdownButton2 with no styling:
+
+<img src="https://user-images.githubusercontent.com/70890146/144771200-15e7e98e-bdf2-4265-b810-035191f7e607.jpg" alt="Image" width="300"/>
 
 ```dart
 String? selectedValue;
@@ -123,9 +174,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 2. More customized DropdownButton2 using DropdownButton2 directly:
+### 2. DropdownButton2 with some styling and customization:
 
-<img src="https://user-images.githubusercontent.com/70890146/144161243-66df843d-a021-4b42-ad82-6ac980ae98c1.jpg" alt="Image" width="400"/>
+<img src="https://user-images.githubusercontent.com/70890146/144771235-8dd0b019-e93b-4613-9035-42dbedd9ba9e.jpg" alt="Image" width="300"/>
 
 ```dart
  String? selectedValue;
@@ -206,18 +257,18 @@ Widget build(BuildContext context) {
               color: Colors.black26,
             ),
             color: Colors.redAccent,
-          ).copyWith(
-            boxShadow: kElevationToShadow[2],
           ),
+          buttonElevation: 2,
           itemHeight: 40,
           itemWidth: 200,
           itemPadding: const EdgeInsets.only(left: 14, right: 14),
           dropdownMaxHeight: 200,
           dropdownPadding: null,
-          dropdownBorderRadius: BorderRadius.circular(14),
-          dropdownBorder: null,
-          dropdownColor: Colors.redAccent,
-          elevation: 8,
+          dropdownDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: Colors.redAccent,
+          ),
+          dropdownElevation: 8,
           scrollbarRadius: const Radius.circular(40),
           scrollbarThickness: 6,
           scrollbarAlwaysShow: true,
@@ -229,47 +280,101 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 3. More customized DropdownButton2 using the reusable Custom widget attached below:
+### 3. How to add different height items like dividers:
 
-<img src="https://user-images.githubusercontent.com/70890146/144161256-740aa2f8-45f6-4d24-8755-b120a8b0f5da.jpg" alt="Image" width="400"/>
+<img src="https://user-images.githubusercontent.com/70890146/144771246-49ea5ed8-78d7-4e0d-a411-331649cef3d5.jpg" alt="Image" width="300"/>
 
 ```dart
-String? selectedValue;
+ String? selectedValue;
 List<String> items = [
   'Item1',
   'Item2',
   'Item3',
   'Item4',
-  'Item5',
-  'Item6',
-  'Item7',
-  'Item8',
 ];
+
+List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
+  List<DropdownMenuItem<String>> _menuItems = [];
+  for (var item in items) {
+    _menuItems.addAll(
+      [
+        DropdownMenuItem<String>(
+          value: item,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              item,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ),
+        //If it's last item, we will not add Divider after it.
+        if (item != items.last)
+          const DropdownMenuItem<String>(
+            enabled: false,
+            child: Divider(),
+          ),
+      ],
+    );
+  }
+  return _menuItems;
+}
+
+List<int> _getDividersIndexes() {
+  List<int> _dividersIndexes = [];
+  for (var i = 0; i < (items.length * 2) - 1; i++) {
+    //Dividers indexes will be the odd indexes
+    if (i.isOdd) {
+      _dividersIndexes.add(i);
+    }
+  }
+  return _dividersIndexes;
+}
 
 @override
 Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
-      child: CustomDropdownButton2(
-        hint: 'Select Item',
-        dropdownItems: items,
-        value: selectedValue,
-        onChanged: (value) {
-          setState(() {
-            selectedValue = value;
-          });
-        },
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton2(
+          isExpanded: true,
+          hint: Text(
+            'Select Item',
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme
+                  .of(context)
+                  .hintColor,
+            ),
+          ),
+          items: _addDividersAfterItems(items),
+          customItemsIndexes: _getDividersIndexes(),
+          customItemsHeight: 4,
+          value: selectedValue,
+          onChanged: (value) {
+            setState(() {
+              selectedValue = value as String;
+            });
+          },
+          buttonHeight: 40,
+          buttonWidth: 140,
+          itemHeight: 40,
+          itemWidth: 140,
+          itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+        ),
       ),
     ),
   );
 }
 ```
 
-### 4. DropdownButton2 as Popup menu button using customButton parameter and adding custom items with different height like dividers:
+### 4. DropdownButton2 as Popup menu button using customButton parameter:
 
-Example 1 using icon:
+***Example 1*** using icon:
 
-<img src="https://user-images.githubusercontent.com/70890146/144161285-b8b013ce-848e-46a7-a967-61627c84dbec.jpg" alt="Image" width="400"/>
+<img src="https://user-images.githubusercontent.com/70890146/144771258-e1a128dd-5b4c-46f6-bc89-645f7748c51b.jpg" alt="Image" width="300"/>
 
 ```dart
 class CustomButtonTest extends StatefulWidget {
@@ -317,10 +422,11 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             itemWidth: 160,
             itemPadding: const EdgeInsets.only(left: 16, right: 16),
             dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
-            dropdownBorderRadius: BorderRadius.circular(4),
-            dropdownBorder: null,
-            dropdownColor: Colors.redAccent,
-            elevation: 8,
+            dropdownDecoration: BoxDecoration(
+              borderRadius:  BorderRadius.circular(4),
+              color: Colors.redAccent,
+            ),
+            dropdownElevation: 8,
             offset: const Offset(0, 8),
           ),
         ),
@@ -388,9 +494,9 @@ class MenuItems {
 }
 ```
 
-Example 2 using image and openWithLongPress parameter:
+***Example 2*** using image and openWithLongPress parameter:
 
-<img src="https://user-images.githubusercontent.com/70890146/144161316-594ed922-a48e-4ded-b1b1-37f722f3046a.jpg" alt="Image" width="400"/>
+<img src="https://user-images.githubusercontent.com/70890146/144771270-2be603a4-84e8-47e7-9c69-91c938626866.jpg" alt="Image" width="300"/>
 
 ```dart
 class CustomButtonTest extends StatefulWidget {
@@ -447,10 +553,11 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             itemWidth: 160,
             itemPadding: const EdgeInsets.only(left: 16, right: 16),
             dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
-            dropdownBorderRadius: BorderRadius.circular(4),
-            dropdownBorder: null,
-            dropdownColor: Colors.redAccent,
-            elevation: 8,
+            dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: Colors.redAccent,
+            ),
+            dropdownElevation: 8,
             offset: const Offset(40, -4),
           ),
         ),
@@ -518,12 +625,11 @@ class MenuItems {
 }
 ```
 
-### 5 Using DropdownButtonFormField2 with Form:
+### 5. Using DropdownButtonFormField2 with Form:
 
-<img src="https://user-images.githubusercontent.com/70890146/144485818-f58da019-d612-4a46-8951-fee9a04c6a5f.jpg" alt="Image" width="500"/>
+<img src="https://user-images.githubusercontent.com/70890146/144771294-4b98a3f4-5cb7-452f-a1be-5d3e1275fb93.jpg" alt="Image" width="500"/>
 
 ```dart
-
 final List<String> genderItems = [
   'Male',
   'Female',
@@ -581,7 +687,9 @@ Widget build(BuildContext context) {
               iconSize: 30,
               buttonHeight: 60,
               buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-              dropdownBorderRadius: BorderRadius.circular(15),
+              dropdownDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
               items: genderItems
                   .map((item) =>
                   DropdownMenuItem<String>(
@@ -621,10 +729,9 @@ Widget build(BuildContext context) {
     ),
   );
 }
-
 ```
 
-## Custom DropdownButton2 Widget
+## Custom DropdownButton2 Widget "customize it to your needs"
 
 ```dart
 class CustomDropdownButton2 extends StatelessWidget {
@@ -632,11 +739,12 @@ class CustomDropdownButton2 extends StatelessWidget {
   final String? value;
   final List<String> dropdownItems;
   final ValueChanged<String?>? onChanged;
+  final DropdownButtonBuilder? selectedItemBuilder;
   final Alignment? hintAlignment;
   final Alignment? valueAlignment;
   final double? buttonHeight, buttonWidth;
   final EdgeInsetsGeometry? buttonPadding;
-  final Decoration? buttonDecoration;
+  final BoxDecoration? buttonDecoration;
   final int? buttonElevation;
   final Widget? icon;
   final double? iconSize;
@@ -646,10 +754,8 @@ class CustomDropdownButton2 extends StatelessWidget {
   final EdgeInsetsGeometry? itemPadding;
   final double? dropdownHeight;
   final EdgeInsetsGeometry? dropdownPadding;
-  final BorderRadius? dropdownBorderRadius;
-  final BoxBorder? dropdownBorder;
+  final BoxDecoration? dropdownDecoration;
   final int? dropdownElevation;
-  final Color? dropdownColor;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
@@ -660,6 +766,7 @@ class CustomDropdownButton2 extends StatelessWidget {
     required this.value,
     required this.dropdownItems,
     required this.onChanged,
+    this.selectedItemBuilder,
     this.hintAlignment,
     this.valueAlignment,
     this.buttonHeight,
@@ -676,10 +783,8 @@ class CustomDropdownButton2 extends StatelessWidget {
     this.itemPadding,
     this.dropdownHeight,
     this.dropdownPadding,
-    this.dropdownBorderRadius,
-    this.dropdownBorder,
+    this.dropdownDecoration,
     this.dropdownElevation,
-    this.dropdownColor,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
@@ -691,8 +796,8 @@ class CustomDropdownButton2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
-        isExpanded: true,
         //To avoid long text overflowing.
+        isExpanded: true,
         hint: Container(
           alignment: hintAlignment,
           child: Text(
@@ -701,31 +806,29 @@ class CustomDropdownButton2 extends StatelessWidget {
             maxLines: 1,
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                  .of(context)
-                  .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
         ),
         value: value,
         items: dropdownItems
-            .map((item) =>
-            DropdownMenuItem<String>(
-              value: item,
-              child: Container(
-                alignment: valueAlignment,
-                child: Text(
-                  item,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
+                .map((item) => DropdownMenuItem<String>(
+          value: item,
+          child: Container(
+            alignment: valueAlignment,
+            child: Text(
+              item,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 14,
               ),
-            ))
-            .toList(),
+            ),
+          ),
+        ))
+                .toList(),
         onChanged: onChanged,
+        selectedItemBuilder: selectedItemBuilder,
         icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
         iconSize: iconSize ?? 12,
         iconEnabledColor: iconEnabledColor,
@@ -735,39 +838,69 @@ class CustomDropdownButton2 extends StatelessWidget {
         buttonPadding:
         buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
         buttonDecoration: buttonDecoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: Colors.black45,
-              ),
-              color: Theme
-                  .of(context)
-                  .canvasColor,
-            ).copyWith(
-              boxShadow: kElevationToShadow[buttonElevation ?? 0],
-            ),
+                BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: Colors.black45,
+                  ),
+                ),
+        buttonElevation: buttonElevation,
         itemHeight: itemHeight ?? 40,
         itemWidth: itemWidth ?? 140,
         itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        dropdownMaxHeight: dropdownHeight ?? 240,
         //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
+        dropdownMaxHeight: dropdownHeight ?? 200,
         dropdownPadding: dropdownPadding,
-        dropdownBorderRadius: dropdownBorderRadius ?? BorderRadius.circular(14),
-        dropdownBorder: dropdownBorder,
-        //Default has no border.
-        dropdownColor: dropdownColor ?? Theme
-            .of(context)
-            .canvasColor,
-        elevation: dropdownElevation ?? 8,
+        dropdownDecoration: dropdownDecoration ??
+                BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+        dropdownElevation: dropdownElevation ?? 8,
         scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),
         scrollbarThickness: scrollbarThickness,
         scrollbarAlwaysShow: scrollbarAlwaysShow,
-        offset: offset,
         //Null or Offset(0, 0) will open just under the button. You can edit as you want.
-        showAboveButton: false, //Default is false to show menu below button
+        offset: offset,
+        dropdownOverButton: false, //Default is false to show menu below button
       ),
     );
   }
+}
+```
+
+### How simple you can use it:
+
+<img src="https://user-images.githubusercontent.com/70890146/144771305-23338e9d-9664-46e5-a7b7-ffc02e9d61a3.jpg" alt="Image" width="300"/>
+
+```dart
+String? selectedValue;
+List<String> items = [
+  'Item1',
+  'Item2',
+  'Item3',
+  'Item4',
+  'Item5',
+  'Item6',
+  'Item7',
+  'Item8',
+];
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Center(
+      child: CustomDropdownButton2(
+        hint: 'Select Item',
+        dropdownItems: items,
+        value: selectedValue,
+        onChanged: (value) {
+          setState(() {
+            selectedValue = value;
+          });
+        },
+      ),
+    ),
+  );
 }
 ```
 

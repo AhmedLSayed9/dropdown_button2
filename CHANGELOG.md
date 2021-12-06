@@ -1,3 +1,6 @@
-## 1.0.2
+## 1.0.5
 
-* Add DropdownButtonFormField2 example and removed menu width margin.
+* Change some parameters names to be more clear.
+* Add dropdown decoration as BoxDecoration parameter.
+* Add Options table.
+* Add "How to use DropdownButton2 with dividers" example.
