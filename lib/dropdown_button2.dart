@@ -34,7 +34,8 @@ class _DropdownMenuPainter extends CustomPainter {
   })  : _painter = dropdownDecoration
                 ?.copyWith(
                   color: dropdownDecoration.color ?? color,
-                  boxShadow: kElevationToShadow[elevation],
+                  boxShadow: dropdownDecoration.boxShadow ??
+                      kElevationToShadow[elevation],
                 )
                 .createBoxPainter() ??
             BoxDecoration(

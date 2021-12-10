@@ -1,3 +1,6 @@
+## 1.0.7
+* BoxShadow can now be added to dropdownDecoration, and if so, it will be used instead of dropdownElevation.
+
 ## 1.0.6
 * Update README
 
