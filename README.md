@@ -66,9 +66,9 @@ iconSize | Size of the icon | double | No
 iconEnabledColor | Color of icon if button is enabled | Color | No
 iconDisabledColor | Color of icon if button is disabled | Color | No
 itemHeight | Menu items height | double | No
-itemWidth | Menu items width | double | No
 itemPadding | Menu items padding | EdgeInsetsGeometry | No
 dropdownMaxHeight | Maximum height of the dropdown menu | double | No
+dropdownWidth | width of the dropdown menu | double | No
 dropdownPadding | Dropdown menu inner padding | EdgeInsetsGeometry | No
 dropdownBorderRadius | BorderRadius of the dropdown menu | BorderRadius | No
 dropdownBorder | Border of the dropdown menu | BoxBorder | No
@@ -103,7 +103,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.0.7
+  dropdown_button2: ^1.1.0
 
 ```
 
@@ -166,7 +166,6 @@ Widget build(BuildContext context) {
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
-          itemWidth: 140,
         ),
       ),
     ),
@@ -260,9 +259,9 @@ Widget build(BuildContext context) {
           ),
           buttonElevation: 2,
           itemHeight: 40,
-          itemWidth: 200,
           itemPadding: const EdgeInsets.only(left: 14, right: 14),
           dropdownMaxHeight: 200,
+          dropdownWidth: 200,
           dropdownPadding: null,
           dropdownDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
@@ -361,7 +360,6 @@ Widget build(BuildContext context) {
           buttonHeight: 40,
           buttonWidth: 140,
           itemHeight: 40,
-          itemWidth: 140,
           itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
         ),
       ),
@@ -419,8 +417,8 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               MenuItems.onChanged(context, value as MenuItem);
             },
             itemHeight: 48,
-            itemWidth: 160,
             itemPadding: const EdgeInsets.only(left: 16, right: 16),
+            dropdownWidth: 160,
             dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
             dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -550,8 +548,8 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               MenuItems.onChanged(context, value as MenuItem);
             },
             itemHeight: 48,
-            itemWidth: 160,
             itemPadding: const EdgeInsets.only(left: 16, right: 16),
+            dropdownWidth: 160,
             dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
             dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -751,9 +749,9 @@ class CustomDropdownButton2 extends StatelessWidget {
   final double? iconSize;
   final Color? iconEnabledColor;
   final Color? iconDisabledColor;
-  final double? itemHeight, itemWidth;
+  final double? itemHeight;
   final EdgeInsetsGeometry? itemPadding;
-  final double? dropdownHeight;
+  final double? dropdownHeight, dropdownWidth;
   final EdgeInsetsGeometry? dropdownPadding;
   final BoxDecoration? dropdownDecoration;
   final int? dropdownElevation;
@@ -780,9 +778,9 @@ class CustomDropdownButton2 extends StatelessWidget {
     this.iconEnabledColor,
     this.iconDisabledColor,
     this.itemHeight,
-    this.itemWidth,
     this.itemPadding,
     this.dropdownHeight,
+    this.dropdownWidth,
     this.dropdownPadding,
     this.dropdownDecoration,
     this.dropdownElevation,
@@ -807,29 +805,26 @@ class CustomDropdownButton2 extends StatelessWidget {
             maxLines: 1,
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                      .of(context)
-                      .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
         ),
         value: value,
         items: dropdownItems
-                .map((item) =>
-                DropdownMenuItem<String>(
-                  value: item,
-                  child: Container(
-                    alignment: valueAlignment,
-                    child: Text(
-                      item,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ))
+                .map((item) => DropdownMenuItem<String>(
+          value: item,
+          child: Container(
+            alignment: valueAlignment,
+            child: Text(
+              item,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ))
                 .toList(),
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
@@ -850,10 +845,10 @@ class CustomDropdownButton2 extends StatelessWidget {
                 ),
         buttonElevation: buttonElevation,
         itemHeight: itemHeight ?? 40,
-        itemWidth: itemWidth ?? 140,
         itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
         //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
         dropdownMaxHeight: dropdownHeight ?? 200,
+        dropdownWidth: dropdownWidth ?? 140,
         dropdownPadding: dropdownPadding,
         dropdownDecoration: dropdownDecoration ??
                 BoxDecoration(

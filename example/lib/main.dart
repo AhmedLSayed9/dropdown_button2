@@ -104,9 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             buttonElevation: 2,
             itemHeight: 40,
-            itemWidth: 200,
             itemPadding: const EdgeInsets.only(left: 14, right: 14),
             dropdownMaxHeight: 200,
+            dropdownWidth: 200,
             dropdownPadding: null,
             dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),

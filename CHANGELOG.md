@@ -1,3 +1,11 @@
+## 1.1.0
+### Breaking Changes:
+* Rename itemWidth to dropdownWidth for clearness.
+* Prevent items from going beyond the menu rounded border boundaries when scrolling.
+* Remove borderRadius from first and last item of the dropdown menu.
+* Change List.from to List.of "Dart lint".
+* Update README.
+
 ## 1.0.7
 * BoxShadow can now be added to dropdownDecoration, and if so, it will be used instead of dropdownElevation.
 

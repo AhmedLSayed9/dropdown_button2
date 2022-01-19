@@ -12,7 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
 const double _kMenuItemHeight = kMinInteractiveDimension;
@@ -105,7 +104,6 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   const _DropdownMenuItemButton({
     Key? key,
     this.padding,
-    required this.borderRadius,
     required this.route,
     required this.buttonRect,
     required this.constraints,
@@ -121,7 +119,6 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   final BoxConstraints constraints;
   final int itemIndex;
   final bool enableFeedback;
-  final BorderRadius borderRadius;
   final List<int>? customItemsIndexes;
   final double? customItemsHeight;
 
@@ -204,20 +201,6 @@ class _DropdownMenuItemButtonState<T>
               : widget.route.itemHeight,
       child: widget.route.items[widget.itemIndex],
     );
-    final BorderRadius itemBorderRadius;
-    if (widget.route.items.length == 1) {
-      itemBorderRadius = widget.borderRadius;
-    } else if (widget.itemIndex == 0) {
-      itemBorderRadius = BorderRadius.only(
-          topLeft: widget.borderRadius.topLeft,
-          topRight: widget.borderRadius.topRight);
-    } else if (widget.itemIndex == widget.route.items.length - 1) {
-      itemBorderRadius = BorderRadius.only(
-          bottomLeft: widget.borderRadius.bottomLeft,
-          bottomRight: widget.borderRadius.bottomRight);
-    } else {
-      itemBorderRadius = BorderRadius.zero;
-    }
     // An [InkWell] is added to the item only if it is enabled
     if (dropdownMenuItem.enabled) {
       child = InkWell(
@@ -225,7 +208,6 @@ class _DropdownMenuItemButtonState<T>
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
-        borderRadius: itemBorderRadius,
         child: child,
       );
     }
@@ -324,9 +306,6 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           constraints: widget.constraints,
           itemIndex: itemIndex,
           enableFeedback: widget.enableFeedback,
-          borderRadius:
-              widget.dropdownDecoration?.borderRadius?.resolve(null) ??
-                  BorderRadius.zero,
           customItemsIndexes: widget.customItemsIndexes,
           customItemsHeight: widget.customItemsHeight,
         ),
@@ -371,10 +350,16 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                   radius: widget.scrollbarRadius,
                   thickness: widget.scrollbarThickness,
                   isAlwaysShown: widget.scrollbarAlwaysShow,
-                  child: ListView(
-                    padding: widget.dropdownPadding ?? kMaterialListPadding,
-                    shrinkWrap: true,
-                    children: children,
+                  child: ClipRRect(
+                    //Prevent items from going beyond the menu rounded border boundaries when scrolling.
+                    borderRadius: widget.dropdownDecoration?.borderRadius
+                            ?.resolve(Directionality.of(context)) ??
+                        const BorderRadius.all(Radius.circular(2.0)),
+                    child: ListView(
+                      padding: widget.dropdownPadding ?? kMaterialListPadding,
+                      shrinkWrap: true,
+                      children: children,
+                    ),
                   ),
                 ),
               ),
@@ -967,8 +952,8 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonPadding,
     this.buttonDecoration,
     this.buttonElevation,
-    this.itemWidth,
     this.itemPadding,
+    this.dropdownWidth,
     this.dropdownPadding,
     this.dropdownDecoration,
     this.scrollbarRadius,
@@ -1003,8 +988,8 @@ class DropdownButton2<T> extends StatefulWidget {
   final EdgeInsetsGeometry? buttonPadding;
   final BoxDecoration? buttonDecoration;
   final int? buttonElevation;
-  final double? itemWidth;
   final EdgeInsetsGeometry? itemPadding;
+  final double? dropdownWidth;
   final EdgeInsetsGeometry? dropdownPadding;
   final BoxDecoration? dropdownDecoration;
   final Radius? scrollbarRadius;
@@ -1374,7 +1359,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       enableFeedback: widget.enableFeedback ?? true,
       itemHeight: widget.itemHeight,
-      itemWidth: widget.itemWidth,
+      itemWidth: widget.dropdownWidth,
       menuMaxHeight: widget.dropdownMaxHeight,
       dropdownDecoration: widget.dropdownDecoration,
       dropdownPadding: widget.dropdownPadding,
@@ -1476,8 +1461,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     // otherwise, no explicit type adding items maybe trigger a crash/failure
     // when hint and selectedItemBuilder are provided.
     final List<Widget> items = widget.selectedItemBuilder == null
-        ? (widget.items != null ? List<Widget>.from(widget.items!) : <Widget>[])
-        : List<Widget>.from(widget.selectedItemBuilder!(context));
+        ? (widget.items != null ? List<Widget>.of(widget.items!) : <Widget>[])
+        : List<Widget>.of(widget.selectedItemBuilder!(context));
 
     int? hintIndex;
     if (widget.hint != null || (!_enabled && widget.disabledHint != null)) {
@@ -1684,8 +1669,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     EdgeInsetsGeometry? buttonPadding,
     BoxDecoration? buttonDecoration,
     int? buttonElevation,
-    double? itemWidth,
     EdgeInsetsGeometry? itemPadding,
+    double? dropdownWidth,
     EdgeInsetsGeometry? dropdownPadding,
     BoxDecoration? dropdownDecoration,
     Radius? scrollbarRadius,
@@ -1785,8 +1770,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                       buttonPadding: buttonPadding,
                       buttonDecoration: buttonDecoration,
                       buttonElevation: buttonElevation,
-                      itemWidth: itemWidth,
                       itemPadding: itemPadding,
+                      dropdownWidth: dropdownWidth,
                       dropdownPadding: dropdownPadding,
                       dropdownDecoration: dropdownDecoration,
                       scrollbarRadius: scrollbarRadius,
