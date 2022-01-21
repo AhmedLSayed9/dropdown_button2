@@ -202,9 +202,11 @@ class _DropdownMenuItemButtonState<T>
       child: widget.route.items[widget.itemIndex],
     );
     // An [InkWell] is added to the item only if it is enabled
+    // isNoSelectedItem to avoid first item highlight when no item selected
     if (dropdownMenuItem.enabled) {
       child = InkWell(
-        autofocus: widget.itemIndex == widget.route.selectedIndex,
+        autofocus: !widget.route.isNoSelectedItem &&
+            widget.itemIndex == widget.route.selectedIndex,
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
@@ -481,6 +483,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.padding,
     required this.buttonRect,
     required this.selectedIndex,
+    required this.isNoSelectedItem,
     this.elevation = 8,
     required this.capturedThemes,
     required this.style,
@@ -504,6 +507,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final EdgeInsetsGeometry padding;
   final Rect buttonRect;
   final int selectedIndex;
+  final bool isNoSelectedItem;
   final int elevation;
   final CapturedThemes capturedThemes;
   final TextStyle style;
@@ -1352,6 +1356,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       buttonRect: menuMargin.resolve(textDirection).inflateRect(itemRect),
       padding: widget.itemPadding ?? _kMenuItemPadding.resolve(textDirection),
       selectedIndex: _selectedIndex ?? 0,
+      isNoSelectedItem: _selectedIndex == null,
       elevation: widget.dropdownElevation,
       capturedThemes:
           InheritedTheme.capture(from: context, to: navigator.context),
@@ -1516,7 +1521,9 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
           Container(
             decoration: widget.buttonDecoration?.copyWith(
                   color: _showHighlight
-                      ? widget.focusColor ?? Theme.of(context).focusColor
+                      ? widget.buttonDecoration!.color ??
+                          widget.focusColor ??
+                          Theme.of(context).focusColor
                       : widget.buttonDecoration!.color ??
                           Theme.of(context).canvasColor,
                   boxShadow: kElevationToShadow[widget.buttonElevation ?? 0],

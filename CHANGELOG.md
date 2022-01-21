@@ -1,3 +1,7 @@
+## 1.1.1
+* Prevent first item to be highlighted when there's no item selected on web and desktop mode (when FocusHighlightMode is set to traditional).
+* Prevent button's color to change to focusColor when selecting items on web and desktop mode (when FocusHighlightMode is set to traditional).
+
 ## 1.1.0
 ### Breaking Changes:
 * Rename itemWidth to dropdownWidth for clearness.
