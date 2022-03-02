@@ -45,16 +45,6 @@ class _DropdownMenuPainter extends CustomPainter {
               borderRadius: const BorderRadius.all(Radius.circular(2.0)),
               boxShadow: kElevationToShadow[elevation],
             ).createBoxPainter(),
-        /*BoxDecoration(
-            // If you add an image here, you must provide a real
-            // configuration in the paint() function and you must provide some sort
-            // of onChanged callback here.
-            color: color,
-            borderRadius:
-            borderRadius ?? const BorderRadius.all(Radius.circular(2.0)),
-        border: border,
-  boxShadow: kElevationToShadow[elevation],
-  ).createBoxPainter(),*/
         super(repaint: resize);
 
   final Color? color;
@@ -866,6 +856,9 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 /// shows the currently selected item as well as an arrow that opens a menu for
 /// selecting another item.
 ///
+/// One ancestor must be a [Material] widget and typically this is
+/// provided by the app's [Scaffold].
+///
 /// The type `T` is the type of the [value] that each dropdown item represents.
 /// All the entries in a given menu must represent values with consistent types.
 /// Typically, an enum is used. Each [DropdownMenuItem] in [items] must be
@@ -939,6 +932,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.style,
     this.underline,
     this.icon,
+    this.iconOnClick,
     this.iconDisabledColor,
     this.iconEnabledColor,
     this.iconSize = 24.0,
@@ -984,6 +978,71 @@ class DropdownButton2<T> extends StatefulWidget {
           'Either zero or 2 or more [DropdownMenuItem]s were detected '
           'with the same value',
         ),
+        _inputDecoration = null,
+        _isEmpty = false,
+        super(key: key);
+
+  DropdownButton2._formField({
+    Key? key,
+    required this.items,
+    this.selectedItemBuilder,
+    this.value,
+    this.hint,
+    this.disabledHint,
+    required this.onChanged,
+    this.onTap,
+    this.dropdownElevation = 8,
+    this.style,
+    this.underline,
+    this.icon,
+    this.iconOnClick,
+    this.iconDisabledColor,
+    this.iconEnabledColor,
+    this.iconSize = 24.0,
+    this.isDense = false,
+    this.isExpanded = false,
+    this.itemHeight = kMinInteractiveDimension,
+    this.focusColor,
+    this.focusNode,
+    this.autofocus = false,
+    this.dropdownMaxHeight,
+    this.enableFeedback,
+    this.alignment = AlignmentDirectional.centerStart,
+    this.buttonHeight,
+    this.buttonWidth,
+    this.buttonPadding,
+    this.buttonDecoration,
+    this.buttonElevation,
+    this.itemPadding,
+    this.dropdownWidth,
+    this.dropdownPadding,
+    this.dropdownDecoration,
+    this.scrollbarRadius,
+    this.scrollbarThickness,
+    this.scrollbarAlwaysShow,
+    this.offset,
+    this.dropdownOverButton = false,
+    this.customButton,
+    this.customItemsIndexes,
+    this.customItemsHeight,
+    this.openWithLongPress = false,
+    required InputDecoration inputDecoration,
+    required bool isEmpty,
+  })  : assert(
+          items == null ||
+              items.isEmpty ||
+              value == null ||
+              items.where((DropdownMenuItem<T> item) {
+                    return item.value == value;
+                  }).length ==
+                  1,
+          "There should be exactly one item with [DropdownButtonFormField]'s value: "
+          '$value. \n'
+          'Either zero or 2 or more [DropdownMenuItem]s were detected '
+          'with the same value',
+        ),
+        _inputDecoration = inputDecoration,
+        _isEmpty = isEmpty,
         super(key: key);
 
   /// Parameters added By Me
@@ -1110,6 +1169,7 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   /// Defaults to an [Icon] with the [Icons.arrow_drop_down] glyph.
   final Widget? icon;
+  final Widget? iconOnClick;
 
   /// The color of any [Icon] descendant of [icon] if this button is disabled,
   /// i.e. if [onChanged] is null.
@@ -1204,6 +1264,9 @@ class DropdownButton2<T> extends StatefulWidget {
   ///    relative to text direction.
   final AlignmentGeometry alignment;
 
+  final InputDecoration? _inputDecoration;
+  final bool _isEmpty;
+
   @override
   State<DropdownButton2<T>> createState() => _DropdownButton2State<T>();
 }
@@ -1214,11 +1277,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
   _DropdownRoute<T>? _dropdownRoute;
   Orientation? _lastOrientation;
   FocusNode? _internalNode;
-
   FocusNode? get focusNode => widget.focusNode ?? _internalNode;
   bool _hasPrimaryFocus = false;
   late Map<Type, Action<Intent>> _actionMap;
-  late FocusHighlightMode _focusHighlightMode;
+  bool _isMenuOpen = false;
 
   // Only used if needed to create _internalNode.
   FocusNode _createFocusNode() {
@@ -1241,17 +1303,12 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       ),
     };
     focusNode!.addListener(_handleFocusChanged);
-    final FocusManager focusManager = WidgetsBinding.instance!.focusManager;
-    _focusHighlightMode = focusManager.highlightMode;
-    focusManager.addHighlightModeListener(_handleFocusHighlightModeChange);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
     _removeDropdownRoute();
-    WidgetsBinding.instance!.focusManager
-        .removeHighlightModeListener(_handleFocusHighlightModeChange);
     focusNode!.removeListener(_handleFocusChanged);
     _internalNode?.dispose();
     super.dispose();
@@ -1269,15 +1326,6 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
         _hasPrimaryFocus = focusNode!.hasPrimaryFocus;
       });
     }
-  }
-
-  void _handleFocusHighlightModeChange(FocusHighlightMode mode) {
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _focusHighlightMode = mode;
-    });
   }
 
   @override
@@ -1377,11 +1425,13 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       customItemsHeight: widget.customItemsHeight,
     );
 
+    _isMenuOpen = true;
     focusNode?.requestFocus();
     navigator
         .push(_dropdownRoute!)
         .then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
+      _isMenuOpen = false;
       if (!mounted || newValue == null) return;
       widget.onChanged?.call(newValue.result);
     });
@@ -1438,15 +1488,6 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
           : Orientation.portrait;
     }
     return result;
-  }
-
-  bool get _showHighlight {
-    switch (_focusHighlightMode) {
-      case FocusHighlightMode.touch:
-        return false;
-      case FocusHighlightMode.traditional:
-        return _hasPrimaryFocus;
-    }
   }
 
   @override
@@ -1520,22 +1561,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       child: widget.customButton ??
           Container(
             decoration: widget.buttonDecoration?.copyWith(
-                  color: _showHighlight
-                      ? widget.buttonDecoration!.color ??
-                          widget.focusColor ??
-                          Theme.of(context).focusColor
-                      : widget.buttonDecoration!.color ??
-                          Theme.of(context).canvasColor,
-                  boxShadow: kElevationToShadow[widget.buttonElevation ?? 0],
-                ) ??
-                (_showHighlight
-                    ? BoxDecoration(
-                        color:
-                            widget.focusColor ?? Theme.of(context).focusColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4.0)),
-                      )
-                    : null),
+              boxShadow: kElevationToShadow[widget.buttonElevation ?? 0],
+            ),
             padding: widget.buttonPadding ??
                 padding.resolve(Directionality.of(context)),
             height: widget.buttonHeight ??
@@ -1554,7 +1581,11 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
                     color: _iconColor,
                     size: widget.iconSize,
                   ),
-                  child: widget.icon ?? defaultIcon,
+                  child: widget.iconOnClick != null
+                      ? _isMenuOpen
+                          ? widget.iconOnClick!
+                          : widget.icon!
+                      : widget.icon ?? defaultIcon,
                 ),
               ],
             ),
@@ -1595,24 +1626,32 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       },
     );
 
+    if (widget._inputDecoration != null) {
+      result = InputDecorator(
+        decoration: widget._inputDecoration!,
+        isEmpty: widget._isEmpty,
+        isFocused: _isMenuOpen,
+        child: result,
+      );
+    }
+
     return Semantics(
       button: true,
       child: Actions(
         actions: _actionMap,
-        child: Focus(
+        child: InkWell(
+          mouseCursor: effectiveMouseCursor,
+          onTap: _enabled ? _handleTap : null,
           canRequestFocus: _enabled,
           focusNode: focusNode,
           autofocus: widget.autofocus,
-          child: MouseRegion(
-            cursor: effectiveMouseCursor,
-            child: GestureDetector(
-              onTap: _enabled && !widget.openWithLongPress ? _handleTap : null,
-              onLongPress:
-                  _enabled && widget.openWithLongPress ? _handleTap : null,
-              behavior: HitTestBehavior.opaque,
-              child: result,
-            ),
-          ),
+          focusColor: widget.buttonDecoration?.color ??
+              widget.focusColor ??
+              Theme.of(context).focusColor,
+          enableFeedback: false,
+          child: result,
+          borderRadius: widget.dropdownDecoration?.borderRadius
+              ?.resolve(Directionality.of(context)),
         ),
       ),
     );
@@ -1655,6 +1694,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     int dropdownElevation = 8,
     TextStyle? style,
     Widget? icon,
+    Widget? iconOnClick,
     Color? iconDisabledColor,
     Color? iconEnabledColor,
     double iconSize = 24.0,
@@ -1743,54 +1783,53 @@ class DropdownButtonFormField2<T> extends FormField<T> {
               canRequestFocus: false,
               skipTraversal: true,
               child: Builder(builder: (BuildContext context) {
-                return InputDecorator(
-                  decoration:
-                      effectiveDecoration.copyWith(errorText: field.errorText),
-                  isEmpty: isEmpty,
-                  isFocused: Focus.of(context).hasFocus,
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton2<T>(
-                      items: items,
-                      selectedItemBuilder: selectedItemBuilder,
-                      value: state.value,
-                      hint: hint,
-                      disabledHint: disabledHint,
-                      onChanged: onChanged == null ? null : state.didChange,
-                      onTap: onTap,
-                      dropdownElevation: dropdownElevation,
-                      style: style,
-                      icon: icon,
-                      iconDisabledColor: iconDisabledColor,
-                      iconEnabledColor: iconEnabledColor,
-                      iconSize: iconSize,
-                      isDense: isDense,
-                      isExpanded: isExpanded,
-                      itemHeight: itemHeight,
-                      focusColor: focusColor,
-                      focusNode: focusNode,
-                      autofocus: autofocus,
-                      dropdownMaxHeight: dropdownMaxHeight,
-                      enableFeedback: enableFeedback,
-                      alignment: alignment,
-                      buttonHeight: buttonHeight,
-                      buttonWidth: buttonWidth,
-                      buttonPadding: buttonPadding,
-                      buttonDecoration: buttonDecoration,
-                      buttonElevation: buttonElevation,
-                      itemPadding: itemPadding,
-                      dropdownWidth: dropdownWidth,
-                      dropdownPadding: dropdownPadding,
-                      dropdownDecoration: dropdownDecoration,
-                      scrollbarRadius: scrollbarRadius,
-                      scrollbarThickness: scrollbarThickness,
-                      scrollbarAlwaysShow: scrollbarAlwaysShow,
-                      offset: offset,
-                      dropdownOverButton: dropdownOverButton,
-                      customButton: customButton,
-                      customItemsIndexes: customItemsIndexes,
-                      customItemsHeight: customItemsHeight,
-                      openWithLongPress: openWithLongPress,
+                return DropdownButtonHideUnderline(
+                  child: DropdownButton2._formField(
+                    items: items,
+                    selectedItemBuilder: selectedItemBuilder,
+                    value: state.value,
+                    hint: hint,
+                    disabledHint: disabledHint,
+                    onChanged: onChanged == null ? null : state.didChange,
+                    onTap: onTap,
+                    dropdownElevation: dropdownElevation,
+                    style: style,
+                    icon: icon,
+                    iconOnClick: iconOnClick,
+                    iconDisabledColor: iconDisabledColor,
+                    iconEnabledColor: iconEnabledColor,
+                    iconSize: iconSize,
+                    isDense: isDense,
+                    isExpanded: isExpanded,
+                    itemHeight: itemHeight,
+                    focusColor: focusColor,
+                    focusNode: focusNode,
+                    autofocus: autofocus,
+                    dropdownMaxHeight: dropdownMaxHeight,
+                    enableFeedback: enableFeedback,
+                    alignment: alignment,
+                    buttonHeight: buttonHeight,
+                    buttonWidth: buttonWidth,
+                    buttonPadding: buttonPadding,
+                    buttonDecoration: buttonDecoration,
+                    buttonElevation: buttonElevation,
+                    itemPadding: itemPadding,
+                    dropdownWidth: dropdownWidth,
+                    dropdownPadding: dropdownPadding,
+                    dropdownDecoration: dropdownDecoration,
+                    scrollbarRadius: scrollbarRadius,
+                    scrollbarThickness: scrollbarThickness,
+                    scrollbarAlwaysShow: scrollbarAlwaysShow,
+                    offset: offset,
+                    dropdownOverButton: dropdownOverButton,
+                    customButton: customButton,
+                    customItemsIndexes: customItemsIndexes,
+                    customItemsHeight: customItemsHeight,
+                    openWithLongPress: openWithLongPress,
+                    inputDecoration: effectiveDecoration.copyWith(
+                      errorText: field.errorText,
                     ),
+                    isEmpty: isEmpty,
                   ),
                 );
               }),
@@ -1816,14 +1855,12 @@ class DropdownButtonFormField2<T> extends FormField<T> {
 
 class _DropdownButtonFormFieldState<T> extends FormFieldState<T> {
   @override
-  DropdownButtonFormField2<T> get widget =>
-      super.widget as DropdownButtonFormField2<T>;
-
-  @override
   void didChange(T? value) {
     super.didChange(value);
-    assert(widget.onChanged != null);
-    widget.onChanged!(value);
+    final DropdownButtonFormField2<T> dropdownButtonFormField =
+        widget as DropdownButtonFormField2<T>;
+    assert(dropdownButtonFormField.onChanged != null);
+    dropdownButtonFormField.onChanged!(value);
   }
 
   @override

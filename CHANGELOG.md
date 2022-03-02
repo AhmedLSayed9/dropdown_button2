@@ -1,3 +1,11 @@
+## 1.2.0
+### Breaking Changes:
+* Fix tappable area for DropdownButtonFormField & add InkWell to DropdownButton [Flutter Dropdown Update].
+* Inline casts on Element.widget getter to improve web performance [Flutter Dropdown Update].
+* Fix DropdownButtonFormField loses highlight when menu opens and stays highlighted after menu closes.
+* Add iconOnClick parameter, It toggles different icon when dropdown menu open, close #12.
+* Update README.
+
 ## 1.1.1
 * Prevent first item to be highlighted when there's no item selected on web and desktop mode (when FocusHighlightMode is set to traditional).
 * Prevent button's color to change to focusColor when selecting items on web and desktop mode (when FocusHighlightMode is set to traditional).

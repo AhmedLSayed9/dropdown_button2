@@ -62,6 +62,7 @@ buttonPadding | Button inner padding | EdgeInsetsGeometry | No
 buttonDecoration | Button decoration | BoxDecoration | No
 buttonElevation | Button elevation | int | No
 icon | Dropdown button's icon | Widget | No
+iconOnClick | show different icon when dropdown menu open | Widget | No
 iconSize | Size of the icon | double | No
 iconEnabledColor | Color of icon if button is enabled | Color | No
 iconDisabledColor | Color of icon if button is disabled | Color | No
@@ -103,7 +104,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.1.1
+  dropdown_button2: ^1.2.0
 
 ```
 
