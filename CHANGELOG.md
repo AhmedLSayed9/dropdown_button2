@@ -1,3 +1,7 @@
+## 1.2.1
+* Add onMenuClose parameter, It calls a function when the dropdown menu is closed.
+* Update README.
+
 ## 1.2.0
 ### Breaking Changes:
 * Fix tappable area for DropdownButtonFormField & add InkWell to DropdownButton [Flutter Dropdown Update].

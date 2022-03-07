@@ -963,6 +963,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.customItemsIndexes,
     this.customItemsHeight,
     this.openWithLongPress = false,
+    this.onMenuClose,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -1026,6 +1027,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.customItemsIndexes,
     this.customItemsHeight,
     this.openWithLongPress = false,
+    this.onMenuClose,
     required InputDecoration inputDecoration,
     required bool isEmpty,
   })  : assert(
@@ -1064,6 +1066,8 @@ class DropdownButton2<T> extends StatefulWidget {
   final List<int>? customItemsIndexes;
   final double? customItemsHeight;
   final bool openWithLongPress;
+  final Widget? iconOnClick;
+  final VoidCallback? onMenuClose;
 
   /// The list of items the user can select.
   ///
@@ -1169,7 +1173,6 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   /// Defaults to an [Icon] with the [Icons.arrow_drop_down] glyph.
   final Widget? icon;
-  final Widget? iconOnClick;
 
   /// The color of any [Icon] descendant of [icon] if this button is disabled,
   /// i.e. if [onChanged] is null.
@@ -1432,6 +1435,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
         .then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
       _isMenuOpen = false;
+      widget.onMenuClose?.call();
       if (!mounted || newValue == null) return;
       widget.onChanged?.call(newValue.result);
     });
@@ -1729,6 +1733,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     List<int>? customItemsIndexes,
     double? customItemsHeight,
     bool openWithLongPress = false,
+    VoidCallback? onMenuClose,
   })  : assert(
           items == null ||
               items.isEmpty ||
@@ -1826,6 +1831,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     customItemsIndexes: customItemsIndexes,
                     customItemsHeight: customItemsHeight,
                     openWithLongPress: openWithLongPress,
+                    onMenuClose: onMenuClose,
                     inputDecoration: effectiveDecoration.copyWith(
                       errorText: field.errorText,
                     ),

@@ -55,6 +55,7 @@ disabledHint | Placeholder hint if the dropdown is disabled | Widget | No
 value | Value of the currently selected item | T | No
 onChanged | Called when the user selects an item | ValueChanged<T?> | No
 onTap | Called when the dropdown button is tapped | ValueChanged<T?> | No
+onMenuClose | Called when the dropdown menu is close | ValueChanged<T?> | No
 selectedItemBuilder | How selected item will be displayed on button | DropdownButtonBuilder | No
 buttonHeight | Button height | double | No
 buttonWidth | Button width | double | No
@@ -104,7 +105,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.2.0
+  dropdown_button2: ^1.2.1
 
 ```
 
