@@ -1,3 +1,7 @@
+## 1.2.2
+* Add selectedItemHighlightColor parameter, It specifies highlight color of the current selected item.
+* Update README.
+
 ## 1.2.1
 * Add onMenuClose parameter, It calls a function when the dropdown menu is closed.
 * Update README.

@@ -194,13 +194,18 @@ class _DropdownMenuItemButtonState<T>
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
     if (dropdownMenuItem.enabled) {
+      final _isSelectedItem = !widget.route.isNoSelectedItem &&
+          widget.itemIndex == widget.route.selectedIndex;
       child = InkWell(
-        autofocus: !widget.route.isNoSelectedItem &&
-            widget.itemIndex == widget.route.selectedIndex,
+        autofocus: _isSelectedItem,
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
-        child: child,
+        child: Container(
+          color:
+              _isSelectedItem ? widget.route.selectedItemHighlightColor : null,
+          child: child,
+        ),
       );
     }
     child = FadeTransition(opacity: opacity, child: child);
@@ -474,6 +479,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.buttonRect,
     required this.selectedIndex,
     required this.isNoSelectedItem,
+    this.selectedItemHighlightColor,
     this.elevation = 8,
     required this.capturedThemes,
     required this.style,
@@ -498,6 +504,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final Rect buttonRect;
   final int selectedIndex;
   final bool isNoSelectedItem;
+  final Color? selectedItemHighlightColor;
   final int elevation;
   final CapturedThemes capturedThemes;
   final TextStyle style;
@@ -954,6 +961,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownWidth,
     this.dropdownPadding,
     this.dropdownDecoration,
+    this.selectedItemHighlightColor,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
@@ -1018,6 +1026,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownWidth,
     this.dropdownPadding,
     this.dropdownDecoration,
+    this.selectedItemHighlightColor,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
@@ -1057,6 +1066,7 @@ class DropdownButton2<T> extends StatefulWidget {
   final double? dropdownWidth;
   final EdgeInsetsGeometry? dropdownPadding;
   final BoxDecoration? dropdownDecoration;
+  final Color? selectedItemHighlightColor;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
@@ -1280,6 +1290,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
   _DropdownRoute<T>? _dropdownRoute;
   Orientation? _lastOrientation;
   FocusNode? _internalNode;
+
   FocusNode? get focusNode => widget.focusNode ?? _internalNode;
   bool _hasPrimaryFocus = false;
   late Map<Type, Action<Intent>> _actionMap;
@@ -1408,6 +1419,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       padding: widget.itemPadding ?? _kMenuItemPadding.resolve(textDirection),
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
+      selectedItemHighlightColor: widget.selectedItemHighlightColor,
       elevation: widget.dropdownElevation,
       capturedThemes:
           InheritedTheme.capture(from: context, to: navigator.context),
@@ -1724,6 +1736,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     double? dropdownWidth,
     EdgeInsetsGeometry? dropdownPadding,
     BoxDecoration? dropdownDecoration,
+    Color? selectedItemHighlightColor,
     Radius? scrollbarRadius,
     double? scrollbarThickness,
     bool? scrollbarAlwaysShow,
@@ -1822,6 +1835,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     dropdownWidth: dropdownWidth,
                     dropdownPadding: dropdownPadding,
                     dropdownDecoration: dropdownDecoration,
+                    selectedItemHighlightColor: selectedItemHighlightColor,
                     scrollbarRadius: scrollbarRadius,
                     scrollbarThickness: scrollbarThickness,
                     scrollbarAlwaysShow: scrollbarAlwaysShow,

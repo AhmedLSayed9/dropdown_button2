@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub"/>
 </a>
 <a href="https://flutter.dev/">
-  <img src="https://img.shields.io/badge/flutter-%3E%3D%202.0.0-green.svg"/>
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%202.8.1-green.svg"/>
 </a>
 <a href="https://opensource.org/licenses/MIT">
   <img src="https://img.shields.io/badge/License-MIT-red"/>
@@ -76,6 +76,7 @@ dropdownBorderRadius | BorderRadius of the dropdown menu | BorderRadius | No
 dropdownBorder | Border of the dropdown menu | BoxBorder | No
 dropdownElevation | Elevation of the dropdown menu | int | No
 dropdownColor | Background color of the dropdown menu | Color | No
+selectedItemHighlightColor | Highlight color of the current selected item | Color | No
 scrollbarRadius | Dropdown scrollbar radius | Radius | No
 scrollbarThickness | Dropdown scrollbar thickness | double | No
 scrollbarAlwaysShow | Always show Dropdown scrollbar or not | bool | No
@@ -105,7 +106,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.2.1
+  dropdown_button2: ^1.2.2
 
 ```
 
