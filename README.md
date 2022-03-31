@@ -87,6 +87,7 @@ customItemsHeight | Height you want for the items you passed their indexes | dou
 isExpanded | Make the button hint or selectedItem expanded (set true to avoid long text overflowing) | bool | No
 openWithLongPress | Open the dropdown menu by long pressing instead of normal tap | bool | No
 dropdownOverButton | Open dropdown menu over button instead of below it | bool | No
+dropdownFullScreen | Open dropdown menu in fullscreen mode (Above AppBar & TabBar) | bool | No
 focusColor | Button's color when it has the input focus using traditional interfaces (keyboard and mouse) | Color | No
 
 ### For DropdownButtonFormField2 "In addition to the above":
@@ -106,7 +107,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.2.2
+  dropdown_button2: ^1.2.3
 
 ```
 

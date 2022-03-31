@@ -1,3 +1,7 @@
+## 1.2.3
+* Add dropdownFullScreen parameter, if true, menu will open in fullscreen mode (Above AppBar & TabBar). close #20.
+* Update README.
+
 ## 1.2.2
 * Add selectedItemHighlightColor parameter, It specifies highlight color of the current selected item.
 * Update README.

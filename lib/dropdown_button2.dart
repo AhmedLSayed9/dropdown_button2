@@ -967,6 +967,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarAlwaysShow,
     this.offset,
     this.dropdownOverButton = false,
+    this.dropdownFullScreen = false,
     this.customButton,
     this.customItemsIndexes,
     this.customItemsHeight,
@@ -1032,6 +1033,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarAlwaysShow,
     this.offset,
     this.dropdownOverButton = false,
+    this.dropdownFullScreen = false,
     this.customButton,
     this.customItemsIndexes,
     this.customItemsHeight,
@@ -1072,6 +1074,7 @@ class DropdownButton2<T> extends StatefulWidget {
   final bool? scrollbarAlwaysShow;
   final Offset? offset;
   final bool dropdownOverButton;
+  final bool dropdownFullScreen;
   final Widget? customButton;
   final List<int>? customItemsIndexes;
   final double? customItemsHeight;
@@ -1407,7 +1410,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
         ),
     ];
 
-    final NavigatorState navigator = Navigator.of(context);
+    final NavigatorState navigator =
+        Navigator.of(context, rootNavigator: widget.dropdownFullScreen);
     assert(_dropdownRoute == null);
     final RenderBox itemBox = context.findRenderObject()! as RenderBox;
     final Rect itemRect = itemBox.localToGlobal(Offset.zero,
@@ -1742,6 +1746,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     bool? scrollbarAlwaysShow,
     Offset? offset,
     bool dropdownOverButton = false,
+    bool dropdownFullScreen = false,
     Widget? customButton,
     List<int>? customItemsIndexes,
     double? customItemsHeight,
@@ -1841,6 +1846,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     scrollbarAlwaysShow: scrollbarAlwaysShow,
                     offset: offset,
                     dropdownOverButton: dropdownOverButton,
+                    dropdownFullScreen: dropdownFullScreen,
                     customButton: customButton,
                     customItemsIndexes: customItemsIndexes,
                     customItemsHeight: customItemsHeight,
