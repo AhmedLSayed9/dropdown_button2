@@ -903,7 +903,8 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 ///  * [ElevatedButton], [TextButton], ordinary buttons that trigger a single action.
 ///  * <https://material.io/design/components/menus.html#dropdown-menu>
 class DropdownButton2<T> extends StatefulWidget {
-  /// Creates a dropdown button.
+  /// Creates a DropdownButton2
+  /// It's customizable DropdownButton with steady dropdown menu and many other features.
   ///
   /// The [items] must have distinct values. If [value] isn't null then it
   /// must be equal to one of the [DropdownMenuItem] values. If [items] or
@@ -916,16 +917,6 @@ class DropdownButton2<T> extends StatefulWidget {
   /// If [value] is null and the button is disabled, [disabledHint] will be displayed
   /// if it is non-null. If [disabledHint] is null, then [hint] will be displayed
   /// if it is non-null.
-  ///
-  /// The [dropdownElevation] and [iconSize] arguments must not be null (they both have
-  /// defaults, so do not need to be specified). The boolean [isDense] and
-  /// [isExpanded] arguments must not be null.
-  ///
-  /// The [autofocus] argument must not be null.
-  ///
-  /// The [dropdownColor] argument specifies the background color of the
-  /// dropdown when it is open. If it is null, the current theme's
-  /// [ThemeData.canvasColor] will be used instead.
   DropdownButton2({
     Key? key,
     required this.items,
@@ -966,12 +957,12 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     this.offset,
-    this.dropdownOverButton = false,
-    this.dropdownFullScreen = false,
     this.customButton,
     this.customItemsIndexes,
     this.customItemsHeight,
     this.openWithLongPress = false,
+    this.dropdownOverButton = false,
+    this.dropdownFullScreen = false,
     this.onMenuClose,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
@@ -1001,6 +992,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.disabledHint,
     required this.onChanged,
     this.onTap,
+    this.onMenuClose,
     this.dropdownElevation = 8,
     this.style,
     this.underline,
@@ -1032,13 +1024,12 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     this.offset,
-    this.dropdownOverButton = false,
-    this.dropdownFullScreen = false,
     this.customButton,
     this.customItemsIndexes,
     this.customItemsHeight,
     this.openWithLongPress = false,
-    this.onMenuClose,
+    this.dropdownOverButton = false,
+    this.dropdownFullScreen = false,
     required InputDecoration inputDecoration,
     required bool isEmpty,
   })  : assert(
@@ -1058,28 +1049,72 @@ class DropdownButton2<T> extends StatefulWidget {
         _isEmpty = isEmpty,
         super(key: key);
 
-  /// Parameters added By Me
+  // Parameters added By Me
+
+  ///The height of the button.
   final double? buttonHeight;
+
+  ///The width of the button
   final double? buttonWidth;
+
+  ///The inner padding of the Button
   final EdgeInsetsGeometry? buttonPadding;
+
+  ///The decoration of the Button
   final BoxDecoration? buttonDecoration;
+
+  ///The elevation of the Button
   final int? buttonElevation;
+
+  ///The padding of menu items
   final EdgeInsetsGeometry? itemPadding;
+
+  ///The width of the dropdown menu
   final double? dropdownWidth;
+
+  ///The inner padding of the dropdown menu
   final EdgeInsetsGeometry? dropdownPadding;
+
+  ///The decoration of the dropdown menu
   final BoxDecoration? dropdownDecoration;
+
+  ///The highlight color of the current selected item
   final Color? selectedItemHighlightColor;
+
+  ///The radius of the scrollbar's corners
   final Radius? scrollbarRadius;
+
+  ///The thickness of the scrollbar
   final double? scrollbarThickness;
+
+  ///Always show the scrollbar even when a scroll is not underway
   final bool? scrollbarAlwaysShow;
+
+  ///Changes the position of the dropdown menu
   final Offset? offset;
-  final bool dropdownOverButton;
-  final bool dropdownFullScreen;
+
+  ///Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
+
+  ///Indexes of the items you want to give different height (useful for adding dividers)
   final List<int>? customItemsIndexes;
+
+  ///The height of the items you passed their indexes using [customItemsIndexes] parameter
   final double? customItemsHeight;
+
+  ///Opens the dropdown menu on long-pressing instead of tapping
   final bool openWithLongPress;
+
+  ///Opens the dropdown menu over the button instead of below it
+  final bool dropdownOverButton;
+
+  ///Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
+  final bool dropdownFullScreen;
+
+  ///Shows different icon when dropdown menu open
   final Widget? iconOnClick;
+
+  ///Called when the dropdown menu is closed
   final VoidCallback? onMenuClose;
 
   /// The list of items the user can select.
@@ -1203,7 +1238,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// [Colors.white70] when it is [Brightness.dark]
   final Color? iconEnabledColor;
 
-  /// The size to use for the drop-down button's down arrow icon button.
+  /// The size to use for the drop-down button's icon.
   ///
   /// Defaults to 24.0.
   final double iconSize;
@@ -1745,12 +1780,12 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     double? scrollbarThickness,
     bool? scrollbarAlwaysShow,
     Offset? offset,
-    bool dropdownOverButton = false,
-    bool dropdownFullScreen = false,
     Widget? customButton,
     List<int>? customItemsIndexes,
     double? customItemsHeight,
     bool openWithLongPress = false,
+    bool dropdownOverButton = false,
+    bool dropdownFullScreen = false,
     VoidCallback? onMenuClose,
   })  : assert(
           items == null ||
@@ -1845,12 +1880,12 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     scrollbarThickness: scrollbarThickness,
                     scrollbarAlwaysShow: scrollbarAlwaysShow,
                     offset: offset,
-                    dropdownOverButton: dropdownOverButton,
-                    dropdownFullScreen: dropdownFullScreen,
                     customButton: customButton,
                     customItemsIndexes: customItemsIndexes,
                     customItemsHeight: customItemsHeight,
                     openWithLongPress: openWithLongPress,
+                    dropdownOverButton: dropdownOverButton,
+                    dropdownFullScreen: dropdownFullScreen,
                     onMenuClose: onMenuClose,
                     inputDecoration: effectiveDecoration.copyWith(
                       errorText: field.errorText,

@@ -1,3 +1,6 @@
+## 1.2.4
+* Update docs & README.
+
 ## 1.2.3
 * Add dropdownFullScreen parameter, if true, menu will open in fullscreen mode (Above AppBar & TabBar). close #20.
 * Update README.
