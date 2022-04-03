@@ -732,7 +732,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-## Custom DropdownButton2 Widget "customize it to your needs"
+## [CustomDropdownButton2](https://pub.dev/documentation/dropdown_button2/latest/custom_dropdown_button2/CustomDropdownButton2-class.html) Widget "customize it to your needs"
 
 ```dart
 class CustomDropdownButton2 extends StatelessWidget {
