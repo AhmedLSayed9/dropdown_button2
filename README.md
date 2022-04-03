@@ -49,53 +49,53 @@ customize to your needs.
 
 | Option | Description | Type | Required |
 |---|---|---|:---:|
-items | The list of items the user can select | List<DropdownMenuItem<T>> | Yes
-hint | The placeholder displayed before the user choose an item | Widget | No
-disabledHint | The placeholder displayed if the dropdown is disabled | Widget | No
-value | The value of the currently selected [DropdownMenuItem] | T | No
-onChanged | Called when the user selects an item | ValueChanged<T?> | No
-onTap | Called when the dropdown button is tapped | ValueChanged<T?> | No
-onMenuClose | Called when the dropdown menu is closed | ValueChanged<T?> | No
-selectedItemBuilder | How the selected item will be displayed on button | DropdownButtonBuilder | No
-buttonHeight | The height of the button | double | No
-buttonWidth | The width of the button | double | No
-buttonPadding | The inner padding of the Button | EdgeInsetsGeometry | No
-buttonDecoration | The decoration of the Button | BoxDecoration | No
-buttonElevation | The elevation of the Button | int | No
-icon | The suffix icon of the dropdown button | Widget | No
-iconOnClick | Shows different icon when dropdown menu open | Widget | No
-iconSize | The size of the icon | double | No
-iconEnabledColor | The color of the icon if the button is enabled | Color | No
-iconDisabledColor | The color of the icon if the button is disabled | Color | No
-itemHeight | The height of menu items | double | No
-itemPadding | The padding of menu items | EdgeInsetsGeometry | No
-dropdownMaxHeight | The maximum height of the dropdown menu | double | No
-dropdownWidth | The width of the dropdown menu | double | No
-dropdownPadding | The inner padding of the dropdown menu | EdgeInsetsGeometry | No
-dropdownDecoration | The decoration of the dropdown menu | BoxDecoration | No
-dropdownElevation | The elevation of the dropdown menu | int | No
-selectedItemHighlightColor | The highlight color of the current selected item | Color | No
-scrollbarRadius | The radius of the scrollbar's corners | Radius | No
-scrollbarThickness | The thickness of the scrollbar | double | No
-scrollbarAlwaysShow | Always show the scrollbar even when a scroll is not underway | bool | No
-offset | Changes the position of the dropdown menu | Offset | No
-customButton | Uses custom widget like icon,image,etc.. instead of the default button | Widget | No
-customItemsIndexes | Indexes of the items you want to give different height (useful for adding dividers) | List<int> | No
-customItemsHeight | The height of the items you passed their indexes using [customItemsIndexes] parameter | double | No
-isExpanded | Makes the button's inner contents expanded (set true to avoid long text overflowing) | bool | No
-openWithLongPress | Opens the dropdown menu on long-pressing instead of tapping | bool | No
-dropdownOverButton | Opens the dropdown menu over the button instead of below it | bool | No
-dropdownFullScreen | Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar) | bool | No
-focusColor | The color of button when it has input focus using traditional interfaces (keyboard and mouse) | Color | No
+[items](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/items.html) | The list of items the user can select | List<DropdownMenuItem<T>> | Yes
+[hint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/hint.html) | The placeholder displayed before the user choose an item | Widget | No
+[disabledHint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/disabledHint.html) | The placeholder displayed if the dropdown is disabled | Widget | No
+[value](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/value.html) | The value of the currently selected [DropdownMenuItem] | T | No
+[onChanged](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onChanged.html) | Called when the user selects an item | ValueChanged<T?> | No
+[onTap](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onTap.html) | Called when the dropdown button is tapped | ValueChanged<T?> | No
+[onMenuClose](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onMenuClose.html) | Called when the dropdown menu is closed | ValueChanged<T?> | No
+[selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html) | How the selected item will be displayed on button | DropdownButtonBuilder | No
+[buttonHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonHeight.html) | The height of the button | double | No
+[buttonWidth](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonWidth.html) | The width of the button | double | No
+[buttonPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonPadding.html) | The inner padding of the Button | EdgeInsetsGeometry | No
+[buttonDecoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonDecoration.html) | The decoration of the Button | BoxDecoration | No
+[buttonElevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonElevation.html) | The elevation of the Button | int | No
+[icon](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/icon.html) | The suffix icon of the dropdown button | Widget | No
+[iconOnClick](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconOnClick.html) | Shows different icon when dropdown menu open | Widget | No
+[iconSize](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconSize.html) | The size of the icon | double | No
+[iconEnabledColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconEnabledColor.html) | The color of the icon if the button is enabled | Color | No
+[iconDisabledColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconDisabledColor.html) | The color of the icon if the button is disabled | Color | No
+[itemHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/itemHeight.html) | The height of menu items | double | No
+[itemPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/itemPadding.html) | The padding of menu items | EdgeInsetsGeometry | No
+[dropdownMaxHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownMaxHeight.html) | The maximum height of the dropdown menu | double | No
+[dropdownWidth](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownWidth.html) | The width of the dropdown menu | double | No
+[dropdownPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownPadding.html) | The inner padding of the dropdown menu | EdgeInsetsGeometry | No
+[dropdownDecoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownDecoration.html) | The decoration of the dropdown menu | BoxDecoration | No
+[dropdownElevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownElevation.html) | The elevation of the dropdown menu | int | No
+[selectedItemHighlightColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemHighlightColor.html) | The highlight color of the current selected item | Color | No
+[scrollbarRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/scrollbarRadius.html) | The radius of the scrollbar's corners | Radius | No
+[scrollbarThickness](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/scrollbarThickness.html) | The thickness of the scrollbar | double | No
+[scrollbarAlwaysShow](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/scrollbarAlwaysShow.html) | Always show the scrollbar even when a scroll is not underway | bool | No
+[offset](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/offset.html) | Changes the position of the dropdown menu | Offset | No
+[customButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customButton.html) | Uses custom widget like icon,image,etc.. instead of the default button | Widget | No
+[customItemsIndexes](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customItemsIndexes.html) | Indexes of the items you want to give different height (useful for adding dividers) | List<int> | No
+[customItemsHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customItemsHeight.html) | The height of the items you passed their indexes using [customItemsIndexes] parameter | double | No
+[isExpanded](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isExpanded.html) | Makes the button's inner contents expanded (set true to avoid long text overflowing) | bool | No
+[openWithLongPress](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openWithLongPress.html) | Opens the dropdown menu on long-pressing instead of tapping | bool | No
+[dropdownOverButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownOverButton.html) | Opens the dropdown menu over the button instead of below it | bool | No
+[dropdownFullScreen](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownFullScreen.html) | Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar) | bool | No
+[focusColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/focusColor.html) | The color of button when it has input focus using traditional interfaces (keyboard and mouse) | Color | No
 
 ### For DropdownButtonFormField2 "In addition to the above":
 
 | Option | Description | Type | Required |
 |---|---|---|:---:|
-decoration | The decoration of the dropdown button form field | InputDecoration | No
-onSaved | Called with the current selected item when the form is saved | FormFieldSetter<T> | No
-validator | Called to validates if the input is invalid and display error text | FormFieldValidator<T> | No
-autovalidateMode | Used to enable/disable auto validation | AutovalidateMode | No
+[decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/decoration.html) | The decoration of the dropdown button form field | InputDecoration | No
+[onSaved](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onSaved.html) | Called with the current selected item when the form is saved | FormFieldSetter<T> | No
+[validator](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/validator.html) | Called to validates if the input is invalid and display error text | FormFieldValidator<T> | No
+[autovalidateMode](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/autovalidateMode.html) | Used to enable/disable auto validation | AutovalidateMode | No
 
 ## Installation
 
@@ -105,7 +105,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.2.4
+  dropdown_button2: ^1.2.5
 
 ```
 

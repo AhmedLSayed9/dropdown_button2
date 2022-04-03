@@ -1,3 +1,6 @@
+## 1.2.5
+* Update docs & README.
+
 ## 1.2.4
 * Update docs & README.
 
