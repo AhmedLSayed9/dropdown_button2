@@ -92,10 +92,10 @@ customize to your needs.
 
 | Option | Description | Type | Required |
 |---|---|---|:---:|
-[decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/decoration.html) | The decoration of the dropdown button form field | InputDecoration | No
-[onSaved](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onSaved.html) | Called with the current selected item when the form is saved | FormFieldSetter<T> | No
-[validator](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/validator.html) | Called to validates if the input is invalid and display error text | FormFieldValidator<T> | No
-[autovalidateMode](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/autovalidateMode.html) | Used to enable/disable auto validation | AutovalidateMode | No
+[decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/decoration.html) | The decoration of the dropdown button form field | InputDecoration | No
+[onSaved](https://api.flutter.dev/flutter/widgets/FormField/onSaved.html) | Called with the current selected item when the form is saved | FormFieldSetter<T> | No
+[validator](https://api.flutter.dev/flutter/widgets/FormField/validator.html) | Called to validates if the input is invalid and display error text | FormFieldValidator<T> | No
+[autovalidateMode](https://api.flutter.dev/flutter/widgets/AutovalidateMode.html) | Used to enable/disable auto validation | AutovalidateMode | No
 
 ## Installation
 
