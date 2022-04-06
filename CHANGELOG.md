@@ -1,3 +1,6 @@
+## 1.3.0
+* Prevent scrollbar and ripple effect from going beyond the menu rounded border boundaries when scrolling. fix #21.
+
 ## 1.2.5
 * Update docs & README.
 

@@ -331,6 +331,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           child: Material(
             type: MaterialType.transparency,
             textStyle: route.style,
+            //Prevent scrollbar, ripple effect & items from going beyond border boundaries when scrolling.
+            clipBehavior: Clip.antiAlias,
+            borderRadius: widget.dropdownDecoration?.borderRadius
+                    ?.resolve(Directionality.of(context)) ??
+                const BorderRadius.all(Radius.circular(2.0)),
             child: ScrollConfiguration(
               // Dropdown menus should never overscroll or display an overscroll indicator.
               // Scrollbars are built-in below.
@@ -347,16 +352,10 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                   radius: widget.scrollbarRadius,
                   thickness: widget.scrollbarThickness,
                   isAlwaysShown: widget.scrollbarAlwaysShow,
-                  child: ClipRRect(
-                    //Prevent items from going beyond the menu rounded border boundaries when scrolling.
-                    borderRadius: widget.dropdownDecoration?.borderRadius
-                            ?.resolve(Directionality.of(context)) ??
-                        const BorderRadius.all(Radius.circular(2.0)),
-                    child: ListView(
-                      padding: widget.dropdownPadding ?? kMaterialListPadding,
-                      shrinkWrap: true,
-                      children: children,
-                    ),
+                  child: ListView(
+                    padding: widget.dropdownPadding ?? kMaterialListPadding,
+                    shrinkWrap: true,
+                    children: children,
                   ),
                 ),
               ),
