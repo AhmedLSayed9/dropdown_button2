@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 class CustomDropdownButton2 extends StatelessWidget {
   final String hint;
+  final double? hintFontSize;
+  final double? itemFontSize;
+
   final String? value;
   final List<String> dropdownItems;
   final ValueChanged<String?>? onChanged;
@@ -34,6 +37,8 @@ class CustomDropdownButton2 extends StatelessWidget {
     required this.dropdownItems,
     required this.onChanged,
     this.selectedItemBuilder,
+    this.hintFontSize,
+    this.itemFontSize,
     this.hintAlignment,
     this.valueAlignment,
     this.buttonHeight,
@@ -72,7 +77,7 @@ class CustomDropdownButton2 extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: hintFontSize ?? 14,
               color: Theme.of(context).hintColor,
             ),
           ),
@@ -87,8 +92,8 @@ class CustomDropdownButton2 extends StatelessWidget {
                       item,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 14,
+                      style: TextStyle(
+                        fontSize: itemFontSize ?? 14,
                       ),
                     ),
                   ),
