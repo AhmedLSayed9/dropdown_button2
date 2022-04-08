@@ -54,8 +54,7 @@ customize to your needs.
 [disabledHint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/disabledHint.html) | The placeholder displayed if the dropdown is disabled | Widget | No
 [value](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/value.html) | The value of the currently selected [DropdownMenuItem] | T | No
 [onChanged](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onChanged.html) | Called when the user selects an item | ValueChanged<T?> | No
-[onTap](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onTap.html) | Called when the dropdown button is tapped | ValueChanged<T?> | No
-[onMenuClose](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onMenuClose.html) | Called when the dropdown menu is closed | ValueChanged<T?> | No
+[onMenuStateChange](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onMenuStateChange.html) | Called when the dropdown menu is opened or closed | Function(bool isOpen) | No
 [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html) | How the selected item will be displayed on button | DropdownButtonBuilder | No
 [buttonHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonHeight.html) | The height of the button | double | No
 [buttonWidth](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonWidth.html) | The width of the button | double | No
@@ -105,7 +104,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.3.0
+  dropdown_button2: ^1.4.0
 
 ```
 

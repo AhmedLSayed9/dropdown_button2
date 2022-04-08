@@ -1,3 +1,10 @@
+## 1.4.0
+### Breaking Changes:
+* Remove onTap parameter.
+* Remove onMenuClose parameter.
+* Add onMenuStateChange parameter, It's called when the dropdown menu is opened or closed. close #24.
+* Update README.
+
 ## 1.3.0
 * Prevent scrollbar and ripple effect from going beyond the menu rounded border boundaries when scrolling. fix #21.
 

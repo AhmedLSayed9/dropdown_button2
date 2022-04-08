@@ -924,7 +924,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.hint,
     this.disabledHint,
     this.onChanged,
-    this.onTap,
     this.dropdownElevation = 8,
     this.style,
     this.underline,
@@ -962,7 +961,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
-    this.onMenuClose,
+    this.onMenuStateChange,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -990,8 +989,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.hint,
     this.disabledHint,
     required this.onChanged,
-    this.onTap,
-    this.onMenuClose,
+    this.onMenuStateChange,
     this.dropdownElevation = 8,
     this.style,
     this.underline,
@@ -1113,8 +1111,8 @@ class DropdownButton2<T> extends StatefulWidget {
   ///Shows different icon when dropdown menu open
   final Widget? iconOnClick;
 
-  ///Called when the dropdown menu is closed
-  final VoidCallback? onMenuClose;
+  ///Called when the dropdown menu is opened or closed.
+  final void Function(bool isOpen)? onMenuStateChange;
 
   /// The list of items the user can select.
   ///
@@ -1159,14 +1157,6 @@ class DropdownButton2<T> extends StatefulWidget {
   /// non-null, [DropdownButton2.hint] will instead be displayed.
   /// {@endtemplate}
   final ValueChanged<T?>? onChanged;
-
-  /// Called when the dropdown button is tapped.
-  ///
-  /// This is distinct from [onChanged], which is called when the user
-  /// selects an item from the dropdown.
-  ///
-  /// The callback will not be invoked if the dropdown button is disabled.
-  final VoidCallback? onTap;
 
   /// A builder to customize the dropdown buttons corresponding to the
   /// [DropdownMenuItem]s in [items].
@@ -1485,12 +1475,12 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
         .then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
       _isMenuOpen = false;
-      widget.onMenuClose?.call();
+      widget.onMenuStateChange?.call(false);
       if (!mounted || newValue == null) return;
       widget.onChanged?.call(newValue.result);
     });
 
-    widget.onTap?.call();
+    widget.onMenuStateChange?.call(true);
   }
 
   // When isDense is true, reduce the height of this button from _kMenuItemHeight to
@@ -1744,7 +1734,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? hint,
     Widget? disabledHint,
     this.onChanged,
-    VoidCallback? onTap,
     int dropdownElevation = 8,
     TextStyle? style,
     Widget? icon,
@@ -1785,7 +1774,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     bool openWithLongPress = false,
     bool dropdownOverButton = false,
     bool dropdownFullScreen = false,
-    VoidCallback? onMenuClose,
+    void Function(bool isOpen)? onMenuStateChange,
   })  : assert(
           items == null ||
               items.isEmpty ||
@@ -1848,7 +1837,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     hint: hint,
                     disabledHint: disabledHint,
                     onChanged: onChanged == null ? null : state.didChange,
-                    onTap: onTap,
                     dropdownElevation: dropdownElevation,
                     style: style,
                     icon: icon,
@@ -1885,7 +1873,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     openWithLongPress: openWithLongPress,
                     dropdownOverButton: dropdownOverButton,
                     dropdownFullScreen: dropdownFullScreen,
-                    onMenuClose: onMenuClose,
+                    onMenuStateChange: onMenuStateChange,
                     inputDecoration: effectiveDecoration.copyWith(
                       errorText: field.errorText,
                     ),
