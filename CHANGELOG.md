@@ -1,3 +1,8 @@
+## 1.5.0
+### Breaking Changes:
+* Flutter 3.0.0 upgrade.
+* Update README.
+
 ## 1.4.0
 ### Breaking Changes:
 * Remove onTap parameter.
