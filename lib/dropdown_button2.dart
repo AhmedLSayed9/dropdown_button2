@@ -351,7 +351,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                 child: Scrollbar(
                   radius: widget.scrollbarRadius,
                   thickness: widget.scrollbarThickness,
-                  isAlwaysShown: widget.scrollbarAlwaysShow,
+                  thumbVisibility: widget.scrollbarAlwaysShow,
                   child: ListView(
                     padding: widget.dropdownPadding ?? kMaterialListPadding,
                     shrinkWrap: true,
@@ -1348,7 +1348,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     _removeDropdownRoute();
     focusNode!.removeListener(_handleFocusChanged);
     _internalNode?.dispose();
