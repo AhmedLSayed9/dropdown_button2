@@ -1,4 +1,4 @@
-## 1.5.0
+## 1.5.1
 * Use PlatformDispatcher.instance over window.
 * Use super parameters lint.
 * Add Multiselect Dropdown with Checkboxes Example.
