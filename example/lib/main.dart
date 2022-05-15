@@ -24,8 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String? selectedValue;
-  List<String> items = [
+  final List<String> items = [
     'Item1',
     'Item2',
     'Item3',
@@ -35,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     'Item7',
     'Item8',
   ];
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,6 @@
 */
 
 import 'dart:math' as math;
-import 'dart:ui' show window;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +91,7 @@ class _DropdownMenuPainter extends CustomPainter {
 // The widget that is the button wrapping the menu items.
 class _DropdownMenuItemButton<T> extends StatefulWidget {
   const _DropdownMenuItemButton({
-    Key? key,
+    super.key,
     this.padding,
     required this.route,
     required this.buttonRect,
@@ -101,7 +100,7 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
     required this.enableFeedback,
     this.customItemsIndexes,
     this.customItemsHeight,
-  }) : super(key: key);
+  });
 
   final _DropdownRoute<T> route;
   final EdgeInsets? padding;
@@ -221,7 +220,7 @@ class _DropdownMenuItemButtonState<T>
 
 class _DropdownMenu<T> extends StatefulWidget {
   const _DropdownMenu({
-    Key? key,
+    super.key,
     this.padding,
     required this.route,
     required this.buttonRect,
@@ -236,7 +235,7 @@ class _DropdownMenu<T> extends StatefulWidget {
     required this.offset,
     this.customItemsIndexes,
     this.customItemsHeight,
-  }) : super(key: key);
+  });
 
   final _DropdownRoute<T> route;
   final EdgeInsets? padding;
@@ -671,7 +670,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
 class _DropdownRoutePage<T> extends StatelessWidget {
   const _DropdownRoutePage({
-    Key? key,
+    super.key,
     required this.route,
     required this.constraints,
     this.items,
@@ -693,7 +692,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     required this.offset,
     this.customItemsIndexes,
     this.customItemsHeight,
-  }) : super(key: key);
+  });
 
   final _DropdownRoute<T> route;
   final BoxConstraints constraints;
@@ -784,10 +783,10 @@ class _DropdownRoutePage<T> extends StatelessWidget {
 // as closely as possible.
 class _MenuItem<T> extends SingleChildRenderObjectWidget {
   const _MenuItem({
-    Key? key,
+    super.key,
     required this.onLayout,
     required this.item,
-  }) : super(key: key, child: item);
+  }) : super(child: item);
 
   final ValueChanged<Size> onLayout;
   final DropdownMenuItem<T>? item;
@@ -856,7 +855,7 @@ class _DropdownMenuItemContainer extends StatelessWidget {
   }
 }
 
-/// A material design button for selecting from a list of items.
+/// A Material Design button for selecting from a list of items.
 ///
 /// A dropdown button lets the user select from a number of items. The button
 /// shows the currently selected item as well as an arrow that opens a menu for
@@ -917,7 +916,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// if it is non-null. If [disabledHint] is null, then [hint] will be displayed
   /// if it is non-null.
   DropdownButton2({
-    Key? key,
+    super.key,
     required this.items,
     this.selectedItemBuilder,
     this.value,
@@ -978,11 +977,10 @@ class DropdownButton2<T> extends StatefulWidget {
           'with the same value',
         ),
         _inputDecoration = null,
-        _isEmpty = false,
-        super(key: key);
+        _isEmpty = false;
 
   DropdownButton2._formField({
-    Key? key,
+    super.key,
     required this.items,
     this.selectedItemBuilder,
     this.value,
@@ -1043,8 +1041,7 @@ class DropdownButton2<T> extends StatefulWidget {
           'with the same value',
         ),
         _inputDecoration = inputDecoration,
-        _isEmpty = isEmpty,
-        super(key: key);
+        _isEmpty = isEmpty;
 
   // Parameters added By Me
 
@@ -1526,7 +1523,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (result == null) {
       // If there's no MediaQuery, then use the window aspect to determine
       // orientation.
-      final Size size = window.physicalSize;
+      final Size size = WidgetsBinding.instance.window.physicalSize;
       result = size.width > size.height
           ? Orientation.landscape
           : Orientation.portrait;
@@ -1727,7 +1724,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   /// The `items`, `elevation`, `iconSize`, `isDense`, `isExpanded`,
   /// `autofocus`, and `decoration`  parameters must not be null.
   DropdownButtonFormField2({
-    Key? key,
+    super.key,
     required List<DropdownMenuItem<T>>? items,
     DropdownButtonBuilder? selectedItemBuilder,
     T? value,
@@ -1748,8 +1745,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     FocusNode? focusNode,
     bool autofocus = false,
     InputDecoration? decoration,
-    FormFieldSetter<T>? onSaved,
-    FormFieldValidator<T>? validator,
+    super.onSaved,
+    super.validator,
     AutovalidateMode? autovalidateMode,
     double? dropdownMaxHeight,
     bool? enableFeedback,
@@ -1790,10 +1787,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
         ),
         decoration = decoration ?? InputDecoration(focusColor: focusColor),
         super(
-          key: key,
-          onSaved: onSaved,
           initialValue: value,
-          validator: validator,
           autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
           builder: (FormFieldState<T> field) {
             final _DropdownButtonFormFieldState<T> state =

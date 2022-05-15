@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub"/>
 </a>
 <a href="https://flutter.dev/">
-  <img src="https://img.shields.io/badge/flutter-%3E%3D%202.8.1-green.svg"/>
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.0.0-green.svg"/>
 </a>
 <a href="https://opensource.org/licenses/MIT">
   <img src="https://img.shields.io/badge/License-MIT-red"/>
@@ -104,7 +104,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.5.0
+  dropdown_button2: ^1.5.1
 
 ```
 
@@ -123,13 +123,13 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 <img src="https://user-images.githubusercontent.com/70890146/144771200-15e7e98e-bdf2-4265-b810-035191f7e607.jpg" alt="Image" width="300"/>
 
 ```dart
-String? selectedValue;
-List<String> items = [
+final List<String> items = [
   'Item1',
   'Item2',
   'Item3',
   'Item4',
 ];
+String? selectedValue;
 
 @override
 Widget build(BuildContext context) {
@@ -179,8 +179,7 @@ Widget build(BuildContext context) {
 <img src="https://user-images.githubusercontent.com/70890146/144771235-8dd0b019-e93b-4613-9035-42dbedd9ba9e.jpg" alt="Image" width="300"/>
 
 ```dart
- String? selectedValue;
-List<String> items = [
+final List<String> items = [
   'Item1',
   'Item2',
   'Item3',
@@ -190,6 +189,7 @@ List<String> items = [
   'Item7',
   'Item8',
 ];
+String? selectedValue;
 
 @override
 Widget build(BuildContext context) {
@@ -285,13 +285,13 @@ Widget build(BuildContext context) {
 <img src="https://user-images.githubusercontent.com/70890146/144771246-49ea5ed8-78d7-4e0d-a411-331649cef3d5.jpg" alt="Image" width="300"/>
 
 ```dart
- String? selectedValue;
-List<String> items = [
+final List<String> items = [
   'Item1',
   'Item2',
   'Item3',
   'Item4',
 ];
+String? selectedValue;
 
 List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
   List<DropdownMenuItem<String>> _menuItems = [];
@@ -369,7 +369,110 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 4. DropdownButton2 as Popup menu button using customButton parameter:
+### 4. DropdownButton2 as Multiselect Dropdown with Checkboxes:
+
+<img src="https://user-images.githubusercontent.com/70890146/168461570-1682bf63-f1e9-40c1-a86d-aa4c3acdd1c9.jpg" alt="Image" width="300"/>
+
+```dart
+final List<String> items = [
+  'Item1',
+  'Item2',
+  'Item3',
+  'Item4',
+];
+List<String> selectedItems = [];
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Center(
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton2(
+          isExpanded: true,
+          hint: Align(
+            alignment: AlignmentDirectional.center,
+            child: Text(
+              'Select Items',
+              style: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).hintColor,
+              ),
+            ),
+          ),
+          items: items.map((item) {
+            return DropdownMenuItem<String>(
+              value: item,
+              //disable default onTap to avoid closing menu when selecting an item
+              enabled: false,
+              child: StatefulBuilder(
+                builder: (context, menuSetState) {
+                  final _isSelected = selectedItems.contains(item);
+                  return InkWell(
+                    onTap: () {
+                      _isSelected
+                              ? selectedItems.remove(item)
+                              : selectedItems.add(item);
+                      //This rebuilds the StatefulWidget to update the button's text
+                      setState(() {});
+                      //This rebuilds the dropdownMenu Widget to update the check mark
+                      menuSetState(() {});
+                    },
+                    child: Container(
+                      height: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          _isSelected
+                                  ? const Icon(Icons.check_box_outlined)
+                                  : const Icon(Icons.check_box_outline_blank),
+                          const SizedBox(width: 16),
+                          Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          }).toList(),
+          //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
+          value: selectedItems.isEmpty ? null : selectedItems.last,
+          onChanged: (value) {},
+          buttonHeight: 40,
+          buttonWidth: 140,
+          itemHeight: 40,
+          itemPadding: EdgeInsets.zero,
+          selectedItemBuilder: (context) {
+            return items.map(
+                      (item) {
+                return Container(
+                  alignment: AlignmentDirectional.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    selectedItems.join(', '),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    maxLines: 1,
+                  ),
+                );
+              },
+            ).toList();
+          },
+        ),
+      ),
+    ),
+  );
+}
+```
+
+### 5. DropdownButton2 as Popup menu button using customButton parameter:
 
 ***Example 1*** using icon:
 
@@ -624,7 +727,7 @@ class MenuItems {
 }
 ```
 
-### 5. Using DropdownButtonFormField2 with Form:
+### 6. Using DropdownButtonFormField2 with Form:
 
 <img src="https://user-images.githubusercontent.com/70890146/144771294-4b98a3f4-5cb7-452f-a1be-5d3e1275fb93.jpg" alt="Image" width="500"/>
 
@@ -873,8 +976,7 @@ class CustomDropdownButton2 extends StatelessWidget {
 <img src="https://user-images.githubusercontent.com/70890146/144771305-23338e9d-9664-46e5-a7b7-ffc02e9d61a3.jpg" alt="Image" width="300"/>
 
 ```dart
-String? selectedValue;
-List<String> items = [
+final List<String> items = [
   'Item1',
   'Item2',
   'Item3',
@@ -884,6 +986,7 @@ List<String> items = [
   'Item7',
   'Item8',
 ];
+String? selectedValue;
 
 @override
 Widget build(BuildContext context) {
