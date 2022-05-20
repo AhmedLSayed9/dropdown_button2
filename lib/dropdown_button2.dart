@@ -1305,10 +1305,10 @@ class DropdownButton2<T> extends StatefulWidget {
   final bool _isEmpty;
 
   @override
-  State<DropdownButton2<T>> createState() => _DropdownButton2State<T>();
+  State<DropdownButton2<T>> createState() => DropdownButton2State<T>();
 }
 
-class _DropdownButton2State<T> extends State<DropdownButton2<T>>
+class DropdownButton2State<T> extends State<DropdownButton2<T>>
     with WidgetsBindingObserver {
   int? _selectedIndex;
   _DropdownRoute<T>? _dropdownRoute;
@@ -1479,6 +1479,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
     widget.onMenuStateChange?.call(true);
   }
+
+  // This expose the _handleTap() to Allow opening the button programmatically using GlobalKey.
+  // Also, DropdownButton2State should be public as we need typed access to it through key.
+  void callTap() => _handleTap();
 
   // When isDense is true, reduce the height of this button from _kMenuItemHeight to
   // _kDenseButtonHeight, but don't make it smaller than the text that it contains.

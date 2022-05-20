@@ -1,3 +1,6 @@
+## 1.5.2
+* Allow opening the button programmatically using GlobalKey. close #33.
+
 ## 1.5.1
 * Use PlatformDispatcher.instance over window.
 * Use super parameters lint.
