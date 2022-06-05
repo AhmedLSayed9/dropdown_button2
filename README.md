@@ -86,6 +86,9 @@ customize to your needs.
 [dropdownOverButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownOverButton.html) | Opens the dropdown menu over the button instead of below it | bool | No
 [dropdownFullScreen](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownFullScreen.html) | Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar) | bool | No
 [focusColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/focusColor.html) | The color of button when it has input focus using traditional interfaces (keyboard and mouse) | Color | No
+[barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html) | Whether you can dismiss this route by tapping the modal barrier | bool | No
+[barrierColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierColor.html) | The color to use for the modal barrier. If this is null, the barrier will be transparent | Color | No
+[barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html) | The semantic label used for a dismissible barrier | String | No
 
 ### For DropdownButtonFormField2 "In addition to the above":
 
@@ -104,7 +107,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.5.2
+  dropdown_button2: ^1.5.3
 
 ```
 

@@ -481,6 +481,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     this.elevation = 8,
     required this.capturedThemes,
     required this.style,
+    required this.barrierDismissible,
+    this.barrierColor,
     this.barrierLabel,
     required this.enableFeedback,
     required this.itemHeight,
@@ -527,10 +529,10 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   Duration get transitionDuration => _kDropdownMenuDuration;
 
   @override
-  bool get barrierDismissible => true;
+  final bool barrierDismissible;
 
   @override
-  Color? get barrierColor => null;
+  final Color? barrierColor;
 
   @override
   final String? barrierLabel;
@@ -961,6 +963,9 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
     this.onMenuStateChange,
+    this.barrierDismissible = true,
+    this.barrierColor,
+    this.barrierLabel,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -1025,6 +1030,9 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
+    this.barrierDismissible = true,
+    this.barrierColor,
+    this.barrierLabel,
     required InputDecoration inputDecoration,
     required bool isEmpty,
   })  : assert(
@@ -1045,71 +1053,84 @@ class DropdownButton2<T> extends StatefulWidget {
 
   // Parameters added By Me
 
-  ///The height of the button.
+  /// The height of the button.
   final double? buttonHeight;
 
-  ///The width of the button
+  /// The width of the button
   final double? buttonWidth;
 
-  ///The inner padding of the Button
+  /// The inner padding of the Button
   final EdgeInsetsGeometry? buttonPadding;
 
-  ///The decoration of the Button
+  /// The decoration of the Button
   final BoxDecoration? buttonDecoration;
 
-  ///The elevation of the Button
+  /// The elevation of the Button
   final int? buttonElevation;
 
-  ///The padding of menu items
+  /// The padding of menu items
   final EdgeInsetsGeometry? itemPadding;
 
-  ///The width of the dropdown menu
+  /// The width of the dropdown menu
   final double? dropdownWidth;
 
-  ///The inner padding of the dropdown menu
+  /// The inner padding of the dropdown menu
   final EdgeInsetsGeometry? dropdownPadding;
 
-  ///The decoration of the dropdown menu
+  /// The decoration of the dropdown menu
   final BoxDecoration? dropdownDecoration;
 
-  ///The highlight color of the current selected item
+  /// The highlight color of the current selected item
   final Color? selectedItemHighlightColor;
 
-  ///The radius of the scrollbar's corners
+  /// The radius of the scrollbar's corners
   final Radius? scrollbarRadius;
 
-  ///The thickness of the scrollbar
+  /// The thickness of the scrollbar
   final double? scrollbarThickness;
 
-  ///Always show the scrollbar even when a scroll is not underway
+  /// Always show the scrollbar even when a scroll is not underway
   final bool? scrollbarAlwaysShow;
 
-  ///Changes the position of the dropdown menu
+  /// Changes the position of the dropdown menu
   final Offset? offset;
 
-  ///Uses custom widget like icon,image,etc.. instead of the default button
+  /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
 
-  ///Indexes of the items you want to give different height (useful for adding dividers)
+  /// Indexes of the items you want to give different height (useful for adding dividers)
   final List<int>? customItemsIndexes;
 
-  ///The height of the items you passed their indexes using [customItemsIndexes] parameter
+  /// The height of the items you passed their indexes using [customItemsIndexes] parameter
   final double? customItemsHeight;
 
-  ///Opens the dropdown menu on long-pressing instead of tapping
+  /// Opens the dropdown menu on long-pressing instead of tapping
   final bool openWithLongPress;
 
-  ///Opens the dropdown menu over the button instead of below it
+  /// Opens the dropdown menu over the button instead of below it
   final bool dropdownOverButton;
 
-  ///Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
+  /// Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
   final bool dropdownFullScreen;
 
-  ///Shows different icon when dropdown menu open
+  /// Shows different icon when dropdown menu open
   final Widget? iconOnClick;
 
-  ///Called when the dropdown menu is opened or closed.
+  /// Called when the dropdown menu is opened or closed.
   final void Function(bool isOpen)? onMenuStateChange;
+
+  /// Whether you can dismiss this route by tapping the modal barrier.
+  final bool barrierDismissible;
+
+  /// The color to use for the modal barrier. If this is null, the barrier will
+  /// be transparent.
+  final Color? barrierColor;
+
+  /// The semantic label used for a dismissible barrier.
+  ///
+  /// If the barrier is dismissible, this label will be read out if
+  /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
+  final String? barrierLabel;
 
   /// The list of items the user can select.
   ///
@@ -1449,7 +1470,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       capturedThemes:
           InheritedTheme.capture(from: context, to: navigator.context),
       style: _textStyle!,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierDismissible: widget.barrierDismissible,
+      barrierColor: widget.barrierColor,
+      barrierLabel: widget.barrierLabel ??
+          MaterialLocalizations.of(context).modalBarrierDismissLabel,
       enableFeedback: widget.enableFeedback ?? true,
       itemHeight: widget.itemHeight,
       itemWidth: widget.dropdownWidth,

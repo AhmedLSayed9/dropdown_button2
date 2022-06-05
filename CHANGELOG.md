@@ -1,3 +1,9 @@
+## 1.5.3
+* Add barrierDismissible parameter, you can prevent dismissing the menu by tapping the modal barrier.
+* Add barrierColor parameter, you can change the color of the modal barrier (default is transparent). close #35.
+* Add barrierLabel parameter, you can set the semantic label used for a dismissible barrier.
+* Update README.
+
 ## 1.5.2
 * Allow opening the button programmatically using GlobalKey. close #33.
 
