@@ -1,3 +1,12 @@
+## 1.6.0
+### Breaking Changes:
+* Add searching feature:
+- searchController parameter, The TextEditingController used for searchable dropdowns. If null, then it'll perform as a normal dropdown without searching feature.
+- searchInnerWidget parameter, The widget to be shown at the top of the dropdown menu for searchable dropdowns, such as search bar.
+- searchMatchFn parameter, The match function used for searchable dropdowns, if null _defaultSearchMatchFn will be used.
+* Improve selectedItemOffset to get accurate scrollOffset when dropdown padding is set.
+* Update README.
+
 ## 1.5.3
 * Add barrierDismissible parameter, you can prevent dismissing the menu by tapping the modal barrier.
 * Add barrierColor parameter, you can change the color of the modal barrier (default is transparent). close #35.

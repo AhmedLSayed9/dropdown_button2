@@ -17,6 +17,18 @@ customize to your needs.
 
 <img src="https://user-images.githubusercontent.com/70890146/144847227-a1fbf63b-e4a0-4fac-ba73-33cc468b7075.jpg" alt="Image" width="700"/>
 
+- [Features](#features)
+- [Options](#options)
+- [Usage and Examples](#usage-and-examples)
+  - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
+  - [2. DropdownButton2 with some styling and customization](#2-dropdownbutton2-with-some-styling-and-customization)
+  - [3. How to add different height items like dividers](#3-how-to-add-different-height-items-like-dividers)
+  - [4. DropdownButton2 as Multiselect Dropdown with Checkboxes](#4-dropdownbutton2-as-multiselect-dropdown-with-checkboxes)
+  - [5. DropdownButton2 as Searchable Dropdown](#5-dropdownbutton2-as-searchable-dropdown)
+  - [6. DropdownButton2 as Popup menu button using customButton parameter](#6-dropdownbutton2-as-popup-menu-button-using-custombutton-parameter)
+  - [7. Using DropdownButtonFormField2 with Form](#7-using-dropdownbuttonformfield2-with-form)
+- [CustomDropdownButton2 Widget "customize it to your needs"](#customdropdownbutton2-widget-customize-it-to-your-needs)
+
 ## Features
 
 * Dropdown menu always open below the button "as long as it's possible otherwise it'll open to the
@@ -35,6 +47,8 @@ customize to your needs.
   your needs and use it throughout all your app easily as shown in the examples.
 * You can add dividers as items with different height by passing dividers indexes to
   customItemsIndexes and the height to customItemsHeight as shown in the examples.
+* You can use DropdownButton2 as Multiselect Dropdown with Checkboxes as shown in the examples.
+* You can use DropdownButton2 as Searchable Dropdown as shown in the examples.
 * You can use DropdownButton2 as a popup menu button by using the parameter customButton. You can
   pass Icon,Image or any widget and customize it as shown in the examples.
 * You can also use DropdownButtonFormField2 the same way with all options above and use it inside
@@ -89,6 +103,9 @@ customize to your needs.
 [barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html) | Whether you can dismiss this route by tapping the modal barrier | bool | No
 [barrierColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierColor.html) | The color to use for the modal barrier. If this is null, the barrier will be transparent | Color | No
 [barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html) | The semantic label used for a dismissible barrier | String | No
+[searchController](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/searchController.html) | The controller used for searchable dropdowns, if null, then it'll perform as a normal dropdown | TextEditingController | No
+[searchInnerWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/searchInnerWidget.html) | The widget to be shown at the top of the dropdown menu for searchable dropdowns | Widget | No
+[searchMatchFn](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/searchMatchFn.html) | The match function used for searchable dropdowns, if null, defaultFn will be used | SearchMatchFn | No
 
 ### For DropdownButtonFormField2 "In addition to the above":
 
@@ -107,7 +124,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.5.3
+  dropdown_button2: ^1.6.0
 
 ```
 
@@ -119,7 +136,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 ```
 
-## Usage & Examples
+## Usage and Examples
 
 ### 1. Simple DropdownButton2 with no styling:
 
@@ -475,7 +492,108 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 5. DropdownButton2 as Popup menu button using customButton parameter:
+
+### 5. DropdownButton2 as Searchable Dropdown:
+
+<img src="https://user-images.githubusercontent.com/70890146/173115793-de4ec762-ab62-4395-b64a-01ae096ed4e3.jpg" alt="Image" width="300"/>
+
+```dart
+final List<String> items = [
+  'A_Item1',
+  'A_Item2',
+  'A_Item3',
+  'A_Item4',
+  'B_Item1',
+  'B_Item2',
+  'B_Item3',
+  'B_Item4',
+];
+
+String? selectedValue;
+final TextEditingController textEditingController = TextEditingController();
+
+@override
+void dispose() {
+  textEditingController.dispose();
+  super.dispose();
+}
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Center(
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton2(
+          isExpanded: true,
+          hint: Text(
+            'Select Item',
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).hintColor,
+            ),
+          ),
+          items: items
+                  .map((item) => DropdownMenuItem<String>(
+            value: item,
+            child: Text(
+              item,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ))
+                  .toList(),
+          value: selectedValue,
+          onChanged: (value) {
+            setState(() {
+              selectedValue = value as String;
+            });
+          },
+          buttonHeight: 40,
+          buttonWidth: 200,
+          itemHeight: 40,
+          dropdownMaxHeight: 200,
+          searchController: textEditingController,
+          searchInnerWidget: Padding(
+            padding: const EdgeInsets.only(
+              top: 8,
+              bottom: 4,
+              right: 8,
+              left: 8,
+            ),
+            child: TextFormField(
+              controller: textEditingController,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
+                hintText: 'Search for an item...',
+                hintStyle: const TextStyle(fontSize: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ),
+          searchMatchFn: (item, searchValue) {
+            return (item.value.toString().contains(searchValue));
+          },
+          //This to clear the search value when you close the menu
+          onMenuStateChange: (isOpen) {
+            if (!isOpen) {
+              textEditingController.clear();
+            }
+          },
+        ),
+      ),
+    ),
+  );
+}
+```
+
+### 6. DropdownButton2 as Popup menu button using customButton parameter:
 
 ***Example 1*** using icon:
 
@@ -730,7 +848,7 @@ class MenuItems {
 }
 ```
 
-### 6. Using DropdownButtonFormField2 with Form:
+### 7. Using DropdownButtonFormField2 with Form:
 
 <img src="https://user-images.githubusercontent.com/70890146/144771294-4b98a3f4-5cb7-452f-a1be-5d3e1275fb93.jpg" alt="Image" width="500"/>
 
@@ -837,7 +955,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-## [CustomDropdownButton2](https://pub.dev/documentation/dropdown_button2/latest/custom_dropdown_button2/CustomDropdownButton2-class.html) Widget "customize it to your needs"
+## CustomDropdownButton2 Widget "customize it to your needs"
 
 ```dart
 class CustomDropdownButton2 extends StatelessWidget {
