@@ -1,3 +1,7 @@
+## 1.6.1
+* Fix #39.
+* Update README.
+
 ## 1.6.0
 ### Breaking Changes:
 * Add searching feature:

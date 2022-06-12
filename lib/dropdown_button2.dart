@@ -1539,6 +1539,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   @override
   void didChangeMetrics() {
+    //This fix the bug of calling didChangeMetrics() on iOS when app starts
+    if (_rect.value == null) return;
     final _newRect = _getRect();
     //This avoid unnecessary rebuilds if _rect position hasn't changed
     if (_rect.value!.top == _newRect.top) return;
