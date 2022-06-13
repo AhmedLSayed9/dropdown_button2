@@ -1765,7 +1765,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       child: widget.customButton ??
           Container(
             decoration: widget.buttonDecoration?.copyWith(
-              boxShadow: kElevationToShadow[widget.buttonElevation ?? 0],
+              boxShadow: widget.buttonDecoration!.boxShadow ??
+                  kElevationToShadow[widget.buttonElevation ?? 0],
             ),
             padding: widget.buttonPadding ??
                 padding.resolve(Directionality.of(context)),
