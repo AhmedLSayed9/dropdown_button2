@@ -1846,7 +1846,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         actions: _actionMap,
         child: InkWell(
           mouseCursor: effectiveMouseCursor,
-          onTap: _enabled ? _handleTap : null,
+          onTap: _enabled && !widget.openWithLongPress ? _handleTap : null,
+          onLongPress: _enabled && widget.openWithLongPress ? _handleTap : null,
           canRequestFocus: _enabled,
           focusNode: focusNode,
           autofocus: widget.autofocus,

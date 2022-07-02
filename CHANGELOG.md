@@ -1,3 +1,6 @@
+## 1.6.3
+* Fix openWithLongPress functionality. close #46.
+
 ## 1.6.2
 * Use buttonDecoration's boxShadow value (if exists) for button's decoration, otherwise use buttonElevation.
 
