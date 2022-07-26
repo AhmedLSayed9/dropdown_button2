@@ -1,3 +1,10 @@
+## 1.7.0
+* Update DropdownButton menu clip (Flutter Dropdown Update).
+* Fix hint alignment when selectedItemBuilder is non-null (Flutter Dropdown Update).
+* Modify calculation of dense button height when text scale is large (Flutter Dropdown Update).
+* Updating PrimaryScrollController for Desktop, fixes #49.
+* Fix DropdownButton inkwell border radius. fixes #53, fixes #54.
+
 ## 1.6.3
 * Fix openWithLongPress functionality. close #46.
 

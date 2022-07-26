@@ -377,46 +377,53 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           namesRoute: true,
           explicitChildNodes: true,
           label: localizations.popupMenuLabel,
-          child: Material(
-            type: MaterialType.transparency,
-            textStyle: route.style,
+          child: ClipRRect(
             //Prevent scrollbar, ripple effect & items from going beyond border boundaries when scrolling.
-            clipBehavior: Clip.antiAlias,
+            clipBehavior: widget.dropdownDecoration?.borderRadius != null
+                ? Clip.antiAlias
+                : Clip.none,
             borderRadius: widget.dropdownDecoration?.borderRadius
                     ?.resolve(Directionality.of(context)) ??
-                const BorderRadius.all(Radius.circular(2.0)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (widget.searchInnerWidget != null) widget.searchInnerWidget!,
-                Flexible(
-                  child: ScrollConfiguration(
-                    // Dropdown menus should never overscroll or display an overscroll indicator.
-                    // Scrollbars are built-in below.
-                    // Platform must use Theme and ScrollPhysics must be Clamping.
-                    behavior: ScrollConfiguration.of(context).copyWith(
-                      scrollbars: false,
-                      overscroll: false,
-                      physics: const ClampingScrollPhysics(),
-                      platform: Theme.of(context).platform,
-                    ),
-                    child: PrimaryScrollController(
-                      controller: widget.route.scrollController!,
-                      child: Scrollbar(
-                        radius: widget.scrollbarRadius,
-                        thickness: widget.scrollbarThickness,
-                        thumbVisibility: widget.scrollbarAlwaysShow,
-                        child: ListView(
-                          padding:
-                              widget.dropdownPadding ?? kMaterialListPadding,
-                          shrinkWrap: true,
-                          children: _children,
+                BorderRadius.zero,
+            child: Material(
+              type: MaterialType.transparency,
+              textStyle: route.style,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (widget.searchInnerWidget != null)
+                    widget.searchInnerWidget!,
+                  Flexible(
+                    child: ScrollConfiguration(
+                      // Dropdown menus should never overscroll or display an overscroll indicator.
+                      // Scrollbars are built-in below.
+                      // Platform must use Theme and ScrollPhysics must be Clamping.
+                      behavior: ScrollConfiguration.of(context).copyWith(
+                        scrollbars: false,
+                        overscroll: false,
+                        physics: const ClampingScrollPhysics(),
+                        platform: Theme.of(context).platform,
+                      ),
+                      child: PrimaryScrollController(
+                        controller: widget.route.scrollController!,
+                        child: Scrollbar(
+                          radius: widget.scrollbarRadius,
+                          thickness: widget.scrollbarThickness,
+                          thumbVisibility: widget.scrollbarAlwaysShow,
+                          child: ListView(
+                            // Ensure this always inherits the PrimaryScrollController
+                            primary: true,
+                            padding:
+                                widget.dropdownPadding ?? kMaterialListPadding,
+                            shrinkWrap: true,
+                            children: _children,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -1648,9 +1655,12 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   // Similarly, we don't reduce the height of the button so much that its icon
   // would be clipped.
   double get _denseButtonHeight {
+    final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final double fontSize = _textStyle!.fontSize ??
         Theme.of(context).textTheme.subtitle1!.fontSize!;
-    return math.max(fontSize, math.max(widget.iconSize, _kDenseButtonHeight));
+    final double scaledFontSize = textScaleFactor * fontSize;
+    return math.max(
+        scaledFontSize, math.max(widget.iconSize, _kDenseButtonHeight));
   }
 
   Color get _iconColor {
@@ -1716,21 +1726,18 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
 
     int? hintIndex;
     if (widget.hint != null || (!_enabled && widget.disabledHint != null)) {
-      Widget displayedHint =
+      final Widget displayedHint =
           _enabled ? widget.hint! : widget.disabledHint ?? widget.hint!;
-      if (widget.selectedItemBuilder == null) {
-        displayedHint = _DropdownMenuItemContainer(
-          child: displayedHint,
-          alignment: widget.alignment,
-        );
-      }
 
       hintIndex = items.length;
       items.add(DefaultTextStyle(
         style: _textStyle!.copyWith(color: Theme.of(context).hintColor),
         child: IgnorePointer(
           ignoringSemantics: false,
-          child: displayedHint,
+          child: _DropdownMenuItemContainer(
+            alignment: widget.alignment,
+            child: displayedHint,
+          ),
         ),
       ));
     }
@@ -1856,7 +1863,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
               Theme.of(context).focusColor,
           enableFeedback: false,
           child: result,
-          borderRadius: widget.dropdownDecoration?.borderRadius
+          borderRadius: widget.buttonDecoration?.borderRadius
               ?.resolve(Directionality.of(context)),
         ),
       ),
