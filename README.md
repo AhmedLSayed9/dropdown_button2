@@ -120,11 +120,12 @@ customize to your needs.
 
 add this line to pubspec.yaml
 
-```yaml
+```yamlflutter pub publish --dry-run
+
 
 dependencies:
 
-  dropdown_button2: ^1.7.0
+  dropdown_button2: ^1.7.1
 
 ```
 

@@ -20,6 +20,8 @@ const EdgeInsetsGeometry _kAlignedButtonPadding =
     EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
 const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 
+typedef _OnMenuStateChangeFn = void Function(bool isOpen);
+
 typedef _SearchMatchFn = bool Function(
   DropdownMenuItem item,
   String searchValue,
@@ -178,8 +180,11 @@ class _DropdownMenuItemButtonState<T>
     final CurvedAnimation opacity;
     final double unit = 0.5 / (widget.route.items.length + 1.5);
     if (widget.itemIndex == widget.route.selectedIndex) {
+      final double start =
+          (0.5 + (widget.itemIndex + 1) * unit).clamp(0.0, 1.0);
+      final double end = (start + 1.5 * unit).clamp(0.0, 1.0);
       opacity = CurvedAnimation(
-          parent: widget.route.animation!, curve: const Threshold(0.0));
+          parent: widget.route.animation!, curve: Interval(start, end));
     } else {
       final double start =
           (0.5 + (widget.itemIndex + 1) * unit).clamp(0.0, 1.0);
@@ -1018,6 +1023,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.hint,
     this.disabledHint,
     this.onChanged,
+    this.onMenuStateChange,
     this.dropdownElevation = 8,
     this.style,
     this.underline,
@@ -1055,7 +1061,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
-    this.onMenuStateChange,
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
@@ -1077,8 +1082,7 @@ class DropdownButton2<T> extends StatefulWidget {
           'Either zero or 2 or more [DropdownMenuItem]s were detected '
           'with the same value',
         ),
-        _inputDecoration = null,
-        _isEmpty = false;
+        formFieldCallBack = null;
 
   DropdownButton2._formField({
     super.key,
@@ -1132,9 +1136,8 @@ class DropdownButton2<T> extends StatefulWidget {
     this.searchController,
     this.searchInnerWidget,
     this.searchMatchFn,
-    required InputDecoration inputDecoration,
-    required bool isEmpty,
-  })  : assert(
+    this.formFieldCallBack,
+  }) : assert(
           items == null ||
               items.isEmpty ||
               value == null ||
@@ -1146,9 +1149,7 @@ class DropdownButton2<T> extends StatefulWidget {
           '$value. \n'
           'Either zero or 2 or more [DropdownMenuItem]s were detected '
           'with the same value',
-        ),
-        _inputDecoration = inputDecoration,
-        _isEmpty = isEmpty;
+        );
 
   // Parameters added By Me
 
@@ -1216,7 +1217,7 @@ class DropdownButton2<T> extends StatefulWidget {
   final Widget? iconOnClick;
 
   /// Called when the dropdown menu is opened or closed.
-  final void Function(bool isOpen)? onMenuStateChange;
+  final _OnMenuStateChangeFn? onMenuStateChange;
 
   /// Whether you can dismiss this route by tapping the modal barrier.
   final bool barrierDismissible;
@@ -1436,8 +1437,9 @@ class DropdownButton2<T> extends StatefulWidget {
   ///    relative to text direction.
   final AlignmentGeometry alignment;
 
-  final InputDecoration? _inputDecoration;
-  final bool _isEmpty;
+  /// Called when the dropdown menu is opened or closed in case of using
+  /// DropdownButtonFormField2 to update the FormField's focus.
+  final _OnMenuStateChangeFn? formFieldCallBack;
 
   @override
   State<DropdownButton2<T>> createState() => DropdownButton2State<T>();
@@ -1639,11 +1641,13 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       _removeDropdownRoute();
       _isMenuOpen = false;
       widget.onMenuStateChange?.call(false);
+      widget.formFieldCallBack?.call(false);
       if (!mounted || newValue == null) return;
       widget.onChanged?.call(newValue.result);
     });
 
     widget.onMenuStateChange?.call(true);
+    widget.formFieldCallBack?.call(true);
   }
 
   // This expose the _handleTap() to Allow opening the button programmatically using GlobalKey.
@@ -1838,15 +1842,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       },
     );
 
-    if (widget._inputDecoration != null) {
-      result = InputDecorator(
-        decoration: widget._inputDecoration!,
-        isEmpty: widget._isEmpty,
-        isFocused: _isMenuOpen,
-        child: result,
-      );
-    }
-
     return Semantics(
       button: true,
       child: Actions(
@@ -1949,7 +1944,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     TextEditingController? searchController,
     Widget? searchInnerWidget,
     _SearchMatchFn? searchMatchFn,
-    void Function(bool isOpen)? onMenuStateChange,
+    _OnMenuStateChangeFn? onMenuStateChange,
   })  : assert(
           items == null ||
               items.isEmpty ||
@@ -1995,70 +1990,80 @@ class DropdownButtonFormField2<T> extends FormField<T> {
             final bool isEmpty =
                 !showSelectedItem && !isHintOrDisabledHintAvailable();
 
-            // An unfocusable Focus widget so that this widget can detect if its
+            bool hasFocus = false;
+
+            // An unFocusable Focus widget so that this widget can detect if its
             // descendants have focus or not.
             return Focus(
               canRequestFocus: false,
               skipTraversal: true,
-              child: Builder(builder: (BuildContext context) {
-                return DropdownButtonHideUnderline(
-                  child: DropdownButton2._formField(
-                    items: items,
-                    selectedItemBuilder: selectedItemBuilder,
-                    value: state.value,
-                    hint: hint,
-                    disabledHint: disabledHint,
-                    onChanged: onChanged == null ? null : state.didChange,
-                    dropdownElevation: dropdownElevation,
-                    style: style,
-                    icon: icon,
-                    iconOnClick: iconOnClick,
-                    iconDisabledColor: iconDisabledColor,
-                    iconEnabledColor: iconEnabledColor,
-                    iconSize: iconSize,
-                    isDense: isDense,
-                    isExpanded: isExpanded,
-                    itemHeight: itemHeight,
-                    focusColor: focusColor,
-                    focusNode: focusNode,
-                    autofocus: autofocus,
-                    dropdownMaxHeight: dropdownMaxHeight,
-                    enableFeedback: enableFeedback,
-                    alignment: alignment,
-                    buttonHeight: buttonHeight,
-                    buttonWidth: buttonWidth,
-                    buttonPadding: buttonPadding,
-                    buttonDecoration: buttonDecoration,
-                    buttonElevation: buttonElevation,
-                    itemPadding: itemPadding,
-                    dropdownWidth: dropdownWidth,
-                    dropdownPadding: dropdownPadding,
-                    dropdownDecoration: dropdownDecoration,
-                    selectedItemHighlightColor: selectedItemHighlightColor,
-                    scrollbarRadius: scrollbarRadius,
-                    scrollbarThickness: scrollbarThickness,
-                    scrollbarAlwaysShow: scrollbarAlwaysShow,
-                    offset: offset,
-                    customButton: customButton,
-                    customItemsIndexes: customItemsIndexes,
-                    customItemsHeight: customItemsHeight,
-                    openWithLongPress: openWithLongPress,
-                    dropdownOverButton: dropdownOverButton,
-                    dropdownFullScreen: dropdownFullScreen,
-                    onMenuStateChange: onMenuStateChange,
-                    barrierDismissible: barrierDismissible,
-                    barrierColor: barrierColor,
-                    barrierLabel: barrierLabel,
-                    searchController: searchController,
-                    searchInnerWidget: searchInnerWidget,
-                    searchMatchFn: searchMatchFn,
-                    inputDecoration: effectiveDecoration.copyWith(
-                      errorText: field.errorText,
-                    ),
+              child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return InputDecorator(
+                    decoration: effectiveDecoration.copyWith(
+                        errorText: field.errorText),
                     isEmpty: isEmpty,
-                  ),
-                );
-              }),
+                    isFocused: hasFocus,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2._formField(
+                        items: items,
+                        selectedItemBuilder: selectedItemBuilder,
+                        value: state.value,
+                        hint: hint,
+                        disabledHint: disabledHint,
+                        onChanged: onChanged == null ? null : state.didChange,
+                        dropdownElevation: dropdownElevation,
+                        style: style,
+                        icon: icon,
+                        iconOnClick: iconOnClick,
+                        iconDisabledColor: iconDisabledColor,
+                        iconEnabledColor: iconEnabledColor,
+                        iconSize: iconSize,
+                        isDense: isDense,
+                        isExpanded: isExpanded,
+                        itemHeight: itemHeight,
+                        focusColor: focusColor,
+                        focusNode: focusNode,
+                        autofocus: autofocus,
+                        dropdownMaxHeight: dropdownMaxHeight,
+                        enableFeedback: enableFeedback,
+                        alignment: alignment,
+                        buttonHeight: buttonHeight,
+                        buttonWidth: buttonWidth,
+                        buttonPadding: buttonPadding,
+                        buttonDecoration: buttonDecoration,
+                        buttonElevation: buttonElevation,
+                        itemPadding: itemPadding,
+                        dropdownWidth: dropdownWidth,
+                        dropdownPadding: dropdownPadding,
+                        dropdownDecoration: dropdownDecoration,
+                        selectedItemHighlightColor: selectedItemHighlightColor,
+                        scrollbarRadius: scrollbarRadius,
+                        scrollbarThickness: scrollbarThickness,
+                        scrollbarAlwaysShow: scrollbarAlwaysShow,
+                        offset: offset,
+                        customButton: customButton,
+                        customItemsIndexes: customItemsIndexes,
+                        customItemsHeight: customItemsHeight,
+                        openWithLongPress: openWithLongPress,
+                        dropdownOverButton: dropdownOverButton,
+                        dropdownFullScreen: dropdownFullScreen,
+                        onMenuStateChange: onMenuStateChange,
+                        barrierDismissible: barrierDismissible,
+                        barrierColor: barrierColor,
+                        barrierLabel: barrierLabel,
+                        searchController: searchController,
+                        searchInnerWidget: searchInnerWidget,
+                        searchMatchFn: searchMatchFn,
+                        formFieldCallBack: (isOpen) {
+                          hasFocus = isOpen;
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
             );
           },
         );

@@ -1,3 +1,7 @@
+## 1.7.1
+* Fix DropdownButtonFormField InkWell spreads to error message, fixes #56.
+* Prevent Selected item from rendering before rest of the list items, fixes #57.
+
 ## 1.7.0
 * Update DropdownButton menu clip (Flutter Dropdown Update).
 * Fix hint alignment when selectedItemBuilder is non-null (Flutter Dropdown Update).
