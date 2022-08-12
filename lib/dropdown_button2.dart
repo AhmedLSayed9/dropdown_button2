@@ -2004,6 +2004,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         errorText: field.errorText),
                     isEmpty: isEmpty,
                     isFocused: hasFocus,
+                    textAlignVertical: TextAlignVertical.bottom,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2._formField(
                         items: items,

@@ -1,3 +1,6 @@
+## 1.7.2
+* Fix DropdownButtonFormField ripple effect offset to top by 1px, fixes #65.
+
 ## 1.7.1
 * Fix DropdownButtonFormField InkWell spreads to error message, fixes #56.
 * Prevent Selected item from rendering before rest of the list items, fixes #57.
