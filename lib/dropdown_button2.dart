@@ -74,8 +74,8 @@ class _DropdownMenuPainter extends CustomPainter {
     );
 
     final Tween<double> bottom = Tween<double>(
-      begin: (top.begin! + itemHeight)
-          .clamp(math.min(itemHeight, size.height), size.height),
+      begin: clampDouble(top.begin! + itemHeight,
+          math.min(itemHeight, size.height), size.height),
       end: size.height,
     );
 
@@ -106,7 +106,7 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
     required this.constraints,
     required this.itemIndex,
     required this.enableFeedback,
-    this.customItemsIndexes,
+    this.customItemsHeights,
     this.customItemsHeight,
   });
 
@@ -116,7 +116,7 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   final BoxConstraints constraints;
   final int itemIndex;
   final bool enableFeedback;
-  final List<int>? customItemsIndexes;
+  final List<double>? customItemsHeights;
   final double? customItemsHeight;
 
   @override
@@ -177,28 +177,18 @@ class _DropdownMenuItemButtonState<T>
   Widget build(BuildContext context) {
     final DropdownMenuItem<T> dropdownMenuItem =
         widget.route.items[widget.itemIndex].item!;
-    final CurvedAnimation opacity;
     final double unit = 0.5 / (widget.route.items.length + 1.5);
-    if (widget.itemIndex == widget.route.selectedIndex) {
-      final double start =
-          (0.5 + (widget.itemIndex + 1) * unit).clamp(0.0, 1.0);
-      final double end = (start + 1.5 * unit).clamp(0.0, 1.0);
-      opacity = CurvedAnimation(
-          parent: widget.route.animation!, curve: Interval(start, end));
-    } else {
-      final double start =
-          (0.5 + (widget.itemIndex + 1) * unit).clamp(0.0, 1.0);
-      final double end = (start + 1.5 * unit).clamp(0.0, 1.0);
-      opacity = CurvedAnimation(
-          parent: widget.route.animation!, curve: Interval(start, end));
-    }
+    final double start =
+        clampDouble(0.5 + (widget.itemIndex + 1) * unit, 0.0, 1.0);
+    final double end = clampDouble(start + 1.5 * unit, 0.0, 1.0);
+    final CurvedAnimation opacity = CurvedAnimation(
+        parent: widget.route.animation!, curve: Interval(start, end));
+
     Widget child = Container(
       padding: widget.padding,
-      height: widget.customItemsIndexes == null
+      height: widget.customItemsHeights == null
           ? widget.route.itemHeight
-          : widget.customItemsIndexes!.contains(widget.itemIndex)
-              ? widget.customItemsHeight ?? _kMenuItemHeight
-              : widget.route.itemHeight,
+          : widget.customItemsHeights![widget.itemIndex],
       child: widget.route.items[widget.itemIndex],
     );
     // An [InkWell] is added to the item only if it is enabled
@@ -244,8 +234,7 @@ class _DropdownMenu<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     required this.offset,
-    this.customItemsIndexes,
-    this.customItemsHeight,
+    this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
     this.searchMatchFn,
@@ -263,8 +252,7 @@ class _DropdownMenu<T> extends StatefulWidget {
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
   final Offset offset;
-  final List<int>? customItemsIndexes;
-  final double? customItemsHeight;
+  final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final _SearchMatchFn? searchMatchFn;
@@ -308,8 +296,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
-            customItemsIndexes: widget.customItemsIndexes,
-            customItemsHeight: widget.customItemsHeight,
+            customItemsHeights: widget.customItemsHeights,
           ),
       ];
     } else {
@@ -337,8 +324,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
-            customItemsIndexes: widget.customItemsIndexes,
-            customItemsHeight: widget.customItemsHeight,
+            customItemsHeights: widget.customItemsHeights,
           ),
     ];
   }
@@ -495,12 +481,12 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     final double left;
     switch (textDirection!) {
       case TextDirection.rtl:
-        left = (buttonRect.right + offset.dx).clamp(0.0, size.width) -
+        left = clampDouble(buttonRect.right + offset.dx, 0.0, size.width) -
             childSize.width;
         break;
       case TextDirection.ltr:
-        left = (buttonRect.left + offset.dx)
-            .clamp(0.0, size.width - childSize.width);
+        left = clampDouble(
+            buttonRect.left + offset.dx, 0.0, size.width - childSize.width);
         break;
     }
 
@@ -566,12 +552,12 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     this.scrollbarAlwaysShow,
     required this.offset,
     required this.showAboveButton,
-    this.customItemsIndexes,
-    this.customItemsHeight,
+    this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
     this.searchMatchFn,
-  }) : itemHeights = List<double>.filled(items.length, itemHeight);
+  }) : itemHeights =
+            customItemsHeights ?? List<double>.filled(items.length, itemHeight);
 
   final List<_MenuItem<T>> items;
   final EdgeInsetsGeometry padding;
@@ -593,8 +579,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool? scrollbarAlwaysShow;
   final Offset offset;
   final bool showAboveButton;
-  final List<int>? customItemsIndexes;
-  final double? customItemsHeight;
+  final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final _SearchMatchFn? searchMatchFn;
@@ -642,8 +627,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               scrollbarThickness: scrollbarThickness,
               scrollbarAlwaysShow: scrollbarAlwaysShow,
               offset: offset,
-              customItemsIndexes: customItemsIndexes,
-              customItemsHeight: customItemsHeight,
+              customItemsHeights: customItemsHeights,
               searchController: searchController,
               searchInnerWidget: searchInnerWidget,
               searchMatchFn: searchMatchFn,
@@ -727,9 +711,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
     if (menuBottom - itemHeights[selectedIndex] / 2.0 <
         buttonBottom - buttonRect.height / 2.0) {
-      /*menuBottom = buttonBottom -
-          buttonRect.height / 2.0 +
-          itemHeights[selectedIndex] / 2.0;*/
       menuBottom = math.max(buttonBottom, bottomLimit);
       menuTop = menuBottom - menuHeight;
     }
@@ -781,8 +762,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     required this.offset,
-    this.customItemsIndexes,
-    this.customItemsHeight,
+    this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
     this.searchMatchFn,
@@ -807,8 +787,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
   final Offset offset;
-  final List<int>? customItemsIndexes;
-  final double? customItemsHeight;
+  final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final _SearchMatchFn? searchMatchFn;
@@ -844,8 +823,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
       scrollbarThickness: scrollbarThickness,
       scrollbarAlwaysShow: scrollbarAlwaysShow,
       offset: offset,
-      customItemsIndexes: customItemsIndexes,
-      customItemsHeight: customItemsHeight,
+      customItemsHeights: customItemsHeights,
       searchController: searchController,
       searchInnerWidget: searchInnerWidget,
       searchMatchFn: searchMatchFn,
@@ -1056,8 +1034,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarAlwaysShow,
     this.offset,
     this.customButton,
-    this.customItemsIndexes,
-    this.customItemsHeight,
+    this.customItemsHeights,
     this.openWithLongPress = false,
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
@@ -1081,6 +1058,13 @@ class DropdownButton2<T> extends StatefulWidget {
           '$value. \n'
           'Either zero or 2 or more [DropdownMenuItem]s were detected '
           'with the same value',
+        ),
+        assert(
+          customItemsHeights == null ||
+              items == null ||
+              items.isEmpty ||
+              customItemsHeights.length == items.length,
+          "customItemsHeights list should have the same length of items list",
         ),
         formFieldCallBack = null;
 
@@ -1125,8 +1109,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarAlwaysShow,
     this.offset,
     this.customButton,
-    this.customItemsIndexes,
-    this.customItemsHeight,
+    this.customItemsHeights,
     this.openWithLongPress = false,
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
@@ -1198,11 +1181,8 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
 
-  /// Indexes of the items you want to give different height (useful for adding dividers)
-  final List<int>? customItemsIndexes;
-
-  /// The height of the items you passed their indexes using [customItemsIndexes] parameter
-  final double? customItemsHeight;
+  /// Uses different predefined heights for the menu items (useful for adding dividers)
+  final List<double>? customItemsHeights;
 
   /// Opens the dropdown menu on long-pressing instead of tapping
   final bool openWithLongPress;
@@ -1330,7 +1310,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// ** See code in examples/api/lib/material/dropdown/dropdown_button.style.0.dart **
   /// {@end-tool}
   ///
-  /// Defaults to the [TextTheme.subtitle1] value of the current
+  /// Defaults to the [TextTheme.titleMedium] value of the current
   /// [ThemeData.textTheme] of the current [Theme].
   final TextStyle? style;
 
@@ -1380,17 +1360,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// surrounding container.
   final bool isExpanded;
 
-  /// If null, then the menu item heights will vary according to each menu item's
-  /// intrinsic height.
-  ///
-  /// The default value is [kMinInteractiveDimension], which is also the minimum
-  /// height for menu items.
-  ///
-  /// If this value is null and there isn't enough vertical room for the menu,
-  /// then the menu's initial scroll offset may not align the selected item with
-  /// the dropdown button. That's because, in this case, the initial scroll
-  /// offset is computed as if all of the menu item heights were
-  /// [kMinInteractiveDimension].
+  /// The default value is [kMinInteractiveDimension]
   final double itemHeight;
 
   /// The color for the button's [Material] when it has the input focus.
@@ -1626,8 +1596,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       scrollbarAlwaysShow: widget.scrollbarAlwaysShow,
       offset: widget.offset ?? const Offset(0, 0),
       showAboveButton: widget.dropdownOverButton,
-      customItemsIndexes: widget.customItemsIndexes,
-      customItemsHeight: widget.customItemsHeight,
+      customItemsHeights: widget.customItemsHeights,
       searchController: widget.searchController,
       searchInnerWidget: widget.searchInnerWidget,
       searchMatchFn: widget.searchMatchFn,
@@ -1754,7 +1723,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     // display the hint or nothing at all.
     final Widget innerItemsWidget;
     if (items.isEmpty) {
-      innerItemsWidget = Container();
+      innerItemsWidget = const SizedBox.shrink();
     } else {
       innerItemsWidget = IndexedStack(
         index: _selectedIndex ?? hintIndex,
@@ -1933,8 +1902,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     bool? scrollbarAlwaysShow,
     Offset? offset,
     Widget? customButton,
-    List<int>? customItemsIndexes,
-    double? customItemsHeight,
+    List<double>? customItemsHeights,
     bool openWithLongPress = false,
     bool dropdownOverButton = false,
     bool dropdownFullScreen = false,
@@ -2044,8 +2012,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         scrollbarAlwaysShow: scrollbarAlwaysShow,
                         offset: offset,
                         customButton: customButton,
-                        customItemsIndexes: customItemsIndexes,
-                        customItemsHeight: customItemsHeight,
+                        customItemsHeights: customItemsHeights,
                         openWithLongPress: openWithLongPress,
                         dropdownOverButton: dropdownOverButton,
                         dropdownFullScreen: dropdownFullScreen,

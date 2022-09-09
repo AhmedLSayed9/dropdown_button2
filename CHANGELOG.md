@@ -1,3 +1,11 @@
+## 1.8.0
+### Breaking Changes:
+* Remove customItemsIndexes and customItemsHeight parameters.
+* Add customItemsHeights parameter, it uses different predefined heights for the menu items. close #71.
+* Switched to a double variant of clamp to avoid boxing (Flutter Dropdown Update).
+* Replace empty Container with const SizedBox (Flutter Dropdown Update).
+* Update README.
+
 ## 1.7.2
 * Fix DropdownButtonFormField ripple effect offset to top by 1px, fixes #65.
 

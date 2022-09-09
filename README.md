@@ -22,7 +22,7 @@ customize to your needs.
 - [Usage and Examples](#usage-and-examples)
   - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
   - [2. DropdownButton2 with some styling and customization](#2-dropdownbutton2-with-some-styling-and-customization)
-  - [3. How to add different height items like dividers](#3-how-to-add-different-height-items-like-dividers)
+  - [3. DropdownButton2 with items of different heights like dividers](#3-dropdownbutton2-with-items-of-different-heights-like-dividers)
   - [4. DropdownButton2 as Multiselect Dropdown with Checkboxes](#4-dropdownbutton2-as-multiselect-dropdown-with-checkboxes)
   - [5. DropdownButton2 as Searchable Dropdown](#5-dropdownbutton2-as-searchable-dropdown)
   - [6. DropdownButton2 as Popup menu button using customButton parameter](#6-dropdownbutton2-as-popup-menu-button-using-custombutton-parameter)
@@ -45,8 +45,7 @@ customize to your needs.
 * Wrap DropdownButton2 with DropdownButtonHideUnderline to hide the underline.
 * A Custom widget of the DropdownButton2 below to make it more reusable. You can customize it to
   your needs and use it throughout all your app easily as shown in the examples.
-* You can add dividers as items with different height by passing dividers indexes to
-  customItemsIndexes and the height to customItemsHeight as shown in the examples.
+* You can use DropdownButton2 with items of different heights like dividers as shown in the examples.
 * You can use DropdownButton2 as Multiselect Dropdown with Checkboxes as shown in the examples.
 * You can use DropdownButton2 as Searchable Dropdown as shown in the examples.
 * You can use DropdownButton2 as a popup menu button by using the parameter customButton. You can
@@ -93,8 +92,7 @@ customize to your needs.
 [scrollbarAlwaysShow](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/scrollbarAlwaysShow.html) | Always show the scrollbar even when a scroll is not underway | bool | No
 [offset](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/offset.html) | Changes the position of the dropdown menu | Offset | No
 [customButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customButton.html) | Uses custom widget like icon,image,etc.. instead of the default button | Widget | No
-[customItemsIndexes](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customItemsIndexes.html) | Indexes of the items you want to give different height (useful for adding dividers) | List<int> | No
-[customItemsHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customItemsHeight.html) | The height of the items you passed their indexes using [customItemsIndexes] parameter | double | No
+[customItemsHeights](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customItemsHeights.html) | Uses different predefined heights for the menu items (useful for adding dividers) | List<double> | No
 [isExpanded](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isExpanded.html) | Makes the button's inner contents expanded (set true to avoid long text overflowing) | bool | No
 [openWithLongPress](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openWithLongPress.html) | Opens the dropdown menu on long-pressing instead of tapping | bool | No
 [dropdownOverButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownOverButton.html) | Opens the dropdown menu over the button instead of below it | bool | No
@@ -125,7 +123,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.7.2
+  dropdown_button2: ^1.8.0
 
 ```
 
@@ -301,12 +299,12 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 3. How to add different height items like dividers:
+### 3. DropdownButton2 with items of different heights like dividers:
 
 <img src="https://user-images.githubusercontent.com/70890146/144771246-49ea5ed8-78d7-4e0d-a411-331649cef3d5.jpg" alt="Image" width="300"/>
 
 ```dart
-final List<String> items = [
+  final List<String> items = [
   'Item1',
   'Item2',
   'Item3',
@@ -343,15 +341,18 @@ List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
   return _menuItems;
 }
 
-List<int> _getDividersIndexes() {
-  List<int> _dividersIndexes = [];
+List<double> _getCustomItemsHeights() {
+  List<double> _itemsHeights = [];
   for (var i = 0; i < (items.length * 2) - 1; i++) {
+    if (i.isEven) {
+      _itemsHeights.add(40);
+    }
     //Dividers indexes will be the odd indexes
     if (i.isOdd) {
-      _dividersIndexes.add(i);
+      _itemsHeights.add(4);
     }
   }
-  return _dividersIndexes;
+  return _itemsHeights;
 }
 
 @override
@@ -365,14 +366,11 @@ Widget build(BuildContext context) {
             'Select Item',
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                      .of(context)
-                      .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
           items: _addDividersAfterItems(items),
-          customItemsIndexes: _getDividersIndexes(),
-          customItemsHeight: 4,
+          customItemsHeights: _getCustomItemsHeights(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
@@ -380,8 +378,8 @@ Widget build(BuildContext context) {
             });
           },
           buttonHeight: 40,
+          dropdownMaxHeight: 200,
           buttonWidth: 140,
-          itemHeight: 40,
           itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
         ),
       ),
@@ -620,8 +618,11 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               size: 46,
               color: Colors.red,
             ),
-            customItemsIndexes: const [3],
-            customItemsHeight: 8,
+            customItemsHeights: [
+              ...List<double>.filled(MenuItems.firstItems.length, 48),
+              8,
+              ...List<double>.filled(MenuItems.secondItems.length, 48),
+            ],
             items: [
               ...MenuItems.firstItems.map(
                         (item) =>
@@ -751,23 +752,24 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               ),
             ),
             openWithLongPress: true,
-            customItemsIndexes: const [3],
-            customItemsHeight: 8,
+            customItemsHeights: [
+              ...List<double>.filled(MenuItems.firstItems.length, 48),
+              8,
+              ...List<double>.filled(MenuItems.secondItems.length, 48),
+            ],
             items: [
               ...MenuItems.firstItems.map(
-                        (item) =>
-                        DropdownMenuItem<MenuItem>(
-                          value: item,
-                          child: MenuItems.buildItem(item),
-                        ),
+                        (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
+                ),
               ),
               const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                        (item) =>
-                        DropdownMenuItem<MenuItem>(
-                          value: item,
-                          child: MenuItems.buildItem(item),
-                        ),
+                        (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
+                ),
               ),
             ],
             onChanged: (value) {
