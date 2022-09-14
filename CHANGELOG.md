@@ -1,3 +1,7 @@
+## 1.8.1
+* Add dropdownScrollPadding parameter, it add padding to the dropdown menu including the scrollbar.
+* Update README.
+
 ## 1.8.0
 ### Breaking Changes:
 * Remove customItemsIndexes and customItemsHeight parameters.

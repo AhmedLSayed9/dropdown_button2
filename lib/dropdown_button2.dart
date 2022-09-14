@@ -230,6 +230,7 @@ class _DropdownMenu<T> extends StatefulWidget {
     required this.itemHeight,
     this.dropdownDecoration,
     this.dropdownPadding,
+    this.dropdownScrollPadding,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
@@ -248,6 +249,7 @@ class _DropdownMenu<T> extends StatefulWidget {
   final double itemHeight;
   final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
+  final EdgeInsetsGeometry? dropdownScrollPadding;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
@@ -385,29 +387,32 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                   if (widget.searchInnerWidget != null)
                     widget.searchInnerWidget!,
                   Flexible(
-                    child: ScrollConfiguration(
-                      // Dropdown menus should never overscroll or display an overscroll indicator.
-                      // Scrollbars are built-in below.
-                      // Platform must use Theme and ScrollPhysics must be Clamping.
-                      behavior: ScrollConfiguration.of(context).copyWith(
-                        scrollbars: false,
-                        overscroll: false,
-                        physics: const ClampingScrollPhysics(),
-                        platform: Theme.of(context).platform,
-                      ),
-                      child: PrimaryScrollController(
-                        controller: widget.route.scrollController!,
-                        child: Scrollbar(
-                          radius: widget.scrollbarRadius,
-                          thickness: widget.scrollbarThickness,
-                          thumbVisibility: widget.scrollbarAlwaysShow,
-                          child: ListView(
-                            // Ensure this always inherits the PrimaryScrollController
-                            primary: true,
-                            padding:
-                                widget.dropdownPadding ?? kMaterialListPadding,
-                            shrinkWrap: true,
-                            children: _children,
+                    child: Padding(
+                      padding: widget.dropdownScrollPadding ?? EdgeInsets.zero,
+                      child: ScrollConfiguration(
+                        // Dropdown menus should never overscroll or display an overscroll indicator.
+                        // Scrollbars are built-in below.
+                        // Platform must use Theme and ScrollPhysics must be Clamping.
+                        behavior: ScrollConfiguration.of(context).copyWith(
+                          scrollbars: false,
+                          overscroll: false,
+                          physics: const ClampingScrollPhysics(),
+                          platform: Theme.of(context).platform,
+                        ),
+                        child: PrimaryScrollController(
+                          controller: widget.route.scrollController!,
+                          child: Scrollbar(
+                            radius: widget.scrollbarRadius,
+                            thickness: widget.scrollbarThickness,
+                            thumbVisibility: widget.scrollbarAlwaysShow,
+                            child: ListView(
+                              // Ensure this always inherits the PrimaryScrollController
+                              primary: true,
+                              padding: widget.dropdownPadding ??
+                                  kMaterialListPadding,
+                              shrinkWrap: true,
+                              children: _children,
+                            ),
                           ),
                         ),
                       ),
@@ -547,6 +552,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     this.menuMaxHeight,
     this.dropdownDecoration,
     this.dropdownPadding,
+    this.dropdownScrollPadding,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
@@ -574,6 +580,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final double? menuMaxHeight;
   final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
+  final EdgeInsetsGeometry? dropdownScrollPadding;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
@@ -620,6 +627,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               enableFeedback: enableFeedback,
               dropdownDecoration: dropdownDecoration,
               dropdownPadding: dropdownPadding,
+              dropdownScrollPadding: dropdownScrollPadding,
               menuMaxHeight: menuMaxHeight,
               itemHeight: itemHeight,
               itemWidth: itemWidth,
@@ -755,6 +763,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     required this.enableFeedback,
     this.dropdownDecoration,
     this.dropdownPadding,
+    this.dropdownScrollPadding,
     this.menuMaxHeight,
     required this.itemHeight,
     this.itemWidth,
@@ -780,6 +789,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final bool enableFeedback;
   final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
+  final EdgeInsetsGeometry? dropdownScrollPadding;
   final double? menuMaxHeight;
   final double itemHeight;
   final double? itemWidth;
@@ -819,6 +829,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
       itemHeight: itemHeight,
       dropdownDecoration: dropdownDecoration,
       dropdownPadding: dropdownPadding,
+      dropdownScrollPadding: dropdownScrollPadding,
       scrollbarRadius: scrollbarRadius,
       scrollbarThickness: scrollbarThickness,
       scrollbarAlwaysShow: scrollbarAlwaysShow,
@@ -1027,6 +1038,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.itemPadding,
     this.dropdownWidth,
     this.dropdownPadding,
+    this.dropdownScrollPadding,
     this.dropdownDecoration,
     this.selectedItemHighlightColor,
     this.scrollbarRadius,
@@ -1102,6 +1114,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.itemPadding,
     this.dropdownWidth,
     this.dropdownPadding,
+    this.dropdownScrollPadding,
     this.dropdownDecoration,
     this.selectedItemHighlightColor,
     this.scrollbarRadius,
@@ -1159,6 +1172,9 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// The inner padding of the dropdown menu
   final EdgeInsetsGeometry? dropdownPadding;
+
+  /// The inner padding of the dropdown menu including the scrollbar
+  final EdgeInsetsGeometry? dropdownScrollPadding;
 
   /// The decoration of the dropdown menu
   final BoxDecoration? dropdownDecoration;
@@ -1591,6 +1607,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       menuMaxHeight: widget.dropdownMaxHeight,
       dropdownDecoration: widget.dropdownDecoration,
       dropdownPadding: widget.dropdownPadding,
+      dropdownScrollPadding: widget.dropdownScrollPadding,
       scrollbarRadius: widget.scrollbarRadius,
       scrollbarThickness: widget.scrollbarThickness,
       scrollbarAlwaysShow: widget.scrollbarAlwaysShow,
@@ -1895,6 +1912,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     EdgeInsetsGeometry? itemPadding,
     double? dropdownWidth,
     EdgeInsetsGeometry? dropdownPadding,
+    EdgeInsetsGeometry? dropdownScrollPadding,
     BoxDecoration? dropdownDecoration,
     Color? selectedItemHighlightColor,
     Radius? scrollbarRadius,
@@ -2005,6 +2023,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         itemPadding: itemPadding,
                         dropdownWidth: dropdownWidth,
                         dropdownPadding: dropdownPadding,
+                        dropdownScrollPadding: dropdownScrollPadding,
                         dropdownDecoration: dropdownDecoration,
                         selectedItemHighlightColor: selectedItemHighlightColor,
                         scrollbarRadius: scrollbarRadius,

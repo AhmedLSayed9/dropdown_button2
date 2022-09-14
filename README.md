@@ -19,6 +19,7 @@ customize to your needs.
 
 - [Features](#features)
 - [Options](#options)
+- [Installation](#installation)
 - [Usage and Examples](#usage-and-examples)
   - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
   - [2. DropdownButton2 with some styling and customization](#2-dropdownbutton2-with-some-styling-and-customization)
@@ -84,6 +85,7 @@ customize to your needs.
 [dropdownMaxHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownMaxHeight.html) | The maximum height of the dropdown menu | double | No
 [dropdownWidth](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownWidth.html) | The width of the dropdown menu | double | No
 [dropdownPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownPadding.html) | The inner padding of the dropdown menu | EdgeInsetsGeometry | No
+[dropdownScrollPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownScrollPadding.html) | The inner padding of the dropdown menu including the scrollbar | EdgeInsetsGeometry | No
 [dropdownDecoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownDecoration.html) | The decoration of the dropdown menu | BoxDecoration | No
 [dropdownElevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownElevation.html) | The elevation of the dropdown menu | int | No
 [selectedItemHighlightColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemHighlightColor.html) | The highlight color of the current selected item | Color | No
@@ -123,7 +125,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.8.0
+  dropdown_button2: ^1.8.1
 
 ```
 
