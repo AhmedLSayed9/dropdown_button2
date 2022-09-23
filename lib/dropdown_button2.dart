@@ -6,11 +6,12 @@
 */
 
 import 'dart:math' as math;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+
+part 'src/utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
 const double _kMenuItemHeight = kMinInteractiveDimension;
@@ -74,7 +75,7 @@ class _DropdownMenuPainter extends CustomPainter {
     );
 
     final Tween<double> bottom = Tween<double>(
-      begin: clampDouble(top.begin! + itemHeight,
+      begin: _clampDouble(top.begin! + itemHeight,
           math.min(itemHeight, size.height), size.height),
       end: size.height,
     );
@@ -179,8 +180,8 @@ class _DropdownMenuItemButtonState<T>
         widget.route.items[widget.itemIndex].item!;
     final double unit = 0.5 / (widget.route.items.length + 1.5);
     final double start =
-        clampDouble(0.5 + (widget.itemIndex + 1) * unit, 0.0, 1.0);
-    final double end = clampDouble(start + 1.5 * unit, 0.0, 1.0);
+        _clampDouble(0.5 + (widget.itemIndex + 1) * unit, 0.0, 1.0);
+    final double end = _clampDouble(start + 1.5 * unit, 0.0, 1.0);
     final CurvedAnimation opacity = CurvedAnimation(
         parent: widget.route.animation!, curve: Interval(start, end));
 
@@ -486,11 +487,11 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     final double left;
     switch (textDirection!) {
       case TextDirection.rtl:
-        left = clampDouble(buttonRect.right + offset.dx, 0.0, size.width) -
+        left = _clampDouble(buttonRect.right + offset.dx, 0.0, size.width) -
             childSize.width;
         break;
       case TextDirection.ltr:
-        left = clampDouble(
+        left = _clampDouble(
             buttonRect.left + offset.dx, 0.0, size.width - childSize.width);
         break;
     }

@@ -1,3 +1,6 @@
+## 1.8.2
+* define clampDouble within DropdownButton2 library.
+
 ## 1.8.1
 * Add dropdownScrollPadding parameter, it add padding to the dropdown menu including the scrollbar.
 * Update README.
