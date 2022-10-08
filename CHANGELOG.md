@@ -1,3 +1,6 @@
+## 1.8.4
+* Fix Dropdown menu dx offset range, fixes #86.
+
 ## 1.8.3
 * Fix the ability to increase dy offset for some cases, fixes #85.
 
