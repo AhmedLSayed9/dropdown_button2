@@ -684,7 +684,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     );
 
     // If the button is placed on the bottom or top of the screen, its top or
-    // bottom may be less than [_kMenuItemHeight] from the edge of the screen.
+    // bottom may be less than itemHeight from the edge of the screen.
     // In this case, we want to change the menu limits to align with the top
     // or bottom edge of the button.
     final double topLimit = math.min(itemHeight, buttonTop);
@@ -714,12 +714,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     }
 
     if (menuBottom > bottomLimit) {
-      menuBottom = math.max(buttonBottom, bottomLimit);
-      menuTop = menuBottom - menuHeight;
-    }
-
-    if (menuBottom - itemHeights[selectedIndex] / 2.0 <
-        buttonBottom - buttonRect.height / 2.0) {
       menuBottom = math.max(buttonBottom, bottomLimit);
       menuTop = menuBottom - menuHeight;
     }

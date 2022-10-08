@@ -1,3 +1,6 @@
+## 1.8.3
+* Fix the ability to increase dy offset for some cases, fixes #85.
+
 ## 1.8.2
 * define clampDouble within DropdownButton2 library.
 
