@@ -1,3 +1,6 @@
+## 1.8.5
+* Fix typo in clampDouble method call, fixes #88.
+
 ## 1.8.4
 * Fix Dropdown menu dx offset range, fixes #86.
 
