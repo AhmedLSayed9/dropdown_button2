@@ -1060,7 +1060,11 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonPadding,
     this.buttonDecoration,
     this.buttonElevation,
+    this.buttonSplashColor,
+    this.buttonHighlightColor,
     this.itemPadding,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.dropdownWidth,
     this.dropdownPadding,
     this.dropdownScrollPadding,
@@ -1070,8 +1074,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     this.offset,
-    this.itemSplashColor,
-    this.itemHighlightColor,
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1138,7 +1140,11 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonPadding,
     this.buttonDecoration,
     this.buttonElevation,
+    this.buttonSplashColor,
+    this.buttonHighlightColor,
     this.itemPadding,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.dropdownWidth,
     this.dropdownPadding,
     this.dropdownScrollPadding,
@@ -1148,8 +1154,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     this.offset,
-    this.itemSplashColor,
-    this.itemHighlightColor,
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1193,8 +1197,20 @@ class DropdownButton2<T> extends StatefulWidget {
   /// The elevation of the Button
   final int? buttonElevation;
 
+  /// The splash color of the button's InkWell
+  final Color? buttonSplashColor;
+
+  /// The highlight color of the button's InkWell
+  final Color? buttonHighlightColor;
+
   /// The padding of menu items
   final EdgeInsetsGeometry? itemPadding;
+
+  /// The splash color of the item's InkWell
+  final Color? itemSplashColor;
+
+  /// The highlight color of the item's InkWell
+  final Color? itemHighlightColor;
 
   /// The width of the dropdown menu
   final double? dropdownWidth;
@@ -1222,12 +1238,6 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// Changes the position of the dropdown menu
   final Offset? offset;
-
-  /// The splash color of the item's InkWell
-  final Color? itemSplashColor;
-
-  /// The highlight color of the item's InkWell
-  final Color? itemHighlightColor;
 
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
@@ -1879,6 +1889,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           focusColor: widget.buttonDecoration?.color ??
               widget.focusColor ??
               Theme.of(context).focusColor,
+          splashColor: widget.buttonSplashColor,
+          highlightColor: widget.buttonHighlightColor,
           enableFeedback: false,
           child: result,
           borderRadius: widget.buttonDecoration?.borderRadius
@@ -1946,7 +1958,11 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     EdgeInsetsGeometry? buttonPadding,
     BoxDecoration? buttonDecoration,
     int? buttonElevation,
+    Color? buttonSplashColor,
+    Color? buttonHighlightColor,
     EdgeInsetsGeometry? itemPadding,
+    Color? itemSplashColor,
+    Color? itemHighlightColor,
     double? dropdownWidth,
     EdgeInsetsGeometry? dropdownPadding,
     EdgeInsetsGeometry? dropdownScrollPadding,
@@ -1956,8 +1972,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     double? scrollbarThickness,
     bool? scrollbarAlwaysShow,
     Offset? offset,
-    Color? itemSplashColor,
-    Color? itemHighlightColor,
     Widget? customButton,
     List<double>? customItemsHeights,
     bool openWithLongPress = false,
@@ -2059,7 +2073,11 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         buttonPadding: buttonPadding,
                         buttonDecoration: buttonDecoration,
                         buttonElevation: buttonElevation,
+                        buttonSplashColor: buttonSplashColor,
+                        buttonHighlightColor: buttonHighlightColor,
                         itemPadding: itemPadding,
+                        itemSplashColor: itemSplashColor,
+                        itemHighlightColor: itemHighlightColor,
                         dropdownWidth: dropdownWidth,
                         dropdownPadding: dropdownPadding,
                         dropdownScrollPadding: dropdownScrollPadding,
@@ -2069,8 +2087,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         scrollbarThickness: scrollbarThickness,
                         scrollbarAlwaysShow: scrollbarAlwaysShow,
                         offset: offset,
-                        itemSplashColor: itemSplashColor,
-                        itemHighlightColor: itemHighlightColor,
                         customButton: customButton,
                         customItemsHeights: customItemsHeights,
                         openWithLongPress: openWithLongPress,

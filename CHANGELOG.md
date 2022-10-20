@@ -1,3 +1,7 @@
+## 1.8.7
+* Add buttonSplashColor parameter, It changes the splash color of the button's InkWell. close #79, #89.
+* Add buttonHighlightColor parameter, It changes the highlight color of the button's InkWell. close #79, #89.
+
 ## 1.8.6
 * Add itemSplashColor parameter, It changes the splash color of the item's InkWell. close #79, #89.
 * Add itemHighlightColor parameter, It changes the highlight color of the item's InkWell. close #79, #89.
