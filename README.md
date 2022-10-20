@@ -75,6 +75,8 @@ customize to your needs.
 [buttonPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonPadding.html) | The inner padding of the Button | EdgeInsetsGeometry | No
 [buttonDecoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonDecoration.html) | The decoration of the Button | BoxDecoration | No
 [buttonElevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonElevation.html) | The elevation of the Button | int | No
+[buttonSplashColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonSplashColor.html) | The splash color of the button's InkWell | Color | No
+[buttonHighlightColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonHighlightColor.html) | The highlight color of the button's InkWell | Color | No
 [icon](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/icon.html) | The suffix icon of the dropdown button | Widget | No
 [iconOnClick](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconOnClick.html) | Shows different icon when dropdown menu open | Widget | No
 [iconSize](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconSize.html) | The size of the icon | double | No
@@ -82,6 +84,8 @@ customize to your needs.
 [iconDisabledColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconDisabledColor.html) | The color of the icon if the button is disabled | Color | No
 [itemHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/itemHeight.html) | The height of menu items | double | No
 [itemPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/itemPadding.html) | The padding of menu items | EdgeInsetsGeometry | No
+[itemSplashColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/itemSplashColor.html) | The splash color of the item's InkWell | Color | No
+[itemHighlightColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/itemHighlightColor.html) | The highlight color of the item's InkWell | Color | No
 [dropdownMaxHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownMaxHeight.html) | The maximum height of the dropdown menu | double | No
 [dropdownWidth](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownWidth.html) | The width of the dropdown menu | double | No
 [dropdownPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownPadding.html) | The inner padding of the dropdown menu | EdgeInsetsGeometry | No
@@ -125,7 +129,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.8.7
+  dropdown_button2: ^1.8.8
 
 ```
 

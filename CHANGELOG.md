@@ -1,3 +1,6 @@
+## 1.8.8
+* Update README.
+
 ## 1.8.7
 * Add buttonSplashColor parameter, It changes the splash color of the button's InkWell. close #79, #89.
 * Add buttonHighlightColor parameter, It changes the highlight color of the button's InkWell. close #79, #89.
