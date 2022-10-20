@@ -107,8 +107,9 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
     required this.constraints,
     required this.itemIndex,
     required this.enableFeedback,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.customItemsHeights,
-    this.customItemsHeight,
   });
 
   final _DropdownRoute<T> route;
@@ -117,8 +118,9 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   final BoxConstraints constraints;
   final int itemIndex;
   final bool enableFeedback;
+  final Color? itemSplashColor;
+  final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
-  final double? customItemsHeight;
 
   @override
   _DropdownMenuItemButtonState<T> createState() =>
@@ -202,6 +204,8 @@ class _DropdownMenuItemButtonState<T>
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
+        splashColor: widget.itemSplashColor,
+        highlightColor: widget.itemHighlightColor,
         child: Container(
           color:
               _isSelectedItem ? widget.route.selectedItemHighlightColor : null,
@@ -236,6 +240,8 @@ class _DropdownMenu<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     required this.offset,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
@@ -255,6 +261,8 @@ class _DropdownMenu<T> extends StatefulWidget {
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
   final Offset offset;
+  final Color? itemSplashColor;
+  final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
@@ -299,6 +307,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
+            itemSplashColor: widget.itemSplashColor,
+            itemHighlightColor: widget.itemHighlightColor,
             customItemsHeights: widget.customItemsHeights,
           ),
       ];
@@ -327,6 +337,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
+            itemSplashColor: widget.itemSplashColor,
+            itemHighlightColor: widget.itemHighlightColor,
             customItemsHeights: widget.customItemsHeights,
           ),
     ];
@@ -565,6 +577,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     this.scrollbarAlwaysShow,
     required this.offset,
     required this.showAboveButton,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
@@ -593,6 +607,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool? scrollbarAlwaysShow;
   final Offset offset;
   final bool showAboveButton;
+  final Color? itemSplashColor;
+  final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
@@ -642,6 +658,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               scrollbarThickness: scrollbarThickness,
               scrollbarAlwaysShow: scrollbarAlwaysShow,
               offset: offset,
+              itemSplashColor: itemSplashColor,
+              itemHighlightColor: itemHighlightColor,
               customItemsHeights: customItemsHeights,
               searchController: searchController,
               searchInnerWidget: searchInnerWidget,
@@ -772,6 +790,8 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     required this.offset,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
@@ -798,6 +818,8 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
   final Offset offset;
+  final Color? itemSplashColor;
+  final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
@@ -835,6 +857,8 @@ class _DropdownRoutePage<T> extends StatelessWidget {
       scrollbarThickness: scrollbarThickness,
       scrollbarAlwaysShow: scrollbarAlwaysShow,
       offset: offset,
+      itemSplashColor: itemSplashColor,
+      itemHighlightColor: itemHighlightColor,
       customItemsHeights: customItemsHeights,
       searchController: searchController,
       searchInnerWidget: searchInnerWidget,
@@ -1046,6 +1070,8 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     this.offset,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1122,6 +1148,8 @@ class DropdownButton2<T> extends StatefulWidget {
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
     this.offset,
+    this.itemSplashColor,
+    this.itemHighlightColor,
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1194,6 +1222,12 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// Changes the position of the dropdown menu
   final Offset? offset;
+
+  /// The splash color of the item's InkWell
+  final Color? itemSplashColor;
+
+  /// The highlight color of the item's InkWell
+  final Color? itemHighlightColor;
 
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
@@ -1614,6 +1648,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       scrollbarAlwaysShow: widget.scrollbarAlwaysShow,
       offset: widget.offset ?? const Offset(0, 0),
       showAboveButton: widget.dropdownOverButton,
+      itemSplashColor: widget.itemSplashColor,
+      itemHighlightColor: widget.itemHighlightColor,
       customItemsHeights: widget.customItemsHeights,
       searchController: widget.searchController,
       searchInnerWidget: widget.searchInnerWidget,
@@ -1920,6 +1956,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     double? scrollbarThickness,
     bool? scrollbarAlwaysShow,
     Offset? offset,
+    Color? itemSplashColor,
+    Color? itemHighlightColor,
     Widget? customButton,
     List<double>? customItemsHeights,
     bool openWithLongPress = false,
@@ -2031,6 +2069,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         scrollbarThickness: scrollbarThickness,
                         scrollbarAlwaysShow: scrollbarAlwaysShow,
                         offset: offset,
+                        itemSplashColor: itemSplashColor,
+                        itemHighlightColor: itemHighlightColor,
                         customButton: customButton,
                         customItemsHeights: customItemsHeights,
                         openWithLongPress: openWithLongPress,

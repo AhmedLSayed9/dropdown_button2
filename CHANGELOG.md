@@ -1,3 +1,7 @@
+## 1.8.6
+* Add itemSplashColor parameter, It changes the splash color of the item's InkWell. close #79, #89.
+* Add itemHighlightColor parameter, It changes the highlight color of the item's InkWell. close #79, #89.
+
 ## 1.8.5
 * Fix typo in clampDouble method call, fixes #88.
 
