@@ -109,6 +109,7 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
     required this.enableFeedback,
     this.itemSplashColor,
     this.itemHighlightColor,
+    this.itemOverlayColor,
     this.customItemsHeights,
   });
 
@@ -120,6 +121,7 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   final bool enableFeedback;
   final Color? itemSplashColor;
   final Color? itemHighlightColor;
+  final MaterialStateColor? itemOverlayColor;
   final List<double>? customItemsHeights;
 
   @override
@@ -206,6 +208,7 @@ class _DropdownMenuItemButtonState<T>
         onFocusChange: _handleFocusChange,
         splashColor: widget.itemSplashColor,
         highlightColor: widget.itemHighlightColor,
+        overlayColor: widget.itemOverlayColor,
         child: Container(
           color:
               _isSelectedItem ? widget.route.selectedItemHighlightColor : null,
@@ -1062,6 +1065,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonElevation,
     this.buttonSplashColor,
     this.buttonHighlightColor,
+    this.buttonOverlayColor,
     this.itemPadding,
     this.itemSplashColor,
     this.itemHighlightColor,
@@ -1142,6 +1146,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonElevation,
     this.buttonSplashColor,
     this.buttonHighlightColor,
+    this.buttonOverlayColor,
     this.itemPadding,
     this.itemSplashColor,
     this.itemHighlightColor,
@@ -1202,6 +1207,9 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// The highlight color of the button's InkWell
   final Color? buttonHighlightColor;
+
+  //The overlay color of the button's Inkwell
+  final MaterialStateColor? buttonOverlayColor;
 
   /// The padding of menu items
   final EdgeInsetsGeometry? itemPadding;
@@ -1891,6 +1899,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
               Theme.of(context).focusColor,
           splashColor: widget.buttonSplashColor,
           highlightColor: widget.buttonHighlightColor,
+          overlayColor: widget.buttonOverlayColor,
           enableFeedback: false,
           child: result,
           borderRadius: widget.buttonDecoration?.borderRadius
