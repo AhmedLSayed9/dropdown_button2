@@ -77,6 +77,7 @@ customize to your needs.
 [buttonElevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonElevation.html) | The elevation of the Button | int | No
 [buttonSplashColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonSplashColor.html) | The splash color of the button's InkWell | Color | No
 [buttonHighlightColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonHighlightColor.html) | The highlight color of the button's InkWell | Color | No
+[buttonOverlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonOverlayColor.html) | The overlay color of the button's InkWell | MaterialStateProperty<Color?> | No
 [icon](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/icon.html) | The suffix icon of the dropdown button | Widget | No
 [iconOnClick](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconOnClick.html) | Shows different icon when dropdown menu open | Widget | No
 [iconSize](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconSize.html) | The size of the icon | double | No
@@ -129,7 +130,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.8.8
+  dropdown_button2: ^1.8.9
 
 ```
 

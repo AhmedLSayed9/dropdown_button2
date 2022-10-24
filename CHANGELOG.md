@@ -1,3 +1,7 @@
+## 1.8.9
+* Add buttonOverlayColor parameter, It changes the overlay color of the button's InkWell.
+* Update README.
+
 ## 1.8.8
 * Update README.
 
