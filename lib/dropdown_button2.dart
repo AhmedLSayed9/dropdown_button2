@@ -109,7 +109,6 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
     required this.enableFeedback,
     this.itemSplashColor,
     this.itemHighlightColor,
-    this.itemOverlayColor,
     this.customItemsHeights,
   });
 
@@ -121,7 +120,6 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   final bool enableFeedback;
   final Color? itemSplashColor;
   final Color? itemHighlightColor;
-  final MaterialStateColor? itemOverlayColor;
   final List<double>? customItemsHeights;
 
   @override
@@ -208,7 +206,6 @@ class _DropdownMenuItemButtonState<T>
         onFocusChange: _handleFocusChange,
         splashColor: widget.itemSplashColor,
         highlightColor: widget.itemHighlightColor,
-        overlayColor: widget.itemOverlayColor,
         child: Container(
           color:
               _isSelectedItem ? widget.route.selectedItemHighlightColor : null,
@@ -1208,8 +1205,8 @@ class DropdownButton2<T> extends StatefulWidget {
   /// The highlight color of the button's InkWell
   final Color? buttonHighlightColor;
 
-  //The overlay color of the button's Inkwell
-  final MaterialStateColor? buttonOverlayColor;
+  /// The overlay color of the button's Inkwell
+  final MaterialStateProperty<Color?>? buttonOverlayColor;
 
   /// The padding of menu items
   final EdgeInsetsGeometry? itemPadding;
@@ -1969,6 +1966,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     int? buttonElevation,
     Color? buttonSplashColor,
     Color? buttonHighlightColor,
+    MaterialStateProperty<Color?>? buttonOverlayColor,
     EdgeInsetsGeometry? itemPadding,
     Color? itemSplashColor,
     Color? itemHighlightColor,
@@ -2084,6 +2082,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         buttonElevation: buttonElevation,
                         buttonSplashColor: buttonSplashColor,
                         buttonHighlightColor: buttonHighlightColor,
+                        buttonOverlayColor: buttonOverlayColor,
                         itemPadding: itemPadding,
                         itemSplashColor: itemSplashColor,
                         itemHighlightColor: itemHighlightColor,
