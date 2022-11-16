@@ -1609,6 +1609,14 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     return menuMargin.resolve(textDirection).inflateRect(itemRect);
   }
 
+  double _getMenuHorizontalPadding() {
+    final menuHorizontalPadding =
+        (widget.itemPadding?.horizontal ?? _kMenuItemPadding.horizontal) +
+            (widget.dropdownPadding?.horizontal ?? 0.0) +
+            (widget.dropdownScrollPadding?.horizontal ?? 0.0);
+    return menuHorizontalPadding / 2;
+  }
+
   void _handleTap() {
     final TextDirection? textDirection = Directionality.maybeOf(context);
 
@@ -1794,14 +1802,24 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (items.isEmpty) {
       innerItemsWidget = const SizedBox.shrink();
     } else {
-      innerItemsWidget = IndexedStack(
-        index: _selectedIndex ?? hintIndex,
-        alignment: widget.alignment,
-        children: widget.isDense
-            ? items
-            : items.map((Widget item) {
-                return SizedBox(height: widget.itemHeight, child: item);
-              }).toList(),
+      innerItemsWidget = Padding(
+        //When buttonWidth & dropdownWidth is null, their width will be calculated
+        //from the maximum width of menu items or the hint text (width of IndexedStack).
+        //We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
+        padding: EdgeInsets.symmetric(
+          horizontal: widget.buttonWidth == null && widget.dropdownWidth == null
+              ? _getMenuHorizontalPadding()
+              : 0.0,
+        ),
+        child: IndexedStack(
+          index: _selectedIndex ?? hintIndex,
+          alignment: widget.alignment,
+          children: widget.isDense
+              ? items
+              : items.map((Widget item) {
+                  return SizedBox(height: widget.itemHeight, child: item);
+                }).toList(),
+        ),
       );
     }
 
