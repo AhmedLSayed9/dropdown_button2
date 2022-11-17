@@ -640,7 +640,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
             return _DropdownRoutePage<T>(
               route: this,
               constraints: constraints,
-              items: items,
               padding: padding,
               buttonRect: rect!,
               selectedIndex: selectedIndex,
@@ -772,7 +771,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     super.key,
     required this.route,
     required this.constraints,
-    this.items,
     required this.padding,
     required this.buttonRect,
     required this.selectedIndex,
@@ -800,7 +798,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
 
   final _DropdownRoute<T> route;
   final BoxConstraints constraints;
-  final List<_MenuItem<T>>? items;
   final EdgeInsetsGeometry padding;
   final Rect buttonRect;
   final int selectedIndex;
