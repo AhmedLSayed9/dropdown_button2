@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+part 'src/enums.dart';
 part 'src/utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
@@ -445,6 +446,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
   _DropdownMenuRouteLayout({
     required this.buttonRect,
     required this.route,
+    required this.dropdownDirection,
     required this.textDirection,
     required this.itemHeight,
     this.itemWidth,
@@ -453,6 +455,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
 
   final Rect buttonRect;
   final _DropdownRoute<T> route;
+  final DropdownDirection dropdownDirection;
   final TextDirection? textDirection;
   final double itemHeight;
   final double? itemWidth;
@@ -497,17 +500,36 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     }());
     assert(textDirection != null);
     final double left;
-    switch (textDirection!) {
-      case TextDirection.rtl:
+
+    switch (dropdownDirection) {
+      case DropdownDirection.textDirection:
+        switch (textDirection!) {
+          case TextDirection.rtl:
+            left = _clampDouble(
+              buttonRect.right - childSize.width + offset.dx,
+              0.0,
+              size.width - childSize.width,
+            );
+            break;
+          case TextDirection.ltr:
+            left = _clampDouble(
+              buttonRect.left + offset.dx,
+              0.0,
+              size.width - childSize.width,
+            );
+            break;
+        }
+        break;
+      case DropdownDirection.right:
         left = _clampDouble(
-          buttonRect.right - childSize.width + offset.dx,
+          buttonRect.left + offset.dx,
           0.0,
           size.width - childSize.width,
         );
         break;
-      case TextDirection.ltr:
+      case DropdownDirection.left:
         left = _clampDouble(
-          buttonRect.left + offset.dx,
+          buttonRect.right - childSize.width + offset.dx,
           0.0,
           size.width - childSize.width,
         );
@@ -572,6 +594,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     this.dropdownDecoration,
     this.dropdownPadding,
     this.dropdownScrollPadding,
+    required this.dropdownDirection,
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
@@ -602,6 +625,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
   final EdgeInsetsGeometry? dropdownScrollPadding;
+  final DropdownDirection dropdownDirection;
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
@@ -650,6 +674,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               dropdownDecoration: dropdownDecoration,
               dropdownPadding: dropdownPadding,
               dropdownScrollPadding: dropdownScrollPadding,
+              dropdownDirection: dropdownDirection,
               menuMaxHeight: menuMaxHeight,
               itemHeight: itemHeight,
               itemWidth: itemWidth,
@@ -781,6 +806,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     this.dropdownDecoration,
     this.dropdownPadding,
     this.dropdownScrollPadding,
+    required this.dropdownDirection,
     this.menuMaxHeight,
     required this.itemHeight,
     this.itemWidth,
@@ -808,6 +834,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final BoxDecoration? dropdownDecoration;
   final EdgeInsetsGeometry? dropdownPadding;
   final EdgeInsetsGeometry? dropdownScrollPadding;
+  final DropdownDirection dropdownDirection;
   final double? menuMaxHeight;
   final double itemHeight;
   final double? itemWidth;
@@ -874,6 +901,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
             delegate: _DropdownMenuRouteLayout<T>(
               buttonRect: buttonRect,
               route: route,
+              dropdownDirection: dropdownDirection,
               textDirection: textDirection,
               itemHeight: itemHeight,
               itemWidth: itemWidth,
@@ -1067,6 +1095,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownPadding,
     this.dropdownScrollPadding,
     this.dropdownDecoration,
+    this.dropdownDirection = DropdownDirection.textDirection,
     this.selectedItemHighlightColor,
     this.scrollbarRadius,
     this.scrollbarThickness,
@@ -1148,6 +1177,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownPadding,
     this.dropdownScrollPadding,
     this.dropdownDecoration,
+    this.dropdownDirection = DropdownDirection.textDirection,
     this.selectedItemHighlightColor,
     this.scrollbarRadius,
     this.scrollbarThickness,
@@ -1225,6 +1255,11 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// The decoration of the dropdown menu
   final BoxDecoration? dropdownDecoration;
+
+  /// The direction of the dropdown menu in relation to the button.
+  ///
+  /// Default is [DropdownDirection.textDirection]
+  final DropdownDirection dropdownDirection;
 
   /// The highlight color of the current selected item
   final Color? selectedItemHighlightColor;
@@ -1660,9 +1695,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       itemHeight: widget.itemHeight,
       itemWidth: widget.dropdownWidth,
       menuMaxHeight: widget.dropdownMaxHeight,
-      dropdownDecoration: widget.dropdownDecoration,
       dropdownPadding: widget.dropdownPadding,
       dropdownScrollPadding: widget.dropdownScrollPadding,
+      dropdownDecoration: widget.dropdownDecoration,
+      dropdownDirection: widget.dropdownDirection,
       scrollbarRadius: widget.scrollbarRadius,
       scrollbarThickness: widget.scrollbarThickness,
       scrollbarAlwaysShow: widget.scrollbarAlwaysShow,
@@ -1989,6 +2025,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     EdgeInsetsGeometry? dropdownPadding,
     EdgeInsetsGeometry? dropdownScrollPadding,
     BoxDecoration? dropdownDecoration,
+    DropdownDirection dropdownDirection = DropdownDirection.textDirection,
     Color? selectedItemHighlightColor,
     Radius? scrollbarRadius,
     double? scrollbarThickness,
@@ -2105,6 +2142,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         dropdownPadding: dropdownPadding,
                         dropdownScrollPadding: dropdownScrollPadding,
                         dropdownDecoration: dropdownDecoration,
+                        dropdownDirection: dropdownDirection,
                         selectedItemHighlightColor: selectedItemHighlightColor,
                         scrollbarRadius: scrollbarRadius,
                         scrollbarThickness: scrollbarThickness,
