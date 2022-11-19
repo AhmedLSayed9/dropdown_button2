@@ -1,3 +1,9 @@
+## 1.9.0
+* Adapt to max items width when buttonWidth & dropdownWidth is null.
+* Prevent dropdownWidth to exceed max screen width.
+* Add dropdownDirection parameter, it controls the direction of the dropdown menu in relation to the button.
+* Update README.
+
 ## 1.8.9
 * Add buttonOverlayColor parameter, It changes the overlay color of the button's InkWell.
 * Update README.
