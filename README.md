@@ -92,6 +92,7 @@ customize to your needs.
 [dropdownPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownPadding.html) | The inner padding of the dropdown menu | EdgeInsetsGeometry | No
 [dropdownScrollPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownScrollPadding.html) | The inner padding of the dropdown menu including the scrollbar | EdgeInsetsGeometry | No
 [dropdownDecoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownDecoration.html) | The decoration of the dropdown menu | BoxDecoration | No
+[dropdownDirection](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownDirection.html) | The direction of the dropdown menu in relation to the button | DropdownDirection | No
 [dropdownElevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownElevation.html) | The elevation of the dropdown menu | int | No
 [selectedItemHighlightColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemHighlightColor.html) | The highlight color of the current selected item | Color | No
 [scrollbarRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/scrollbarRadius.html) | The radius of the scrollbar's corners | Radius | No
