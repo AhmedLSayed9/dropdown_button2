@@ -117,6 +117,7 @@ customize to your needs.
 
 | Option | Description | Type | Required |
 |---|---|---|:---:|
+[dropdownButtonKey](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/dropdownButtonKey.html) | The key of DropdownButton2 child widget | Key | No
 [decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/decoration.html) | The decoration of the dropdown button form field | InputDecoration | No
 [onSaved](https://api.flutter.dev/flutter/widgets/FormField/onSaved.html) | Called with the current selected item when the form is saved | FormFieldSetter<T> | No
 [validator](https://api.flutter.dev/flutter/widgets/FormField/validator.html) | Called to validates if the input is invalid and display error text | FormFieldValidator<T> | No
@@ -131,7 +132,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.9.0
+  dropdown_button2: ^1.9.1
 
 ```
 

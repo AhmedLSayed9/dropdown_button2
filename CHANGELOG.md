@@ -1,3 +1,7 @@
+## 1.9.1
+* Add dropdownButtonKey parameter to DropdownButtonFormField2, it allows accessing DropdownButton2State.
+* Update README.
+
 ## 1.9.0
 * Adapt to max items width when buttonWidth & dropdownWidth is null.
 * Prevent dropdownWidth to exceed max screen width.

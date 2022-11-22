@@ -1984,6 +1984,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   /// `autofocus`, and `decoration`  parameters must not be null.
   DropdownButtonFormField2({
     super.key,
+    this.dropdownButtonKey,
     required List<DropdownMenuItem<T>>? items,
     DropdownButtonBuilder? selectedItemBuilder,
     T? value,
@@ -2105,6 +2106,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     textAlignVertical: TextAlignVertical.bottom,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2._formField(
+                        key: dropdownButtonKey,
                         items: items,
                         selectedItemBuilder: selectedItemBuilder,
                         value: state.value,
@@ -2172,6 +2174,12 @@ class DropdownButtonFormField2<T> extends FormField<T> {
             );
           },
         );
+
+  /// The key of DropdownButton2 child widget
+  ///
+  /// This allows accessing DropdownButton2State.
+  /// It is useful for some cases, i.e: calling callTap() method to open the menu programmatically
+  final Key? dropdownButtonKey;
 
   /// {@macro flutter.material.dropdownButton.onChanged}
   final ValueChanged<T?>? onChanged;
