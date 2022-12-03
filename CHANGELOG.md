@@ -1,3 +1,6 @@
+## 1.9.2
+* Avoid overlapping menu items with keyboard when using searchable dropdown.
+
 ## 1.9.1
 * Add dropdownButtonKey parameter to DropdownButtonFormField2, it allows accessing DropdownButton2State.
 * Update README.

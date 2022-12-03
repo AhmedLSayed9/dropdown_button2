@@ -12,6 +12,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 part 'src/enums.dart';
+
 part 'src/utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
@@ -445,6 +446,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
   _DropdownMenuRouteLayout({
     required this.buttonRect,
+    required this.availableHeight,
     required this.route,
     required this.dropdownDirection,
     required this.textDirection,
@@ -454,6 +456,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
   });
 
   final Rect buttonRect;
+  final double availableHeight;
   final _DropdownRoute<T> route;
   final DropdownDirection dropdownDirection;
   final TextDirection? textDirection;
@@ -467,7 +470,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     // the view height. This ensures a tappable area outside of the simple menu
     // with which to dismiss the menu.
     //   -- https://material.io/design/components/menus.html#usage
-    double maxHeight = math.max(0.0, constraints.maxHeight - 2 * itemHeight);
+    double maxHeight = math.max(0.0, availableHeight - 2 * itemHeight);
     if (route.menuMaxHeight != null && route.menuMaxHeight! <= maxHeight) {
       maxHeight = route.menuMaxHeight!;
     }
@@ -485,7 +488,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
   @override
   Offset getPositionForChild(Size size, Size childSize) {
     final _MenuLimits menuLimits =
-        route.getMenuLimits(buttonRect, size.height, route.selectedIndex);
+        route.getMenuLimits(buttonRect, availableHeight, route.selectedIndex);
 
     assert(() {
       final Rect container = Offset.zero & size;
@@ -658,12 +661,18 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
       Animation<double> secondaryAnimation) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        //Exclude BottomInset from maxHeight to avoid overlapping menu items
+        //with keyboard when using searchable dropdown.
+        //This will ensure menu is drawn in the actual available height.
+        final actualConstraints = constraints.copyWith(
+            maxHeight: constraints.maxHeight -
+                MediaQuery.of(context).viewInsets.bottom);
         return ValueListenableBuilder<Rect?>(
           valueListenable: buttonRect,
           builder: (context, rect, _) {
             return _DropdownRoutePage<T>(
               route: this,
-              constraints: constraints,
+              constraints: actualConstraints,
               padding: padding,
               buttonRect: rect!,
               selectedIndex: selectedIndex,
@@ -900,6 +909,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
           return CustomSingleChildLayout(
             delegate: _DropdownMenuRouteLayout<T>(
               buttonRect: buttonRect,
+              availableHeight: constraints.maxHeight,
               route: route,
               dropdownDirection: dropdownDirection,
               textDirection: textDirection,
