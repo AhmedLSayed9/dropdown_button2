@@ -1114,6 +1114,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
+    this.openWithSecondaryTap = false,
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
     this.barrierDismissible = true,
@@ -1196,6 +1197,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
+    this.openWithSecondaryTap = false,
     this.dropdownOverButton = false,
     this.dropdownFullScreen = false,
     this.barrierDismissible = true,
@@ -1294,6 +1296,9 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// Opens the dropdown menu on long-pressing instead of tapping
   final bool openWithLongPress;
+
+  /// Opens the dropdown menu on second tap
+  final bool openWithSecondaryTap;
 
   /// Opens the dropdown menu over the button instead of below it
   final bool dropdownOverButton;
@@ -1945,24 +1950,29 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       button: true,
       child: Actions(
         actions: _actionMap,
-        child: InkWell(
-          mouseCursor: effectiveMouseCursor,
-          onTap: _enabled && !widget.openWithLongPress ? _handleTap : null,
-          onLongPress: _enabled && widget.openWithLongPress ? _handleTap : null,
-          canRequestFocus: _enabled,
-          focusNode: focusNode,
-          autofocus: widget.autofocus,
-          focusColor: widget.buttonDecoration?.color ??
-              widget.focusColor ??
-              Theme.of(context).focusColor,
-          splashColor: widget.buttonSplashColor,
-          highlightColor: widget.buttonHighlightColor,
-          overlayColor: widget.buttonOverlayColor,
-          enableFeedback: false,
-          child: result,
-          borderRadius: widget.buttonDecoration?.borderRadius
-              ?.resolve(Directionality.of(context)),
-        ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _enabled ? _handleTap : null,
+          onSecondaryTap:_enabled  && widget.openWithLongPress? _handleTap : null,
+
+          child: InkWell(
+            mouseCursor: effectiveMouseCursor,
+            onTap: _enabled && !widget.openWithLongPress ? _handleTap : null,
+            onLongPress: _enabled && widget.openWithLongPress ? _handleTap : null,
+            canRequestFocus: _enabled,
+            focusNode: focusNode,
+            autofocus: widget.autofocus,
+            focusColor: widget.buttonDecoration?.color ??
+                widget.focusColor ??
+                Theme.of(context).focusColor,
+            splashColor: widget.buttonSplashColor,
+            highlightColor: widget.buttonHighlightColor,
+            overlayColor: widget.buttonOverlayColor,
+            enableFeedback: false,
+            child: result,
+            borderRadius: widget.buttonDecoration?.borderRadius
+                ?.resolve(Directionality.of(context)),
+          ),),
       ),
     );
   }
