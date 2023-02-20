@@ -1,3 +1,6 @@
+## 1.9.3
+* Add searchInnerWidgetHeight, it fixes menu limits and scroll offset when using searchInnerWidget.
+
 ## 1.9.2
 * Avoid overlapping menu items with keyboard when using searchable dropdown.
 

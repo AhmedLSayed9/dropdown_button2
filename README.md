@@ -111,6 +111,7 @@ customize to your needs.
 [barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html) | The semantic label used for a dismissible barrier | String | No
 [searchController](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/searchController.html) | The controller used for searchable dropdowns, if null, then it'll perform as a normal dropdown | TextEditingController | No
 [searchInnerWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/searchInnerWidget.html) | The widget to be shown at the top of the dropdown menu for searchable dropdowns | Widget | No
+[searchInnerWidgetHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/searchInnerWidgetHeight.html) | The height of the searchInnerWidget if used | double | No
 [searchMatchFn](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/searchMatchFn.html) | The match function used for searchable dropdowns, if null, defaultFn will be used | SearchMatchFn | No
 
 ### For DropdownButtonFormField2 "In addition to the above":
@@ -132,7 +133,7 @@ add this line to pubspec.yaml
 
 dependencies:
 
-  dropdown_button2: ^1.9.2
+  dropdown_button2: ^1.9.3
 
 ```
 
@@ -562,7 +563,9 @@ Widget build(BuildContext context) {
           itemHeight: 40,
           dropdownMaxHeight: 200,
           searchController: textEditingController,
-          searchInnerWidget: Padding(
+          searchInnerWidgetHeight: 50,
+          searchInnerWidget: Container(
+            height: 50,
             padding: const EdgeInsets.only(
               top: 8,
               bottom: 4,
@@ -570,6 +573,8 @@ Widget build(BuildContext context) {
               left: 8,
             ),
             child: TextFormField(
+              expands: true,
+              maxLines: null,
               controller: textEditingController,
               decoration: InputDecoration(
                 isDense: true,
