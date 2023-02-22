@@ -1,3 +1,6 @@
+## 1.9.4
+* Use generics with searchMatchFn for item type inference.
+
 ## 1.9.3
 * Add searchInnerWidgetHeight, it fixes menu limits and scroll offset when using searchInnerWidget.
 

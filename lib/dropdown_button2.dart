@@ -25,8 +25,8 @@ const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 
 typedef _OnMenuStateChangeFn = void Function(bool isOpen);
 
-typedef _SearchMatchFn = bool Function(
-  DropdownMenuItem item,
+typedef _SearchMatchFn<T> = bool Function(
+  DropdownMenuItem<T> item,
   String searchValue,
 );
 
@@ -268,7 +268,7 @@ class _DropdownMenu<T> extends StatefulWidget {
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
-  final _SearchMatchFn? searchMatchFn;
+  final _SearchMatchFn<T>? searchMatchFn;
 
   @override
   _DropdownMenuState<T> createState() => _DropdownMenuState<T>();
@@ -278,7 +278,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   late CurvedAnimation _fadeOpacity;
   late CurvedAnimation _resize;
   late List<Widget> _children;
-  late _SearchMatchFn _searchMatchFn;
+  late _SearchMatchFn<T> _searchMatchFn;
 
   @override
   void initState() {
@@ -641,7 +641,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final double? searchInnerWidgetHeight;
-  final _SearchMatchFn? searchMatchFn;
+  final _SearchMatchFn<T>? searchMatchFn;
 
   final List<double> itemHeights;
   ScrollController? scrollController;
@@ -863,7 +863,7 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
-  final _SearchMatchFn? searchMatchFn;
+  final _SearchMatchFn<T>? searchMatchFn;
 
   @override
   Widget build(BuildContext context) {
@@ -1362,7 +1362,7 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   /// _defaultSearchMatchFn = (item, searchValue) =>
   ///     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
-  final _SearchMatchFn? searchMatchFn;
+  final _SearchMatchFn<T>? searchMatchFn;
 
   /// The list of items the user can select.
   ///
