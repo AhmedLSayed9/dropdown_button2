@@ -96,10 +96,6 @@ class CustomDropdownButton2 extends StatelessWidget {
             .toList(),
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
-        icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
-        iconSize: iconSize ?? 12,
-        iconEnabledColor: iconEnabledColor,
-        iconDisabledColor: iconDisabledColor,
         buttonStyleData: ButtonStyleData(
           buttonHeight: buttonHeight ?? 40,
           buttonWidth: buttonWidth ?? 140,
@@ -113,6 +109,12 @@ class CustomDropdownButton2 extends StatelessWidget {
                 ),
               ),
           buttonElevation: buttonElevation,
+        ),
+        iconStyleData: IconStyleData(
+          icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
+          iconSize: iconSize ?? 12,
+          iconEnabledColor: iconEnabledColor,
+          iconDisabledColor: iconDisabledColor,
         ),
         itemHeight: itemHeight ?? 40,
         itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),

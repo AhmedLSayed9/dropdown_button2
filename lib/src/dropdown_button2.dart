@@ -1085,11 +1085,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownElevation = 8,
     this.style,
     this.underline,
-    this.icon,
-    this.iconOnClick,
-    this.iconDisabledColor,
-    this.iconEnabledColor,
-    this.iconSize = 24.0,
     this.isDense = false,
     this.isExpanded = false,
     this.itemHeight = kMinInteractiveDimension,
@@ -1100,6 +1095,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.enableFeedback,
     this.alignment = AlignmentDirectional.centerStart,
     this.buttonStyleData,
+    this.iconStyleData = const IconStyleData(),
     this.itemPadding,
     this.itemSplashColor,
     this.itemHighlightColor,
@@ -1166,11 +1162,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownElevation = 8,
     this.style,
     this.underline,
-    this.icon,
-    this.iconOnClick,
-    this.iconDisabledColor,
-    this.iconEnabledColor,
-    this.iconSize = 24.0,
     this.isDense = false,
     this.isExpanded = false,
     this.itemHeight = kMinInteractiveDimension,
@@ -1181,6 +1172,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.enableFeedback,
     this.alignment = AlignmentDirectional.centerStart,
     this.buttonStyleData,
+    required this.iconStyleData,
     this.itemPadding,
     this.itemSplashColor,
     this.itemHighlightColor,
@@ -1233,8 +1225,11 @@ class DropdownButton2<T> extends StatefulWidget {
           "This is necessary to properly determine menu limits and scroll offset",
         );
 
-  // Used to configure the theme of the button
+  /// Used to configure the theme of the button
   final ButtonStyleData? buttonStyleData;
+
+  /// Used to configure the theme of the button's icon
+  final IconStyleData iconStyleData;
 
   /// The padding of menu items
   final EdgeInsetsGeometry? itemPadding;
@@ -1291,9 +1286,6 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
   final bool dropdownFullScreen;
-
-  /// Shows different icon when dropdown menu open
-  final Widget? iconOnClick;
 
   /// Called when the dropdown menu is opened or closed.
   final _OnMenuStateChangeFn? onMenuStateChange;
@@ -1421,32 +1413,6 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Defaults to a 0.0 width bottom border with color 0xFFBDBDBD.
   final Widget? underline;
 
-  /// The widget to use for the drop-down button's icon.
-  ///
-  /// Defaults to an [Icon] with the [Icons.arrow_drop_down] glyph.
-  final Widget? icon;
-
-  /// The color of any [Icon] descendant of [icon] if this button is disabled,
-  /// i.e. if [onChanged] is null.
-  ///
-  /// Defaults to [MaterialColor.shade400] of [Colors.grey] when the theme's
-  /// [ThemeData.brightness] is [Brightness.light] and to
-  /// [Colors.white10] when it is [Brightness.dark]
-  final Color? iconDisabledColor;
-
-  /// The color of any [Icon] descendant of [icon] if this button is enabled,
-  /// i.e. if [onChanged] is defined.
-  ///
-  /// Defaults to [MaterialColor.shade700] of [Colors.grey] when the theme's
-  /// [ThemeData.brightness] is [Brightness.light] and to
-  /// [Colors.white70] when it is [Brightness.dark]
-  final Color? iconEnabledColor;
-
-  /// The size to use for the drop-down button's icon.
-  ///
-  /// Defaults to 24.0.
-  final double iconSize;
-
   /// Reduce the button's height.
   ///
   /// By default this button's height is the same as its menu items' heights.
@@ -1523,6 +1489,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   _DropdownRoute<T>? _dropdownRoute;
   Orientation? _lastOrientation;
   FocusNode? _internalNode;
+
+  IconStyleData get iconStyle => widget.iconStyleData;
+
+  ButtonStyleData? get buttonStyle => widget.buttonStyleData;
 
   FocusNode? get focusNode => widget.focusNode ?? _internalNode;
   bool _hasPrimaryFocus = false;
@@ -1748,13 +1718,15 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         Theme.of(context).textTheme.titleMedium!.fontSize!;
     final double scaledFontSize = textScaleFactor * fontSize;
     return math.max(
-        scaledFontSize, math.max(widget.iconSize, _kDenseButtonHeight));
+        scaledFontSize, math.max(iconStyle.iconSize, _kDenseButtonHeight));
   }
 
   Color get _iconColor {
     // These colors are not defined in the Material Design spec.
     if (_enabled) {
-      if (widget.iconEnabledColor != null) return widget.iconEnabledColor!;
+      if (iconStyle.iconEnabledColor != null) {
+        return iconStyle.iconEnabledColor!;
+      }
 
       switch (Theme.of(context).brightness) {
         case Brightness.light:
@@ -1763,7 +1735,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           return Colors.white70;
       }
     } else {
-      if (widget.iconDisabledColor != null) return widget.iconDisabledColor!;
+      if (iconStyle.iconDisabledColor != null) {
+        return iconStyle.iconDisabledColor!;
+      }
 
       switch (Theme.of(context).brightness) {
         case Brightness.light:
@@ -1796,8 +1770,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
-
-    final buttonTheme = widget.buttonStyleData;
 
     final Orientation newOrientation = _getOrientation(context);
     _lastOrientation ??= newOrientation;
@@ -1849,7 +1821,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         //We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
         padding: EdgeInsets.symmetric(
           horizontal:
-              buttonTheme?.buttonWidth == null && widget.dropdownWidth == null
+              buttonStyle?.buttonWidth == null && widget.dropdownWidth == null
                   ? _getMenuHorizontalPadding()
                   : 0.0,
         ),
@@ -1865,23 +1837,21 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       );
     }
 
-    const Icon defaultIcon = Icon(Icons.arrow_drop_down);
-
     Widget result = DefaultTextStyle(
       style: _enabled
           ? _textStyle!
           : _textStyle!.copyWith(color: Theme.of(context).disabledColor),
       child: widget.customButton ??
           Container(
-            decoration: buttonTheme?.buttonDecoration?.copyWith(
-              boxShadow: buttonTheme.buttonDecoration!.boxShadow ??
-                  kElevationToShadow[buttonTheme.buttonElevation ?? 0],
+            decoration: buttonStyle?.buttonDecoration?.copyWith(
+              boxShadow: buttonStyle!.buttonDecoration!.boxShadow ??
+                  kElevationToShadow[buttonStyle!.buttonElevation ?? 0],
             ),
-            padding: buttonTheme?.buttonPadding ??
+            padding: buttonStyle?.buttonPadding ??
                 padding.resolve(Directionality.of(context)),
-            height: buttonTheme?.buttonHeight ??
+            height: buttonStyle?.buttonHeight ??
                 (widget.isDense ? _denseButtonHeight : null),
-            width: buttonTheme?.buttonWidth,
+            width: buttonStyle?.buttonWidth,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,
@@ -1893,13 +1863,13 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
                 IconTheme(
                   data: IconThemeData(
                     color: _iconColor,
-                    size: widget.iconSize,
+                    size: iconStyle.iconSize,
                   ),
-                  child: widget.iconOnClick != null
+                  child: iconStyle.openMenuIcon != null
                       ? _isMenuOpen
-                          ? widget.iconOnClick!
-                          : widget.icon!
-                      : widget.icon ?? defaultIcon,
+                          ? iconStyle.openMenuIcon!
+                          : iconStyle.icon
+                      : iconStyle.icon,
                 ),
               ],
             ),
@@ -1951,15 +1921,15 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           canRequestFocus: _enabled,
           focusNode: focusNode,
           autofocus: widget.autofocus,
-          focusColor: buttonTheme?.buttonDecoration?.color ??
+          focusColor: buttonStyle?.buttonDecoration?.color ??
               widget.focusColor ??
               Theme.of(context).focusColor,
-          splashColor: buttonTheme?.buttonSplashColor,
-          highlightColor: buttonTheme?.buttonHighlightColor,
-          overlayColor: buttonTheme?.buttonOverlayColor,
+          splashColor: buttonStyle?.buttonSplashColor,
+          highlightColor: buttonStyle?.buttonHighlightColor,
+          overlayColor: buttonStyle?.buttonOverlayColor,
           enableFeedback: false,
           child: result,
-          borderRadius: buttonTheme?.buttonDecoration?.borderRadius
+          borderRadius: buttonStyle?.buttonDecoration?.borderRadius
               ?.resolve(Directionality.of(context)),
         ),
       ),
@@ -2021,6 +1991,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     bool? enableFeedback,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
     ButtonStyleData? buttonStyleData,
+    IconStyleData iconStyleData = const IconStyleData(),
     EdgeInsetsGeometry? itemPadding,
     Color? itemSplashColor,
     Color? itemHighlightColor,
@@ -2118,11 +2089,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         onChanged: onChanged == null ? null : state.didChange,
                         dropdownElevation: dropdownElevation,
                         style: style,
-                        icon: icon,
-                        iconOnClick: iconOnClick,
-                        iconDisabledColor: iconDisabledColor,
-                        iconEnabledColor: iconEnabledColor,
-                        iconSize: iconSize,
                         isDense: isDense,
                         isExpanded: isExpanded,
                         itemHeight: itemHeight,
@@ -2133,6 +2099,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         enableFeedback: enableFeedback,
                         alignment: alignment,
                         buttonStyleData: buttonStyleData,
+                        iconStyleData: iconStyleData,
                         itemPadding: itemPadding,
                         itemSplashColor: itemSplashColor,
                         itemHighlightColor: itemHighlightColor,

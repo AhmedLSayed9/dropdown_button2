@@ -87,12 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectedValue = value as String;
               });
             },
-            icon: const Icon(
-              Icons.arrow_forward_ios_outlined,
-            ),
-            iconSize: 14,
-            iconEnabledColor: Colors.yellow,
-            iconDisabledColor: Colors.grey,
             buttonStyleData: ButtonStyleData(
               buttonHeight: 50,
               buttonWidth: 160,
@@ -105,6 +99,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.redAccent,
               ),
               buttonElevation: 2,
+            ),
+            iconStyleData: const IconStyleData(
+              icon: Icon(
+                Icons.arrow_forward_ios_outlined,
+              ),
+              iconSize: 14,
+              iconEnabledColor: Colors.yellow,
+              iconDisabledColor: Colors.grey,
             ),
             itemHeight: 40,
             itemPadding: const EdgeInsets.only(left: 14, right: 14),
