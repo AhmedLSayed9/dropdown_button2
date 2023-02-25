@@ -1629,7 +1629,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   }
 
   TextStyle? get _textStyle =>
-      widget.style ?? Theme.of(context).textTheme.subtitle1;
+      widget.style ?? Theme.of(context).textTheme.titleMedium;
 
   Rect _getRect() {
     final TextDirection? textDirection = Directionality.maybeOf(context);
@@ -1745,7 +1745,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   double get _denseButtonHeight {
     final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final double fontSize = _textStyle!.fontSize ??
-        Theme.of(context).textTheme.subtitle1!.fontSize!;
+        Theme.of(context).textTheme.titleMedium!.fontSize!;
     final double scaledFontSize = textScaleFactor * fontSize;
     return math.max(
         scaledFontSize, math.max(widget.iconSize, _kDenseButtonHeight));
