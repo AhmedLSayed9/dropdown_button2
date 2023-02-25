@@ -1,4 +1,4 @@
-part of '../dropdown_button2.dart';
+part of 'dropdown_button2.dart';
 
 /// The direction of the dropdown menu in relation to the button.
 ///

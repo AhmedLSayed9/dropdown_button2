@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-part 'src/enums.dart';
+part 'enums.dart';
 
-part 'src/utils.dart';
+part 'utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
 const double _kMenuItemHeight = kMinInteractiveDimension;
