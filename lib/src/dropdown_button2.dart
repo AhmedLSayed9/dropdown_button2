@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+part 'dropdown_button2_data.dart';
+
 part 'enums.dart';
 
 part 'utils.dart';
@@ -1097,14 +1099,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownMaxHeight,
     this.enableFeedback,
     this.alignment = AlignmentDirectional.centerStart,
-    this.buttonHeight,
-    this.buttonWidth,
-    this.buttonPadding,
-    this.buttonDecoration,
-    this.buttonElevation,
-    this.buttonSplashColor,
-    this.buttonHighlightColor,
-    this.buttonOverlayColor,
+    this.buttonStyleData,
     this.itemPadding,
     this.itemSplashColor,
     this.itemHighlightColor,
@@ -1185,14 +1180,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownMaxHeight,
     this.enableFeedback,
     this.alignment = AlignmentDirectional.centerStart,
-    this.buttonHeight,
-    this.buttonWidth,
-    this.buttonPadding,
-    this.buttonDecoration,
-    this.buttonElevation,
-    this.buttonSplashColor,
-    this.buttonHighlightColor,
-    this.buttonOverlayColor,
+    this.buttonStyleData,
     this.itemPadding,
     this.itemSplashColor,
     this.itemHighlightColor,
@@ -1245,31 +1233,8 @@ class DropdownButton2<T> extends StatefulWidget {
           "This is necessary to properly determine menu limits and scroll offset",
         );
 
-  // Parameters added By Me
-
-  /// The height of the button.
-  final double? buttonHeight;
-
-  /// The width of the button
-  final double? buttonWidth;
-
-  /// The inner padding of the Button
-  final EdgeInsetsGeometry? buttonPadding;
-
-  /// The decoration of the Button
-  final BoxDecoration? buttonDecoration;
-
-  /// The elevation of the Button
-  final int? buttonElevation;
-
-  /// The splash color of the button's InkWell
-  final Color? buttonSplashColor;
-
-  /// The highlight color of the button's InkWell
-  final Color? buttonHighlightColor;
-
-  /// The overlay color of the button's Inkwell
-  final MaterialStateProperty<Color?>? buttonOverlayColor;
+  // Used to configure the theme of the button
+  final ButtonStyleData? buttonStyleData;
 
   /// The padding of menu items
   final EdgeInsetsGeometry? itemPadding;
@@ -1831,6 +1796,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
+
+    final buttonTheme = widget.buttonStyleData;
+
     final Orientation newOrientation = _getOrientation(context);
     _lastOrientation ??= newOrientation;
     if (newOrientation != _lastOrientation) {
@@ -1880,9 +1848,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         //from the maximum width of menu items or the hint text (width of IndexedStack).
         //We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
         padding: EdgeInsets.symmetric(
-          horizontal: widget.buttonWidth == null && widget.dropdownWidth == null
-              ? _getMenuHorizontalPadding()
-              : 0.0,
+          horizontal:
+              buttonTheme?.buttonWidth == null && widget.dropdownWidth == null
+                  ? _getMenuHorizontalPadding()
+                  : 0.0,
         ),
         child: IndexedStack(
           index: _selectedIndex ?? hintIndex,
@@ -1904,15 +1873,15 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           : _textStyle!.copyWith(color: Theme.of(context).disabledColor),
       child: widget.customButton ??
           Container(
-            decoration: widget.buttonDecoration?.copyWith(
-              boxShadow: widget.buttonDecoration!.boxShadow ??
-                  kElevationToShadow[widget.buttonElevation ?? 0],
+            decoration: buttonTheme?.buttonDecoration?.copyWith(
+              boxShadow: buttonTheme.buttonDecoration!.boxShadow ??
+                  kElevationToShadow[buttonTheme.buttonElevation ?? 0],
             ),
-            padding: widget.buttonPadding ??
+            padding: buttonTheme?.buttonPadding ??
                 padding.resolve(Directionality.of(context)),
-            height: widget.buttonHeight ??
+            height: buttonTheme?.buttonHeight ??
                 (widget.isDense ? _denseButtonHeight : null),
-            width: widget.buttonWidth,
+            width: buttonTheme?.buttonWidth,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,
@@ -1982,15 +1951,15 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           canRequestFocus: _enabled,
           focusNode: focusNode,
           autofocus: widget.autofocus,
-          focusColor: widget.buttonDecoration?.color ??
+          focusColor: buttonTheme?.buttonDecoration?.color ??
               widget.focusColor ??
               Theme.of(context).focusColor,
-          splashColor: widget.buttonSplashColor,
-          highlightColor: widget.buttonHighlightColor,
-          overlayColor: widget.buttonOverlayColor,
+          splashColor: buttonTheme?.buttonSplashColor,
+          highlightColor: buttonTheme?.buttonHighlightColor,
+          overlayColor: buttonTheme?.buttonOverlayColor,
           enableFeedback: false,
           child: result,
-          borderRadius: widget.buttonDecoration?.borderRadius
+          borderRadius: buttonTheme?.buttonDecoration?.borderRadius
               ?.resolve(Directionality.of(context)),
         ),
       ),
@@ -2051,14 +2020,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     double? dropdownMaxHeight,
     bool? enableFeedback,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
-    double? buttonHeight,
-    double? buttonWidth,
-    EdgeInsetsGeometry? buttonPadding,
-    BoxDecoration? buttonDecoration,
-    int? buttonElevation,
-    Color? buttonSplashColor,
-    Color? buttonHighlightColor,
-    MaterialStateProperty<Color?>? buttonOverlayColor,
+    ButtonStyleData? buttonStyleData,
     EdgeInsetsGeometry? itemPadding,
     Color? itemSplashColor,
     Color? itemHighlightColor,
@@ -2170,14 +2132,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         dropdownMaxHeight: dropdownMaxHeight,
                         enableFeedback: enableFeedback,
                         alignment: alignment,
-                        buttonHeight: buttonHeight,
-                        buttonWidth: buttonWidth,
-                        buttonPadding: buttonPadding,
-                        buttonDecoration: buttonDecoration,
-                        buttonElevation: buttonElevation,
-                        buttonSplashColor: buttonSplashColor,
-                        buttonHighlightColor: buttonHighlightColor,
-                        buttonOverlayColor: buttonOverlayColor,
+                        buttonStyleData: buttonStyleData,
                         itemPadding: itemPadding,
                         itemSplashColor: itemSplashColor,
                         itemHighlightColor: itemHighlightColor,

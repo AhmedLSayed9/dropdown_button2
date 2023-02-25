@@ -100,18 +100,20 @@ class CustomDropdownButton2 extends StatelessWidget {
         iconSize: iconSize ?? 12,
         iconEnabledColor: iconEnabledColor,
         iconDisabledColor: iconDisabledColor,
-        buttonHeight: buttonHeight ?? 40,
-        buttonWidth: buttonWidth ?? 140,
-        buttonPadding:
-            buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        buttonDecoration: buttonDecoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: Colors.black45,
+        buttonStyleData: ButtonStyleData(
+          buttonHeight: buttonHeight ?? 40,
+          buttonWidth: buttonWidth ?? 140,
+          buttonPadding:
+              buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
+          buttonDecoration: buttonDecoration ??
+              BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: Colors.black45,
+                ),
               ),
-            ),
-        buttonElevation: buttonElevation,
+          buttonElevation: buttonElevation,
+        ),
         itemHeight: itemHeight ?? 40,
         itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
         //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.

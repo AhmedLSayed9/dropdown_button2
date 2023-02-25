@@ -7,6 +7,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -68,17 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             items: items
                 .map((item) => DropdownMenuItem<String>(
-              value: item,
-              child: Text(
-                item,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ))
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ))
                 .toList(),
             value: selectedValue,
             onChanged: (value) {
@@ -92,17 +93,19 @@ class _MyHomePageState extends State<MyHomePage> {
             iconSize: 14,
             iconEnabledColor: Colors.yellow,
             iconDisabledColor: Colors.grey,
-            buttonHeight: 50,
-            buttonWidth: 160,
-            buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-            buttonDecoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: Colors.black26,
+            buttonStyleData: ButtonStyleData(
+              buttonHeight: 50,
+              buttonWidth: 160,
+              buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+              buttonDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: Colors.black26,
+                ),
+                color: Colors.redAccent,
               ),
-              color: Colors.redAccent,
+              buttonElevation: 2,
             ),
-            buttonElevation: 2,
             itemHeight: 40,
             itemPadding: const EdgeInsets.only(left: 14, right: 14),
             dropdownMaxHeight: 200,
