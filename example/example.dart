@@ -88,17 +88,17 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             },
             buttonStyleData: ButtonStyleData(
-              buttonHeight: 50,
-              buttonWidth: 160,
-              buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-              buttonDecoration: BoxDecoration(
+              height: 50,
+              width: 160,
+              padding: const EdgeInsets.only(left: 14, right: 14),
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: Colors.black26,
                 ),
                 color: Colors.redAccent,
               ),
-              buttonElevation: 2,
+              elevation: 2,
             ),
             iconStyleData: const IconStyleData(
               icon: Icon(

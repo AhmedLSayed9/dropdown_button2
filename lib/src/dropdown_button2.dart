@@ -1088,7 +1088,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.isDense = false,
     this.isExpanded = false,
     this.itemHeight = kMinInteractiveDimension,
-    this.focusColor,
     this.focusNode,
     this.autofocus = false,
     this.dropdownMaxHeight,
@@ -1165,7 +1164,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.isDense = false,
     this.isExpanded = false,
     this.itemHeight = kMinInteractiveDimension,
-    this.focusColor,
     this.focusNode,
     this.autofocus = false,
     this.dropdownMaxHeight,
@@ -1430,9 +1428,6 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// The default value is [kMinInteractiveDimension]
   final double itemHeight;
-
-  /// The color for the button's [Material] when it has the input focus.
-  final Color? focusColor;
 
   /// {@macro flutter.widgets.Focus.focusNode}
   final FocusNode? focusNode;
@@ -1820,10 +1815,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         //from the maximum width of menu items or the hint text (width of IndexedStack).
         //We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
         padding: EdgeInsets.symmetric(
-          horizontal:
-              buttonStyle?.buttonWidth == null && widget.dropdownWidth == null
-                  ? _getMenuHorizontalPadding()
-                  : 0.0,
+          horizontal: buttonStyle?.width == null && widget.dropdownWidth == null
+              ? _getMenuHorizontalPadding()
+              : 0.0,
         ),
         child: IndexedStack(
           index: _selectedIndex ?? hintIndex,
@@ -1843,15 +1837,15 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           : _textStyle!.copyWith(color: Theme.of(context).disabledColor),
       child: widget.customButton ??
           Container(
-            decoration: buttonStyle?.buttonDecoration?.copyWith(
-              boxShadow: buttonStyle!.buttonDecoration!.boxShadow ??
-                  kElevationToShadow[buttonStyle!.buttonElevation ?? 0],
+            decoration: buttonStyle?.decoration?.copyWith(
+              boxShadow: buttonStyle!.decoration!.boxShadow ??
+                  kElevationToShadow[buttonStyle!.elevation ?? 0],
             ),
-            padding: buttonStyle?.buttonPadding ??
+            padding: buttonStyle?.padding ??
                 padding.resolve(Directionality.of(context)),
-            height: buttonStyle?.buttonHeight ??
+            height: buttonStyle?.height ??
                 (widget.isDense ? _denseButtonHeight : null),
-            width: buttonStyle?.buttonWidth,
+            width: buttonStyle?.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,
@@ -1921,15 +1915,11 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           canRequestFocus: _enabled,
           focusNode: focusNode,
           autofocus: widget.autofocus,
-          focusColor: buttonStyle?.buttonDecoration?.color ??
-              widget.focusColor ??
-              Theme.of(context).focusColor,
-          splashColor: buttonStyle?.buttonSplashColor,
-          highlightColor: buttonStyle?.buttonHighlightColor,
-          overlayColor: buttonStyle?.buttonOverlayColor,
+          focusColor: buttonStyle?.decoration?.color,
+          overlayColor: buttonStyle?.overlayColor,
           enableFeedback: false,
           child: result,
-          borderRadius: buttonStyle?.buttonDecoration?.borderRadius
+          borderRadius: buttonStyle?.decoration?.borderRadius
               ?.resolve(Directionality.of(context)),
         ),
       ),
@@ -1980,7 +1970,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     bool isDense = true,
     bool isExpanded = false,
     double itemHeight = kMinInteractiveDimension,
-    Color? focusColor,
     FocusNode? focusNode,
     bool autofocus = false,
     InputDecoration? decoration,
@@ -2031,7 +2020,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
           'Either zero or 2 or more [DropdownMenuItem]s were detected '
           'with the same value',
         ),
-        decoration = decoration ?? InputDecoration(focusColor: focusColor),
+        decoration = getInputDecoration(decoration, buttonStyleData),
         super(
           initialValue: value,
           autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
@@ -2039,7 +2028,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
             final _DropdownButtonFormFieldState<T> state =
                 field as _DropdownButtonFormFieldState<T>;
             final InputDecoration decorationArg =
-                decoration ?? InputDecoration(focusColor: focusColor);
+                getInputDecoration(decoration, buttonStyleData);
             final InputDecoration effectiveDecoration =
                 decorationArg.applyDefaults(
               Theme.of(field.context).inputDecorationTheme,
@@ -2092,7 +2081,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         isDense: isDense,
                         isExpanded: isExpanded,
                         itemHeight: itemHeight,
-                        focusColor: focusColor,
                         focusNode: focusNode,
                         autofocus: autofocus,
                         dropdownMaxHeight: dropdownMaxHeight,
@@ -2156,6 +2144,17 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   /// If not specified, an [InputDecorator] with the `focusColor` set to the
   /// supplied `focusColor` (if any) will be used.
   final InputDecoration decoration;
+
+  static InputDecoration getInputDecoration(
+      InputDecoration? decoration, ButtonStyleData? buttonStyleData) {
+    return decoration ??
+        InputDecoration(
+          focusColor:
+              buttonStyleData?.overlayColor?.resolve({MaterialState.focused}),
+          hoverColor:
+              buttonStyleData?.overlayColor?.resolve({MaterialState.hovered}),
+        );
+  }
 
   @override
   FormFieldState<T> createState() => _DropdownButtonFormFieldState<T>();

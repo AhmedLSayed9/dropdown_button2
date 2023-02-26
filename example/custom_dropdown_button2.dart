@@ -97,18 +97,18 @@ class CustomDropdownButton2 extends StatelessWidget {
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
         buttonStyleData: ButtonStyleData(
-          buttonHeight: buttonHeight ?? 40,
-          buttonWidth: buttonWidth ?? 140,
-          buttonPadding:
+          height: buttonHeight ?? 40,
+          width: buttonWidth ?? 140,
+          padding:
               buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
-          buttonDecoration: buttonDecoration ??
+          decoration: buttonDecoration ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: Colors.black45,
                 ),
               ),
-          buttonElevation: buttonElevation,
+          elevation: buttonElevation,
         ),
         iconStyleData: IconStyleData(
           icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
