@@ -103,6 +103,7 @@ class DropdownStyleData {
     this.offset = const Offset(0, 0),
     this.isOverButton = false,
     this.isFullScreen = false,
+    this.scrollbarTheme,
   });
 
   /// The maximum height of the menu.
@@ -149,4 +150,7 @@ class DropdownStyleData {
 
   /// Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
   final bool isFullScreen;
+
+  /// Configures the theme of the menu's scrollbar
+  final ScrollbarThemeData? scrollbarTheme;
 }

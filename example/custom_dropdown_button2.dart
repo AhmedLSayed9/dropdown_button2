@@ -129,13 +129,18 @@ class CustomDropdownButton2 extends StatelessWidget {
           offset: offset,
           //Default is false to show menu below button
           isOverButton: false,
+          scrollbarTheme: ScrollbarThemeData(
+            radius: scrollbarRadius ?? const Radius.circular(40),
+            thickness: scrollbarThickness != null
+                ? MaterialStateProperty.all<double>(scrollbarThickness!)
+                : null,
+            thumbVisibility: scrollbarAlwaysShow != null
+                ? MaterialStateProperty.all<bool>(scrollbarAlwaysShow!)
+                : null,
+          ),
         ),
         itemHeight: itemHeight ?? 40,
         itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
-
-        scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),
-        scrollbarThickness: scrollbarThickness,
-        scrollbarAlwaysShow: scrollbarAlwaysShow,
       ),
     );
   }

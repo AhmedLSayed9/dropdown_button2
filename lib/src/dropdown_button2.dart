@@ -237,9 +237,6 @@ class _DropdownMenu<T> extends StatefulWidget {
     required this.constraints,
     required this.enableFeedback,
     required this.itemHeight,
-    this.scrollbarRadius,
-    this.scrollbarThickness,
-    this.scrollbarAlwaysShow,
     this.itemSplashColor,
     this.itemHighlightColor,
     this.customItemsHeights,
@@ -254,9 +251,6 @@ class _DropdownMenu<T> extends StatefulWidget {
   final BoxConstraints constraints;
   final bool enableFeedback;
   final double itemHeight;
-  final Radius? scrollbarRadius;
-  final double? scrollbarThickness;
-  final bool? scrollbarAlwaysShow;
   final Color? itemSplashColor;
   final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
@@ -411,17 +405,20 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                         ),
                         child: PrimaryScrollController(
                           controller: widget.route.scrollController!,
-                          child: Scrollbar(
-                            radius: widget.scrollbarRadius,
-                            thickness: widget.scrollbarThickness,
-                            thumbVisibility: widget.scrollbarAlwaysShow,
-                            child: ListView(
-                              // Ensure this always inherits the PrimaryScrollController
-                              primary: true,
-                              padding: route.dropdownStyle.padding ??
-                                  kMaterialListPadding,
-                              shrinkWrap: true,
-                              children: _children,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              scrollbarTheme:
+                                  widget.route.dropdownStyle.scrollbarTheme,
+                            ),
+                            child: Scrollbar(
+                              child: ListView(
+                                // Ensure this always inherits the PrimaryScrollController
+                                primary: true,
+                                padding: route.dropdownStyle.padding ??
+                                    kMaterialListPadding,
+                                shrinkWrap: true,
+                                children: _children,
+                              ),
                             ),
                           ),
                         ),
@@ -586,9 +583,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.enableFeedback,
     required this.dropdownStyle,
     required this.itemHeight,
-    this.scrollbarRadius,
-    this.scrollbarThickness,
-    this.scrollbarAlwaysShow,
     this.itemSplashColor,
     this.itemHighlightColor,
     this.customItemsHeights,
@@ -610,9 +604,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool enableFeedback;
   final DropdownStyleData dropdownStyle;
   final double itemHeight;
-  final Radius? scrollbarRadius;
-  final double? scrollbarThickness;
-  final bool? scrollbarAlwaysShow;
   final Color? itemSplashColor;
   final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
@@ -660,9 +651,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               style: style,
               enableFeedback: enableFeedback,
               itemHeight: itemHeight,
-              scrollbarRadius: scrollbarRadius,
-              scrollbarThickness: scrollbarThickness,
-              scrollbarAlwaysShow: scrollbarAlwaysShow,
               itemSplashColor: itemSplashColor,
               itemHighlightColor: itemHighlightColor,
               customItemsHeights: customItemsHeights,
@@ -793,9 +781,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     required this.enableFeedback,
     required this.itemHeight,
     this.itemWidth,
-    this.scrollbarRadius,
-    this.scrollbarThickness,
-    this.scrollbarAlwaysShow,
     this.itemSplashColor,
     this.itemHighlightColor,
     this.customItemsHeights,
@@ -815,9 +800,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final bool enableFeedback;
   final double itemHeight;
   final double? itemWidth;
-  final Radius? scrollbarRadius;
-  final double? scrollbarThickness;
-  final bool? scrollbarAlwaysShow;
   final Color? itemSplashColor;
   final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
@@ -850,9 +832,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
       constraints: constraints,
       enableFeedback: enableFeedback,
       itemHeight: itemHeight,
-      scrollbarRadius: scrollbarRadius,
-      scrollbarThickness: scrollbarThickness,
-      scrollbarAlwaysShow: scrollbarAlwaysShow,
       itemSplashColor: itemSplashColor,
       itemHighlightColor: itemHighlightColor,
       customItemsHeights: customItemsHeights,
@@ -1050,9 +1029,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.itemSplashColor,
     this.itemHighlightColor,
     this.selectedItemHighlightColor,
-    this.scrollbarRadius,
-    this.scrollbarThickness,
-    this.scrollbarAlwaysShow,
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1117,9 +1093,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.itemSplashColor,
     this.itemHighlightColor,
     this.selectedItemHighlightColor,
-    this.scrollbarRadius,
-    this.scrollbarThickness,
-    this.scrollbarAlwaysShow,
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1177,15 +1150,6 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// The highlight color of the current selected item
   final Color? selectedItemHighlightColor;
-
-  /// The radius of the scrollbar's corners
-  final Radius? scrollbarRadius;
-
-  /// The thickness of the scrollbar
-  final double? scrollbarThickness;
-
-  /// Always show the scrollbar even when a scroll is not underway
-  final bool? scrollbarAlwaysShow;
 
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
@@ -1556,9 +1520,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: dropdownStyle,
       itemHeight: widget.itemHeight,
-      scrollbarRadius: widget.scrollbarRadius,
-      scrollbarThickness: widget.scrollbarThickness,
-      scrollbarAlwaysShow: widget.scrollbarAlwaysShow,
       itemSplashColor: widget.itemSplashColor,
       itemHighlightColor: widget.itemHighlightColor,
       customItemsHeights: widget.customItemsHeights,
@@ -1871,9 +1832,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Color? itemSplashColor,
     Color? itemHighlightColor,
     Color? selectedItemHighlightColor,
-    Radius? scrollbarRadius,
-    double? scrollbarThickness,
-    bool? scrollbarAlwaysShow,
     Widget? customButton,
     List<double>? customItemsHeights,
     bool openWithLongPress = false,
@@ -1969,9 +1927,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         itemSplashColor: itemSplashColor,
                         itemHighlightColor: itemHighlightColor,
                         selectedItemHighlightColor: selectedItemHighlightColor,
-                        scrollbarRadius: scrollbarRadius,
-                        scrollbarThickness: scrollbarThickness,
-                        scrollbarAlwaysShow: scrollbarAlwaysShow,
                         customButton: customButton,
                         customItemsHeights: customItemsHeights,
                         openWithLongPress: openWithLongPress,
