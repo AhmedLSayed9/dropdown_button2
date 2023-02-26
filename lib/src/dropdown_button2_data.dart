@@ -90,3 +90,63 @@ class IconStyleData {
   /// Shows different icon when dropdown menu is open
   final Widget? openMenuIcon;
 }
+
+class DropdownStyleData {
+  const DropdownStyleData({
+    this.maxHeight,
+    this.width,
+    this.padding,
+    this.scrollPadding,
+    this.decoration,
+    this.elevation = 8,
+    this.direction = DropdownDirection.textDirection,
+    this.offset = const Offset(0, 0),
+    this.isOverButton = false,
+    this.isFullScreen = false,
+  });
+
+  /// The maximum height of the menu.
+  ///
+  /// The maximum height of the menu must be at least one row shorter than
+  /// the height of the app's view. This ensures that a tappable area
+  /// outside of the simple menu is present so the user can dismiss the menu.
+  ///
+  /// If this property is set above the maximum allowable height threshold
+  /// mentioned above, then the menu defaults to being padded at the top
+  /// and bottom of the menu by at one menu item's height.
+  final double? maxHeight;
+
+  /// The width of the dropdown menu
+  final double? width;
+
+  /// The inner padding of the dropdown menu
+  final EdgeInsetsGeometry? padding;
+
+  /// The inner padding of the dropdown menu including the scrollbar
+  final EdgeInsetsGeometry? scrollPadding;
+
+  /// The decoration of the dropdown menu
+  final BoxDecoration? decoration;
+
+  /// The z-coordinate at which to place the menu when open.
+  ///
+  /// The following elevations have defined shadows: 1, 2, 3, 4, 6, 8, 9, 12,
+  /// 16, and 24. See [kElevationToShadow].
+  ///
+  /// Defaults to 8, the appropriate elevation for dropdown buttons.
+  final int elevation;
+
+  /// The direction of the dropdown menu in relation to the button.
+  ///
+  /// Default is [DropdownDirection.textDirection]
+  final DropdownDirection direction;
+
+  /// Changes the position of the dropdown menu
+  final Offset offset;
+
+  /// Opens the dropdown menu over the button instead of below it
+  final bool isOverButton;
+
+  /// Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
+  final bool isFullScreen;
+}

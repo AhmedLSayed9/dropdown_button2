@@ -26,7 +26,7 @@ class CustomDropdownButton2 extends StatelessWidget {
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
-  final Offset? offset;
+  final Offset offset;
 
   const CustomDropdownButton2({
     required this.hint,
@@ -55,7 +55,7 @@ class CustomDropdownButton2 extends StatelessWidget {
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
-    this.offset,
+    this.offset = const Offset(0, 0),
     Key? key,
   }) : super(key: key);
 
@@ -99,8 +99,7 @@ class CustomDropdownButton2 extends StatelessWidget {
         buttonStyleData: ButtonStyleData(
           height: buttonHeight ?? 40,
           width: buttonWidth ?? 140,
-          padding:
-              buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
+          padding: buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
           decoration: buttonDecoration ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
@@ -116,23 +115,27 @@ class CustomDropdownButton2 extends StatelessWidget {
           iconEnabledColor: iconEnabledColor,
           iconDisabledColor: iconDisabledColor,
         ),
+        dropdownStyleData: DropdownStyleData(
+          //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
+          maxHeight: dropdownHeight ?? 200,
+          width: dropdownWidth ?? 140,
+          padding: dropdownPadding,
+          decoration: dropdownDecoration ??
+              BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+              ),
+          elevation: dropdownElevation ?? 8,
+          //Null or Offset(0, 0) will open just under the button. You can edit as you want.
+          offset: offset,
+          //Default is false to show menu below button
+          isOverButton: false,
+        ),
         itemHeight: itemHeight ?? 40,
         itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
-        dropdownMaxHeight: dropdownHeight ?? 200,
-        dropdownWidth: dropdownWidth ?? 140,
-        dropdownPadding: dropdownPadding,
-        dropdownDecoration: dropdownDecoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-            ),
-        dropdownElevation: dropdownElevation ?? 8,
+
         scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),
         scrollbarThickness: scrollbarThickness,
         scrollbarAlwaysShow: scrollbarAlwaysShow,
-        //Null or Offset(0, 0) will open just under the button. You can edit as you want.
-        offset: offset,
-        dropdownOverButton: false, //Default is false to show menu below button
       ),
     );
   }
