@@ -158,3 +158,60 @@ class DropdownStyleData {
   /// The animation curve used for opening the dropdown menu (forward direction)
   final Interval openInterval;
 }
+
+class MenuItemStyleData {
+  const MenuItemStyleData({
+    this.height = _kMenuItemHeight,
+    this.padding,
+    this.overlayColor,
+    this.selectedMenuItemBuilder,
+  });
+
+  /// The default value is [kMinInteractiveDimension]
+  final double height;
+
+  /// The padding of menu items
+  final EdgeInsetsGeometry? padding;
+
+  /// Defines the ink response focus, hover, and splash colors.
+  ///
+  /// This default null property can be used as an alternative to
+  /// [focusColor], [hoverColor], [highlightColor], and
+  /// [splashColor]. If non-null, it is resolved against one of
+  /// [MaterialState.focused], [MaterialState.hovered], and
+  /// [MaterialState.pressed]. It's convenient to use when the parent
+  /// widget can pass along its own MaterialStateProperty value for
+  /// the overlay color.
+  ///
+  /// [MaterialState.pressed] triggers a ripple (an ink splash), per
+  /// the current Material Design spec. The [overlayColor] doesn't map
+  /// a state to [highlightColor] because a separate highlight is not
+  /// used by the current design guidelines. See
+  /// https://material.io/design/interaction/states.html#pressed
+  ///
+  /// If the overlay color is null or resolves to null, then [focusColor],
+  /// [hoverColor], [splashColor] and their defaults are used instead.
+  ///
+  /// See also:
+  ///
+  ///  * The Material Design specification for overlay colors and how they
+  ///    match a component's state:
+  ///    <https://material.io/design/interaction/states.html#anatomy>.
+  final MaterialStateProperty<Color?>? overlayColor;
+
+  /// A builder to customize the selected menu item.
+  ///
+  /// If this callback is null, the selected menu item will be displayed as other [items].
+  ///
+  /// You should return the child from the builder wrapped with the widget that
+  /// customize your item, i.e:
+  /// ```dart
+  /// selectedMenuItemBuilder: (ctx, child) {
+  ///   return Container(
+  ///     color: Colors.blue,
+  ///     child: child,
+  ///   );
+  /// },
+  /// ```
+  final SelectedMenuItemBuilder? selectedMenuItemBuilder;
+}

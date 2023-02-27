@@ -25,6 +25,10 @@ const EdgeInsetsGeometry _kAlignedButtonPadding =
     EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
 const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 
+/// A builder to customize the selected menu item.
+typedef SelectedMenuItemBuilder = Widget Function(
+    BuildContext context, Widget child);
+
 typedef _OnMenuStateChangeFn = void Function(bool isOpen);
 
 typedef _SearchMatchFn<T> = bool Function(
@@ -105,25 +109,21 @@ class _DropdownMenuPainter extends CustomPainter {
 class _DropdownMenuItemButton<T> extends StatefulWidget {
   const _DropdownMenuItemButton({
     super.key,
-    this.padding,
     required this.route,
+    required this.textDirection,
     required this.buttonRect,
     required this.constraints,
     required this.itemIndex,
     required this.enableFeedback,
-    this.itemSplashColor,
-    this.itemHighlightColor,
     this.customItemsHeights,
   });
 
   final _DropdownRoute<T> route;
-  final EdgeInsets? padding;
+  final TextDirection? textDirection;
   final Rect buttonRect;
   final BoxConstraints constraints;
   final int itemIndex;
   final bool enableFeedback;
-  final Color? itemSplashColor;
-  final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
 
   @override
@@ -194,9 +194,10 @@ class _DropdownMenuItemButtonState<T>
         parent: widget.route.animation!, curve: Interval(start, end));
 
     Widget child = Container(
-      padding: widget.padding,
+      padding: (widget.route.menuItemStyle.padding ?? _kMenuItemPadding)
+          .resolve(widget.textDirection),
       height: widget.customItemsHeights == null
-          ? widget.route.itemHeight
+          ? widget.route.menuItemStyle.height
           : widget.customItemsHeights![widget.itemIndex],
       child: widget.route.items[widget.itemIndex],
     );
@@ -210,13 +211,12 @@ class _DropdownMenuItemButtonState<T>
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
-        splashColor: widget.itemSplashColor,
-        highlightColor: widget.itemHighlightColor,
-        child: Container(
-          color:
-              _isSelectedItem ? widget.route.selectedItemHighlightColor : null,
-          child: child,
-        ),
+        overlayColor: widget.route.menuItemStyle.overlayColor,
+        child: _isSelectedItem
+            ? widget.route.menuItemStyle.selectedMenuItemBuilder
+                    ?.call(context, child) ??
+                child
+            : child,
       );
     }
     child = FadeTransition(opacity: opacity, child: child);
@@ -233,14 +233,11 @@ class _DropdownMenuItemButtonState<T>
 class _DropdownMenu<T> extends StatefulWidget {
   const _DropdownMenu({
     super.key,
-    this.padding,
     required this.route,
+    required this.textDirection,
     required this.buttonRect,
     required this.constraints,
     required this.enableFeedback,
-    required this.itemHeight,
-    this.itemSplashColor,
-    this.itemHighlightColor,
     this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
@@ -248,13 +245,10 @@ class _DropdownMenu<T> extends StatefulWidget {
   });
 
   final _DropdownRoute<T> route;
-  final EdgeInsets? padding;
+  final TextDirection? textDirection;
   final Rect buttonRect;
   final BoxConstraints constraints;
   final bool enableFeedback;
-  final double itemHeight;
-  final Color? itemSplashColor;
-  final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
@@ -294,13 +288,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
         for (int index = 0; index < widget.route.items.length; ++index)
           _DropdownMenuItemButton<T>(
             route: widget.route,
-            padding: widget.padding,
+            textDirection: widget.textDirection,
             buttonRect: widget.buttonRect,
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
-            itemSplashColor: widget.itemSplashColor,
-            itemHighlightColor: widget.itemHighlightColor,
             customItemsHeights: widget.customItemsHeights,
           ),
       ];
@@ -324,13 +316,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             widget.route.items[index].item!, widget.searchController!.text))
           _DropdownMenuItemButton<T>(
             route: widget.route,
-            padding: widget.padding,
+            textDirection: widget.textDirection,
             buttonRect: widget.buttonRect,
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
-            itemSplashColor: widget.itemSplashColor,
-            itemHighlightColor: widget.itemHighlightColor,
             customItemsHeights: widget.customItemsHeights,
           ),
     ];
@@ -367,7 +357,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           elevation: route.dropdownStyle.elevation,
           selectedIndex: route.selectedIndex,
           resize: _resize,
-          itemHeight: widget.itemHeight,
+          itemHeight: route.menuItemStyle.height,
           dropdownDecoration: route.dropdownStyle.decoration,
         ),
         child: Semantics(
@@ -443,19 +433,17 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     required this.buttonRect,
     required this.availableHeight,
     required this.textDirection,
-    required this.itemHeight,
-    this.itemWidth,
   });
 
   final _DropdownRoute<T> route;
   final Rect buttonRect;
   final double availableHeight;
   final TextDirection? textDirection;
-  final double itemHeight;
-  final double? itemWidth;
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
+    final itemHeight = route.menuItemStyle.height;
+    final itemWidth = route.dropdownStyle.width;
     // The maximum height of a simple menu should be one or more rows less than
     // the view height. This ensures a tappable area outside of the simple menu
     // with which to dismiss the menu.
@@ -572,11 +560,9 @@ class _MenuLimits {
 class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   _DropdownRoute({
     required this.items,
-    required this.padding,
     required this.buttonRect,
     required this.selectedIndex,
     required this.isNoSelectedItem,
-    this.selectedItemHighlightColor,
     required this.capturedThemes,
     required this.style,
     required this.barrierDismissible,
@@ -584,30 +570,24 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     this.barrierLabel,
     required this.enableFeedback,
     required this.dropdownStyle,
-    required this.itemHeight,
-    this.itemSplashColor,
-    this.itemHighlightColor,
+    required this.menuItemStyle,
     this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
     this.searchInnerWidgetHeight,
     this.searchMatchFn,
-  }) : itemHeights =
-            customItemsHeights ?? List<double>.filled(items.length, itemHeight);
+  }) : itemHeights = customItemsHeights ??
+            List<double>.filled(items.length, menuItemStyle.height);
 
   final List<_MenuItem<T>> items;
-  final EdgeInsetsGeometry padding;
   final ValueNotifier<Rect?> buttonRect;
   final int selectedIndex;
   final bool isNoSelectedItem;
-  final Color? selectedItemHighlightColor;
   final CapturedThemes capturedThemes;
   final TextStyle style;
   final bool enableFeedback;
   final DropdownStyleData dropdownStyle;
-  final double itemHeight;
-  final Color? itemSplashColor;
-  final Color? itemHighlightColor;
+  final MenuItemStyleData menuItemStyle;
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
@@ -646,15 +626,11 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
             return _DropdownRoutePage<T>(
               route: this,
               constraints: actualConstraints,
-              padding: padding,
               buttonRect: rect!,
               selectedIndex: selectedIndex,
               capturedThemes: capturedThemes,
               style: style,
               enableFeedback: enableFeedback,
-              itemHeight: itemHeight,
-              itemSplashColor: itemSplashColor,
-              itemHighlightColor: itemHighlightColor,
               customItemsHeights: customItemsHeights,
               searchController: searchController,
               searchInnerWidget: searchInnerWidget,
@@ -689,6 +665,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   // that's possible given availableHeight.
   _MenuLimits getMenuLimits(
       Rect buttonRect, double availableHeight, int index) {
+    final itemHeight = menuItemStyle.height;
     double computedMaxHeight = availableHeight - 2.0 * itemHeight;
     final double? menuMaxHeight = dropdownStyle.maxHeight;
     if (menuMaxHeight != null) {
@@ -774,17 +751,12 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     super.key,
     required this.route,
     required this.constraints,
-    required this.padding,
     required this.buttonRect,
     required this.selectedIndex,
     this.elevation = 8,
     required this.capturedThemes,
     this.style,
     required this.enableFeedback,
-    required this.itemHeight,
-    this.itemWidth,
-    this.itemSplashColor,
-    this.itemHighlightColor,
     this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
@@ -793,17 +765,12 @@ class _DropdownRoutePage<T> extends StatelessWidget {
 
   final _DropdownRoute<T> route;
   final BoxConstraints constraints;
-  final EdgeInsetsGeometry padding;
   final Rect buttonRect;
   final int selectedIndex;
   final int elevation;
   final CapturedThemes capturedThemes;
   final TextStyle? style;
   final bool enableFeedback;
-  final double itemHeight;
-  final double? itemWidth;
-  final Color? itemSplashColor;
-  final Color? itemHighlightColor;
   final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
@@ -816,9 +783,9 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     // Computing the initialScrollOffset now, before the items have been laid
     // out. This only works if the item heights are effectively fixed, i.e. either
     // DropdownButton.itemHeight is specified or DropdownButton.itemHeight is null
-    // and all of the items' intrinsic heights are less than kMinInteractiveDimension.
+    // and all of the items' intrinsic heights are less than _kMenuItemHeight.
     // Otherwise the initialScrollOffset is just a rough approximation based on
-    // treating the items as if their heights were all equal to kMinInteractiveDimension.
+    // treating the items as if their heights were all equal to _kMenuItemHeight.
     if (route.scrollController == null) {
       final _MenuLimits menuLimits =
           route.getMenuLimits(buttonRect, constraints.maxHeight, selectedIndex);
@@ -829,13 +796,10 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     final TextDirection? textDirection = Directionality.maybeOf(context);
     final Widget menu = _DropdownMenu<T>(
       route: route,
-      padding: padding.resolve(textDirection),
+      textDirection: textDirection,
       buttonRect: buttonRect,
       constraints: constraints,
       enableFeedback: enableFeedback,
-      itemHeight: itemHeight,
-      itemSplashColor: itemSplashColor,
-      itemHighlightColor: itemHighlightColor,
       customItemsHeights: customItemsHeights,
       searchController: searchController,
       searchInnerWidget: searchInnerWidget,
@@ -852,12 +816,10 @@ class _DropdownRoutePage<T> extends StatelessWidget {
         builder: (BuildContext context) {
           return CustomSingleChildLayout(
             delegate: _DropdownMenuRouteLayout<T>(
-              buttonRect: buttonRect,
-              availableHeight: constraints.maxHeight,
               route: route,
               textDirection: textDirection,
-              itemHeight: itemHeight,
-              itemWidth: itemWidth,
+              buttonRect: buttonRect,
+              availableHeight: constraints.maxHeight,
             ),
             child: capturedThemes.wrap(menu),
           );
@@ -1019,7 +981,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.underline,
     this.isDense = false,
     this.isExpanded = false,
-    this.itemHeight = kMinInteractiveDimension,
     this.focusNode,
     this.autofocus = false,
     this.enableFeedback,
@@ -1027,10 +988,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonStyleData,
     this.iconStyleData = const IconStyleData(),
     this.dropdownStyleData = const DropdownStyleData(),
-    this.itemPadding,
-    this.itemSplashColor,
-    this.itemHighlightColor,
-    this.selectedItemHighlightColor,
+    this.menuItemStyleData = const MenuItemStyleData(),
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1083,7 +1041,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.underline,
     this.isDense = false,
     this.isExpanded = false,
-    this.itemHeight = kMinInteractiveDimension,
     this.focusNode,
     this.autofocus = false,
     this.enableFeedback,
@@ -1091,10 +1048,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.buttonStyleData,
     required this.iconStyleData,
     required this.dropdownStyleData,
-    this.itemPadding,
-    this.itemSplashColor,
-    this.itemHighlightColor,
-    this.selectedItemHighlightColor,
+    required this.menuItemStyleData,
     this.customButton,
     this.customItemsHeights,
     this.openWithLongPress = false,
@@ -1141,17 +1095,8 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Used to configure the theme of the dropdown menu
   final DropdownStyleData dropdownStyleData;
 
-  /// The padding of menu items
-  final EdgeInsetsGeometry? itemPadding;
-
-  /// The splash color of the item's InkWell
-  final Color? itemSplashColor;
-
-  /// The highlight color of the item's InkWell
-  final Color? itemHighlightColor;
-
-  /// The highlight color of the current selected item
-  final Color? selectedItemHighlightColor;
+  /// Used to configure the theme of the dropdown menu items
+  final MenuItemStyleData menuItemStyleData;
 
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
@@ -1295,9 +1240,6 @@ class DropdownButton2<T> extends StatefulWidget {
   /// surrounding container.
   final bool isExpanded;
 
-  /// The default value is [kMinInteractiveDimension]
-  final double itemHeight;
-
   /// {@macro flutter.widgets.Focus.focusNode}
   final FocusNode? focusNode;
 
@@ -1348,6 +1290,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   IconStyleData get iconStyle => widget.iconStyleData;
 
   DropdownStyleData get dropdownStyle => widget.dropdownStyleData;
+
+  MenuItemStyleData get menuItemStyle => widget.menuItemStyleData;
 
   FocusNode? get focusNode => widget.focusNode ?? _internalNode;
   bool _hasPrimaryFocus = false;
@@ -1472,15 +1416,13 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   double _getMenuHorizontalPadding() {
     final menuHorizontalPadding =
-        (widget.itemPadding?.horizontal ?? _kMenuItemPadding.horizontal) +
+        (menuItemStyle.padding?.horizontal ?? _kMenuItemPadding.horizontal) +
             (dropdownStyle.padding?.horizontal ?? 0.0) +
             (dropdownStyle.scrollPadding?.horizontal ?? 0.0);
     return menuHorizontalPadding / 2;
   }
 
   void _handleTap() {
-    final TextDirection? textDirection = Directionality.maybeOf(context);
-
     final List<_MenuItem<T>> menuItems = <_MenuItem<T>>[
       for (int index = 0; index < widget.items!.length; index += 1)
         _MenuItem<T>(
@@ -1508,10 +1450,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     _dropdownRoute = _DropdownRoute<T>(
       items: menuItems,
       buttonRect: _rect,
-      padding: widget.itemPadding ?? _kMenuItemPadding.resolve(textDirection),
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
-      selectedItemHighlightColor: widget.selectedItemHighlightColor,
       capturedThemes:
           InheritedTheme.capture(from: context, to: navigator.context),
       style: _textStyle!,
@@ -1521,9 +1461,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           MaterialLocalizations.of(context).modalBarrierDismissLabel,
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: dropdownStyle,
-      itemHeight: widget.itemHeight,
-      itemSplashColor: widget.itemSplashColor,
-      itemHighlightColor: widget.itemHighlightColor,
+      menuItemStyle: menuItemStyle,
       customItemsHeights: widget.customItemsHeights,
       searchController: widget.searchController,
       searchInnerWidget: widget.searchInnerWidget,
@@ -1674,7 +1612,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           children: widget.isDense
               ? items
               : items.map((Widget item) {
-                  return SizedBox(height: widget.itemHeight, child: item);
+                  return SizedBox(
+                    height: widget.menuItemStyleData.height,
+                    child: item,
+                  );
                 }).toList(),
         ),
       );
@@ -1809,7 +1750,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? hint,
     Widget? disabledHint,
     this.onChanged,
-    int dropdownElevation = 8,
     TextStyle? style,
     Widget? icon,
     Widget? iconOnClick,
@@ -1818,7 +1758,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     double iconSize = 24.0,
     bool isDense = true,
     bool isExpanded = false,
-    double itemHeight = kMinInteractiveDimension,
     FocusNode? focusNode,
     bool autofocus = false,
     InputDecoration? decoration,
@@ -1830,10 +1769,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     ButtonStyleData? buttonStyleData,
     IconStyleData iconStyleData = const IconStyleData(),
     DropdownStyleData dropdownStyleData = const DropdownStyleData(),
-    EdgeInsetsGeometry? itemPadding,
-    Color? itemSplashColor,
-    Color? itemHighlightColor,
-    Color? selectedItemHighlightColor,
+    MenuItemStyleData menuItemStyleData = const MenuItemStyleData(),
     Widget? customButton,
     List<double>? customItemsHeights,
     bool openWithLongPress = false,
@@ -1917,7 +1853,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         style: style,
                         isDense: isDense,
                         isExpanded: isExpanded,
-                        itemHeight: itemHeight,
                         focusNode: focusNode,
                         autofocus: autofocus,
                         enableFeedback: enableFeedback,
@@ -1925,10 +1860,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         buttonStyleData: buttonStyleData,
                         iconStyleData: iconStyleData,
                         dropdownStyleData: dropdownStyleData,
-                        itemPadding: itemPadding,
-                        itemSplashColor: itemSplashColor,
-                        itemHighlightColor: itemHighlightColor,
-                        selectedItemHighlightColor: selectedItemHighlightColor,
+                        menuItemStyleData: menuItemStyleData,
                         customButton: customButton,
                         customItemsHeights: customItemsHeights,
                         openWithLongPress: openWithLongPress,

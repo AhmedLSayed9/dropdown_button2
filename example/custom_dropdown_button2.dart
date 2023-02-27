@@ -139,8 +139,10 @@ class CustomDropdownButton2 extends StatelessWidget {
                 : null,
           ),
         ),
-        itemHeight: itemHeight ?? 40,
-        itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
+        menuItemStyleData: MenuItemStyleData(
+          height: itemHeight ?? 40,
+          padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
+        ),
       ),
     );
   }

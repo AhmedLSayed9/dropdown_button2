@@ -124,8 +124,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 thumbVisibility: MaterialStateProperty.all<bool>(true),
               ),
             ),
-            itemHeight: 40,
-            itemPadding: const EdgeInsets.only(left: 14, right: 14),
+            menuItemStyleData: const MenuItemStyleData(
+              height: 40,
+              padding: EdgeInsets.only(left: 14, right: 14),
+            ),
           ),
         ),
       ),
