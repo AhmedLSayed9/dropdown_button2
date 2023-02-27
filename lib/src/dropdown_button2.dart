@@ -29,14 +29,14 @@ const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 typedef SelectedMenuItemBuilder = Widget Function(
     BuildContext context, Widget child);
 
-typedef _OnMenuStateChangeFn = void Function(bool isOpen);
+typedef OnMenuStateChangeFn = void Function(bool isOpen);
 
-typedef _SearchMatchFn<T> = bool Function(
+typedef SearchMatchFn<T> = bool Function(
   DropdownMenuItem<T> item,
   String searchValue,
 );
 
-_SearchMatchFn _defaultSearchMatchFn = (item, searchValue) =>
+SearchMatchFn _defaultSearchMatchFn = (item, searchValue) =>
     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
 
 class _DropdownMenuPainter extends CustomPainter {
@@ -253,7 +253,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   late CurvedAnimation _fadeOpacity;
   late CurvedAnimation _resize;
   late List<Widget> _children;
-  late _SearchMatchFn<T> _searchMatchFn;
+  late SearchMatchFn<T> _searchMatchFn;
 
   DropdownStyleData get dropdownStyle => widget.route.dropdownStyle;
 
@@ -1098,7 +1098,7 @@ class DropdownButton2<T> extends StatefulWidget {
   final ValueChanged<T?>? onChanged;
 
   /// Called when the dropdown menu opens or closes.
-  final _OnMenuStateChangeFn? onMenuStateChange;
+  final OnMenuStateChangeFn? onMenuStateChange;
 
   /// The text style to use for text in the dropdown button and the dropdown
   /// menu that appears when you tap the button.
@@ -1203,7 +1203,7 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// Called when the dropdown menu is opened or closed in case of using
   /// DropdownButtonFormField2 to update the FormField's focus.
-  final _OnMenuStateChangeFn? formFieldCallBack;
+  final OnMenuStateChangeFn? formFieldCallBack;
 
   @override
   State<DropdownButton2<T>> createState() => DropdownButton2State<T>();
@@ -1679,7 +1679,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? hint,
     Widget? disabledHint,
     this.onChanged,
-    _OnMenuStateChangeFn? onMenuStateChange,
+    OnMenuStateChangeFn? onMenuStateChange,
     TextStyle? style,
     bool isDense = true,
     bool isExpanded = false,

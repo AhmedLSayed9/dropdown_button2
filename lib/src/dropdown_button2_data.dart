@@ -10,7 +10,7 @@ class ButtonStyleData {
     this.overlayColor,
   });
 
-  /// The height of the button.
+  /// The height of the button
   final double? height;
 
   /// The width of the button
@@ -61,7 +61,7 @@ class IconStyleData {
     this.openMenuIcon,
   });
 
-  /// The widget to use for the drop-down button's icon.
+  /// The widget to use for the drop-down button's suffix icon.
   ///
   /// Defaults to an [Icon] with the [Icons.arrow_drop_down] glyph.
   final Widget icon;
@@ -107,7 +107,7 @@ class DropdownStyleData {
     this.openInterval = const Interval(0.25, 0.5),
   });
 
-  /// The maximum height of the menu.
+  /// The maximum height of the dropdown menu
   ///
   /// The maximum height of the menu must be at least one row shorter than
   /// the height of the app's view. This ensures that a tappable area
@@ -250,5 +250,5 @@ class DropdownSearchData<T> {
   /// _defaultSearchMatchFn = (item, searchValue) =>
   ///   item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
   /// ```
-  final _SearchMatchFn<T>? searchMatchFn;
+  final SearchMatchFn<T>? searchMatchFn;
 }
