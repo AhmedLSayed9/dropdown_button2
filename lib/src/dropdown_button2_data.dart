@@ -162,13 +162,17 @@ class DropdownStyleData {
 class MenuItemStyleData {
   const MenuItemStyleData({
     this.height = _kMenuItemHeight,
+    this.customHeights,
     this.padding,
     this.overlayColor,
     this.selectedMenuItemBuilder,
   });
 
-  /// The default value is [kMinInteractiveDimension]
+  /// The height of the menu item, default value is [kMinInteractiveDimension]
   final double height;
+
+  /// Define different heights for the menu items (useful for adding dividers)
+  final List<double>? customHeights;
 
   /// The padding of menu items
   final EdgeInsetsGeometry? padding;

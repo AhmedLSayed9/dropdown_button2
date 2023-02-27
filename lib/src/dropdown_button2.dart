@@ -115,7 +115,6 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
     required this.constraints,
     required this.itemIndex,
     required this.enableFeedback,
-    this.customItemsHeights,
   });
 
   final _DropdownRoute<T> route;
@@ -124,7 +123,6 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   final BoxConstraints constraints;
   final int itemIndex;
   final bool enableFeedback;
-  final List<double>? customItemsHeights;
 
   @override
   _DropdownMenuItemButtonState<T> createState() =>
@@ -196,9 +194,9 @@ class _DropdownMenuItemButtonState<T>
     Widget child = Container(
       padding: (widget.route.menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
-      height: widget.customItemsHeights == null
+      height: widget.route.menuItemStyle.customHeights == null
           ? widget.route.menuItemStyle.height
-          : widget.customItemsHeights![widget.itemIndex],
+          : widget.route.menuItemStyle.customHeights![widget.itemIndex],
       child: widget.route.items[widget.itemIndex],
     );
     // An [InkWell] is added to the item only if it is enabled
@@ -238,7 +236,6 @@ class _DropdownMenu<T> extends StatefulWidget {
     required this.buttonRect,
     required this.constraints,
     required this.enableFeedback,
-    this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
     this.searchMatchFn,
@@ -249,7 +246,6 @@ class _DropdownMenu<T> extends StatefulWidget {
   final Rect buttonRect;
   final BoxConstraints constraints;
   final bool enableFeedback;
-  final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final _SearchMatchFn<T>? searchMatchFn;
@@ -293,7 +289,6 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
-            customItemsHeights: widget.customItemsHeights,
           ),
       ];
     } else {
@@ -321,7 +316,6 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             constraints: widget.constraints,
             itemIndex: index,
             enableFeedback: widget.enableFeedback,
-            customItemsHeights: widget.customItemsHeights,
           ),
     ];
   }
@@ -571,12 +565,11 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.enableFeedback,
     required this.dropdownStyle,
     required this.menuItemStyle,
-    this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
     this.searchInnerWidgetHeight,
     this.searchMatchFn,
-  }) : itemHeights = customItemsHeights ??
+  }) : itemHeights = menuItemStyle.customHeights ??
             List<double>.filled(items.length, menuItemStyle.height);
 
   final List<_MenuItem<T>> items;
@@ -588,7 +581,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool enableFeedback;
   final DropdownStyleData dropdownStyle;
   final MenuItemStyleData menuItemStyle;
-  final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final double? searchInnerWidgetHeight;
@@ -631,7 +623,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               capturedThemes: capturedThemes,
               style: style,
               enableFeedback: enableFeedback,
-              customItemsHeights: customItemsHeights,
               searchController: searchController,
               searchInnerWidget: searchInnerWidget,
               searchMatchFn: searchMatchFn,
@@ -757,7 +748,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     required this.capturedThemes,
     this.style,
     required this.enableFeedback,
-    this.customItemsHeights,
     this.searchController,
     this.searchInnerWidget,
     this.searchMatchFn,
@@ -771,7 +761,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final CapturedThemes capturedThemes;
   final TextStyle? style;
   final bool enableFeedback;
-  final List<double>? customItemsHeights;
   final TextEditingController? searchController;
   final Widget? searchInnerWidget;
   final _SearchMatchFn<T>? searchMatchFn;
@@ -800,7 +789,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
       buttonRect: buttonRect,
       constraints: constraints,
       enableFeedback: enableFeedback,
-      customItemsHeights: customItemsHeights,
       searchController: searchController,
       searchInnerWidget: searchInnerWidget,
       searchMatchFn: searchMatchFn,
@@ -990,7 +978,6 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownStyleData = const DropdownStyleData(),
     this.menuItemStyleData = const MenuItemStyleData(),
     this.customButton,
-    this.customItemsHeights,
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
@@ -1015,11 +1002,11 @@ class DropdownButton2<T> extends StatefulWidget {
           'with the same value',
         ),
         assert(
-          customItemsHeights == null ||
+          menuItemStyleData.customHeights == null ||
               items == null ||
               items.isEmpty ||
-              customItemsHeights.length == items.length,
-          "customItemsHeights list should have the same length of items list",
+              menuItemStyleData.customHeights?.length == items.length,
+          "customHeights list should have the same length of items list",
         ),
         assert(
           (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
@@ -1050,7 +1037,6 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.dropdownStyleData,
     required this.menuItemStyleData,
     this.customButton,
-    this.customItemsHeights,
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
@@ -1074,11 +1060,11 @@ class DropdownButton2<T> extends StatefulWidget {
           'with the same value',
         ),
         assert(
-          customItemsHeights == null ||
+          menuItemStyleData.customHeights == null ||
               items == null ||
               items.isEmpty ||
-              customItemsHeights.length == items.length,
-          "customItemsHeights list should have the same length of items list",
+              menuItemStyleData.customHeights?.length == items.length,
+          "customHeights list should have the same length of items list",
         ),
         assert(
           (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
@@ -1086,67 +1072,30 @@ class DropdownButton2<T> extends StatefulWidget {
           "This is necessary to properly determine menu limits and scroll offset",
         );
 
-  /// Used to configure the theme of the button
-  final ButtonStyleData? buttonStyleData;
-
-  /// Used to configure the theme of the button's icon
-  final IconStyleData iconStyleData;
-
-  /// Used to configure the theme of the dropdown menu
-  final DropdownStyleData dropdownStyleData;
-
-  /// Used to configure the theme of the dropdown menu items
-  final MenuItemStyleData menuItemStyleData;
-
-  /// Uses custom widget like icon,image,etc.. instead of the default button
-  final Widget? customButton;
-
-  /// Uses different predefined heights for the menu items (useful for adding dividers)
-  final List<double>? customItemsHeights;
-
-  /// Opens the dropdown menu on long-pressing instead of tapping
-  final bool openWithLongPress;
-
-  /// Called when the dropdown menu is opened or closed.
-  final _OnMenuStateChangeFn? onMenuStateChange;
-
-  /// Whether you can dismiss this route by tapping the modal barrier.
-  final bool barrierDismissible;
-
-  /// The color to use for the modal barrier. If this is null, the barrier will
-  /// be transparent.
-  final Color? barrierColor;
-
-  /// The semantic label used for a dismissible barrier.
-  ///
-  /// If the barrier is dismissible, this label will be read out if
-  /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
-  final String? barrierLabel;
-
-  /// The TextEditingController used for searchable dropdowns. If this is null,
-  /// then it'll perform as a normal dropdown without searching feature.
-  final TextEditingController? searchController;
-
-  /// The widget to use for searchable dropdowns, such as search bar.
-  /// It will be shown at the top of the dropdown menu.
-  final Widget? searchInnerWidget;
-
-  /// The height of the searchInnerWidget if used.
-  final double? searchInnerWidgetHeight;
-
-  /// The match function used for searchable dropdowns. If this is null,
-  /// then _defaultSearchMatchFn will be used.
-  ///
-  /// _defaultSearchMatchFn = (item, searchValue) =>
-  ///     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
-  final _SearchMatchFn<T>? searchMatchFn;
-
   /// The list of items the user can select.
   ///
   /// If the [onChanged] callback is null or the list of items is null
   /// then the dropdown button will be disabled, i.e. its arrow will be
   /// displayed in grey and it will not respond to input.
   final List<DropdownMenuItem<T>>? items;
+
+  /// A builder to customize the dropdown buttons corresponding to the
+  /// [DropdownMenuItem]s in [items].
+  ///
+  /// When a [DropdownMenuItem] is selected, the widget that will be displayed
+  /// from the list corresponds to the [DropdownMenuItem] of the same index
+  /// in [items].
+  ///
+  /// {@tool dartpad}
+  /// This sample shows a `DropdownButton` with a button with [Text] that
+  /// corresponds to but is unique from [DropdownMenuItem].
+  ///
+  /// ** See code in examples/api/lib/material/dropdown/dropdown_button.selected_item_builder.0.dart **
+  /// {@end-tool}
+  ///
+  /// If this callback is null, the [DropdownMenuItem] from [items]
+  /// that matches [value] will be displayed.
+  final DropdownButtonBuilder? selectedItemBuilder;
 
   /// The value of the currently selected [DropdownMenuItem].
   ///
@@ -1185,23 +1134,8 @@ class DropdownButton2<T> extends StatefulWidget {
   /// {@endtemplate}
   final ValueChanged<T?>? onChanged;
 
-  /// A builder to customize the dropdown buttons corresponding to the
-  /// [DropdownMenuItem]s in [items].
-  ///
-  /// When a [DropdownMenuItem] is selected, the widget that will be displayed
-  /// from the list corresponds to the [DropdownMenuItem] of the same index
-  /// in [items].
-  ///
-  /// {@tool dartpad}
-  /// This sample shows a `DropdownButton` with a button with [Text] that
-  /// corresponds to but is unique from [DropdownMenuItem].
-  ///
-  /// ** See code in examples/api/lib/material/dropdown/dropdown_button.selected_item_builder.0.dart **
-  /// {@end-tool}
-  ///
-  /// If this callback is null, the [DropdownMenuItem] from [items]
-  /// that matches [value] will be displayed.
-  final DropdownButtonBuilder? selectedItemBuilder;
+  /// Called when the dropdown menu opens or closes.
+  final _OnMenuStateChangeFn? onMenuStateChange;
 
   /// The text style to use for text in the dropdown button and the dropdown
   /// menu that appears when you tap the button.
@@ -1269,6 +1203,55 @@ class DropdownButton2<T> extends StatefulWidget {
   ///  * [AlignmentDirectional], like [Alignment] for specifying alignments
   ///    relative to text direction.
   final AlignmentGeometry alignment;
+
+  /// Used to configure the theme of the button
+  final ButtonStyleData? buttonStyleData;
+
+  /// Used to configure the theme of the button's icon
+  final IconStyleData iconStyleData;
+
+  /// Used to configure the theme of the dropdown menu
+  final DropdownStyleData dropdownStyleData;
+
+  /// Used to configure the theme of the dropdown menu items
+  final MenuItemStyleData menuItemStyleData;
+
+  /// Uses custom widget like icon,image,etc.. instead of the default button
+  final Widget? customButton;
+
+  /// Opens the dropdown menu on long-pressing instead of tapping
+  final bool openWithLongPress;
+
+  /// Whether you can dismiss this route by tapping the modal barrier.
+  final bool barrierDismissible;
+
+  /// The color to use for the modal barrier. If this is null, the barrier will
+  /// be transparent.
+  final Color? barrierColor;
+
+  /// The semantic label used for a dismissible barrier.
+  ///
+  /// If the barrier is dismissible, this label will be read out if
+  /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
+  final String? barrierLabel;
+
+  /// The TextEditingController used for searchable dropdowns. If this is null,
+  /// then it'll perform as a normal dropdown without searching feature.
+  final TextEditingController? searchController;
+
+  /// The widget to use for searchable dropdowns, such as search bar.
+  /// It will be shown at the top of the dropdown menu.
+  final Widget? searchInnerWidget;
+
+  /// The height of the searchInnerWidget if used.
+  final double? searchInnerWidgetHeight;
+
+  /// The match function used for searchable dropdowns. If this is null,
+  /// then _defaultSearchMatchFn will be used.
+  ///
+  /// _defaultSearchMatchFn = (item, searchValue) =>
+  ///     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+  final _SearchMatchFn<T>? searchMatchFn;
 
   /// Called when the dropdown menu is opened or closed in case of using
   /// DropdownButtonFormField2 to update the FormField's focus.
@@ -1462,7 +1445,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: dropdownStyle,
       menuItemStyle: menuItemStyle,
-      customItemsHeights: widget.customItemsHeights,
       searchController: widget.searchController,
       searchInnerWidget: widget.searchInnerWidget,
       searchInnerWidgetHeight: widget.searchInnerWidgetHeight,
@@ -1771,7 +1753,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     DropdownStyleData dropdownStyleData = const DropdownStyleData(),
     MenuItemStyleData menuItemStyleData = const MenuItemStyleData(),
     Widget? customButton,
-    List<double>? customItemsHeights,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
     Color? barrierColor,
@@ -1862,7 +1843,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         dropdownStyleData: dropdownStyleData,
                         menuItemStyleData: menuItemStyleData,
                         customButton: customButton,
-                        customItemsHeights: customItemsHeights,
                         openWithLongPress: openWithLongPress,
                         onMenuStateChange: onMenuStateChange,
                         barrierDismissible: barrierDismissible,
