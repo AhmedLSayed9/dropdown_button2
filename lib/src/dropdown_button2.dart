@@ -257,7 +257,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 
   DropdownStyleData get dropdownStyle => widget.route.dropdownStyle;
 
-  DropdownSearchData? get searchData => widget.route.searchData;
+  DropdownSearchData<T>? get searchData => widget.route.searchData;
 
   @override
   void initState() {
@@ -575,7 +575,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool enableFeedback;
   final DropdownStyleData dropdownStyle;
   final MenuItemStyleData menuItemStyle;
-  final DropdownSearchData? searchData;
+  final DropdownSearchData<T>? searchData;
 
   final List<double> itemHeights;
   ScrollController? scrollController;
@@ -1224,7 +1224,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   MenuItemStyleData get menuItemStyle => widget.menuItemStyleData;
 
-  DropdownSearchData? get searchData => widget.dropdownSearchData;
+  DropdownSearchData<T>? get searchData => widget.dropdownSearchData;
 
   FocusNode? get focusNode => widget.focusNode ?? _internalNode;
   bool _hasPrimaryFocus = false;
