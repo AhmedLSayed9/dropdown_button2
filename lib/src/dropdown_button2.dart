@@ -1180,7 +1180,7 @@ class DropdownButton2<T> extends StatefulWidget {
   final MenuItemStyleData menuItemStyleData;
 
   /// Used to configure searchable dropdowns
-  final DropdownSearchData? dropdownSearchData;
+  final DropdownSearchData<T>? dropdownSearchData;
 
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
@@ -1695,7 +1695,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     IconStyleData iconStyleData = const IconStyleData(),
     DropdownStyleData dropdownStyleData = const DropdownStyleData(),
     MenuItemStyleData menuItemStyleData = const MenuItemStyleData(),
-    DropdownSearchData? dropdownSearchData,
+    DropdownSearchData<T>? dropdownSearchData,
     Widget? customButton,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
