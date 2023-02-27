@@ -246,7 +246,9 @@ class DropdownSearchData<T> {
   /// The match function used for searchable dropdowns. If this is null,
   /// then _defaultSearchMatchFn will be used.
   ///
+  /// ```dart
   /// _defaultSearchMatchFn = (item, searchValue) =>
-  ///     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+  ///   item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+  /// ```
   final _SearchMatchFn<T>? searchMatchFn;
 }
