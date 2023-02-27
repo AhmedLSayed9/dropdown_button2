@@ -180,7 +180,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 <img src="https://user-images.githubusercontent.com/70890146/144771200-15e7e98e-bdf2-4265-b810-035191f7e607.jpg" alt="Image" width="300"/>
 
 ```dart
-
 final List<String> items = [
   'Item1',
   'Item2',
@@ -199,32 +198,33 @@ Widget build(BuildContext context) {
             'Select Item',
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                  .of(context)
-                  .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
           items: items
-              .map((item) =>
-              DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ))
-              .toList(),
+                  .map((item) => DropdownMenuItem<String>(
+            value: item,
+            child: Text(
+              item,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ))
+                  .toList(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
               selectedValue = value as String;
             });
           },
-          buttonHeight: 40,
-          buttonWidth: 140,
-          itemHeight: 40,
+          buttonStyleData: const ButtonStyleData(
+            height: 40,
+            width: 140,
+          ),
+          menuItemStyleData: const MenuItemStyleData(
+            height: 40,
+          ),
         ),
       ),
     ),
@@ -237,7 +237,6 @@ Widget build(BuildContext context) {
 <img src="https://user-images.githubusercontent.com/70890146/144771235-8dd0b019-e93b-4613-9035-42dbedd9ba9e.jpg" alt="Image" width="300"/>
 
 ```dart
-
 final List<String> items = [
   'Item1',
   'Item2',
@@ -281,57 +280,65 @@ Widget build(BuildContext context) {
             ],
           ),
           items: items
-              .map((item) =>
-              DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ))
-              .toList(),
+                  .map((item) => DropdownMenuItem<String>(
+            value: item,
+            child: Text(
+              item,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))
+                  .toList(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
               selectedValue = value as String;
             });
           },
-          icon: const Icon(
-            Icons.arrow_forward_ios_outlined,
-          ),
-          iconSize: 14,
-          iconEnabledColor: Colors.yellow,
-          iconDisabledColor: Colors.grey,
-          buttonHeight: 50,
-          buttonWidth: 160,
-          buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-          buttonDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: Colors.black26,
+          buttonStyleData: ButtonStyleData(
+            height: 50,
+            width: 160,
+            padding: const EdgeInsets.only(left: 14, right: 14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: Colors.black26,
+              ),
+              color: Colors.redAccent,
             ),
-            color: Colors.redAccent,
+            elevation: 2,
           ),
-          buttonElevation: 2,
-          itemHeight: 40,
-          itemPadding: const EdgeInsets.only(left: 14, right: 14),
-          dropdownMaxHeight: 200,
-          dropdownWidth: 200,
-          dropdownPadding: null,
-          dropdownDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            color: Colors.redAccent,
+          iconStyleData: const IconStyleData(
+            icon: Icon(
+              Icons.arrow_forward_ios_outlined,
+            ),
+            iconSize: 14,
+            iconEnabledColor: Colors.yellow,
+            iconDisabledColor: Colors.grey,
           ),
-          dropdownElevation: 8,
-          scrollbarRadius: const Radius.circular(40),
-          scrollbarThickness: 6,
-          scrollbarAlwaysShow: true,
-          offset: const Offset(-20, 0),
+          dropdownStyleData: DropdownStyleData(
+                  maxHeight: 200,
+                  width: 200,
+                  padding: null,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: Colors.redAccent,
+                  ),
+                  elevation: 8,
+                  offset: const Offset(-20, 0),
+                  scrollbarTheme: ScrollbarThemeData(
+                    radius: const Radius.circular(40),
+                    thickness: MaterialStateProperty.all(6),
+                    thumbVisibility: MaterialStateProperty.all(true),
+                  )),
+          menuItemStyleData: const MenuItemStyleData(
+            height: 40,
+            padding: EdgeInsets.only(left: 14, right: 14),
+          ),
         ),
       ),
     ),
@@ -344,7 +351,6 @@ Widget build(BuildContext context) {
 <img src="https://user-images.githubusercontent.com/70890146/144771246-49ea5ed8-78d7-4e0d-a411-331649cef3d5.jpg" alt="Image" width="300"/>
 
 ```dart
-
 final List<String> items = [
   'Item1',
   'Item2',
@@ -407,23 +413,24 @@ Widget build(BuildContext context) {
             'Select Item',
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                  .of(context)
-                  .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
           items: _addDividersAfterItems(items),
-          customItemsHeights: _getCustomItemsHeights(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
               selectedValue = value as String;
             });
           },
-          buttonHeight: 40,
-          dropdownMaxHeight: 200,
-          buttonWidth: 140,
-          itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+          buttonStyleData: const ButtonStyleData(height: 40, width: 140),
+          dropdownStyleData: const DropdownStyleData(
+            maxHeight: 200,
+          ),
+          menuItemStyleData: MenuItemStyleData(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            customHeights: _getCustomItemsHeights(),
+          ),
         ),
       ),
     ),
@@ -436,7 +443,6 @@ Widget build(BuildContext context) {
 <img src="https://user-images.githubusercontent.com/70890146/168461570-1682bf63-f1e9-40c1-a86d-aa4c3acdd1c9.jpg" alt="Image" width="300"/>
 
 ```dart
-
 final List<String> items = [
   'Item1',
   'Item2',
@@ -458,9 +464,7 @@ Widget build(BuildContext context) {
               'Select Items',
               style: TextStyle(
                 fontSize: 14,
-                color: Theme
-                    .of(context)
-                    .hintColor,
+                color: Theme.of(context).hintColor,
               ),
             ),
           ),
@@ -475,8 +479,8 @@ Widget build(BuildContext context) {
                   return InkWell(
                     onTap: () {
                       _isSelected
-                          ? selectedItems.remove(item)
-                          : selectedItems.add(item);
+                              ? selectedItems.remove(item)
+                              : selectedItems.add(item);
                       //This rebuilds the StatefulWidget to update the button's text
                       setState(() {});
                       //This rebuilds the dropdownMenu Widget to update the check mark
@@ -488,8 +492,8 @@ Widget build(BuildContext context) {
                       child: Row(
                         children: [
                           _isSelected
-                              ? const Icon(Icons.check_box_outlined)
-                              : const Icon(Icons.check_box_outline_blank),
+                                  ? const Icon(Icons.check_box_outlined)
+                                  : const Icon(Icons.check_box_outline_blank),
                           const SizedBox(width: 16),
                           Text(
                             item,
@@ -508,13 +512,9 @@ Widget build(BuildContext context) {
           //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
           value: selectedItems.isEmpty ? null : selectedItems.last,
           onChanged: (value) {},
-          buttonHeight: 40,
-          buttonWidth: 140,
-          itemHeight: 40,
-          itemPadding: EdgeInsets.zero,
           selectedItemBuilder: (context) {
             return items.map(
-                  (item) {
+                      (item) {
                 return Container(
                   alignment: AlignmentDirectional.center,
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -530,6 +530,14 @@ Widget build(BuildContext context) {
               },
             ).toList();
           },
+          buttonStyleData: const ButtonStyleData(
+            height: 40,
+            width: 140,
+          ),
+          menuItemStyleData: const MenuItemStyleData(
+            height: 40,
+            padding: EdgeInsets.zero,
+          ),
         ),
       ),
     ),
@@ -542,7 +550,6 @@ Widget build(BuildContext context) {
 <img src="https://user-images.githubusercontent.com/70890146/173115793-de4ec762-ab62-4395-b64a-01ae096ed4e3.jpg" alt="Image" width="300"/>
 
 ```dart
-
 final List<String> items = [
   'A_Item1',
   'A_Item2',
@@ -568,70 +575,75 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
       child: DropdownButtonHideUnderline(
-        child: DropdownButton2(
+        child: DropdownButton2<String>(
           isExpanded: true,
           hint: Text(
             'Select Item',
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                  .of(context)
-                  .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
           items: items
-              .map((item) =>
-              DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ))
-              .toList(),
+                  .map((item) => DropdownMenuItem(
+            value: item,
+            child: Text(
+              item,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ))
+                  .toList(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
               selectedValue = value as String;
             });
           },
-          buttonHeight: 40,
-          buttonWidth: 200,
-          itemHeight: 40,
-          dropdownMaxHeight: 200,
-          searchController: textEditingController,
-          searchInnerWidgetHeight: 50,
-          searchInnerWidget: Container(
-            height: 50,
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 4,
-              right: 8,
-              left: 8,
-            ),
-            child: TextFormField(
-              expands: true,
-              maxLines: null,
-              controller: textEditingController,
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                hintText: 'Search for an item...',
-                hintStyle: const TextStyle(fontSize: 12),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+          buttonStyleData: const ButtonStyleData(
+            height: 40,
+            width: 200,
+          ),
+          dropdownStyleData: const DropdownStyleData(
+            maxHeight: 200,
+          ),
+          menuItemStyleData: const MenuItemStyleData(
+            height: 40,
+          ),
+          dropdownSearchData: DropdownSearchData(
+            searchController: textEditingController,
+            searchInnerWidgetHeight: 50,
+            searchInnerWidget: Container(
+              height: 50,
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 4,
+                right: 8,
+                left: 8,
+              ),
+              child: TextFormField(
+                expands: true,
+                maxLines: null,
+                controller: textEditingController,
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
+                  hintText: 'Search for an item...',
+                  hintStyle: const TextStyle(fontSize: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
             ),
+            searchMatchFn: (item, searchValue) {
+              return (item.value.toString().contains(searchValue));
+            },
           ),
-          searchMatchFn: (item, searchValue) {
-            return (item.value.toString().contains(searchValue));
-          },
           //This to clear the search value when you close the menu
           onMenuStateChange: (isOpen) {
             if (!isOpen) {
@@ -671,41 +683,42 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               size: 46,
               color: Colors.red,
             ),
-            customItemsHeights: [
-              ...List<double>.filled(MenuItems.firstItems.length, 48),
-              8,
-              ...List<double>.filled(MenuItems.secondItems.length, 48),
-            ],
             items: [
               ...MenuItems.firstItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
+                ),
               ),
               const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
+                ),
               ),
             ],
             onChanged: (value) {
               MenuItems.onChanged(context, value as MenuItem);
             },
-            itemHeight: 48,
-            itemPadding: const EdgeInsets.only(left: 16, right: 16),
-            dropdownWidth: 160,
-            dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
-            dropdownDecoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.redAccent,
+            dropdownStyleData: DropdownStyleData(
+              width: 160,
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.redAccent,
+              ),
+              elevation: 8,
+              offset: const Offset(0, 8),
             ),
-            dropdownElevation: 8,
-            offset: const Offset(0, 8),
+            menuItemStyleData: MenuItemStyleData(
+              customHeights: [
+                ...List<double>.filled(MenuItems.firstItems.length, 48),
+                8,
+                ...List<double>.filled(MenuItems.secondItems.length, 48),
+              ],
+              padding: const EdgeInsets.only(left: 16, right: 16),
+            ),
           ),
         ),
       ),
@@ -735,11 +748,7 @@ class MenuItems {
   static Widget buildItem(MenuItem item) {
     return Row(
       children: [
-        Icon(
-            item.icon,
-            color: Colors.white,
-            size: 22
-        ),
+        Icon(item.icon, color: Colors.white, size: 22),
         const SizedBox(
           width: 10,
         ),
@@ -805,41 +814,44 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               ),
             ),
             openWithLongPress: true,
-            customItemsHeights: [
-              ...List<double>.filled(MenuItems.firstItems.length, 48),
-              8,
-              ...List<double>.filled(MenuItems.secondItems.length, 48),
-            ],
             items: [
               ...MenuItems.firstItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) =>
+                        DropdownMenuItem<MenuItem>(
+                          value: item,
+                          child: MenuItems.buildItem(item),
+                        ),
               ),
               const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                    (item) =>
-                    DropdownMenuItem<MenuItem>(
-                      value: item,
-                      child: MenuItems.buildItem(item),
-                    ),
+                        (item) =>
+                        DropdownMenuItem<MenuItem>(
+                          value: item,
+                          child: MenuItems.buildItem(item),
+                        ),
               ),
             ],
             onChanged: (value) {
               MenuItems.onChanged(context, value as MenuItem);
             },
-            itemHeight: 48,
-            itemPadding: const EdgeInsets.only(left: 16, right: 16),
-            dropdownWidth: 160,
-            dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
-            dropdownDecoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.redAccent,
+            dropdownStyleData: DropdownStyleData(
+              width: 160,
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.redAccent,
+              ),
+              elevation: 8,
+              offset: const Offset(40, -4),
             ),
-            dropdownElevation: 8,
-            offset: const Offset(40, -4),
+            menuItemStyleData: MenuItemStyleData(
+              customHeights: [
+                ...List<double>.filled(MenuItems.firstItems.length, 48),
+                8,
+                ...List<double>.filled(MenuItems.secondItems.length, 48),
+              ],
+              padding: const EdgeInsets.only(left: 16, right: 16),
+            ),
           ),
         ),
       ),
@@ -911,7 +923,6 @@ class MenuItems {
 <img src="https://user-images.githubusercontent.com/70890146/144771294-4b98a3f4-5cb7-452f-a1be-5d3e1275fb93.jpg" alt="Image" width="500"/>
 
 ```dart
-
 final List<String> genderItems = [
   'Male',
   'Female',
@@ -962,32 +973,22 @@ Widget build(BuildContext context) {
                 'Select Your Gender',
                 style: TextStyle(fontSize: 14),
               ),
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                color: Colors.black45,
-              ),
-              iconSize: 30,
-              buttonHeight: 60,
-              buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-              dropdownDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-              ),
               items: genderItems
-                  .map((item) =>
-                  DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ))
-                  .toList(),
+                      .map((item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ))
+                      .toList(),
               validator: (value) {
                 if (value == null) {
                   return 'Please select gender.';
                 }
+                return null;
               },
               onChanged: (value) {
                 //Do something when changing the item if you want.
@@ -995,6 +996,22 @@ Widget build(BuildContext context) {
               onSaved: (value) {
                 selectedValue = value.toString();
               },
+              buttonStyleData: const ButtonStyleData(
+                height: 60,
+                padding: EdgeInsets.only(left: 20, right: 10),
+              ),
+              iconStyleData: const IconStyleData(
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.black45,
+                ),
+                iconSize: 30,
+              ),
+              dropdownStyleData: DropdownStyleData(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
             ),
             const SizedBox(height: 30),
             TextButton(
@@ -1041,7 +1058,7 @@ class CustomDropdownButton2 extends StatelessWidget {
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
-  final Offset? offset;
+  final Offset offset;
 
   const CustomDropdownButton2({
     required this.hint,
@@ -1070,7 +1087,7 @@ class CustomDropdownButton2 extends StatelessWidget {
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
-    this.offset,
+    this.offset = const Offset(0, 0),
     Key? key,
   }) : super(key: key);
 
@@ -1088,65 +1105,76 @@ class CustomDropdownButton2 extends StatelessWidget {
             maxLines: 1,
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                  .of(context)
-                  .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
         ),
         value: value,
         items: dropdownItems
-            .map((item) =>
-            DropdownMenuItem<String>(
-              value: item,
-              child: Container(
-                alignment: valueAlignment,
-                child: Text(
-                  item,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
+                .map((item) => DropdownMenuItem<String>(
+          value: item,
+          child: Container(
+            alignment: valueAlignment,
+            child: Text(
+              item,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 14,
               ),
-            ))
-            .toList(),
+            ),
+          ),
+        ))
+                .toList(),
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
-        icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
-        iconSize: iconSize ?? 12,
-        iconEnabledColor: iconEnabledColor,
-        iconDisabledColor: iconDisabledColor,
-        buttonHeight: buttonHeight ?? 40,
-        buttonWidth: buttonWidth ?? 140,
-        buttonPadding:
-        buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        buttonDecoration: buttonDecoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: Colors.black45,
-              ),
-            ),
-        buttonElevation: buttonElevation,
-        itemHeight: itemHeight ?? 40,
-        itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
-        dropdownMaxHeight: dropdownHeight ?? 200,
-        dropdownWidth: dropdownWidth ?? 140,
-        dropdownPadding: dropdownPadding,
-        dropdownDecoration: dropdownDecoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-            ),
-        dropdownElevation: dropdownElevation ?? 8,
-        scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),
-        scrollbarThickness: scrollbarThickness,
-        scrollbarAlwaysShow: scrollbarAlwaysShow,
-        //Null or Offset(0, 0) will open just under the button. You can edit as you want.
-        offset: offset,
-        dropdownOverButton: false, //Default is false to show menu below button
+        buttonStyleData: ButtonStyleData(
+          height: buttonHeight ?? 40,
+          width: buttonWidth ?? 140,
+          padding: buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
+          decoration: buttonDecoration ??
+                  BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: Colors.black45,
+                    ),
+                  ),
+          elevation: buttonElevation,
+        ),
+        iconStyleData: IconStyleData(
+          icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
+          iconSize: iconSize ?? 12,
+          iconEnabledColor: iconEnabledColor,
+          iconDisabledColor: iconDisabledColor,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
+          maxHeight: dropdownHeight ?? 200,
+          width: dropdownWidth ?? 140,
+          padding: dropdownPadding,
+          decoration: dropdownDecoration ??
+                  BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+          elevation: dropdownElevation ?? 8,
+          //Null or Offset(0, 0) will open just under the button. You can edit as you want.
+          offset: offset,
+          //Default is false to show menu below button
+          isOverButton: false,
+          scrollbarTheme: ScrollbarThemeData(
+            radius: scrollbarRadius ?? const Radius.circular(40),
+            thickness: scrollbarThickness != null
+                    ? MaterialStateProperty.all<double>(scrollbarThickness!)
+                    : null,
+            thumbVisibility: scrollbarAlwaysShow != null
+                    ? MaterialStateProperty.all<bool>(scrollbarAlwaysShow!)
+                    : null,
+          ),
+        ),
+        menuItemStyleData: MenuItemStyleData(
+          height: itemHeight ?? 40,
+          padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
+        ),
       ),
     );
   }
