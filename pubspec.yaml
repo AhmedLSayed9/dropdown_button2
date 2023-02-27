@@ -1,8 +1,7 @@
 name: dropdown_button2
 description: Flutter's core Dropdown Button widget with steady dropdown menu and many options you can customize to your needs.
-version: 1.9.4
-homepage: https://github.com/AhmedLSayed9/dropdown_button2
-repository: https://github.com/AhmedLSayed9/dropdown_button2/tree/master
+version: 2.0.0
+repository: https://github.com/AhmedLSayed9/dropdown_button2
 issue_tracker: https://github.com/AhmedLSayed9/dropdown_button2/issues
 
 environment:
@@ -12,8 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  meta:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints:

@@ -1,4 +1,4 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_button2/src/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton2 extends StatelessWidget {
@@ -26,7 +26,7 @@ class CustomDropdownButton2 extends StatelessWidget {
   final Radius? scrollbarRadius;
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
-  final Offset? offset;
+  final Offset offset;
 
   const CustomDropdownButton2({
     required this.hint,
@@ -55,7 +55,7 @@ class CustomDropdownButton2 extends StatelessWidget {
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
-    this.offset,
+    this.offset = const Offset(0, 0),
     Key? key,
   }) : super(key: key);
 
@@ -96,39 +96,53 @@ class CustomDropdownButton2 extends StatelessWidget {
             .toList(),
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
-        icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
-        iconSize: iconSize ?? 12,
-        iconEnabledColor: iconEnabledColor,
-        iconDisabledColor: iconDisabledColor,
-        buttonHeight: buttonHeight ?? 40,
-        buttonWidth: buttonWidth ?? 140,
-        buttonPadding:
-            buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        buttonDecoration: buttonDecoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: Colors.black45,
+        buttonStyleData: ButtonStyleData(
+          height: buttonHeight ?? 40,
+          width: buttonWidth ?? 140,
+          padding: buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
+          decoration: buttonDecoration ??
+              BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: Colors.black45,
+                ),
               ),
-            ),
-        buttonElevation: buttonElevation,
-        itemHeight: itemHeight ?? 40,
-        itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
-        dropdownMaxHeight: dropdownHeight ?? 200,
-        dropdownWidth: dropdownWidth ?? 140,
-        dropdownPadding: dropdownPadding,
-        dropdownDecoration: dropdownDecoration ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-            ),
-        dropdownElevation: dropdownElevation ?? 8,
-        scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),
-        scrollbarThickness: scrollbarThickness,
-        scrollbarAlwaysShow: scrollbarAlwaysShow,
-        //Null or Offset(0, 0) will open just under the button. You can edit as you want.
-        offset: offset,
-        dropdownOverButton: false, //Default is false to show menu below button
+          elevation: buttonElevation,
+        ),
+        iconStyleData: IconStyleData(
+          icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
+          iconSize: iconSize ?? 12,
+          iconEnabledColor: iconEnabledColor,
+          iconDisabledColor: iconDisabledColor,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
+          maxHeight: dropdownHeight ?? 200,
+          width: dropdownWidth ?? 140,
+          padding: dropdownPadding,
+          decoration: dropdownDecoration ??
+              BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+              ),
+          elevation: dropdownElevation ?? 8,
+          //Null or Offset(0, 0) will open just under the button. You can edit as you want.
+          offset: offset,
+          //Default is false to show menu below button
+          isOverButton: false,
+          scrollbarTheme: ScrollbarThemeData(
+            radius: scrollbarRadius ?? const Radius.circular(40),
+            thickness: scrollbarThickness != null
+                ? MaterialStateProperty.all<double>(scrollbarThickness!)
+                : null,
+            thumbVisibility: scrollbarAlwaysShow != null
+                ? MaterialStateProperty.all<bool>(scrollbarAlwaysShow!)
+                : null,
+          ),
+        ),
+        menuItemStyleData: MenuItemStyleData(
+          height: itemHeight ?? 40,
+          padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
+        ),
       ),
     );
   }

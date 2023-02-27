@@ -1,3 +1,14 @@
+## 2.0.0
+### Breaking Changes:
+* Refactor & organize related parameters to sub-classes (check Options at README).
+* Prefer overlayColor for button/menuItem's ink response (supports desktop/web inkwell behavior customization).
+* Add scrollbarTheme parameter, used to configures scrollbar's theme (#113).
+* Add openInterval parameter, used to configure menu animation speed (#128).
+* Add selectedMenuItemBuilder parameter, used to customize the selected menu item (#124).
+* Improve SearchMatchFn's type inference.
+* Replace deprecated subtitle1 by titleMedium.
+* Update README.
+
 ## 1.9.4
 * Use generics with searchMatchFn for item type inference.
 
