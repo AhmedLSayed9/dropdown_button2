@@ -666,9 +666,12 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
         //Exclude BottomInset from maxHeight to avoid overlapping menu items
         //with keyboard when using searchable dropdown.
         //This will ensure menu is drawn in the actual available height.
+          
+        //Also avoid items being hidden behind Android devices' virtual navigation bar
+        final actualInsetPadding = max(MediaQuery.of(context).viewInsets.bottom, MediaQuery.of(context).padding.bottom);
         final actualConstraints = constraints.copyWith(
             maxHeight: constraints.maxHeight -
-                MediaQuery.of(context).viewInsets.bottom);
+                actualInsetPadding);
         return ValueListenableBuilder<Rect?>(
           valueListenable: buttonRect,
           builder: (context, rect, _) {
