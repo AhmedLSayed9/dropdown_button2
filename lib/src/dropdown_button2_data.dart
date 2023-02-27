@@ -219,3 +219,34 @@ class MenuItemStyleData {
   /// ```
   final SelectedMenuItemBuilder? selectedMenuItemBuilder;
 }
+
+class DropdownSearchData<T> {
+  const DropdownSearchData({
+    this.searchController,
+    this.searchInnerWidget,
+    this.searchInnerWidgetHeight,
+    this.searchMatchFn,
+  }) : assert(
+          (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
+          "searchInnerWidgetHeight should not be null when using searchInnerWidget"
+          "This is necessary to properly determine menu limits and scroll offset",
+        );
+
+  /// The TextEditingController used for searchable dropdowns. If this is null,
+  /// then it'll perform as a normal dropdown without searching feature.
+  final TextEditingController? searchController;
+
+  /// The widget to use for searchable dropdowns, such as search bar.
+  /// It will be shown at the top of the dropdown menu.
+  final Widget? searchInnerWidget;
+
+  /// The height of the searchInnerWidget if used.
+  final double? searchInnerWidgetHeight;
+
+  /// The match function used for searchable dropdowns. If this is null,
+  /// then _defaultSearchMatchFn will be used.
+  ///
+  /// _defaultSearchMatchFn = (item, searchValue) =>
+  ///     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+  final _SearchMatchFn<T>? searchMatchFn;
+}

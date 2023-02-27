@@ -236,9 +236,6 @@ class _DropdownMenu<T> extends StatefulWidget {
     required this.buttonRect,
     required this.constraints,
     required this.enableFeedback,
-    this.searchController,
-    this.searchInnerWidget,
-    this.searchMatchFn,
   });
 
   final _DropdownRoute<T> route;
@@ -246,9 +243,6 @@ class _DropdownMenu<T> extends StatefulWidget {
   final Rect buttonRect;
   final BoxConstraints constraints;
   final bool enableFeedback;
-  final TextEditingController? searchController;
-  final Widget? searchInnerWidget;
-  final _SearchMatchFn<T>? searchMatchFn;
 
   @override
   _DropdownMenuState<T> createState() => _DropdownMenuState<T>();
@@ -259,6 +253,10 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   late CurvedAnimation _resize;
   late List<Widget> _children;
   late _SearchMatchFn<T> _searchMatchFn;
+
+  DropdownStyleData get dropdownStyle => widget.route.dropdownStyle;
+
+  DropdownSearchData get searchData => widget.route.searchData;
 
   @override
   void initState() {
@@ -274,12 +272,12 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     );
     _resize = CurvedAnimation(
       parent: widget.route.animation!,
-      curve: widget.route.dropdownStyle.openInterval,
+      curve: dropdownStyle.openInterval,
       reverseCurve: const Threshold(0.0),
     );
     //If searchController is null, then it'll perform as a normal dropdown
     //and search functions will not be executed.
-    if (widget.searchController == null) {
+    if (searchData.searchController == null) {
       _children = <Widget>[
         for (int index = 0; index < widget.route.items.length; ++index)
           _DropdownMenuItemButton<T>(
@@ -292,10 +290,10 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           ),
       ];
     } else {
-      _searchMatchFn = widget.searchMatchFn ?? _defaultSearchMatchFn;
+      _searchMatchFn = searchData.searchMatchFn ?? _defaultSearchMatchFn;
       _children = _getSearchItems();
       // Add listener to searchController (if it's used) to update the shown items.
-      widget.searchController?.addListener(_updateSearchItems);
+      searchData.searchController?.addListener(_updateSearchItems);
     }
   }
 
@@ -305,10 +303,10 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   }
 
   List<Widget> _getSearchItems() {
+    final currentSearch = searchData.searchController!.text;
     return <Widget>[
       for (int index = 0; index < widget.route.items.length; ++index)
-        if (_searchMatchFn(
-            widget.route.items[index].item!, widget.searchController!.text))
+        if (_searchMatchFn(widget.route.items[index].item!, currentSearch))
           _DropdownMenuItemButton<T>(
             route: widget.route,
             textDirection: widget.textDirection,
@@ -324,7 +322,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   void dispose() {
     _fadeOpacity.dispose();
     _resize.dispose();
-    widget.searchController?.removeListener(_updateSearchItems);
+    searchData.searchController?.removeListener(_updateSearchItems);
     super.dispose();
   }
 
@@ -348,11 +346,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
       child: CustomPaint(
         painter: _DropdownMenuPainter(
           color: Theme.of(context).canvasColor,
-          elevation: route.dropdownStyle.elevation,
+          elevation: dropdownStyle.elevation,
           selectedIndex: route.selectedIndex,
           resize: _resize,
           itemHeight: route.menuItemStyle.height,
-          dropdownDecoration: route.dropdownStyle.decoration,
+          dropdownDecoration: dropdownStyle.decoration,
         ),
         child: Semantics(
           scopesRoute: true,
@@ -361,10 +359,10 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           label: localizations.popupMenuLabel,
           child: ClipRRect(
             //Prevent scrollbar, ripple effect & items from going beyond border boundaries when scrolling.
-            clipBehavior: route.dropdownStyle.decoration?.borderRadius != null
+            clipBehavior: dropdownStyle.decoration?.borderRadius != null
                 ? Clip.antiAlias
                 : Clip.none,
-            borderRadius: route.dropdownStyle.decoration?.borderRadius
+            borderRadius: dropdownStyle.decoration?.borderRadius
                     ?.resolve(Directionality.of(context)) ??
                 BorderRadius.zero,
             child: Material(
@@ -373,12 +371,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (widget.searchInnerWidget != null)
-                    widget.searchInnerWidget!,
+                  if (searchData.searchInnerWidget != null)
+                    searchData.searchInnerWidget!,
                   Flexible(
                     child: Padding(
-                      padding:
-                          route.dropdownStyle.scrollPadding ?? EdgeInsets.zero,
+                      padding: dropdownStyle.scrollPadding ?? EdgeInsets.zero,
                       child: ScrollConfiguration(
                         // Dropdown menus should never overscroll or display an overscroll indicator.
                         // Scrollbars are built-in below.
@@ -390,17 +387,16 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                           platform: Theme.of(context).platform,
                         ),
                         child: PrimaryScrollController(
-                          controller: widget.route.scrollController!,
+                          controller: route.scrollController!,
                           child: Theme(
                             data: Theme.of(context).copyWith(
-                              scrollbarTheme:
-                                  widget.route.dropdownStyle.scrollbarTheme,
+                              scrollbarTheme: dropdownStyle.scrollbarTheme,
                             ),
                             child: Scrollbar(
                               child: ListView(
                                 // Ensure this always inherits the PrimaryScrollController
                                 primary: true,
-                                padding: route.dropdownStyle.padding ??
+                                padding: dropdownStyle.padding ??
                                     kMaterialListPadding,
                                 shrinkWrap: true,
                                 children: _children,
@@ -565,10 +561,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.enableFeedback,
     required this.dropdownStyle,
     required this.menuItemStyle,
-    this.searchController,
-    this.searchInnerWidget,
-    this.searchInnerWidgetHeight,
-    this.searchMatchFn,
+    required this.searchData,
   }) : itemHeights = menuItemStyle.customHeights ??
             List<double>.filled(items.length, menuItemStyle.height);
 
@@ -581,10 +574,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool enableFeedback;
   final DropdownStyleData dropdownStyle;
   final MenuItemStyleData menuItemStyle;
-  final TextEditingController? searchController;
-  final Widget? searchInnerWidget;
-  final double? searchInnerWidgetHeight;
-  final _SearchMatchFn<T>? searchMatchFn;
+  final DropdownSearchData searchData;
 
   final List<double> itemHeights;
   ScrollController? scrollController;
@@ -623,9 +613,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               capturedThemes: capturedThemes,
               style: style,
               enableFeedback: enableFeedback,
-              searchController: searchController,
-              searchInnerWidget: searchInnerWidget,
-              searchMatchFn: searchMatchFn,
             );
           },
         );
@@ -669,7 +656,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
         : kMaterialListPadding.top;
     final double selectedItemOffset = getItemOffset(index, paddingTop);
 
-    final double innerWidgetHeight = searchInnerWidgetHeight ?? 0.0;
+    final double innerWidgetHeight = searchData.searchInnerWidgetHeight ?? 0.0;
 
     // If the button is placed on the bottom or top of the screen, its top or
     // bottom may be less than itemHeight from the edge of the screen.
@@ -748,9 +735,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
     required this.capturedThemes,
     this.style,
     required this.enableFeedback,
-    this.searchController,
-    this.searchInnerWidget,
-    this.searchMatchFn,
   });
 
   final _DropdownRoute<T> route;
@@ -761,9 +745,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final CapturedThemes capturedThemes;
   final TextStyle? style;
   final bool enableFeedback;
-  final TextEditingController? searchController;
-  final Widget? searchInnerWidget;
-  final _SearchMatchFn<T>? searchMatchFn;
 
   @override
   Widget build(BuildContext context) {
@@ -789,9 +770,6 @@ class _DropdownRoutePage<T> extends StatelessWidget {
       buttonRect: buttonRect,
       constraints: constraints,
       enableFeedback: enableFeedback,
-      searchController: searchController,
-      searchInnerWidget: searchInnerWidget,
-      searchMatchFn: searchMatchFn,
     );
 
     return MediaQuery.removePadding(
@@ -977,15 +955,12 @@ class DropdownButton2<T> extends StatefulWidget {
     this.iconStyleData = const IconStyleData(),
     this.dropdownStyleData = const DropdownStyleData(),
     this.menuItemStyleData = const MenuItemStyleData(),
+    this.dropdownSearchData = const DropdownSearchData(),
     this.customButton,
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
-    this.searchController,
-    this.searchInnerWidget,
-    this.searchInnerWidgetHeight,
-    this.searchMatchFn,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -1007,11 +982,6 @@ class DropdownButton2<T> extends StatefulWidget {
               items.isEmpty ||
               menuItemStyleData.customHeights?.length == items.length,
           "customHeights list should have the same length of items list",
-        ),
-        assert(
-          (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
-          "searchInnerWidgetHeight should not be null when using searchInnerWidget"
-          "This is necessary to properly determine menu limits and scroll offset",
         ),
         formFieldCallBack = null;
 
@@ -1036,15 +1006,12 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.iconStyleData,
     required this.dropdownStyleData,
     required this.menuItemStyleData,
+    required this.dropdownSearchData,
     this.customButton,
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
-    this.searchController,
-    this.searchInnerWidget,
-    this.searchInnerWidgetHeight,
-    this.searchMatchFn,
     this.formFieldCallBack,
   })  : assert(
           items == null ||
@@ -1065,11 +1032,6 @@ class DropdownButton2<T> extends StatefulWidget {
               items.isEmpty ||
               menuItemStyleData.customHeights?.length == items.length,
           "customHeights list should have the same length of items list",
-        ),
-        assert(
-          (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
-          "searchInnerWidgetHeight should not be null when using searchInnerWidget"
-          "This is necessary to properly determine menu limits and scroll offset",
         );
 
   /// The list of items the user can select.
@@ -1216,6 +1178,9 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Used to configure the theme of the dropdown menu items
   final MenuItemStyleData menuItemStyleData;
 
+  /// Used to configure searchable dropdowns
+  final DropdownSearchData dropdownSearchData;
+
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
 
@@ -1234,24 +1199,6 @@ class DropdownButton2<T> extends StatefulWidget {
   /// If the barrier is dismissible, this label will be read out if
   /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
   final String? barrierLabel;
-
-  /// The TextEditingController used for searchable dropdowns. If this is null,
-  /// then it'll perform as a normal dropdown without searching feature.
-  final TextEditingController? searchController;
-
-  /// The widget to use for searchable dropdowns, such as search bar.
-  /// It will be shown at the top of the dropdown menu.
-  final Widget? searchInnerWidget;
-
-  /// The height of the searchInnerWidget if used.
-  final double? searchInnerWidgetHeight;
-
-  /// The match function used for searchable dropdowns. If this is null,
-  /// then _defaultSearchMatchFn will be used.
-  ///
-  /// _defaultSearchMatchFn = (item, searchValue) =>
-  ///     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
-  final _SearchMatchFn<T>? searchMatchFn;
 
   /// Called when the dropdown menu is opened or closed in case of using
   /// DropdownButtonFormField2 to update the FormField's focus.
@@ -1275,6 +1222,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   DropdownStyleData get dropdownStyle => widget.dropdownStyleData;
 
   MenuItemStyleData get menuItemStyle => widget.menuItemStyleData;
+
+  DropdownSearchData get searchData => widget.dropdownSearchData;
 
   FocusNode? get focusNode => widget.focusNode ?? _internalNode;
   bool _hasPrimaryFocus = false;
@@ -1445,10 +1394,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: dropdownStyle,
       menuItemStyle: menuItemStyle,
-      searchController: widget.searchController,
-      searchInnerWidget: widget.searchInnerWidget,
-      searchInnerWidgetHeight: widget.searchInnerWidgetHeight,
-      searchMatchFn: widget.searchMatchFn,
+      searchData: searchData,
     );
 
     _isMenuOpen = true;
@@ -1752,6 +1698,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     IconStyleData iconStyleData = const IconStyleData(),
     DropdownStyleData dropdownStyleData = const DropdownStyleData(),
     MenuItemStyleData menuItemStyleData = const MenuItemStyleData(),
+    DropdownSearchData dropdownSearchData = const DropdownSearchData(),
     Widget? customButton,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
@@ -1842,16 +1789,13 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         iconStyleData: iconStyleData,
                         dropdownStyleData: dropdownStyleData,
                         menuItemStyleData: menuItemStyleData,
+                        dropdownSearchData: dropdownSearchData,
                         customButton: customButton,
                         openWithLongPress: openWithLongPress,
                         onMenuStateChange: onMenuStateChange,
                         barrierDismissible: barrierDismissible,
                         barrierColor: barrierColor,
                         barrierLabel: barrierLabel,
-                        searchController: searchController,
-                        searchInnerWidget: searchInnerWidget,
-                        searchInnerWidgetHeight: searchInnerWidgetHeight,
-                        searchMatchFn: searchMatchFn,
                         formFieldCallBack: (isOpen) {
                           hasFocus = isOpen;
                           setState(() {});
