@@ -182,11 +182,13 @@ class _DropdownMenuItemButtonState<T>
 
   @override
   Widget build(BuildContext context) {
+    final double menuCurveEnd = widget.route.dropdownStyle.openInterval.end;
+
     final DropdownMenuItem<T> dropdownMenuItem =
         widget.route.items[widget.itemIndex].item!;
     final double unit = 0.5 / (widget.route.items.length + 1.5);
     final double start =
-        _clampDouble(0.5 + (widget.itemIndex + 1) * unit, 0.0, 1.0);
+        _clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
     final double end = _clampDouble(start + 1.5 * unit, 0.0, 1.0);
     final CurvedAnimation opacity = CurvedAnimation(
         parent: widget.route.animation!, curve: Interval(start, end));
@@ -282,7 +284,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     );
     _resize = CurvedAnimation(
       parent: widget.route.animation!,
-      curve: const Interval(0.25, 0.5),
+      curve: widget.route.dropdownStyle.openInterval,
       reverseCurve: const Threshold(0.0),
     );
     //If searchController is null, then it'll perform as a normal dropdown

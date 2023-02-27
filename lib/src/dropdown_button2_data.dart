@@ -104,6 +104,7 @@ class DropdownStyleData {
     this.isOverButton = false,
     this.isFullScreen = false,
     this.scrollbarTheme,
+    this.openInterval = const Interval(0.25, 0.5),
   });
 
   /// The maximum height of the menu.
@@ -153,4 +154,7 @@ class DropdownStyleData {
 
   /// Configures the theme of the menu's scrollbar
   final ScrollbarThemeData? scrollbarTheme;
+
+  /// The animation curve used for opening the dropdown menu (forward direction)
+  final Interval openInterval;
 }
