@@ -164,7 +164,7 @@ class MenuItemStyleData {
     this.height = _kMenuItemHeight,
     this.customHeights,
     this.padding,
-    this.overlayColor,
+    this.overlayColors,
     this.selectedMenuItemBuilder,
   });
 
@@ -201,7 +201,7 @@ class MenuItemStyleData {
   ///  * The Material Design specification for overlay colors and how they
   ///    match a component's state:
   ///    <https://material.io/design/interaction/states.html#anatomy>.
-  final MaterialStateProperty<Color?>? overlayColor;
+  final List<MaterialStateProperty<Color?>>? overlayColors;
 
   /// A builder to customize the selected menu item.
   ///
