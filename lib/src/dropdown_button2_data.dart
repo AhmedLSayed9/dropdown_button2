@@ -102,6 +102,7 @@ class DropdownStyleData {
     this.direction = DropdownDirection.textDirection,
     this.offset = const Offset(0, 0),
     this.isOverButton = false,
+    this.useSafeArea = true,
     @Deprecated('Use useRootNavigator instead.')
     this.isFullScreen = false,
     this.useRootNavigator = false,
@@ -150,6 +151,11 @@ class DropdownStyleData {
 
   /// Opens the dropdown menu over the button instead of below it
   final bool isOverButton;
+
+  /// Determine if the dropdown menu should only display in safe areas of the screen.
+  /// It is true by default, which means the dropdown menu will not overlap
+  /// operating system areas.
+  final bool useSafeArea;
 
   /// Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
   ///

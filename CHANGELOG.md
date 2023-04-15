@@ -1,6 +1,8 @@
 ## Unreleased patch
 
 * `DropdownStyleData.isFullScreen` is deprecated in favor of `DropdownStyleData.useRootNavigator`.
+* Add `DropdownStyleData.useSafeArea`, used to determine if the dropdown menu should only display in
+  safe areas of the screen.
 
 ## 2.0.0
 

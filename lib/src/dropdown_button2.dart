@@ -597,14 +597,14 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
+    Widget dropdown = LayoutBuilder(
+      builder: (BuildContext ctx, BoxConstraints constraints) {
         //Exclude BottomInset from maxHeight to avoid overlapping menu items
         //with keyboard when using searchable dropdown.
         //This will ensure menu is drawn in the actual available height.
         final actualConstraints = constraints.copyWith(
-            maxHeight: constraints.maxHeight -
-                MediaQuery.of(context).viewInsets.bottom);
+            maxHeight:
+                constraints.maxHeight - MediaQuery.of(ctx).viewInsets.bottom);
         return ValueListenableBuilder<Rect?>(
           valueListenable: buttonRect,
           builder: (context, rect, _) {
@@ -621,6 +621,10 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
         );
       },
     );
+    if (dropdownStyle.useSafeArea) {
+      dropdown = SafeArea(child: dropdown);
+    }
+    return dropdown;
   }
 
   void _dismiss() {
