@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use_from_same_package
+
 /*
  * Created by AHMED ELSAYED on 30 Nov 2021.
  * email: ahmedelsaayid@gmail.com
@@ -1336,8 +1338,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   Rect _getRect() {
     final TextDirection? textDirection = Directionality.maybeOf(context);
     const EdgeInsetsGeometry menuMargin = EdgeInsets.zero;
-    final NavigatorState navigator =
-        Navigator.of(context, rootNavigator: dropdownStyle.isFullScreen);
+    final NavigatorState navigator = Navigator.of(context,
+        rootNavigator:
+            dropdownStyle.isFullScreen ?? dropdownStyle.useRootNavigator);
 
     final RenderBox itemBox = context.findRenderObject()! as RenderBox;
     final Rect itemRect = itemBox.localToGlobal(Offset.zero,
@@ -1376,8 +1379,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         ),
     ];
 
-    final NavigatorState navigator =
-        Navigator.of(context, rootNavigator: dropdownStyle.isFullScreen);
+    final NavigatorState navigator = Navigator.of(context,
+        rootNavigator:
+            dropdownStyle.isFullScreen ?? dropdownStyle.useRootNavigator);
     assert(_dropdownRoute == null);
     _rect.value = _getRect();
     _dropdownRoute = _DropdownRoute<T>(

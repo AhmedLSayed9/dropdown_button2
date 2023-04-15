@@ -102,7 +102,9 @@ class DropdownStyleData {
     this.direction = DropdownDirection.textDirection,
     this.offset = const Offset(0, 0),
     this.isOverButton = false,
+    @Deprecated('Use useRootNavigator instead.')
     this.isFullScreen = false,
+    this.useRootNavigator = false,
     this.scrollbarTheme,
     this.openInterval = const Interval(0.25, 0.5),
   });
@@ -150,7 +152,15 @@ class DropdownStyleData {
   final bool isOverButton;
 
   /// Opens the dropdown menu in fullscreen mode (Above AppBar & TabBar)
-  final bool isFullScreen;
+  ///
+  /// Deprecated in favor of [useRootNavigator].
+  @Deprecated('Use useRootNavigator instead.')
+  final bool? isFullScreen;
+
+  /// Determine whether to open the dropdown menu using the root Navigator or not.
+  /// If it's set to to true, dropdown menu will be pushed above all subsequent
+  /// instances of the root navigator such as AppBar/TabBar. By default, it is false.
+  final bool useRootNavigator;
 
   /// Configures the theme of the menu's scrollbar
   final ScrollbarThemeData? scrollbarTheme;
