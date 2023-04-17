@@ -1,3 +1,7 @@
+## 2.1.0
+
+* Update dropdown menu's vertical extent.
+
 ## 2.0.1
 
 * `DropdownStyleData.isFullScreen` is deprecated in favor of `DropdownStyleData.useRootNavigator`.
