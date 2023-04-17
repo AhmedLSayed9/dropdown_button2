@@ -447,9 +447,9 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     final itemWidth = route.dropdownStyle.width;
     double maxHeight =
         route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
-    final double? preferredHeight = route.dropdownStyle.maxHeight;
-    if (preferredHeight != null && preferredHeight <= maxHeight) {
-      maxHeight = preferredHeight;
+    final double? preferredMaxHeight = route.dropdownStyle.maxHeight;
+    if (preferredMaxHeight != null && preferredMaxHeight <= maxHeight) {
+      maxHeight = preferredMaxHeight;
     }
     // The width of a menu should be at most the view width. This ensures that
     // the menu does not extend past the left and right edges of the screen.
@@ -662,10 +662,10 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   ) {
     double maxHeight =
         getMenuAvailableHeight(availableHeight, mediaQueryPadding);
-    // If a maxHeight is set by the user, use that instead of the maxHeight.
-    final double? preferredHeight = dropdownStyle.maxHeight;
-    if (preferredHeight != null) {
-      maxHeight = math.min(maxHeight, preferredHeight);
+    // If a preferred MaxHeight is set by the user, use it instead of the available maxHeight.
+    final double? preferredMaxHeight = dropdownStyle.maxHeight;
+    if (preferredMaxHeight != null) {
+      maxHeight = math.min(maxHeight, preferredMaxHeight);
     }
 
     double actualMenuHeight =
