@@ -1500,7 +1500,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (result == null) {
       // If there's no MediaQuery, then use the window aspect to determine
       // orientation.
-      final Size size = View.of(context).physicalSize;
+      final Size size = MediaQuery.of(context).size;
       result = size.width > size.height
           ? Orientation.landscape
           : Orientation.portrait;
