@@ -1,4 +1,8 @@
-## 2.1.0
+## 2.1.1
+
+* Remove the deprecated `window`.
+
+* ## 2.1.0
 
 * Update dropdown menu's vertical extent.
 
