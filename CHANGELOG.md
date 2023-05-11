@@ -1,3 +1,7 @@
+## 2.1.2
+
+* Revert "Remove the deprecated window" and ignore instead.
+
 ## 2.1.1
 
 * Remove the deprecated `window`.
