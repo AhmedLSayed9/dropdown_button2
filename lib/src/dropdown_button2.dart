@@ -55,7 +55,7 @@ class _DropdownMenuPainter extends CustomPainter {
                   boxShadow: dropdownDecoration.boxShadow ??
                       kElevationToShadow[elevation],
                 )
-                .createBoxPainter((){}) ??
+                .createBoxPainter(() {}) ??
             BoxDecoration(
               // If you add an image here, you must provide a real
               // configuration in the paint() function and you must provide some sort
@@ -1539,7 +1539,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       items.add(DefaultTextStyle(
         style: _textStyle!.copyWith(color: Theme.of(context).hintColor),
         child: IgnorePointer(
-          ignoringSemantics: false,
           child: _DropdownMenuItemContainer(
             alignment: widget.alignment,
             child: displayedHint,
