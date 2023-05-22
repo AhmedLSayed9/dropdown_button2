@@ -1,3 +1,8 @@
+## 2.1.3
+
+* Fix assertion failure when dropdownStyleData's decoration has an image.
+* Fix IgnorePointer to only block user interactions  (Flutter Dropdown Update).
+
 ## 2.1.2
 
 * Revert "Remove the deprecated window" and ignore instead.
