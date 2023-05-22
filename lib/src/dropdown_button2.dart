@@ -55,7 +55,7 @@ class _DropdownMenuPainter extends CustomPainter {
                   boxShadow: dropdownDecoration.boxShadow ??
                       kElevationToShadow[elevation],
                 )
-                .createBoxPainter() ??
+                .createBoxPainter((){}) ??
             BoxDecoration(
               // If you add an image here, you must provide a real
               // configuration in the paint() function and you must provide some sort
