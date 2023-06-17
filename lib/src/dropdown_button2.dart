@@ -1303,10 +1303,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   @override
   void didUpdateWidget(DropdownButton2<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.focusNode != oldWidget.focusNode) {
-      if (widget.focusNode == null) {
-        _internalNode ??= _createFocusNode();
-      }
+    if (widget.focusNode == null) {
+      _internalNode ??= _createFocusNode();
     }
     _updateSelectedIndex();
   }
