@@ -1,3 +1,7 @@
+## 2.1.4
+
+- Fix button falsely maintaining focus, closes #152.
+
 ## 2.1.3
 
 - Fix assertion failure when dropdownStyleData's decoration has an image.
