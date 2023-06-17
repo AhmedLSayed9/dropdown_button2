@@ -209,15 +209,15 @@ class _DropdownMenuItemButtonState<T>
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
     if (dropdownMenuItem.enabled) {
-      final _isSelectedItem = !widget.route.isNoSelectedItem &&
+      final isSelectedItem = !widget.route.isNoSelectedItem &&
           widget.itemIndex == widget.route.selectedIndex;
       child = InkWell(
-        autofocus: _isSelectedItem,
+        autofocus: isSelectedItem,
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
         overlayColor: menuItemStyle.overlayColor,
-        child: _isSelectedItem
+        child: isSelectedItem
             ? menuItemStyle.selectedMenuItemBuilder?.call(context, child) ??
                 child
             : child,
@@ -1353,10 +1353,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   void didChangeMetrics() {
     //This fix the bug of calling didChangeMetrics() on iOS when app starts
     if (_rect.value == null) return;
-    final _newRect = _getRect();
+    final newRect = _getRect();
     //This avoid unnecessary rebuilds if _rect position hasn't changed
-    if (_rect.value!.top == _newRect.top) return;
-    _rect.value = _newRect;
+    if (_rect.value!.top == newRect.top) return;
+    _rect.value = newRect;
   }
 
   TextStyle? get _textStyle =>
@@ -1668,9 +1668,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           focusColor: buttonStyle?.decoration?.color,
           overlayColor: buttonStyle?.overlayColor,
           enableFeedback: false,
-          child: result,
           borderRadius: buttonStyle?.decoration?.borderRadius
               ?.resolve(Directionality.of(context)),
+          child: result,
         ),
       ),
     );
