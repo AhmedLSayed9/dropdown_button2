@@ -21,41 +21,41 @@ customize to your needs.
 - [Options](#options)
 - [Installation](#installation)
 - [Usage and Examples](#usage-and-examples)
-    - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
-    - [2. DropdownButton2 with some styling and customization](#2-dropdownbutton2-with-some-styling-and-customization)
-    - [3. DropdownButton2 with items of different heights like dividers](#3-dropdownbutton2-with-items-of-different-heights-like-dividers)
-    - [4. DropdownButton2 as Multiselect Dropdown with Checkboxes](#4-dropdownbutton2-as-multiselect-dropdown-with-checkboxes)
-    - [5. DropdownButton2 as Searchable Dropdown](#5-dropdownbutton2-as-searchable-dropdown)
-    - [6. DropdownButton2 as Popup menu button using customButton parameter](#6-dropdownbutton2-as-popup-menu-button-using-custombutton-parameter)
-    - [7. Using DropdownButtonFormField2 with Form](#7-using-dropdownbuttonformfield2-with-form)
+  - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
+  - [2. DropdownButton2 with some styling and customization](#2-dropdownbutton2-with-some-styling-and-customization)
+  - [3. DropdownButton2 with items of different heights like dividers](#3-dropdownbutton2-with-items-of-different-heights-like-dividers)
+  - [4. DropdownButton2 as Multiselect Dropdown with Checkboxes](#4-dropdownbutton2-as-multiselect-dropdown-with-checkboxes)
+  - [5. DropdownButton2 as Searchable Dropdown](#5-dropdownbutton2-as-searchable-dropdown)
+  - [6. DropdownButton2 as Popup menu button using customButton parameter](#6-dropdownbutton2-as-popup-menu-button-using-custombutton-parameter)
+  - [7. Using DropdownButtonFormField2 with Form](#7-using-dropdownbuttonformfield2-with-form)
 - [CustomDropdownButton2 Widget "customize it to your needs"](#customdropdownbutton2-widget-customize-it-to-your-needs)
 
 ## Features
 
-* Dropdown menu always open below the button "as long as it's possible otherwise it'll open to the
+- Dropdown menu always open below the button "as long as it's possible otherwise it'll open to the
   end of the screen" and you can edit its position by using the offset parameter.
-* You can control how (button, button's icon, dropdown menu and menu items) will be displayed "read
+- You can control how (button, button's icon, dropdown menu and menu items) will be displayed "read
   Options below".
-* You can align (hint & value) and customize them.
-* You can edit the scrollbar's radius,thickness and isAlwaysShow.
-* You can set max height for the dropdown menu & it'll become scrollable if there are more items.
-* If you pass Null to dropdownMaxHeight parameter or didn't use it, the dropdown menu will take max
+- You can align (hint & value) and customize them.
+- You can edit the scrollbar's radius,thickness and isAlwaysShow.
+- You can set max height for the dropdown menu & it'll become scrollable if there are more items.
+- If you pass Null to dropdownMaxHeight parameter or didn't use it, the dropdown menu will take max
   height possible for the items and will become scrollable if there are more items.
-* If you have long scrollable list, the dropdown menu will auto scroll to current selected item and
+- If you have long scrollable list, the dropdown menu will auto scroll to current selected item and
   show it at the middle of the menu if possible.
-* Wrap DropdownButton2 with DropdownButtonHideUnderline to hide the underline.
-* A Custom widget of the DropdownButton2 below to make it more reusable. You can customize it to
+- Wrap DropdownButton2 with DropdownButtonHideUnderline to hide the underline.
+- A Custom widget of the DropdownButton2 below to make it more reusable. You can customize it to
   your needs and use it throughout all your app easily as shown in the examples.
-* You can use DropdownButton2 with items of different heights like dividers as shown in the
+- You can use DropdownButton2 with items of different heights like dividers as shown in the
   examples.
-* You can use DropdownButton2 as Multiselect Dropdown with Checkboxes as shown in the examples.
-* You can use DropdownButton2 as Searchable Dropdown as shown in the examples.
-* You can use DropdownButton2 as a popup menu button by using the parameter customButton. You can
+- You can use DropdownButton2 as Multiselect Dropdown with Checkboxes as shown in the examples.
+- You can use DropdownButton2 as Searchable Dropdown as shown in the examples.
+- You can use DropdownButton2 as a popup menu button by using the parameter customButton. You can
   pass Icon,Image or any widget and customize it as shown in the examples.
-* You can also use DropdownButtonFormField2 the same way with all options above and use it inside
+- You can also use DropdownButtonFormField2 the same way with all options above and use it inside
   Form as shown in the examples.
-* Use decoration parameter for the DropdownButtonFormField2 to add borders, label and more.
-* You can customize DropdownButtonFormField2 width by wrapping it with Padding or with SizedBox and
+- Use decoration parameter for the DropdownButtonFormField2 to add borders, label and more.
+- You can customize DropdownButtonFormField2 width by wrapping it with Padding or with SizedBox and
   give it the width you want.
 
 ## Options
@@ -63,7 +63,7 @@ customize to your needs.
 ### DropdownButton2:
 
 | Option                                                                                                                                 | Description                                                                              | Type                      | Required |
-|----------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|---------------------------|:--------:|
+| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------- | :------: |
 | [items](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/items.html)                             | The list of items the user can select                                                    | List<DropdownMenuItem<T>> |   Yes    |
 | [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html) | A builder to customize how the selected item will be displayed on the button             | DropdownButtonBuilder     |    No    |
 | [value](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/value.html)                             | The value of the currently selected [DropdownMenuItem]                                   | T                         |    No    |
@@ -90,7 +90,7 @@ customize to your needs.
 #### Subclass ButtonStyleData:
 
 | Option                                                                                                                   | Description                                                             | Type                          | Required |
-|--------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|-------------------------------|:--------:|
+| ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | ----------------------------- | :------: |
 | [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/height.html)             | The height of the button                                                | double                        |    No    |
 | [width](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/width.html)               | The width of the button                                                 | double                        |    No    |
 | [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/padding.html)           | The inner padding of the Button                                         | EdgeInsetsGeometry            |    No    |
@@ -101,7 +101,7 @@ customize to your needs.
 #### Subclass IconStyleData:
 
 | Option                                                                                                                           | Description                                              | Type   | Required |
-|----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|--------|:--------:|
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------ | :------: |
 | [icon](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/IconStyleData/icon.html)                           | The widget to use for the drop-down button's suffix icon | Widget |    No    |
 | [iconDisabledColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/IconStyleData/iconDisabledColor.html) | The color of the icon if the button is disabled          | Color  |    No    |
 | [iconEnabledColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/IconStyleData/iconEnabledColor.html)   | The color of the icon if the button is enabled           | Color  |    No    |
@@ -111,7 +111,7 @@ customize to your needs.
 #### Subclass DropdownStyleData:
 
 | Option                                                                                                                             | Description                                                                    | Type               | Required |
-|------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|--------------------|:--------:|
+| ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------ | :------: |
 | [maxHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/maxHeight.html)               | The maximum height of the dropdown menu                                        | double             |    No    |
 | [width](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/width.html)                       | The width of the dropdown menu                                                 | double             |    No    |
 | [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/padding.html)                   | The inner padding of the dropdown menu                                         | EdgeInsetsGeometry |    No    |
@@ -129,7 +129,7 @@ customize to your needs.
 #### Subclass MenuItemStyleData:
 
 | Option                                                                                                                                           | Description                                                              | Type                          | Required |
-|--------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|-------------------------------|:--------:|
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ----------------------------- | :------: |
 | [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/height.html)                                   | The height of the menu item                                              | double                        |    No    |
 | [customHeights](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/customHeights.html)                     | Define different heights for the menu items (useful for adding dividers) | List<double>                  |    No    |
 | [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                 | The padding of menu items                                                | EdgeInsetsGeometry            |    No    |
@@ -139,7 +139,7 @@ customize to your needs.
 #### Subclass DropdownSearchData:
 
 | Option                                                                                                                                            | Description                                                                                    | Type                  | Required |
-|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------|:--------:|
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------- | :------: |
 | [searchController](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchController.html)               | The controller used for searchable dropdowns, if null, then it'll perform as a normal dropdown | TextEditingController |    No    |
 | [searchInnerWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchInnerWidget.html)             | The widget to be shown at the top of the dropdown menu for searchable dropdowns                | Widget                |    No    |
 | [searchInnerWidgetHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchInnerWidgetHeight.html) | The height of the searchInnerWidget if used                                                    | double                |    No    |
@@ -148,7 +148,7 @@ customize to your needs.
 ### DropdownButtonFormField2 (In addition to the above):
 
 | Option                                                                                                                                      | Description                                                        | Type                  | Required |
-|---------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|-----------------------|:--------:|
+| ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------- | :------: |
 | [dropdownButtonKey](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/dropdownButtonKey.html) | The key of DropdownButton2 child widget                            | Key                   |    No    |
 | [decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/decoration.html)               | The decoration of the dropdown button form field                   | InputDecoration       |    No    |
 | [onSaved](https://api.flutter.dev/flutter/widgets/FormField/onSaved.html)                                                                   | Called with the current selected item when the form is saved       | FormFieldSetter<T>    |    No    |
@@ -161,9 +161,7 @@ add this line to pubspec.yaml
 
 ```yaml
 dependencies:
-
-  dropdown_button2: ^2.1.3
-
+  dropdown_button2: ^2.1.4
 ```
 
 import package
@@ -660,7 +658,7 @@ Widget build(BuildContext context) {
 
 ### 6. DropdownButton2 as Popup menu button using customButton parameter:
 
-***Example 1*** using icon:
+**_Example 1_** using icon:
 
 <img src="https://user-images.githubusercontent.com/70890146/144771258-e1a128dd-5b4c-46f6-bc89-645f7748c51b.jpg" alt="Image" width="300"/>
 
@@ -782,7 +780,7 @@ class MenuItems {
 }
 ```
 
-***Example 2*** using image and openWithLongPress parameter:
+**_Example 2_** using image and openWithLongPress parameter:
 
 <img src="https://user-images.githubusercontent.com/70890146/144771270-2be603a4-84e8-47e7-9c69-91c938626866.jpg" alt="Image" width="300"/>
 
