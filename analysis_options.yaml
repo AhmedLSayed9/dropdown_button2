@@ -2,3 +2,6 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
+    - prefer_relative_imports
+    - prefer_const_constructors
+    - use_super_parameters
