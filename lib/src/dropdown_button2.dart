@@ -1487,6 +1487,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (result == null) {
       // If there's no MediaQuery, then use the window aspect to determine
       // orientation.
+      // TODO: use View.of(context) and update the comment [flutter>=v3.10.0].
       // ignore: deprecated_member_use
       final Size size = WidgetsBinding.instance.window.physicalSize;
       result = size.width > size.height
