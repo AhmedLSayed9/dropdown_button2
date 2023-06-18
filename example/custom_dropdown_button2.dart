@@ -2,32 +2,6 @@ import 'package:dropdown_button2/src/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton2 extends StatelessWidget {
-  final String hint;
-  final String? value;
-  final List<String> dropdownItems;
-  final ValueChanged<String?>? onChanged;
-  final DropdownButtonBuilder? selectedItemBuilder;
-  final Alignment? hintAlignment;
-  final Alignment? valueAlignment;
-  final double? buttonHeight, buttonWidth;
-  final EdgeInsetsGeometry? buttonPadding;
-  final BoxDecoration? buttonDecoration;
-  final int? buttonElevation;
-  final Widget? icon;
-  final double? iconSize;
-  final Color? iconEnabledColor;
-  final Color? iconDisabledColor;
-  final double? itemHeight;
-  final EdgeInsetsGeometry? itemPadding;
-  final double? dropdownHeight, dropdownWidth;
-  final EdgeInsetsGeometry? dropdownPadding;
-  final BoxDecoration? dropdownDecoration;
-  final int? dropdownElevation;
-  final Radius? scrollbarRadius;
-  final double? scrollbarThickness;
-  final bool? scrollbarAlwaysShow;
-  final Offset offset;
-
   const CustomDropdownButton2({
     required this.hint,
     required this.value,
@@ -55,14 +29,39 @@ class CustomDropdownButton2 extends StatelessWidget {
     this.scrollbarRadius,
     this.scrollbarThickness,
     this.scrollbarAlwaysShow,
-    this.offset = const Offset(0, 0),
+    this.offset = Offset.zero,
     super.key,
   });
+  final String hint;
+  final String? value;
+  final List<String> dropdownItems;
+  final ValueChanged<String?>? onChanged;
+  final DropdownButtonBuilder? selectedItemBuilder;
+  final Alignment? hintAlignment;
+  final Alignment? valueAlignment;
+  final double? buttonHeight, buttonWidth;
+  final EdgeInsetsGeometry? buttonPadding;
+  final BoxDecoration? buttonDecoration;
+  final int? buttonElevation;
+  final Widget? icon;
+  final double? iconSize;
+  final Color? iconEnabledColor;
+  final Color? iconDisabledColor;
+  final double? itemHeight;
+  final EdgeInsetsGeometry? itemPadding;
+  final double? dropdownHeight, dropdownWidth;
+  final EdgeInsetsGeometry? dropdownPadding;
+  final BoxDecoration? dropdownDecoration;
+  final int? dropdownElevation;
+  final Radius? scrollbarRadius;
+  final double? scrollbarThickness;
+  final bool? scrollbarAlwaysShow;
+  final Offset offset;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
-      child: DropdownButton2(
+      child: DropdownButton2<String>(
         //To avoid long text overflowing.
         isExpanded: true,
         hint: Container(
@@ -79,7 +78,7 @@ class CustomDropdownButton2 extends StatelessWidget {
         ),
         value: value,
         items: dropdownItems
-            .map((item) => DropdownMenuItem<String>(
+            .map((String item) => DropdownMenuItem<String>(
                   value: item,
                   child: Container(
                     alignment: valueAlignment,
@@ -127,8 +126,6 @@ class CustomDropdownButton2 extends StatelessWidget {
           elevation: dropdownElevation ?? 8,
           //Null or Offset(0, 0) will open just under the button. You can edit as you want.
           offset: offset,
-          //Default is false to show menu below button
-          isOverButton: false,
           scrollbarTheme: ScrollbarThemeData(
             radius: scrollbarRadius ?? const Radius.circular(40),
             thickness: scrollbarThickness != null

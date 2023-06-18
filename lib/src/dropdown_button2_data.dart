@@ -1,6 +1,8 @@
 part of 'dropdown_button2.dart';
 
+/// A class to configure the theme of the button.
 class ButtonStyleData {
+  /// Creates a ButtonStyleData.
   const ButtonStyleData({
     this.height,
     this.width,
@@ -52,7 +54,9 @@ class ButtonStyleData {
   final MaterialStateProperty<Color?>? overlayColor;
 }
 
+/// A class to configure the theme of the button's icon.
 class IconStyleData {
+  /// Creates an IconStyleData.
   const IconStyleData({
     this.icon = const Icon(Icons.arrow_drop_down),
     this.iconDisabledColor,
@@ -91,7 +95,9 @@ class IconStyleData {
   final Widget? openMenuIcon;
 }
 
+/// A class to configure the theme of the dropdown menu.
 class DropdownStyleData {
+  /// Creates a DropdownStyleData.
   const DropdownStyleData({
     this.maxHeight,
     this.width,
@@ -100,11 +106,10 @@ class DropdownStyleData {
     this.decoration,
     this.elevation = 8,
     this.direction = DropdownDirection.textDirection,
-    this.offset = const Offset(0, 0),
+    this.offset = Offset.zero,
     this.isOverButton = false,
     this.useSafeArea = true,
-    @Deprecated('Use useRootNavigator instead.')
-    this.isFullScreen = false,
+    @Deprecated('Use useRootNavigator instead.') this.isFullScreen = false,
     this.useRootNavigator = false,
     this.scrollbarTheme,
     this.openInterval = const Interval(0.25, 0.5),
@@ -175,7 +180,9 @@ class DropdownStyleData {
   final Interval openInterval;
 }
 
+/// A class to configure the theme of the dropdown menu items.
 class MenuItemStyleData {
+  /// Creates a MenuItemStyleData.
   const MenuItemStyleData({
     this.height = _kMenuItemHeight,
     this.customHeights,
@@ -236,7 +243,9 @@ class MenuItemStyleData {
   final SelectedMenuItemBuilder? selectedMenuItemBuilder;
 }
 
+/// A class to configure searchable dropdowns.
 class DropdownSearchData<T> {
+  /// Creates a DropdownSearchData.
   const DropdownSearchData({
     this.searchController,
     this.searchInnerWidget,
@@ -244,8 +253,8 @@ class DropdownSearchData<T> {
     this.searchMatchFn,
   }) : assert(
           (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
-          "searchInnerWidgetHeight should not be null when using searchInnerWidget"
-          "This is necessary to properly determine menu limits and scroll offset",
+          'searchInnerWidgetHeight should not be null when using searchInnerWidget\n'
+          'This is necessary to properly determine menu limits and scroll offset',
         );
 
   /// The TextEditingController used for searchable dropdowns. If this is null,

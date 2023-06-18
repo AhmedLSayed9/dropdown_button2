@@ -25,7 +25,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> items = [
+  final List<String> items = <String>[
     'Item1',
     'Item2',
     'Item3',
@@ -42,10 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Center(
         child: DropdownButtonHideUnderline(
-          child: DropdownButton2(
+          child: DropdownButton2<String>(
             isExpanded: true,
             hint: const Row(
-              children: [
+              children: <Widget>[
                 Icon(
                   Icons.list,
                   size: 16,
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             items: items
-                .map((item) => DropdownMenuItem<String>(
+                .map((String item) => DropdownMenuItem<String>(
                       value: item,
                       child: Text(
                         item,
@@ -82,9 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ))
                 .toList(),
             value: selectedValue,
-            onChanged: (value) {
+            onChanged: (String? value) {
               setState(() {
-                selectedValue = value as String;
+                selectedValue = value;
               });
             },
             buttonStyleData: ButtonStyleData(
@@ -111,12 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
             dropdownStyleData: DropdownStyleData(
               maxHeight: 200,
               width: 200,
-              padding: null,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
                 color: Colors.redAccent,
               ),
-              elevation: 8,
               offset: const Offset(-20, 0),
               scrollbarTheme: ScrollbarThemeData(
                 radius: const Radius.circular(40),
