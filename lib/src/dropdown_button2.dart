@@ -1075,7 +1075,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// in [items].
   ///
   /// {@tool dartpad}
-  /// This sample shows a `DropdownButton` with a button with [Text] that
+  /// This sample shows a [DropdownButton] with a button with [Text] that
   /// corresponds to but is unique from [DropdownMenuItem].
   ///
   /// ** See code in examples/api/lib/material/dropdown/dropdown_button.selected_item_builder.0.dart **
