@@ -611,6 +611,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
         //Exclude BottomInset from maxHeight to avoid overlapping menu items
         //with keyboard when using searchable dropdown.
         //This will ensure menu is drawn in the actual available height.
+        // TODO: use paddingOf/paddingOf [flutter>=v3.10.0].
         final mediaQuery = MediaQuery.of(ctx);
         final BoxConstraints actualConstraints = constraints.copyWith(
             maxHeight: constraints.maxHeight - mediaQuery.viewInsets.bottom);
@@ -1440,7 +1441,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   // Similarly, we don't reduce the height of the button so much that its icon
   // would be clipped.
   double get _denseButtonHeight {
-    final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final double textScaleFactor = MediaQuery.textScaleFactorOf(context);
     final double fontSize = _textStyle!.fontSize ??
         Theme.of(context).textTheme.titleMedium!.fontSize!;
     final double scaledFontSize = textScaleFactor * fontSize;
@@ -1481,6 +1482,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       widget.onChanged != null;
 
   Orientation _getOrientation(BuildContext context) {
+    // TODO: use maybeOrientationOf [flutter>=v3.10.0].
     Orientation? result = MediaQuery.maybeOf(context)?.orientation;
     if (result == null) {
       // If there's no MediaQuery, then use the window aspect to determine
