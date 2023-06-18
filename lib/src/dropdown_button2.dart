@@ -1677,7 +1677,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
 /// This is a convenience widget that wraps a [DropdownButton2] widget in a
 /// [FormField].
 ///
-/// A [Form] ancestor is not required. The [Form] simply makes it easier to
+/// A [Form] ancestor is not required. The [Form] allows one to
 /// save, reset, or validate multiple fields at once. To use without a [Form],
 /// pass a [GlobalKey] to the constructor and use [GlobalKey.currentState] to
 /// save or reset the form field.
