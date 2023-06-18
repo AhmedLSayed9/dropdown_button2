@@ -922,24 +922,12 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 /// dropdown's value. It should also call [State.setState] to rebuild the
 /// dropdown with the new value.
 ///
-/// {@tool dartpad}
-/// This sample shows a `DropdownButton` with a large arrow icon,
-/// purple text style, and bold purple underline, whose value is one of "One",
-/// "Two", "Free", or "Four".
-///
-/// ![](https://flutter.github.io/assets-for-api-docs/assets/material/dropdown_button.png)
-///
-/// ** See code in examples/api/lib/material/dropdown/dropdown_button.0.dart **
-/// {@end-tool}
-///
 /// If the [onChanged] callback is null or the list of [items] is null
 /// then the dropdown button will be disabled, i.e. its arrow will be
 /// displayed in grey and it will not respond to input. A disabled button
 /// will display the [disabledHint] widget if it is non-null. However, if
 /// [disabledHint] is null and [hint] is non-null, the [hint] widget will
 /// instead be displayed.
-///
-/// Requires one of its ancestors to be a [Material] widget.
 ///
 /// See also:
 ///
