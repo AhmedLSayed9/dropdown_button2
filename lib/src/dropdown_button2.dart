@@ -1001,7 +1001,9 @@ class DropdownButton2<T> extends StatefulWidget {
               menuItemStyleData.customHeights?.length == items.length,
           "customHeights list should have the same length of items list",
         ),
-        formFieldCallBack = null;
+        _inputDecoration = null,
+        _isEmpty = false,
+        _isFocused = false;
 
   DropdownButton2._formField({
     super.key,
@@ -1030,7 +1032,9 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
-    this.formFieldCallBack,
+    required InputDecoration inputDecoration,
+    required bool isEmpty,
+    required bool isFocused,
   })  : assert(
           items == null ||
               items.isEmpty ||
@@ -1050,7 +1054,10 @@ class DropdownButton2<T> extends StatefulWidget {
               items.isEmpty ||
               menuItemStyleData.customHeights?.length == items.length,
           "customHeights list should have the same length of items list",
-        );
+        ),
+        _inputDecoration = inputDecoration,
+        _isEmpty = isEmpty,
+        _isFocused = isFocused;
 
   /// The list of items the user can select.
   ///
@@ -1218,9 +1225,11 @@ class DropdownButton2<T> extends StatefulWidget {
   /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
   final String? barrierLabel;
 
-  /// Called when the dropdown menu is opened or closed in case of using
-  /// DropdownButtonFormField2 to update the FormField's focus.
-  final OnMenuStateChangeFn? formFieldCallBack;
+  final InputDecoration? _inputDecoration;
+
+  final bool _isEmpty;
+
+  final bool _isFocused;
 
   @override
   State<DropdownButton2<T>> createState() => DropdownButton2State<T>();
@@ -1414,13 +1423,11 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       _isMenuOpen = false;
       focusNode?.unfocus();
       widget.onMenuStateChange?.call(false);
-      widget.formFieldCallBack?.call(false);
       if (!mounted || newValue == null) return;
       widget.onChanged?.call(newValue.result);
     });
 
     widget.onMenuStateChange?.call(true);
-    widget.formFieldCallBack?.call(true);
   }
 
   // This expose the _handleTap() to Allow opening the button programmatically using GlobalKey.
@@ -1631,6 +1638,15 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       },
     );
 
+    if (widget._inputDecoration != null) {
+      result = InputDecorator(
+        decoration: widget._inputDecoration!,
+        isEmpty: widget._isEmpty,
+        isFocused: widget._isFocused,
+        child: result,
+      );
+    }
+
     return Semantics(
       button: true,
       child: Actions(
@@ -1642,7 +1658,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           canRequestFocus: _enabled,
           focusNode: focusNode,
           autofocus: widget.autofocus,
-          focusColor: buttonStyle?.decoration?.color,
           overlayColor: buttonStyle?.overlayColor,
           enableFeedback: false,
           borderRadius: buttonStyle?.decoration?.borderRadius
@@ -1754,53 +1769,44 @@ class DropdownButtonFormField2<T> extends FormField<T> {
             final bool isEmpty =
                 !showSelectedItem && !isHintOrDisabledHintAvailable();
 
-            bool hasFocus = false;
-
             // An unFocusable Focus widget so that this widget can detect if its
             // descendants have focus or not.
             return Focus(
               canRequestFocus: false,
               skipTraversal: true,
-              child: StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  return InputDecorator(
-                    decoration: effectiveDecoration.copyWith(
-                        errorText: field.errorText),
-                    isEmpty: isEmpty,
-                    isFocused: hasFocus,
-                    textAlignVertical: TextAlignVertical.bottom,
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2._formField(
-                        key: dropdownButtonKey,
-                        items: items,
-                        selectedItemBuilder: selectedItemBuilder,
-                        value: state.value,
-                        hint: hint,
-                        disabledHint: disabledHint,
-                        onChanged: onChanged == null ? null : state.didChange,
-                        onMenuStateChange: onMenuStateChange,
-                        style: style,
-                        isDense: isDense,
-                        isExpanded: isExpanded,
-                        focusNode: focusNode,
-                        autofocus: autofocus,
-                        enableFeedback: enableFeedback,
-                        alignment: alignment,
-                        buttonStyleData: buttonStyleData,
-                        iconStyleData: iconStyleData,
-                        dropdownStyleData: dropdownStyleData,
-                        menuItemStyleData: menuItemStyleData,
-                        dropdownSearchData: dropdownSearchData,
-                        customButton: customButton,
-                        openWithLongPress: openWithLongPress,
-                        barrierDismissible: barrierDismissible,
-                        barrierColor: barrierColor,
-                        barrierLabel: barrierLabel,
-                        formFieldCallBack: (isOpen) {
-                          hasFocus = isOpen;
-                          setState(() {});
-                        },
-                      ),
+              child: Builder(
+                builder: (BuildContext context) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton2._formField(
+                      key: dropdownButtonKey,
+                      items: items,
+                      selectedItemBuilder: selectedItemBuilder,
+                      value: state.value,
+                      hint: hint,
+                      disabledHint: disabledHint,
+                      onChanged: onChanged == null ? null : state.didChange,
+                      onMenuStateChange: onMenuStateChange,
+                      style: style,
+                      isDense: isDense,
+                      isExpanded: isExpanded,
+                      focusNode: focusNode,
+                      autofocus: autofocus,
+                      enableFeedback: enableFeedback,
+                      alignment: alignment,
+                      buttonStyleData: buttonStyleData,
+                      iconStyleData: iconStyleData,
+                      dropdownStyleData: dropdownStyleData,
+                      menuItemStyleData: menuItemStyleData,
+                      dropdownSearchData: dropdownSearchData,
+                      customButton: customButton,
+                      openWithLongPress: openWithLongPress,
+                      barrierDismissible: barrierDismissible,
+                      barrierColor: barrierColor,
+                      barrierLabel: barrierLabel,
+                      inputDecoration: effectiveDecoration.copyWith(
+                          errorText: field.errorText),
+                      isEmpty: isEmpty,
+                      isFocused: Focus.of(context).hasFocus,
                     ),
                   );
                 },
@@ -1823,8 +1829,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   /// By default, draws a horizontal line under the dropdown button field but
   /// can be configured to show an icon, label, hint text, and error text.
   ///
-  /// If not specified, an [InputDecorator] with the `focusColor` set to the
-  /// supplied `focusColor` (if any) will be used.
+  /// If not specified, an [InputDecorator] with the `focusColor` and `hoverColor`
+  /// set to the supplied `buttonStyleData.overlayColor` (if any) will be used.
   final InputDecoration decoration;
 
   static InputDecoration getInputDecoration(
