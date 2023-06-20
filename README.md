@@ -22,7 +22,7 @@ customize to your needs.
 - [Installation](#installation)
 - [Usage and Examples](#usage-and-examples)
   - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
-  - [2. DropdownButton2 with few styling and customization](#2-dropdownbutton2-with-some-styling-and-customization)
+  - [2. DropdownButton2 with few styling and customization](#2-dropdownbutton2-with-few-styling-and-customization)
   - [3. DropdownButton2 with items of different heights like dividers](#3-dropdownbutton2-with-items-of-different-heights-like-dividers)
   - [4. DropdownButton2 as Multiselect Dropdown with Checkboxes](#4-dropdownbutton2-as-multiselect-dropdown-with-checkboxes)
   - [5. DropdownButton2 as Searchable Dropdown](#5-dropdownbutton2-as-searchable-dropdown)
