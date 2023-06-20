@@ -109,6 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               customHeights: _getCustomItemsHeights(),
             ),
+            iconStyleData: const IconStyleData(
+              openMenuIcon: Icon(Icons.arrow_drop_up),
+            ),
           ),
         ),
       ),
