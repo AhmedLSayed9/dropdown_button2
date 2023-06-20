@@ -12,8 +12,19 @@ dependencies:
   flutter:
     sdk: flutter
   meta: ^1.9.1
+  file: ^7.0.0
+  platform: ^3.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
+
+flutter:
+  fonts:
+    # Used for golden tests
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+  assets:
+    - assets/

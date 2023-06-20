@@ -1340,7 +1340,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
   }
 
   void _handleTap() {
-    final List<_MenuItem<T>> menuItems = <_MenuItem<T>>[
+    final List<_MenuItem<T>> menuItems = [
       for (int index = 0; index < widget.items!.length; index += 1)
         _MenuItem<T>(
           item: widget.items![index],

@@ -1,17 +1,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'DropdownButton2 Demo',
+      title: 'Few Styling Example',
       home: MyHomePage(),
     );
   }
@@ -82,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ))
                 .toList(),
             value: selectedValue,
-            onChanged: (String? value) {
+            onChanged: (value) {
               setState(() {
                 selectedValue = value;
               });
@@ -118,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
               offset: const Offset(-20, 0),
               scrollbarTheme: ScrollbarThemeData(
                 radius: const Radius.circular(40),
-                thickness: MaterialStateProperty.all<double>(6),
-                thumbVisibility: MaterialStateProperty.all<bool>(true),
+                thickness: MaterialStateProperty.all(6),
+                thumbVisibility: MaterialStateProperty.all(true),
               ),
             ),
             menuItemStyleData: const MenuItemStyleData(
