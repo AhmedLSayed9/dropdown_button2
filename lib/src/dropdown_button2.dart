@@ -1228,7 +1228,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
 
   FocusNode? get _focusNode => widget.focusNode ?? _internalNode;
   late Map<Type, Action<Intent>> _actionMap;
-  bool _isMenuOpen = false;
+
+  // Using ValueNotifier for tracking when menu is open/close to update the button icon.
+  final ValueNotifier<bool> _isMenuOpen = ValueNotifier<bool>(false);
 
   // Using ValueNotifier for the Rect of DropdownButton so the dropdown menu listen and
   // update its position if DropdownButton's position has changed, as when keyboard open.
@@ -1383,7 +1385,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
       searchData: _searchData,
     );
 
-    _isMenuOpen = true;
+    _isMenuOpen.value = true;
     // This is a temporary fix for the "dropdown menu steal the focus from the
     // underlying button" issue, until share focus is fixed in flutter. see #152.
     // ignore: always_specify_types
@@ -1392,7 +1394,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     });
     navigator.push(_dropdownRoute!).then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
-      _isMenuOpen = false;
+      _isMenuOpen.value = false;
       _focusNode?.unfocus();
       widget.onMenuStateChange?.call(false);
       if (!mounted || newValue == null) {
@@ -1554,11 +1556,16 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
                     color: _iconColor,
                     size: _iconStyle.iconSize,
                   ),
-                  child: _iconStyle.openMenuIcon != null
-                      ? _isMenuOpen
-                          ? _iconStyle.openMenuIcon!
-                          : _iconStyle.icon
-                      : _iconStyle.icon,
+                  child: ValueListenableBuilder<bool>(
+                    valueListenable: _isMenuOpen,
+                    builder: (BuildContext context, bool isOpen, _) {
+                      return _iconStyle.openMenuIcon != null
+                          ? isOpen
+                              ? _iconStyle.openMenuIcon!
+                              : _iconStyle.icon
+                          : _iconStyle.icon;
+                    },
+                  ),
                 ),
               ],
             ),
