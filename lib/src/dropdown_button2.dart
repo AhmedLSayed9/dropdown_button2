@@ -1465,6 +1465,19 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     return result;
   }
 
+  BorderRadius? _getButtonBorderRadius(BuildContext context) {
+    final buttonRadius = _buttonStyle?.decoration?.borderRadius;
+    if (buttonRadius != null) {
+      return buttonRadius.resolve(Directionality.of(context));
+    }
+
+    final inputBorder = widget._inputDecoration?.border;
+    if (inputBorder?.isOutline ?? false) {
+      return (inputBorder! as OutlineInputBorder).borderRadius;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
@@ -1627,7 +1640,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
           autofocus: widget.autofocus,
           overlayColor: _buttonStyle?.overlayColor,
           enableFeedback: false,
-          borderRadius: _buttonStyle?.decoration?.borderRadius?.resolve(Directionality.of(context)),
+          borderRadius: _getButtonBorderRadius(context),
           child: result,
         ),
       ),
