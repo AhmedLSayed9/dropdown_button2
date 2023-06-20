@@ -46,10 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
+                  contentPadding: const EdgeInsets.all(16),
                   hintText: 'Enter Your Full Name.',
                   hintStyle: const TextStyle(fontSize: 14),
                   border: OutlineInputBorder(
@@ -59,18 +56,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const SizedBox(height: 30),
               DropdownButtonFormField2<String>(
+                isExpanded: true,
                 decoration: InputDecoration(
-                  //Add isDense true and zero Padding.
-                  //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
+                  // Add Horizontal padding using menuItemStyleData.padding so it matches
+                  // the menu padding when button's width is not specified.
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  //Add more decoration as you want here
-                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                  // Add more decoration..
                 ),
-                isExpanded: true,
                 hint: const Text(
                   'Select Your Gender',
                   style: TextStyle(fontSize: 14),
@@ -93,26 +88,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   return null;
                 },
                 onChanged: (value) {
-                  //Do something when changing the item if you want.
+                  //Do something when selected item is changed.
                 },
                 onSaved: (value) {
                   selectedValue = value.toString();
                 },
                 buttonStyleData: const ButtonStyleData(
-                  height: 60,
-                  padding: EdgeInsets.only(left: 20, right: 10),
+                  padding: EdgeInsets.only(right: 8),
                 ),
                 iconStyleData: const IconStyleData(
                   icon: Icon(
                     Icons.arrow_drop_down,
                     color: Colors.black45,
                   ),
-                  iconSize: 30,
+                  iconSize: 24,
                 ),
                 dropdownStyleData: DropdownStyleData(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                   ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                 ),
               ),
               const SizedBox(height: 30),
