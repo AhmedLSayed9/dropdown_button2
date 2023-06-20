@@ -15,7 +15,7 @@
 Flutter's core Dropdown Button widget with steady dropdown menu and many other options you can
 customize to your needs.
 
-<img src="https://user-images.githubusercontent.com/70890146/144847227-a1fbf63b-e4a0-4fac-ba73-33cc468b7075.jpg" alt="Image" width="700"/>
+<img src="/.github/images/banner.jpg" alt="Image" width="700"/>
 
 - [Features](#features)
 - [Options](#options)
@@ -176,7 +176,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 ### 1. Simple DropdownButton2 with no styling:
 
-<img src="https://user-images.githubusercontent.com/70890146/144771200-15e7e98e-bdf2-4265-b810-035191f7e607.jpg" alt="Image" width="300"/>
+<img src="/.github/images/simple.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -192,7 +192,8 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
       child: DropdownButtonHideUnderline(
-        child: DropdownButton2(
+        child: DropdownButton2<String>(
+          isExpanded: true,
           hint: Text(
             'Select Item',
             style: TextStyle(
@@ -201,23 +202,24 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-                  .map((item) => DropdownMenuItem<String>(
-            value: item,
-            child: Text(
-              item,
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
-          ))
-                  .toList(),
+              .map((String item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
+              .toList(),
           value: selectedValue,
-          onChanged: (value) {
+          onChanged: (String? value) {
             setState(() {
-              selectedValue = value as String;
+              selectedValue = value;
             });
           },
           buttonStyleData: const ButtonStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             height: 40,
             width: 140,
           ),
@@ -231,9 +233,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 2. DropdownButton2 with some styling and customization:
+### 2. DropdownButton2 with few styling and customization:
 
-<img src="https://user-images.githubusercontent.com/70890146/144771235-8dd0b019-e93b-4613-9035-42dbedd9ba9e.jpg" alt="Image" width="300"/>
+<img src="/.github/images/few_styling.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -253,10 +255,10 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
       child: DropdownButtonHideUnderline(
-        child: DropdownButton2(
+        child: DropdownButton2<String>(
           isExpanded: true,
-          hint: Row(
-            children: const [
+          hint: const Row(
+            children: [
               Icon(
                 Icons.list,
                 size: 16,
@@ -279,23 +281,23 @@ Widget build(BuildContext context) {
             ],
           ),
           items: items
-                  .map((item) => DropdownMenuItem<String>(
-            value: item,
-            child: Text(
-              item,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))
-                  .toList(),
+              .map((String item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
+              .toList(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
-              selectedValue = value as String;
+              selectedValue = value;
             });
           },
           buttonStyleData: ButtonStyleData(
@@ -320,20 +322,19 @@ Widget build(BuildContext context) {
             iconDisabledColor: Colors.grey,
           ),
           dropdownStyleData: DropdownStyleData(
-                  maxHeight: 200,
-                  width: 200,
-                  padding: null,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: Colors.redAccent,
-                  ),
-                  elevation: 8,
-                  offset: const Offset(-20, 0),
-                  scrollbarTheme: ScrollbarThemeData(
-                    radius: const Radius.circular(40),
-                    thickness: MaterialStateProperty.all(6),
-                    thumbVisibility: MaterialStateProperty.all(true),
-                  )),
+            maxHeight: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: Colors.redAccent,
+            ),
+            offset: const Offset(-20, 0),
+            scrollbarTheme: ScrollbarThemeData(
+              radius: const Radius.circular(40),
+              thickness: MaterialStateProperty.all(6),
+              thumbVisibility: MaterialStateProperty.all(true),
+            ),
+          ),
           menuItemStyleData: const MenuItemStyleData(
             height: 40,
             padding: EdgeInsets.only(left: 14, right: 14),
@@ -347,7 +348,7 @@ Widget build(BuildContext context) {
 
 ### 3. DropdownButton2 with items of different heights like dividers:
 
-<img src="https://user-images.githubusercontent.com/70890146/144771246-49ea5ed8-78d7-4e0d-a411-331649cef3d5.jpg" alt="Image" width="300"/>
+<img src="/.github/images/with_dividers.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -359,9 +360,9 @@ final List<String> items = [
 String? selectedValue;
 
 List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
-  List<DropdownMenuItem<String>> _menuItems = [];
-  for (var item in items) {
-    _menuItems.addAll(
+  final List<DropdownMenuItem<String>> menuItems = [];
+  for (final String item in items) {
+    menuItems.addAll(
       [
         DropdownMenuItem<String>(
           value: item,
@@ -384,21 +385,21 @@ List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
       ],
     );
   }
-  return _menuItems;
+  return menuItems;
 }
 
 List<double> _getCustomItemsHeights() {
-  List<double> _itemsHeights = [];
-  for (var i = 0; i < (items.length * 2) - 1; i++) {
+  final List<double> itemsHeights = [];
+  for (int i = 0; i < (items.length * 2) - 1; i++) {
     if (i.isEven) {
-      _itemsHeights.add(40);
+      itemsHeights.add(40);
     }
     //Dividers indexes will be the odd indexes
     if (i.isOdd) {
-      _itemsHeights.add(4);
+      itemsHeights.add(4);
     }
   }
-  return _itemsHeights;
+  return itemsHeights;
 }
 
 @override
@@ -406,7 +407,7 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
       child: DropdownButtonHideUnderline(
-        child: DropdownButton2(
+        child: DropdownButton2<String>(
           isExpanded: true,
           hint: Text(
             'Select Item',
@@ -417,18 +418,25 @@ Widget build(BuildContext context) {
           ),
           items: _addDividersAfterItems(items),
           value: selectedValue,
-          onChanged: (value) {
+          onChanged: (String? value) {
             setState(() {
-              selectedValue = value as String;
+              selectedValue = value;
             });
           },
-          buttonStyleData: const ButtonStyleData(height: 40, width: 140),
+          buttonStyleData: const ButtonStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            height: 40,
+            width: 140,
+          ),
           dropdownStyleData: const DropdownStyleData(
             maxHeight: 200,
           ),
           menuItemStyleData: MenuItemStyleData(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             customHeights: _getCustomItemsHeights(),
+          ),
+          iconStyleData: const IconStyleData(
+            openMenuIcon: Icon(Icons.arrow_drop_up),
           ),
         ),
       ),
@@ -439,7 +447,7 @@ Widget build(BuildContext context) {
 
 ### 4. DropdownButton2 as Multiselect Dropdown with Checkboxes:
 
-<img src="https://user-images.githubusercontent.com/70890146/168461570-1682bf63-f1e9-40c1-a86d-aa4c3acdd1c9.jpg" alt="Image" width="300"/>
+<img src="/.github/images/multi_select.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -455,31 +463,26 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Center(
       child: DropdownButtonHideUnderline(
-        child: DropdownButton2(
+        child: DropdownButton2<String>(
           isExpanded: true,
-          hint: Align(
-            alignment: AlignmentDirectional.center,
-            child: Text(
-              'Select Items',
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).hintColor,
-              ),
+          hint: Text(
+            'Select Items',
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).hintColor,
             ),
           ),
           items: items.map((item) {
-            return DropdownMenuItem<String>(
+            return DropdownMenuItem(
               value: item,
               //disable default onTap to avoid closing menu when selecting an item
               enabled: false,
               child: StatefulBuilder(
                 builder: (context, menuSetState) {
-                  final _isSelected = selectedItems.contains(item);
+                  final isSelected = selectedItems.contains(item);
                   return InkWell(
                     onTap: () {
-                      _isSelected
-                              ? selectedItems.remove(item)
-                              : selectedItems.add(item);
+                      isSelected ? selectedItems.remove(item) : selectedItems.add(item);
                       //This rebuilds the StatefulWidget to update the button's text
                       setState(() {});
                       //This rebuilds the dropdownMenu Widget to update the check mark
@@ -490,14 +493,17 @@ Widget build(BuildContext context) {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
                         children: [
-                          _isSelected
-                                  ? const Icon(Icons.check_box_outlined)
-                                  : const Icon(Icons.check_box_outline_blank),
+                          if (isSelected)
+                            const Icon(Icons.check_box_outlined)
+                          else
+                            const Icon(Icons.check_box_outline_blank),
                           const SizedBox(width: 16),
-                          Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
+                          Expanded(
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ],
@@ -513,10 +519,9 @@ Widget build(BuildContext context) {
           onChanged: (value) {},
           selectedItemBuilder: (context) {
             return items.map(
-                      (item) {
+              (item) {
                 return Container(
                   alignment: AlignmentDirectional.center,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     selectedItems.join(', '),
                     style: const TextStyle(
@@ -530,6 +535,7 @@ Widget build(BuildContext context) {
             ).toList();
           },
           buttonStyleData: const ButtonStyleData(
+            padding: EdgeInsets.only(left: 16, right: 8),
             height: 40,
             width: 140,
           ),
@@ -546,7 +552,7 @@ Widget build(BuildContext context) {
 
 ### 5. DropdownButton2 as Searchable Dropdown:
 
-<img src="https://user-images.githubusercontent.com/70890146/173115793-de4ec762-ab62-4395-b64a-01ae096ed4e3.jpg" alt="Image" width="300"/>
+<img src="/.github/images/search.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -584,23 +590,24 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-                  .map((item) => DropdownMenuItem(
-            value: item,
-            child: Text(
-              item,
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
-          ))
-                  .toList(),
+              .map((item) => DropdownMenuItem(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
+              .toList(),
           value: selectedValue,
           onChanged: (value) {
             setState(() {
-              selectedValue = value as String;
+              selectedValue = value;
             });
           },
           buttonStyleData: const ButtonStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             height: 40,
             width: 200,
           ),
@@ -640,7 +647,7 @@ Widget build(BuildContext context) {
               ),
             ),
             searchMatchFn: (item, searchValue) {
-              return (item.value.toString().contains(searchValue));
+              return item.value.toString().contains(searchValue);
             },
           ),
           //This to clear the search value when you close the menu
@@ -660,17 +667,17 @@ Widget build(BuildContext context) {
 
 **_Example 1_** using icon:
 
-<img src="https://user-images.githubusercontent.com/70890146/144771258-e1a128dd-5b4c-46f6-bc89-645f7748c51b.jpg" alt="Image" width="300"/>
+<img src="/.github/images/popup_icon.png" alt="Image" width="300"/>
 
 ```dart
-class CustomButtonTest extends StatefulWidget {
-  const CustomButtonTest({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
   @override
-  State<CustomButtonTest> createState() => _CustomButtonTestState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _CustomButtonTestState extends State<CustomButtonTest> {
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -684,21 +691,21 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             ),
             items: [
               ...MenuItems.firstItems.map(
-                        (item) => DropdownMenuItem<MenuItem>(
+                (item) => DropdownMenuItem<MenuItem>(
                   value: item,
                   child: MenuItems.buildItem(item),
                 ),
               ),
               const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                        (item) => DropdownMenuItem<MenuItem>(
+                (item) => DropdownMenuItem<MenuItem>(
                   value: item,
                   child: MenuItems.buildItem(item),
                 ),
               ),
             ],
             onChanged: (value) {
-              MenuItems.onChanged(context, value as MenuItem);
+              MenuItems.onChanged(context, value! as MenuItem);
             },
             dropdownStyleData: DropdownStyleData(
               width: 160,
@@ -707,7 +714,6 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
                 borderRadius: BorderRadius.circular(4),
                 color: Colors.redAccent,
               ),
-              elevation: 8,
               offset: const Offset(0, 8),
             ),
             menuItemStyleData: MenuItemStyleData(
@@ -726,16 +732,16 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
 }
 
 class MenuItem {
-  final String text;
-  final IconData icon;
-
   const MenuItem({
     required this.text,
     required this.icon,
   });
+
+  final String text;
+  final IconData icon;
 }
 
-class MenuItems {
+abstract class MenuItems {
   static const List<MenuItem> firstItems = [home, share, settings];
   static const List<MenuItem> secondItems = [logout];
 
@@ -751,29 +757,31 @@ class MenuItems {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          item.text,
-          style: const TextStyle(
-            color: Colors.white,
+        Expanded(
+          child: Text(
+            item.text,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
       ],
     );
   }
 
-  static onChanged(BuildContext context, MenuItem item) {
+  static void onChanged(BuildContext context, MenuItem item) {
     switch (item) {
       case MenuItems.home:
-      //Do something
+        //Do something
         break;
       case MenuItems.settings:
-      //Do something
+        //Do something
         break;
       case MenuItems.share:
-      //Do something
+        //Do something
         break;
       case MenuItems.logout:
-      //Do something
+        //Do something
         break;
     }
   }
@@ -782,17 +790,17 @@ class MenuItems {
 
 **_Example 2_** using image and openWithLongPress parameter:
 
-<img src="https://user-images.githubusercontent.com/70890146/144771270-2be603a4-84e8-47e7-9c69-91c938626866.jpg" alt="Image" width="300"/>
+<img src="/.github/images/popup_image.png" alt="Image" width="300"/>
 
 ```dart
-class CustomButtonTest extends StatefulWidget {
-  const CustomButtonTest({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
   @override
-  State<CustomButtonTest> createState() => _CustomButtonTestState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _CustomButtonTestState extends State<CustomButtonTest> {
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -805,8 +813,8 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 image: const DecorationImage(
-                  image: NetworkImage(
-                    'https://cdn.pixabay.com/photo/2020/05/11/06/20/city-5156636_960_720.jpg',
+                  image: AssetImage(
+                    'assets/city.jpg',
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -815,24 +823,28 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             openWithLongPress: true,
             items: [
               ...MenuItems.firstItems.map(
-                        (item) =>
-                        DropdownMenuItem<MenuItem>(
-                          value: item,
-                          child: MenuItems.buildItem(item),
-                        ),
+                (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
+                ),
               ),
               const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                        (item) =>
-                        DropdownMenuItem<MenuItem>(
-                          value: item,
-                          child: MenuItems.buildItem(item),
-                        ),
+                (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
+                ),
               ),
             ],
             onChanged: (value) {
-              MenuItems.onChanged(context, value as MenuItem);
+              MenuItems.onChanged(context, value! as MenuItem);
             },
+            buttonStyleData: ButtonStyleData(
+              // This is necessary for the ink response to match our customButton radius.
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+              ),
+            ),
             dropdownStyleData: DropdownStyleData(
               width: 160,
               padding: const EdgeInsets.symmetric(vertical: 6),
@@ -840,7 +852,6 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
                 borderRadius: BorderRadius.circular(4),
                 color: Colors.redAccent,
               ),
-              elevation: 8,
               offset: const Offset(40, -4),
             ),
             menuItemStyleData: MenuItemStyleData(
@@ -859,13 +870,13 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
 }
 
 class MenuItem {
-  final String text;
-  final IconData icon;
-
   const MenuItem({
     required this.text,
     required this.icon,
   });
+
+  final String text;
+  final IconData icon;
 }
 
 class MenuItems {
@@ -888,29 +899,31 @@ class MenuItems {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          item.text,
-          style: const TextStyle(
-            color: Colors.white,
+        Expanded(
+          child: Text(
+            item.text,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
       ],
     );
   }
 
-  static onChanged(BuildContext context, MenuItem item) {
+  static void onChanged(BuildContext context, MenuItem item) {
     switch (item) {
       case MenuItems.like:
-      //Do something
+        //Do something
         break;
       case MenuItems.share:
-      //Do something
+        //Do something
         break;
       case MenuItems.download:
-      //Do something
+        //Do something
         break;
       case MenuItems.cancel:
-      //Do something
+        //Do something
         break;
     }
   }
@@ -919,7 +932,7 @@ class MenuItems {
 
 ### 7. Using DropdownButtonFormField2 with Form:
 
-<img src="https://user-images.githubusercontent.com/70890146/144771294-4b98a3f4-5cb7-452f-a1be-5d3e1275fb93.jpg" alt="Image" width="500"/>
+<img src="/.github/images/form_field.png" alt="Image" width="500"/>
 
 ```dart
 final List<String> genderItems = [
@@ -943,10 +956,7 @@ Widget build(BuildContext context) {
           children: [
             TextFormField(
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
+                contentPadding: const EdgeInsets.all(16),
                 hintText: 'Enter Your Full Name.',
                 hintStyle: const TextStyle(fontSize: 14),
                 border: OutlineInputBorder(
@@ -955,34 +965,32 @@ Widget build(BuildContext context) {
               ),
             ),
             const SizedBox(height: 30),
-            DropdownButtonFormField2(
+            DropdownButtonFormField2<String>(
+              isExpanded: true,
               decoration: InputDecoration(
-                //Add isDense true and zero Padding.
-                //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
+                // Add Horizontal padding using menuItemStyleData.padding so it matches
+                // the menu padding when button's width is not specified.
+                contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                //Add more decoration as you want here
-                //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                // Add more decoration..
               ),
-              isExpanded: true,
               hint: const Text(
                 'Select Your Gender',
                 style: TextStyle(fontSize: 14),
               ),
               items: genderItems
-                      .map((item) => DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ))
-                      .toList(),
+                  .map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ))
+                  .toList(),
               validator: (value) {
                 if (value == null) {
                   return 'Please select gender.';
@@ -990,26 +998,28 @@ Widget build(BuildContext context) {
                 return null;
               },
               onChanged: (value) {
-                //Do something when changing the item if you want.
+                //Do something when selected item is changed.
               },
               onSaved: (value) {
                 selectedValue = value.toString();
               },
               buttonStyleData: const ButtonStyleData(
-                height: 60,
-                padding: EdgeInsets.only(left: 20, right: 10),
+                padding: EdgeInsets.only(right: 8),
               ),
               iconStyleData: const IconStyleData(
                 icon: Icon(
                   Icons.arrow_drop_down,
                   color: Colors.black45,
                 ),
-                iconSize: 30,
+                iconSize: 24,
               ),
               dropdownStyleData: DropdownStyleData(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                 ),
+              ),
+              menuItemStyleData: const MenuItemStyleData(
+                padding: EdgeInsets.symmetric(horizontal: 16),
               ),
             ),
             const SizedBox(height: 30),
@@ -1029,7 +1039,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-## CustomDropdownButton2 Widget "customize it to your needs"
+## How to make a reusable DropdownButton2 for your app
 
 ```dart
 class CustomDropdownButton2 extends StatelessWidget {
