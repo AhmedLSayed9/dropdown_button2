@@ -1,3 +1,7 @@
+## 2.2.1
+
+- Fix README images.
+
 ## 2.2.0
 
 - Update DropdownButtonFormField2 decoration behavior. (#152)
