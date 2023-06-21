@@ -1,3 +1,7 @@
+## 2.2.2
+
+- Ignore goldens and assets for pub.dev (reduces package size)
+
 ## 2.2.1
 
 - Fix README images.
