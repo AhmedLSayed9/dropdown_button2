@@ -15,7 +15,7 @@
 Flutter's core Dropdown Button widget with steady dropdown menu and many other options you can
 customize to your needs.
 
-<img src="/.github/images/banner.jpg" alt="Image" width="700"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/banner.jpg" alt="Image" width="700"/>
 
 - [Features](#features)
 - [Options](#options)
@@ -176,7 +176,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 ### 1. Simple DropdownButton2 with no styling:
 
-<img src="/.github/images/simple.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/simple.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -235,7 +235,7 @@ Widget build(BuildContext context) {
 
 ### 2. DropdownButton2 with few styling and customization:
 
-<img src="/.github/images/few_styling.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/few_styling.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -348,7 +348,7 @@ Widget build(BuildContext context) {
 
 ### 3. DropdownButton2 with items of different heights like dividers:
 
-<img src="/.github/images/with_dividers.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/with_dividers.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -447,7 +447,7 @@ Widget build(BuildContext context) {
 
 ### 4. DropdownButton2 as Multiselect Dropdown with Checkboxes:
 
-<img src="/.github/images/multi_select.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/multi_select.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -552,7 +552,7 @@ Widget build(BuildContext context) {
 
 ### 5. DropdownButton2 as Searchable Dropdown:
 
-<img src="/.github/images/search.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/search.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -667,7 +667,7 @@ Widget build(BuildContext context) {
 
 **_Example 1_** using icon:
 
-<img src="/.github/images/popup_icon.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/popup_icon.png" alt="Image" width="300"/>
 
 ```dart
 class MyHomePage extends StatefulWidget {
@@ -790,7 +790,7 @@ abstract class MenuItems {
 
 **_Example 2_** using image and openWithLongPress parameter:
 
-<img src="/.github/images/popup_image.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/popup_image.png" alt="Image" width="300"/>
 
 ```dart
 class MyHomePage extends StatefulWidget {
@@ -932,7 +932,7 @@ class MenuItems {
 
 ### 7. Using DropdownButtonFormField2 with Form:
 
-<img src="/.github/images/form_field.png" alt="Image" width="500"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/form_field.png" alt="Image" width="500"/>
 
 ```dart
 final List<String> genderItems = [
