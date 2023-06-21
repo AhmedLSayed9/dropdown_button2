@@ -1,4 +1,5 @@
 # Miscellaneous
+coverage/
 *.class
 *.log
 *.pyc
@@ -27,6 +28,6 @@ build/
 pubspec.lock
 
 # Images and Golden files
-assets/images/
+assets/images/*.*
 test/**/goldens/
 test/**/failures/
