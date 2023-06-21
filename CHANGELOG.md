@@ -1,3 +1,7 @@
+## 2.3.0
+
+- Update gitignore/pubignore, fixes #153.
+
 ## 2.2.2
 
 - Ignore goldens and assets for pub.dev (reduces package size)
