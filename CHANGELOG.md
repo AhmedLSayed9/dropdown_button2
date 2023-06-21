@@ -1,3 +1,7 @@
+## 2.2.4
+
+- Exclude goldens font from pubignore.
+
 ## 2.2.3
 
 - Update pubignore.
