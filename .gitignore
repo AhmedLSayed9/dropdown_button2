@@ -1,4 +1,5 @@
 # Miscellaneous
+coverage/
 *.class
 *.log
 *.pyc
