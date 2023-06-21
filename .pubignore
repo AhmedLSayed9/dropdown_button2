@@ -26,7 +26,7 @@
 build/
 pubspec.lock
 
-# Assets and Golden files
-assets/
+# Images and Golden files
+assets/images/
 test/**/goldens/
 test/**/failures/

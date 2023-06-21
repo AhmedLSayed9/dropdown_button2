@@ -814,7 +814,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(40),
                 image: const DecorationImage(
                   image: AssetImage(
-                    'assets/city.jpg',
+                    'assets/images/city.jpg',
                   ),
                   fit: BoxFit.cover,
                 ),
