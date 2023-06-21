@@ -101,7 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     Icons.arrow_drop_down,
                     color: Colors.black45,
                   ),
-                  iconSize: 24,
                 ),
                 dropdownStyleData: DropdownStyleData(
                   decoration: BoxDecoration(
