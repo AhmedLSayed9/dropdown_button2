@@ -1,3 +1,7 @@
+## 2.2.5
+
+- Update gitignore/pubignore, fixes #153.
+
 ## 2.2.4
 
 - Exclude goldens font from pubignore.
