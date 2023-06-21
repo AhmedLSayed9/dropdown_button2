@@ -1,3 +1,11 @@
+## 2.2.0
+
+- Update DropdownButtonFormField2 decoration behavior. (#152)
+- Squashed MediaQuery InheritedModel [Flutter core].
+- Fix rebuild issue of openMenuIcon.
+- Fix ink response radius for DropdownButtonFormField2.
+- Update README and examples.
+
 ## 2.1.4
 
 - Fix button falsely maintaining focus, closes #152.
