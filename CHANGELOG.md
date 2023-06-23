@@ -1,3 +1,7 @@
+## 2.3.2
+
+- Support ScrollBar theming for Cupertino, closes #154.
+
 ## 2.3.1
 
 - Update gitignore/pubignore, fixes #153.
