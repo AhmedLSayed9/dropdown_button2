@@ -324,6 +324,54 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     super.dispose();
   }
 
+  final _states = <MaterialState>{
+    MaterialState.dragged,
+    MaterialState.hovered,
+  };
+
+  bool get _isIOS => Theme.of(context).platform == TargetPlatform.iOS;
+
+  ScrollbarThemeData? get _scrollbarTheme => dropdownStyle.scrollbarTheme;
+
+  bool? get _iOSThumbVisibility =>
+      _scrollbarTheme?.thumbVisibility!.resolve(_states) ??
+      // ignore: deprecated_member_use
+      _scrollbarTheme?.isAlwaysShown;
+
+  Widget get _materialScrollBar => Theme(
+        data: Theme.of(context).copyWith(
+          scrollbarTheme: dropdownStyle.scrollbarTheme,
+        ),
+        child: Scrollbar(
+          thumbVisibility: true,
+          child: ListView(
+            // Ensure this always inherits the PrimaryScrollController
+            primary: true,
+            padding: dropdownStyle.padding ?? kMaterialListPadding,
+            shrinkWrap: true,
+            children: _children,
+          ),
+        ),
+      );
+
+  Widget get _cupertinoScrollBar => Theme(
+        data: Theme.of(context).copyWith(
+          scrollbarTheme: dropdownStyle.scrollbarTheme,
+        ),
+        child: Scrollbar(
+          thumbVisibility: _iOSThumbVisibility ?? true,
+          thickness: _scrollbarTheme?.thickness!.resolve(_states),
+          radius: _scrollbarTheme?.radius,
+          child: ListView(
+            // Ensure this always inherits the PrimaryScrollController
+            primary: true,
+            padding: dropdownStyle.padding ?? kMaterialListPadding,
+            shrinkWrap: true,
+            children: _children,
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     // The menu is shown in three stages (unit timing in brackets):
@@ -383,20 +431,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                         ),
                         child: PrimaryScrollController(
                           controller: route.scrollController!,
-                          child: Theme(
-                            data: Theme.of(context).copyWith(
-                              scrollbarTheme: dropdownStyle.scrollbarTheme,
-                            ),
-                            child: Scrollbar(
-                              child: ListView(
-                                // Ensure this always inherits the PrimaryScrollController
-                                primary: true,
-                                padding: dropdownStyle.padding ?? kMaterialListPadding,
-                                shrinkWrap: true,
-                                children: _children,
-                              ),
-                            ),
-                          ),
+                          child: _isIOS ? _materialScrollBar : _cupertinoScrollBar,
                         ),
                       ),
                     ),
