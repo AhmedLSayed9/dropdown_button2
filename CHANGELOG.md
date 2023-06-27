@@ -1,3 +1,7 @@
+## 2.3.4
+
+- `isFullScreen` should be null by default, fixes #157.
+
 ## 2.3.3
 
 - Support ScrollBar theming for Cupertino, closes #154.
