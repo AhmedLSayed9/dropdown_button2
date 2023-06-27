@@ -109,7 +109,7 @@ class DropdownStyleData {
     this.offset = Offset.zero,
     this.isOverButton = false,
     this.useSafeArea = true,
-    @Deprecated('Use useRootNavigator instead.') this.isFullScreen = false,
+    @Deprecated('Use useRootNavigator instead.') this.isFullScreen,
     this.useRootNavigator = false,
     this.scrollbarTheme,
     this.openInterval = const Interval(0.25, 0.5),
