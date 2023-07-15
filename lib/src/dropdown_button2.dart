@@ -431,7 +431,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                         ),
                         child: PrimaryScrollController(
                           controller: route.scrollController!,
-                          child: _isIOS ? _materialScrollBar : _cupertinoScrollBar,
+                          child: _isIOS ? _cupertinoScrollBar : _materialScrollBar,
                         ),
                       ),
                     ),
