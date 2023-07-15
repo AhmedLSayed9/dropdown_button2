@@ -1,3 +1,7 @@
+## 2.3.5
+
+- Fix ScrollBar theming.
+
 ## 2.3.4
 
 - `isFullScreen` should be null by default, fixes #157.
