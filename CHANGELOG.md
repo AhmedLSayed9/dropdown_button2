@@ -1,3 +1,7 @@
+## 2.3.6
+
+- Remove unnecessary packages from `dependencies`.
+
 ## 2.3.5
 
 - Fix ScrollBar theming.
