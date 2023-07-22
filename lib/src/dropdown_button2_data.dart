@@ -113,6 +113,7 @@ class DropdownStyleData {
     this.useRootNavigator = false,
     this.scrollbarTheme,
     this.openInterval = const Interval(0.25, 0.5),
+    this.backgroundColor,
   });
 
   /// The maximum height of the dropdown menu
@@ -178,6 +179,11 @@ class DropdownStyleData {
 
   /// The animation curve used for opening the dropdown menu (forward direction)
   final Interval openInterval;
+
+  /// The background color of the dropdown.
+  ///
+  /// If it is not provided, the theme's ThemeData.canvasColor will be used instead.
+  final Color? backgroundColor;
 }
 
 /// A class to configure the theme of the dropdown menu items.

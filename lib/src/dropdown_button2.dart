@@ -390,7 +390,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
       opacity: _fadeOpacity,
       child: CustomPaint(
         painter: _DropdownMenuPainter(
-          color: Theme.of(context).canvasColor,
+          color: dropdownStyle.backgroundColor ?? Theme.of(context).canvasColor,
           elevation: dropdownStyle.elevation,
           selectedIndex: route.selectedIndex,
           resize: _resize,
