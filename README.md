@@ -1,7 +1,7 @@
 # Flutter DropdownButton2
 
 
-## CHANGE
+## CHANGES
 
 Changed dropdown menu item sizes(remove default minimum height), separate textStyles for menuitems and selecteditems. 
 
