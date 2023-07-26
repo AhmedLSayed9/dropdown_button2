@@ -936,9 +936,8 @@ class _DropdownMenuItemContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // constraints: const BoxConstraints(minHeight: _kMenuItemHeight),
+      constraints: const BoxConstraints(minHeight: _kMenuItemHeight),
       alignment: alignment,
-      decoration: BoxDecoration(border: Border.all()),
       child: child,
     );
   }
@@ -1632,8 +1631,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           children: widget.isDense
               ? items
               : items.map((Widget item) {
-                  return SizedBox(
-                    height: widget.menuItemStyleData.height,
+                  return Container(
+                    constraints: BoxConstraints(
+                        minHeight: widget.menuItemStyleData.height),
                     child: item,
                   );
                 }).toList(),
