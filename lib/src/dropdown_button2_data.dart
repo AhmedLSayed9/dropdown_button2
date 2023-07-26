@@ -184,7 +184,7 @@ class DropdownStyleData {
 class MenuItemStyleData {
   /// Creates a MenuItemStyleData.
   const MenuItemStyleData({
-    this.height = _kMenuItemHeight,
+    this.height = 1,
     this.customHeights,
     this.padding,
     this.overlayColor,
