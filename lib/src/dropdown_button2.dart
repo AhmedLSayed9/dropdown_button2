@@ -206,12 +206,13 @@ class _DropdownMenuItemButtonState<T>
       decoration: BoxDecoration(border: Border.all()),
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
-      constraints: BoxConstraints(
-        minHeight: menuItemStyle.customHeights == null
-            ? 0
-            : menuItemStyle.customHeights![widget.itemIndex],
-      ),
-      child: Center(child: widget.route.items[widget.itemIndex]),
+      height: 20,
+      // constraints: BoxConstraints(
+      //   minHeight: menuItemStyle.customHeights == null
+      //       ? 0
+      //       : menuItemStyle.customHeights![widget.itemIndex],
+      // ),
+      child: widget.route.items[widget.itemIndex],
     );
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
@@ -1441,7 +1442,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
               return;
             }
 
-            _dropdownRoute!.itemHeights[index] = 10;
+            _dropdownRoute!.itemHeights[index] = size.height;
           },
         ),
     ];
