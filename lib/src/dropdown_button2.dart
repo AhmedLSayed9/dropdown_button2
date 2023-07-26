@@ -782,7 +782,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   ) {
     return math.max(
       0.0,
-      availableHeight - mediaQueryPadding.vertical - _kMenuItemHeight,
+      20,
     );
   }
 }
