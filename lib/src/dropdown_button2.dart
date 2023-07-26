@@ -938,7 +938,7 @@ class _DropdownMenuItemContainer extends StatelessWidget {
     return Container(
       // constraints: const BoxConstraints(minHeight: _kMenuItemHeight),
       alignment: alignment,
-      child: child,
+      child: Align(child: child),
     );
   }
 }
