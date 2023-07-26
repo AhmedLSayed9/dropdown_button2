@@ -1,5 +1,10 @@
 # Flutter DropdownButton2
 
+
+## CHANGE
+
+Changed dropdown menu item sizes(remove default minimum height), separate textStyles for menuitems and selecteditems. 
+
 <a href="https://pub.dev/packages/dropdown_button2">
   <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub"/>
 </a>
