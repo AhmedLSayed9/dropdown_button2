@@ -211,7 +211,7 @@ class _DropdownMenuItemButtonState<T>
             ? 0
             : menuItemStyle.customHeights![widget.itemIndex],
       ),
-      child: widget.route.items[widget.itemIndex],
+      child: FittedBox(child: widget.route.items[widget.itemIndex]),
     );
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
