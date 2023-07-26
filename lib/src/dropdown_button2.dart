@@ -207,7 +207,7 @@ class _DropdownMenuItemButtonState<T>
           .resolve(widget.textDirection),
       constraints: BoxConstraints(
         minHeight: menuItemStyle.customHeights == null
-            ? menuItemStyle.height
+            ? 0
             : menuItemStyle.customHeights![widget.itemIndex],
       ),
       child: widget.route.items[widget.itemIndex],
