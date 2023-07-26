@@ -20,7 +20,7 @@ part 'enums.dart';
 part 'utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
-const double _kMenuItemHeight = kMinInteractiveDimension - 20;
+const double _kMenuItemHeight = kMinInteractiveDimension;
 const double _kDenseButtonHeight = 24.0;
 const EdgeInsets _kMenuItemPadding = EdgeInsets.symmetric(horizontal: 16.0);
 const EdgeInsetsGeometry _kAlignedButtonPadding =
@@ -203,17 +203,11 @@ class _DropdownMenuItemButtonState<T>
         parent: widget.route.animation!, curve: Interval(start, end));
 
     Widget child = Container(
-      decoration: BoxDecoration(border: Border.all()),
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
-      // height: 20,
-      // constraints: BoxConstraints(
-      //   minHeight: menuItemStyle.customHeights == null
-      //       ? 0
-      //       : menuItemStyle.customHeights![widget.itemIndex],
-      // ),
-      child: widget.route.items[widget.itemIndex],
+      child: widget.route.items[widget.itemIndex].item?.child,
     );
+
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
     if (dropdownMenuItem.enabled) {
