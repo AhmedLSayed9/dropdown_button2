@@ -1,3 +1,7 @@
+## 2.3.7
+
+- Remove deprecated isAlwaysShown member.
+
 ## 2.3.6
 
 - Remove unnecessary packages from `dependencies`.
