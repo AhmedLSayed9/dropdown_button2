@@ -206,7 +206,7 @@ class _DropdownMenuItemButtonState<T>
       decoration: BoxDecoration(border: Border.all()),
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
-      height: 20,
+      // height: 20,
       // constraints: BoxConstraints(
       //   minHeight: menuItemStyle.customHeights == null
       //       ? 0
