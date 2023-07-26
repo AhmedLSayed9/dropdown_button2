@@ -205,9 +205,11 @@ class _DropdownMenuItemButtonState<T>
     Widget child = Container(
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
-      height: menuItemStyle.customHeights == null
-          ? menuItemStyle.height
-          : menuItemStyle.customHeights![widget.itemIndex],
+      constraints: BoxConstraints(
+        minHeight: menuItemStyle.customHeights == null
+            ? menuItemStyle.height
+            : menuItemStyle.customHeights![widget.itemIndex],
+      ),
       child: widget.route.items[widget.itemIndex],
     );
     // An [InkWell] is added to the item only if it is enabled
@@ -363,7 +365,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             primary: true,
             padding: dropdownStyle.padding ?? kMaterialListPadding,
             shrinkWrap: true,
-            // children: _children,
+            children: _children,
           ),
         ),
       );
@@ -381,7 +383,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             primary: true,
             padding: dropdownStyle.padding ?? kMaterialListPadding,
             shrinkWrap: true,
-            // children: _children,
+            children: _children,
           ),
         ),
       );
