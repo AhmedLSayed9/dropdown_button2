@@ -203,11 +203,12 @@ class _DropdownMenuItemButtonState<T>
         parent: widget.route.animation!, curve: Interval(start, end));
 
     Widget child = Container(
+      decoration: BoxDecoration(border: Border.all()),
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
       constraints: BoxConstraints(
         minHeight: menuItemStyle.customHeights == null
-            ? 1
+            ? 0
             : menuItemStyle.customHeights![widget.itemIndex],
       ),
       child: widget.route.items[widget.itemIndex],
@@ -1948,3 +1949,6 @@ class _DropdownButtonFormFieldState<T> extends FormFieldState<T> {
     }
   }
 }
+
+
+/// berry0102
