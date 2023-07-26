@@ -426,37 +426,9 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                     ?.resolve(Directionality.of(context)) ??
                 BorderRadius.zero,
             child: Material(
-              type: MaterialType.transparency,
-              textStyle: route.style,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  if (searchData?.searchInnerWidget != null)
-                    searchData!.searchInnerWidget!,
-                  Flexible(
-                    child: Padding(
-                      padding: dropdownStyle.scrollPadding ?? EdgeInsets.zero,
-                      child: ScrollConfiguration(
-                        // Dropdown menus should never overscroll or display an overscroll indicator.
-                        // Scrollbars are built-in below.
-                        // Platform must use Theme and ScrollPhysics must be Clamping.
-                        behavior: ScrollConfiguration.of(context).copyWith(
-                          scrollbars: false,
-                          overscroll: false,
-                          physics: const ClampingScrollPhysics(),
-                          platform: Theme.of(context).platform,
-                        ),
-                        child: PrimaryScrollController(
-                          controller: route.scrollController!,
-                          child:
-                              _isIOS ? _cupertinoScrollBar : _materialScrollBar,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                type: MaterialType.transparency,
+                textStyle: route.style,
+                child: Container()),
           ),
         ),
       ),
