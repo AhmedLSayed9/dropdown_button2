@@ -161,7 +161,7 @@ add this line to pubspec.yaml
 
 ```yaml
 dependencies:
-  dropdown_button2: ^2.3.6
+  dropdown_button2: ^2.3.7
 ```
 
 import package
