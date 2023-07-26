@@ -363,7 +363,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             primary: true,
             padding: dropdownStyle.padding ?? kMaterialListPadding,
             shrinkWrap: true,
-            children: _children,
+            // children: _children,
           ),
         ),
       );
