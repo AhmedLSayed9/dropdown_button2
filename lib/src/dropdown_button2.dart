@@ -211,7 +211,7 @@ class _DropdownMenuItemButtonState<T>
             ? 0
             : menuItemStyle.customHeights![widget.itemIndex],
       ),
-      child: Align(child: widget.route.items[widget.itemIndex]),
+      child: Center(child: widget.route.items[widget.itemIndex]),
     );
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
@@ -1441,7 +1441,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
               return;
             }
 
-            _dropdownRoute!.itemHeights[index] = size.height;
+            _dropdownRoute!.itemHeights[index] = 10;
           },
         ),
     ];
