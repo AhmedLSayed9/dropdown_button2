@@ -1615,32 +1615,29 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (items.isEmpty) {
       innerItemsWidget = const SizedBox.shrink();
     } else {
-      innerItemsWidget = const SizedBox.shrink();
-
-      // innerItemsWidget = Padding(
-      //   //When buttonWidth & dropdownWidth is null, their width will be calculated
-      //   //from the maximum width of menu items or the hint text (width of IndexedStack).
-      //   //We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
-      //   padding: EdgeInsets.symmetric(
-      //     horizontal:
-      //         _buttonStyle?.width == null && _dropdownStyle.width == null
-      //             ? _getMenuHorizontalPadding()
-      //             : 0.0,
-      //   ),
-      //   child: IndexedStack(
-      //     index: _selectedIndex ?? hintIndex,
-      //     alignment: widget.alignment,
-      //     children: widget.isDense
-      //         ? items
-      //         : items.map((Widget item) {
-      //             return Container(
-      //               constraints: BoxConstraints(
-      //                   minHeight: widget.menuItemStyleData.height),
-      //               child: item,
-      //             );
-      //           }).toList(),
-      //   ),
-      // );
+      innerItemsWidget = Padding(
+        //When buttonWidth & dropdownWidth is null, their width will be calculated
+        //from the maximum width of menu items or the hint text (width of IndexedStack).
+        //We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
+        padding: EdgeInsets.symmetric(
+          horizontal:
+              _buttonStyle?.width == null && _dropdownStyle.width == null
+                  ? _getMenuHorizontalPadding()
+                  : 0.0,
+        ),
+        child: IndexedStack(
+          index: _selectedIndex ?? hintIndex,
+          alignment: widget.alignment,
+          children: widget.isDense
+              ? items
+              : items.map((Widget item) {
+                  return SizedBox(
+                    height: widget.menuItemStyleData.height,
+                    child: item,
+                  );
+                }).toList(),
+        ),
+      );
     }
 
     Widget result = DefaultTextStyle(
