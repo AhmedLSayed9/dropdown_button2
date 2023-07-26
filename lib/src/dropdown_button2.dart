@@ -20,7 +20,7 @@ part 'enums.dart';
 part 'utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
-const double _kMenuItemHeight = kMinInteractiveDimension;
+const double _kMenuItemHeight = kMinInteractiveDimension - 20;
 const double _kDenseButtonHeight = 24.0;
 const EdgeInsets _kMenuItemPadding = EdgeInsets.symmetric(horizontal: 16.0);
 const EdgeInsetsGeometry _kAlignedButtonPadding =
