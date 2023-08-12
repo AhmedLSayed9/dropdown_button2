@@ -1,3 +1,7 @@
+## 2.3.8
+
+- Use null-aware operators for thumbVisibility and thickness.
+
 ## 2.3.7
 
 - Remove deprecated isAlwaysShown member.
