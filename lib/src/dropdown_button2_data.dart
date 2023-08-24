@@ -102,6 +102,7 @@ class DropdownStyleData {
     this.maxHeight,
     this.width,
     this.padding,
+    this.outerHorizontalMargin,
     this.scrollPadding,
     this.decoration,
     this.elevation = 8,
@@ -131,6 +132,16 @@ class DropdownStyleData {
 
   /// The inner padding of the dropdown menu
   final EdgeInsetsGeometry? padding;
+
+  /// The outer horizontal margin of the dropdown menu
+  /// Only works when [MenuItemStyleData.width] is set.
+  ///
+  /// Total width of the dropdown menu will be equal to
+  /// [MenuItemStyleData.width] - 2* [outerHorizontalMargin]
+  ///
+  /// It allows to center the menu dropdown when using [DropdownDirection.center]
+  /// with additional padding to it's parent.
+  final double? outerHorizontalMargin;
 
   /// The inner padding of the dropdown menu including the scrollbar
   final EdgeInsetsGeometry? scrollPadding;

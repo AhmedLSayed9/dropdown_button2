@@ -460,15 +460,17 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
+    final double margin = (route.dropdownStyle.outerHorizontalMargin ?? 0) * 2;
     final double? itemWidth = route.dropdownStyle.width;
     double maxHeight = route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
     final double? preferredMaxHeight = route.dropdownStyle.maxHeight;
     if (preferredMaxHeight != null && preferredMaxHeight <= maxHeight) {
       maxHeight = preferredMaxHeight;
     }
+    final itemWidthWithMargin = itemWidth != null ? (itemWidth - margin) : null;
     // The width of a menu should be at most the view width. This ensures that
     // the menu does not extend past the left and right edges of the screen.
-    final double width = math.min(constraints.maxWidth, itemWidth ?? buttonRect.width);
+    final double width = math.min(constraints.maxWidth, itemWidthWithMargin ?? buttonRect.width);
     return BoxConstraints(
       minWidth: width,
       maxWidth: width,
@@ -530,6 +532,13 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
       case DropdownDirection.left:
         left = _clampDouble(
           buttonRect.right - childSize.width + offset.dx,
+          0.0,
+          size.width - childSize.width,
+        );
+        break;
+      case DropdownDirection.center:
+        left = _clampDouble(
+          (size.width - childSize.width) / 2 + offset.dx,
           0.0,
           size.width - childSize.width,
         );
