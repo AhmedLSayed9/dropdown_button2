@@ -41,6 +41,32 @@ typedef SearchMatchFn<T> = bool Function(
 SearchMatchFn<T> _defaultSearchMatchFn<T>() => (DropdownMenuItem<T> item, String searchValue) =>
     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
 
+class _DropdownBarrierPainter extends CustomPainter {
+  const _DropdownBarrierPainter({
+    this.buttonRect,
+    this.barrierColor,
+  });
+
+  final Rect? buttonRect;
+  final Color? barrierColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (barrierColor != null && buttonRect != null) {
+      canvas.saveLayer(Rect.largest, Paint());
+      canvas.drawRect(Rect.largest, Paint()..color = barrierColor!);
+      canvas.drawRect(buttonRect!, Paint()..blendMode = BlendMode.clear);
+      canvas.restore();
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DropdownBarrierPainter oldPainter) {
+    return oldPainter.buttonRect != buttonRect ||
+        oldPainter.barrierColor != barrierColor;
+  }
+}
+
 class _DropdownMenuPainter extends CustomPainter {
   _DropdownMenuPainter({
     this.color,
@@ -581,6 +607,65 @@ class _MenuLimits {
   final double scrollOffset;
 }
 
+class _CustomModalBarrier extends StatefulWidget {
+  const _CustomModalBarrier({
+    this.animation,
+    this.barrierColor,
+    required this.barrierCurve,
+    required this.child,
+    this.buttonRect,
+  });
+
+  final Animation<double>? animation;
+  final Color? barrierColor;
+  final Curve barrierCurve;
+  final Widget child;
+  final Rect? buttonRect;
+
+  @override
+  State<_CustomModalBarrier> createState() => _CustomModalBarrierState();
+}
+
+class _CustomModalBarrierState extends State<_CustomModalBarrier> {
+  late Animation<Color?>? color;
+
+  @override
+  void initState() {
+    super.initState();
+    color = widget.animation?.drive(
+      ColorTween(
+        begin: Colors.transparent,
+        end: widget.barrierColor,
+      ).chain(CurveTween(curve: widget.barrierCurve)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (color == null) {
+      //if animation is null, we don't want to display barrier that animations ugly
+      return widget.child;
+    }
+
+    return Stack(
+      children: [
+        ValueListenableBuilder(
+          valueListenable: color!,
+          builder: (BuildContext context, Color? value, Widget? child) {
+            return CustomPaint(
+              painter: _DropdownBarrierPainter(
+                buttonRect: widget.buttonRect,
+                barrierColor: value,
+              ),
+            );
+          },
+        ),
+        widget.child,
+      ],
+    );
+  }
+}
+
 class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   _DropdownRoute({
     required this.items,
@@ -590,6 +675,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.capturedThemes,
     required this.style,
     required this.barrierDismissible,
+    required this.altBarrierColor,
     this.barrierColor,
     this.barrierLabel,
     required this.enableFeedback,
@@ -622,12 +708,13 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   @override
   final Color? barrierColor;
 
+  final Color? altBarrierColor;
+
   @override
   final String? barrierLabel;
 
   @override
-  Widget buildPage(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, _, __) {
     return LayoutBuilder(
       builder: (BuildContext ctx, BoxConstraints constraints) {
         //Exclude BottomInset from maxHeight to avoid overlapping menu items
@@ -642,7 +729,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
         return ValueListenableBuilder<Rect?>(
           valueListenable: buttonRect,
           builder: (BuildContext context, Rect? rect, _) {
-            return _DropdownRoutePage<T>(
+            final routePage = _DropdownRoutePage<T>(
               route: this,
               constraints: actualConstraints,
               mediaQueryPadding: mediaQueryPadding,
@@ -651,6 +738,13 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               capturedThemes: capturedThemes,
               style: style,
               enableFeedback: enableFeedback,
+            );
+            return _CustomModalBarrier(
+              animation: animation,
+              barrierColor: altBarrierColor,
+              barrierCurve: barrierCurve,
+              buttonRect: rect,
+              child: routePage,
             );
           },
         );
@@ -994,6 +1088,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
+    this.altBarrierColor,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -1046,6 +1141,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
+    this.altBarrierColor,
     this.barrierLabel,
     required InputDecoration inputDecoration,
     required bool isEmpty,
@@ -1234,6 +1330,12 @@ class DropdownButton2<T> extends StatefulWidget {
   /// be transparent.
   final Color? barrierColor;
 
+  /// The color to use for the modal barrier. This barrier doesn't cover the
+  /// dropdown button like barrier color. Overrides route barrier.
+  ///
+  /// When set, [barrierColor] have not effect.
+  final Color? altBarrierColor;
+
   /// The semantic label used for a dismissible barrier.
   ///
   /// If the barrier is dismissible, this label will be read out if
@@ -1417,9 +1519,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
       capturedThemes: InheritedTheme.capture(from: context, to: navigator.context),
       style: _textStyle!,
       barrierDismissible: widget.barrierDismissible,
-      barrierColor: widget.barrierColor,
+      barrierColor: widget.altBarrierColor != null ? null : widget.barrierColor,
       barrierLabel:
           widget.barrierLabel ?? MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      altBarrierColor: widget.altBarrierColor,
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: _dropdownStyle,
       menuItemStyle: _menuItemStyle,
