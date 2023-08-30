@@ -5,6 +5,13 @@ packages:
   - packages/**
   - examples/**
 
+command:
+  version:
+    message: |
+      Release
+
+      {new_package_versions}
+
 scripts:
   lint:all:
     run: melos run analyze && melos run format
