@@ -1,3 +1,7 @@
+## 2.3.9
+
+ - Bump "dropdown_button2" to `2.3.9`.
+
 ## 2.3.8
 
 - Use null-aware operators for thumbVisibility and thickness.
