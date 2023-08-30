@@ -1,3 +1,7 @@
+## 2.3.9
+
+ - Use melos to separate package golden tests, closes #176.
+
 ## 2.3.8
 
 - Use null-aware operators for thumbVisibility and thickness.
