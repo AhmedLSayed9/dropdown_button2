@@ -10,6 +10,7 @@ class DropdownItem<T> extends DropdownMenuItem<T> {
   /// The [child] property must be set.
   const DropdownItem({
     required super.child,
+    this.height = _kMenuItemHeight,
     super.onTap,
     super.value,
     super.enabled,
@@ -17,6 +18,9 @@ class DropdownItem<T> extends DropdownMenuItem<T> {
     this.closeOnTap = true,
     super.key,
   });
+
+  /// The height of the menu item, default value is [kMinInteractiveDimension]
+  final double height;
 
   /// Whether the dropdown should close when the item is tapped.
   ///
@@ -78,7 +82,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
   }
 
   void _handleOnTap() {
-    final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex].item!;
+    final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
 
     dropdownItem.onTap?.call();
 
@@ -103,7 +107,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
   Widget build(BuildContext context) {
     final double menuCurveEnd = widget.route.dropdownStyle.openInterval.end;
 
-    final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex].item!;
+    final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
     final double unit = 0.5 / (widget.route.items.length + 1.5);
     final double start = _clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
     final double end = _clampDouble(start + 1.5 * unit, 0.0, 1.0);
@@ -112,9 +116,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
 
     Widget child = Container(
       padding: (menuItemStyle.padding ?? _kMenuItemPadding).resolve(widget.textDirection),
-      height: menuItemStyle.customHeights == null
-          ? menuItemStyle.height
-          : menuItemStyle.customHeights![widget.itemIndex],
+      height: dropdownItem.height,
       child: widget.route.items[widget.itemIndex],
     );
     // An [InkWell] is added to the item only if it is enabled
@@ -141,43 +143,5 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
       );
     }
     return child;
-  }
-}
-
-// This widget enables _DropdownRoute to look up the sizes of
-// each menu item. These sizes are used to compute the offset of the selected
-// item so that _DropdownRoutePage can align the vertical center of the
-// selected item lines up with the vertical center of the dropdown button,
-// as closely as possible.
-class _MenuItem<T> extends SingleChildRenderObjectWidget {
-  const _MenuItem({
-    super.key,
-    required this.onLayout,
-    required this.item,
-  }) : super(child: item);
-
-  final ValueChanged<Size> onLayout;
-  final DropdownItem<T>? item;
-
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    return _RenderMenuItem(onLayout);
-  }
-
-  @override
-  void updateRenderObject(BuildContext context, covariant _RenderMenuItem renderObject) {
-    renderObject.onLayout = onLayout;
-  }
-}
-
-class _RenderMenuItem extends RenderProxyBox {
-  _RenderMenuItem(this.onLayout, [RenderBox? child]) : super(child);
-
-  ValueChanged<Size> onLayout;
-
-  @override
-  void performLayout() {
-    super.performLayout();
-    onLayout(size);
   }
 }

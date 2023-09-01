@@ -46,6 +46,7 @@ class _SearchExampleState extends State<SearchExample> {
             items: items
                 .map((item) => DropdownItem(
                       value: item,
+                      height: 40,
                       child: Text(
                         item,
                         style: const TextStyle(
@@ -67,9 +68,6 @@ class _SearchExampleState extends State<SearchExample> {
             ),
             dropdownStyleData: const DropdownStyleData(
               maxHeight: 200,
-            ),
-            menuItemStyleData: const MenuItemStyleData(
-              height: 40,
             ),
             dropdownSearchData: DropdownSearchData(
               searchController: textEditingController,

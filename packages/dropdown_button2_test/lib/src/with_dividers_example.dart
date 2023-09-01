@@ -24,6 +24,7 @@ class _WithDividersExampleState extends State<WithDividersExample> {
         [
           DropdownItem<String>(
             value: item,
+            height: 40,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
@@ -38,26 +39,13 @@ class _WithDividersExampleState extends State<WithDividersExample> {
           if (item != items.last)
             const DropdownItem<String>(
               enabled: false,
+              height: 4,
               child: Divider(),
             ),
         ],
       );
     }
     return menuItems;
-  }
-
-  List<double> _getCustomItemsHeights() {
-    final List<double> itemsHeights = [];
-    for (int i = 0; i < (items.length * 2) - 1; i++) {
-      if (i.isEven) {
-        itemsHeights.add(40);
-      }
-      //Dividers indexes will be the odd indexes
-      if (i.isOdd) {
-        itemsHeights.add(4);
-      }
-    }
-    return itemsHeights;
   }
 
   @override
@@ -89,9 +77,8 @@ class _WithDividersExampleState extends State<WithDividersExample> {
             dropdownStyleData: const DropdownStyleData(
               maxHeight: 200,
             ),
-            menuItemStyleData: MenuItemStyleData(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              customHeights: _getCustomItemsHeights(),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
             ),
             iconStyleData: const IconStyleData(
               openMenuIcon: Icon(Icons.arrow_drop_up),

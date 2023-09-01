@@ -34,6 +34,7 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
             items: items.map((item) {
               return DropdownItem(
                 value: item,
+                height: 40,
                 //disable default onTap to avoid closing menu when selecting an item
                 enabled: false,
                 child: StatefulBuilder(
@@ -99,7 +100,6 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
               width: 140,
             ),
             menuItemStyleData: const MenuItemStyleData(
-              height: 40,
               padding: EdgeInsets.zero,
             ),
           ),

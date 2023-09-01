@@ -34,6 +34,7 @@ class _SimpleExampleState extends State<SimpleExample> {
             items: items
                 .map((String item) => DropdownItem<String>(
                       value: item,
+                      height: 40,
                       child: Text(
                         item,
                         style: const TextStyle(
@@ -52,9 +53,6 @@ class _SimpleExampleState extends State<SimpleExample> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               height: 40,
               width: 140,
-            ),
-            menuItemStyleData: const MenuItemStyleData(
-              height: 40,
             ),
           ),
         ),

@@ -16,6 +16,34 @@
 
 - Add `closeOnTap` property to DropdownItem. It controls whether the dropdown should close when the item is tapped.
 
+- **BREAKING**: Support setting different heights for items.
+
+  Instead of:
+
+  ```dart
+  items: items
+    .map((String item) => DropdownItem<String>(
+        value: item,
+        child: Text(item),
+      ))
+    .toList(),
+  menuItemStyleData: const MenuItemStyleData(
+    height: 40,
+  ),
+  ```
+
+  do:
+
+  ```dart
+  items: items
+    .map((String item) => DropdownItem<String>(
+          value: item,
+          height: 40,
+          child: Text(item),
+        ))
+    .toList(),
+  ```
+
 ## 2.3.9
 
 - Use melos to separate package golden tests, closes #176.

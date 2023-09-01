@@ -15,10 +15,9 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.dropdownStyle,
     required this.menuItemStyle,
     required this.searchData,
-  }) : itemHeights =
-            menuItemStyle.customHeights ?? List<double>.filled(items.length, menuItemStyle.height);
+  }) : itemHeights = items.map((item) => item.height).toList();
 
-  final List<_MenuItem<T>> items;
+  final List<DropdownItem<T>> items;
   final ValueNotifier<Rect?> buttonRect;
   final int selectedIndex;
   final bool isNoSelectedItem;

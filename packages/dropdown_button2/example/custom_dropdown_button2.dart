@@ -80,6 +80,7 @@ class CustomDropdownButton2 extends StatelessWidget {
         items: dropdownItems
             .map((String item) => DropdownItem<String>(
                   value: item,
+                  height: itemHeight ?? 40,
                   child: Container(
                     alignment: valueAlignment,
                     child: Text(
@@ -137,7 +138,6 @@ class CustomDropdownButton2 extends StatelessWidget {
           ),
         ),
         menuItemStyleData: MenuItemStyleData(
-          height: itemHeight ?? 40,
           padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
         ),
       ),

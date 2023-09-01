@@ -10,10 +10,9 @@
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-part 'dropdown_button2_data.dart';
+part 'dropdown_style_data.dart';
 part 'dropdown_route.dart';
 part 'dropdown_menu.dart';
 part 'dropdown_menu_item.dart';
@@ -34,10 +33,7 @@ typedef SelectedMenuItemBuilder = Widget Function(BuildContext context, Widget c
 typedef OnMenuStateChangeFn = void Function(bool isOpen);
 
 /// Signature for the callback for the match function used for searchable dropdowns.
-typedef SearchMatchFn<T> = bool Function(
-  DropdownItem<T> item,
-  String searchValue,
-);
+typedef SearchMatchFn<T> = bool Function(DropdownItem<T> item, String searchValue);
 
 /// A Material Design button for selecting from a list of items.
 ///
@@ -129,13 +125,6 @@ class DropdownButton2<T> extends StatefulWidget {
           'Either zero or 2 or more [DropdownItem]s were detected '
           'with the same value',
         ),
-        assert(
-          menuItemStyleData.customHeights == null ||
-              items == null ||
-              items.isEmpty ||
-              menuItemStyleData.customHeights?.length == items.length,
-          'customHeights list should have the same length of items list',
-        ),
         _inputDecoration = null,
         _isEmpty = false,
         _isFocused = false;
@@ -182,13 +171,6 @@ class DropdownButton2<T> extends StatefulWidget {
           '$value. \n'
           'Either zero or 2 or more [DropdownItem]s were detected '
           'with the same value',
-        ),
-        assert(
-          menuItemStyleData.customHeights == null ||
-              items == null ||
-              items.isEmpty ||
-              menuItemStyleData.customHeights?.length == items.length,
-          'customHeights list should have the same length of items list',
         ),
         _inputDecoration = inputDecoration,
         _isEmpty = isEmpty,
@@ -502,34 +484,12 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
   }
 
   void _handleTap() {
-    final List<_MenuItem<T>> menuItems = [
-      for (int index = 0; index < widget.items!.length; index += 1)
-        _MenuItem<T>(
-          item: widget.items![index],
-          onLayout: (Size size) {
-            // If [_dropdownRoute] is null and onLayout is called, this means
-            // that performLayout was called on a _DropdownRoute that has not
-            // left the widget tree but is already on its way out.
-            //
-            // Since onLayout is used primarily to collect the desired heights
-            // of each menu item before laying them out, not having the _DropdownRoute
-            // collect each item's height to lay out is fine since the route is
-            // already on its way out.
-            if (_dropdownRoute == null) {
-              return;
-            }
-
-            _dropdownRoute!.itemHeights[index] = size.height;
-          },
-        ),
-    ];
-
     final NavigatorState navigator = Navigator.of(context,
         rootNavigator: _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator);
     assert(_dropdownRoute == null);
     _rect.value = _getRect();
     _dropdownRoute = _DropdownRoute<T>(
-      items: menuItems,
+      items: widget.items!,
       buttonRect: _rect,
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
@@ -655,7 +615,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     // We should explicitly type the items list to be a list of <Widget>,
     // otherwise, no explicit type adding items maybe trigger a crash/failure
     // when hint and selectedItemBuilder are provided.
-    final List<Widget> items = widget.selectedItemBuilder == null
+    final List<Widget> buttonItems = widget.selectedItemBuilder == null
         ? (widget.items != null ? List<Widget>.of(widget.items!) : <Widget>[])
         : List<Widget>.of(widget.selectedItemBuilder!(context));
 
@@ -663,8 +623,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     if (widget.hint != null || (!_enabled && widget.disabledHint != null)) {
       final Widget displayedHint = _enabled ? widget.hint! : widget.disabledHint ?? widget.hint!;
 
-      hintIndex = items.length;
-      items.add(DefaultTextStyle(
+      hintIndex = buttonItems.length;
+      buttonItems.add(DefaultTextStyle(
         style: _textStyle!.copyWith(color: Theme.of(context).hintColor),
         child: IgnorePointer(
           child: _DropdownItemContainer(
@@ -681,7 +641,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     // If value is null (then _selectedIndex is null) then we
     // display the hint or nothing at all.
     final Widget innerItemsWidget;
-    if (items.isEmpty) {
+    if (buttonItems.isEmpty) {
       innerItemsWidget = const SizedBox.shrink();
     } else {
       innerItemsWidget = Padding(
@@ -697,10 +657,12 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
           index: _selectedIndex ?? hintIndex,
           alignment: widget.alignment,
           children: widget.isDense
-              ? items
-              : items.map((Widget item) {
+              ? buttonItems
+              // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
+              : buttonItems.mapIndexed((item, index) {
                   return SizedBox(
-                    height: widget.menuItemStyleData.height,
+                    // hintIndex is the last item in buttonItems.
+                    height: index == hintIndex ? _kMenuItemHeight : widget.items![index].height,
                     child: item,
                   );
                 }).toList(),

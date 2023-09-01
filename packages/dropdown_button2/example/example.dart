@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
             items: items
                 .map((String item) => DropdownItem<String>(
                       value: item,
+                      height: 40,
                       child: Text(
                         item,
                         style: const TextStyle(
@@ -123,7 +124,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             menuItemStyleData: const MenuItemStyleData(
-              height: 40,
               padding: EdgeInsets.only(left: 14, right: 14),
             ),
           ),

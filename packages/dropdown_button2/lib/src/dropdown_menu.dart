@@ -40,7 +40,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   late List<Widget> _children;
   late SearchMatchFn<T> _searchMatchFn;
 
-  List<_MenuItem<T>> get items => widget.route.items;
+  List<DropdownItem<T>> get items => widget.route.items;
 
   DropdownStyleData get dropdownStyle => widget.route.dropdownStyle;
 
@@ -97,7 +97,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     final String currentSearch = searchData!.searchController!.text;
     return <Widget>[
       for (int index = 0; index < items.length; ++index)
-        if (_searchMatchFn(items[index].item!, currentSearch)) dropdownItemButton(index),
+        if (_searchMatchFn(items[index], currentSearch)) dropdownItemButton(index),
     ];
   }
 
@@ -123,8 +123,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   ListView get _dropdownListView => ListView(
         // Ensure this always inherits the PrimaryScrollController
         primary: true,
-        padding: dropdownStyle.padding ?? kMaterialListPadding,
         shrinkWrap: true,
+        padding: dropdownStyle.padding ?? kMaterialListPadding,
         children: _children,
       );
 
@@ -150,7 +150,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           elevation: dropdownStyle.elevation,
           selectedIndex: route.selectedIndex,
           resize: _resize,
-          itemHeight: route.menuItemStyle.height,
+          itemHeight: items[0].height,
           dropdownDecoration: dropdownStyle.decoration,
         ),
         child: Semantics(
@@ -192,6 +192,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                               scrollbarTheme: dropdownStyle.scrollbarTheme,
                             ),
                             child: Scrollbar(
+                              // ignore: avoid_bool_literals_in_conditional_expressions
                               thumbVisibility: _isIOS ? _iOSThumbVisibility : true,
                               thickness:
                                   _isIOS ? _scrollbarTheme?.thickness?.resolve(_states) : null,

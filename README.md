@@ -128,13 +128,12 @@ customize to your needs.
 
 #### Subclass MenuItemStyleData:
 
-| Option                                                                                                                                           | Description                                                              | Type                          | Required |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ----------------------------- | :------: |
-| [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/height.html)                                   | The height of the menu item                                              | double                        |    No    |
-| [customHeights](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/customHeights.html)                     | Define different heights for the menu items (useful for adding dividers) | List<double>                  |    No    |
-| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                 | The padding of menu items                                                | EdgeInsetsGeometry            |    No    |
-| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                       | Defines the ink response focus, hover, and splash colors for the items   | MaterialStateProperty<Color?> |    No    |
-| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html) | A builder to customize the selected menu item                            | SelectedMenuItemBuilder       |    No    |
+| Option                                                                                                                                           | Description                                                            | Type                          | Required |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ----------------------------- | :------: |
+| [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/height.html)                                   | The height of the menu item                                            | double                        |    No    |
+| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                 | The padding of menu items                                              | EdgeInsetsGeometry            |    No    |
+| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                       | Defines the ink response focus, hover, and splash colors for the items | MaterialStateProperty<Color?> |    No    |
+| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html) | A builder to customize the selected menu item                          | SelectedMenuItemBuilder       |    No    |
 
 #### Subclass DropdownSearchData:
 
@@ -204,6 +203,7 @@ Widget build(BuildContext context) {
           items: items
               .map((String item) => DropdownItem<String>(
                     value: item,
+                    height: 40,
                     child: Text(
                       item,
                       style: const TextStyle(
@@ -222,9 +222,6 @@ Widget build(BuildContext context) {
             padding: EdgeInsets.symmetric(horizontal: 16),
             height: 40,
             width: 140,
-          ),
-          menuItemStyleData: const MenuItemStyleData(
-            height: 40,
           ),
         ),
       ),
@@ -283,6 +280,7 @@ Widget build(BuildContext context) {
           items: items
               .map((String item) => DropdownItem<String>(
                     value: item,
+                    height: 40,
                     child: Text(
                       item,
                       style: const TextStyle(
@@ -336,7 +334,6 @@ Widget build(BuildContext context) {
             ),
           ),
           menuItemStyleData: const MenuItemStyleData(
-            height: 40,
             padding: EdgeInsets.only(left: 14, right: 14),
           ),
         ),
@@ -366,6 +363,7 @@ List<DropdownItem<String>> _addDividersAfterItems(List<String> items) {
       [
         DropdownItem<String>(
           value: item,
+          height: 40,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
@@ -380,26 +378,13 @@ List<DropdownItem<String>> _addDividersAfterItems(List<String> items) {
         if (item != items.last)
           const DropdownItem<String>(
             enabled: false,
+            height: 4,
             child: Divider(),
           ),
       ],
     );
   }
   return menuItems;
-}
-
-List<double> _getCustomItemsHeights() {
-  final List<double> itemsHeights = [];
-  for (int i = 0; i < (items.length * 2) - 1; i++) {
-    if (i.isEven) {
-      itemsHeights.add(40);
-    }
-    //Dividers indexes will be the odd indexes
-    if (i.isOdd) {
-      itemsHeights.add(4);
-    }
-  }
-  return itemsHeights;
 }
 
 @override
@@ -431,9 +416,8 @@ Widget build(BuildContext context) {
           dropdownStyleData: const DropdownStyleData(
             maxHeight: 200,
           ),
-          menuItemStyleData: MenuItemStyleData(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            customHeights: _getCustomItemsHeights(),
+          menuItemStyleData: const MenuItemStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
           ),
           iconStyleData: const IconStyleData(
             openMenuIcon: Icon(Icons.arrow_drop_up),
@@ -475,6 +459,7 @@ Widget build(BuildContext context) {
           items: items.map((item) {
             return DropdownItem(
               value: item,
+              height: 40,
               //disable default onTap to avoid closing menu when selecting an item
               enabled: false,
               child: StatefulBuilder(
@@ -540,7 +525,6 @@ Widget build(BuildContext context) {
             width: 140,
           ),
           menuItemStyleData: const MenuItemStyleData(
-            height: 40,
             padding: EdgeInsets.zero,
           ),
         ),
@@ -592,6 +576,7 @@ Widget build(BuildContext context) {
           items: items
               .map((item) => DropdownItem(
                     value: item,
+                    height: 40,
                     child: Text(
                       item,
                       style: const TextStyle(
@@ -613,9 +598,6 @@ Widget build(BuildContext context) {
           ),
           dropdownStyleData: const DropdownStyleData(
             maxHeight: 200,
-          ),
-          menuItemStyleData: const MenuItemStyleData(
-            height: 40,
           ),
           dropdownSearchData: DropdownSearchData(
             searchController: textEditingController,
@@ -670,14 +652,14 @@ Widget build(BuildContext context) {
 <img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/popup_icon.png" alt="Image" width="300"/>
 
 ```dart
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class PopupIconExample extends StatefulWidget {
+  const PopupIconExample({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<PopupIconExample> createState() => _PopupIconExampleState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PopupIconExampleState extends State<PopupIconExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -690,22 +672,28 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.red,
             ),
             items: [
-              ...MenuItems.firstItems.map(
-                (item) => DropdownItem<MenuItem>(
+              ..._MenuItems.firstItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownItem<Divider>(enabled: false, child: Divider()),
-              ...MenuItems.secondItems.map(
-                (item) => DropdownItem<MenuItem>(
+              const DropdownItem<Divider>(
+                enabled: false,
+                height: 8,
+                child: Divider(),
+              ),
+              ..._MenuItems.secondItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
             ],
             onChanged: (value) {
-              MenuItems.onChanged(context, value! as MenuItem);
+              _MenuItems.onChanged(context, value! as _MenuItem);
             },
             dropdownStyleData: DropdownStyleData(
               width: 160,
@@ -716,13 +704,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               offset: const Offset(0, 8),
             ),
-            menuItemStyleData: MenuItemStyleData(
-              customHeights: [
-                ...List<double>.filled(MenuItems.firstItems.length, 48),
-                8,
-                ...List<double>.filled(MenuItems.secondItems.length, 48),
-              ],
-              padding: const EdgeInsets.only(left: 16, right: 16),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.only(left: 16, right: 16),
             ),
           ),
         ),
@@ -731,8 +714,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MenuItem {
-  const MenuItem({
+class _MenuItem {
+  const _MenuItem({
     required this.text,
     required this.icon,
   });
@@ -741,16 +724,16 @@ class MenuItem {
   final IconData icon;
 }
 
-abstract class MenuItems {
-  static const List<MenuItem> firstItems = [home, share, settings];
-  static const List<MenuItem> secondItems = [logout];
+abstract class _MenuItems {
+  static const List<_MenuItem> firstItems = [home, share, settings];
+  static const List<_MenuItem> secondItems = [logout];
 
-  static const home = MenuItem(text: 'Home', icon: Icons.home);
-  static const share = MenuItem(text: 'Share', icon: Icons.share);
-  static const settings = MenuItem(text: 'Settings', icon: Icons.settings);
-  static const logout = MenuItem(text: 'Log Out', icon: Icons.logout);
+  static const home = _MenuItem(text: 'Home', icon: Icons.home);
+  static const share = _MenuItem(text: 'Share', icon: Icons.share);
+  static const settings = _MenuItem(text: 'Settings', icon: Icons.settings);
+  static const logout = _MenuItem(text: 'Log Out', icon: Icons.logout);
 
-  static Widget buildItem(MenuItem item) {
+  static Widget buildItem(_MenuItem item) {
     return Row(
       children: [
         Icon(item.icon, color: Colors.white, size: 22),
@@ -769,18 +752,18 @@ abstract class MenuItems {
     );
   }
 
-  static void onChanged(BuildContext context, MenuItem item) {
+  static void onChanged(BuildContext context, _MenuItem item) {
     switch (item) {
-      case MenuItems.home:
+      case _MenuItems.home:
         //Do something
         break;
-      case MenuItems.settings:
+      case _MenuItems.settings:
         //Do something
         break;
-      case MenuItems.share:
+      case _MenuItems.share:
         //Do something
         break;
-      case MenuItems.logout:
+      case _MenuItems.logout:
         //Do something
         break;
     }
@@ -793,14 +776,14 @@ abstract class MenuItems {
 <img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/popup_image.png" alt="Image" width="300"/>
 
 ```dart
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class PopupImageExample extends StatefulWidget {
+  const PopupImageExample({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<PopupImageExample> createState() => _PopupImageExampleState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PopupImageExampleState extends State<PopupImageExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -814,7 +797,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(40),
                 image: const DecorationImage(
                   image: AssetImage(
-                    'assets/city.jpg',
+                    'assets/images/city.jpg',
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -822,22 +805,28 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             openWithLongPress: true,
             items: [
-              ...MenuItems.firstItems.map(
-                (item) => DropdownItem<MenuItem>(
+              ..._MenuItems.firstItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownItem<Divider>(enabled: false, child: Divider()),
-              ...MenuItems.secondItems.map(
-                (item) => DropdownItem<MenuItem>(
+              const DropdownItem<Divider>(
+                enabled: false,
+                height: 8,
+                child: Divider(),
+              ),
+              ..._MenuItems.secondItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
             ],
             onChanged: (value) {
-              MenuItems.onChanged(context, value! as MenuItem);
+              _MenuItems.onChanged(context, value! as _MenuItem);
             },
             buttonStyleData: ButtonStyleData(
               // This is necessary for the ink response to match our customButton radius.
@@ -854,13 +843,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               offset: const Offset(40, -4),
             ),
-            menuItemStyleData: MenuItemStyleData(
-              customHeights: [
-                ...List<double>.filled(MenuItems.firstItems.length, 48),
-                8,
-                ...List<double>.filled(MenuItems.secondItems.length, 48),
-              ],
-              padding: const EdgeInsets.only(left: 16, right: 16),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.only(left: 16, right: 16),
             ),
           ),
         ),
@@ -869,8 +853,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MenuItem {
-  const MenuItem({
+class _MenuItem {
+  const _MenuItem({
     required this.text,
     required this.icon,
   });
@@ -879,16 +863,16 @@ class MenuItem {
   final IconData icon;
 }
 
-class MenuItems {
-  static const List<MenuItem> firstItems = [like, share, download];
-  static const List<MenuItem> secondItems = [cancel];
+class _MenuItems {
+  static const List<_MenuItem> firstItems = [like, share, download];
+  static const List<_MenuItem> secondItems = [cancel];
 
-  static const like = MenuItem(text: 'Like', icon: Icons.favorite);
-  static const share = MenuItem(text: 'Share', icon: Icons.share);
-  static const download = MenuItem(text: 'Download', icon: Icons.download);
-  static const cancel = MenuItem(text: 'Cancel', icon: Icons.cancel);
+  static const like = _MenuItem(text: 'Like', icon: Icons.favorite);
+  static const share = _MenuItem(text: 'Share', icon: Icons.share);
+  static const download = _MenuItem(text: 'Download', icon: Icons.download);
+  static const cancel = _MenuItem(text: 'Cancel', icon: Icons.cancel);
 
-  static Widget buildItem(MenuItem item) {
+  static Widget buildItem(_MenuItem item) {
     return Row(
       children: [
         Icon(
@@ -911,18 +895,18 @@ class MenuItems {
     );
   }
 
-  static void onChanged(BuildContext context, MenuItem item) {
+  static void onChanged(BuildContext context, _MenuItem item) {
     switch (item) {
-      case MenuItems.like:
+      case _MenuItems.like:
         //Do something
         break;
-      case MenuItems.share:
+      case _MenuItems.share:
         //Do something
         break;
-      case MenuItems.download:
+      case _MenuItems.download:
         //Do something
         break;
-      case MenuItems.cancel:
+      case _MenuItems.cancel:
         //Do something
         break;
     }
@@ -1011,7 +995,6 @@ Widget build(BuildContext context) {
                   Icons.arrow_drop_down,
                   color: Colors.black45,
                 ),
-                iconSize: 24,
               ),
               dropdownStyleData: DropdownStyleData(
                 decoration: BoxDecoration(
@@ -1121,6 +1104,7 @@ class CustomDropdownButton2 extends StatelessWidget {
         items: dropdownItems
             .map((String item) => DropdownItem<String>(
                   value: item,
+                  height: itemHeight ?? 40,
                   child: Container(
                     alignment: valueAlignment,
                     child: Text(
@@ -1178,7 +1162,6 @@ class CustomDropdownButton2 extends StatelessWidget {
           ),
         ),
         menuItemStyleData: MenuItemStyleData(
-          height: itemHeight ?? 40,
           padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
         ),
       ),
