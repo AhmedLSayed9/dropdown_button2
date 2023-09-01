@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'dropdown_button2.dart';
 
 /// Represents an item in a dropdown menu created by a [DropdownButton2].
 ///

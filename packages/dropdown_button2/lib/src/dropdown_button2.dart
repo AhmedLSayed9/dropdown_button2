@@ -13,12 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-import 'dropdown_item.dart';
-
 part 'dropdown_button2_data.dart';
-
+part 'dropdown_item.dart';
 part 'enums.dart';
-
 part 'utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
