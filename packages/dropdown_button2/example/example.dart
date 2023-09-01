@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             items: items
-                .map((String item) => DropdownMenuItem<String>(
+                .map((String item) => DropdownItem<String>(
                       value: item,
                       child: Text(
                         item,

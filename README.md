@@ -62,30 +62,30 @@ customize to your needs.
 
 ### DropdownButton2:
 
-| Option                                                                                                                                 | Description                                                                              | Type                      | Required |
-| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------- | :------: |
-| [items](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/items.html)                             | The list of items the user can select                                                    | List<DropdownMenuItem<T>> |   Yes    |
-| [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html) | A builder to customize how the selected item will be displayed on the button             | DropdownButtonBuilder     |    No    |
-| [value](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/value.html)                             | The value of the currently selected [DropdownMenuItem]                                   | T                         |    No    |
-| [hint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/hint.html)                               | The placeholder displayed before the user choose an item                                 | Widget                    |    No    |
-| [disabledHint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/disabledHint.html)               | The placeholder displayed if the dropdown is disabled                                    | Widget                    |    No    |
-| [onChanged](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onChanged.html)                     | Called when the user selects an item                                                     | ValueChanged<T?>          |    No    |
-| [onMenuStateChange](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onMenuStateChange.html)     | Called when the dropdown menu opens or closes                                            | OnMenuStateChangeFn       |    No    |
-| [style](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/style.html)                             | The text style to use for text in the dropdown button and the dropdown menu              | TextStyle                 |    No    |
-| [underline](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/underline.html)                     | The widget to use for drawing the drop-down button's underline                           | Widget                    |    No    |
-| [isDense](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isDense.html)                         | Reduce the button's height                                                               | bool                      |    No    |
-| [isExpanded](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isExpanded.html)                   | Makes the button's inner contents expanded (set true to avoid long text overflowing)     | bool                      |    No    |
-| [alignment](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/alignment.html)                     | Defines how the hint or the selected item is positioned within the button                | AlignmentGeometry         |    No    |
-| [buttonStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonStyleData.html)         | Used to configure the theme of the button                                                | ButtonStyleData           |    No    |
-| [iconStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconStyleData.html)             | Used to configure the theme of the button's icon                                         | IconStyleData             |    No    |
-| [dropdownStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownStyleData.html)     | Used to configure the theme of the dropdown menu                                         | DropdownStyleData         |    No    |
-| [menuItemStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/menuItemStyleData.html)     | Used to configure the theme of the dropdown menu items                                   | MenuItemStyleData         |    No    |
-| [dropdownSearchData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownSearchData.html)   | Used to configure searchable dropdowns                                                   | DropdownSearchData        |    No    |
-| [customButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customButton.html)               | Uses custom widget like icon,image,etc.. instead of the default button                   | Widget                    |    No    |
-| [openWithLongPress](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openWithLongPress.html)     | Opens the dropdown menu on long-pressing instead of tapping                              | bool                      |    No    |
-| [barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html)   | Whether you can dismiss this route by tapping the modal barrier                          | bool                      |    No    |
-| [barrierColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierColor.html)               | The color to use for the modal barrier. If this is null, the barrier will be transparent | Color                     |    No    |
-| [barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html)               | The semantic label used for a dismissible barrier                                        | String                    |    No    |
+| Option                                                                                                                                 | Description                                                                              | Type                  | Required |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------- | :------: |
+| [items](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/items.html)                             | The list of items the user can select                                                    | List<DropdownItem<T>> |   Yes    |
+| [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html) | A builder to customize how the selected item will be displayed on the button             | DropdownButtonBuilder |    No    |
+| [value](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/value.html)                             | The value of the currently selected [DropdownItem]                                       | T                     |    No    |
+| [hint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/hint.html)                               | The placeholder displayed before the user choose an item                                 | Widget                |    No    |
+| [disabledHint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/disabledHint.html)               | The placeholder displayed if the dropdown is disabled                                    | Widget                |    No    |
+| [onChanged](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onChanged.html)                     | Called when the user selects an item                                                     | ValueChanged<T?>      |    No    |
+| [onMenuStateChange](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onMenuStateChange.html)     | Called when the dropdown menu opens or closes                                            | OnMenuStateChangeFn   |    No    |
+| [style](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/style.html)                             | The text style to use for text in the dropdown button and the dropdown menu              | TextStyle             |    No    |
+| [underline](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/underline.html)                     | The widget to use for drawing the drop-down button's underline                           | Widget                |    No    |
+| [isDense](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isDense.html)                         | Reduce the button's height                                                               | bool                  |    No    |
+| [isExpanded](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isExpanded.html)                   | Makes the button's inner contents expanded (set true to avoid long text overflowing)     | bool                  |    No    |
+| [alignment](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/alignment.html)                     | Defines how the hint or the selected item is positioned within the button                | AlignmentGeometry     |    No    |
+| [buttonStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonStyleData.html)         | Used to configure the theme of the button                                                | ButtonStyleData       |    No    |
+| [iconStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconStyleData.html)             | Used to configure the theme of the button's icon                                         | IconStyleData         |    No    |
+| [dropdownStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownStyleData.html)     | Used to configure the theme of the dropdown menu                                         | DropdownStyleData     |    No    |
+| [menuItemStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/menuItemStyleData.html)     | Used to configure the theme of the dropdown menu items                                   | MenuItemStyleData     |    No    |
+| [dropdownSearchData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownSearchData.html)   | Used to configure searchable dropdowns                                                   | DropdownSearchData    |    No    |
+| [customButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customButton.html)               | Uses custom widget like icon,image,etc.. instead of the default button                   | Widget                |    No    |
+| [openWithLongPress](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openWithLongPress.html)     | Opens the dropdown menu on long-pressing instead of tapping                              | bool                  |    No    |
+| [barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html)   | Whether you can dismiss this route by tapping the modal barrier                          | bool                  |    No    |
+| [barrierColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierColor.html)               | The color to use for the modal barrier. If this is null, the barrier will be transparent | Color                 |    No    |
+| [barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html)               | The semantic label used for a dismissible barrier                                        | String                |    No    |
 
 #### Subclass ButtonStyleData:
 
@@ -202,7 +202,7 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-              .map((String item) => DropdownMenuItem<String>(
+              .map((String item) => DropdownItem<String>(
                     value: item,
                     child: Text(
                       item,
@@ -281,7 +281,7 @@ Widget build(BuildContext context) {
             ],
           ),
           items: items
-              .map((String item) => DropdownMenuItem<String>(
+              .map((String item) => DropdownItem<String>(
                     value: item,
                     child: Text(
                       item,
@@ -359,12 +359,12 @@ final List<String> items = [
 ];
 String? selectedValue;
 
-List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
-  final List<DropdownMenuItem<String>> menuItems = [];
+List<DropdownItem<String>> _addDividersAfterItems(List<String> items) {
+  final List<DropdownItem<String>> menuItems = [];
   for (final String item in items) {
     menuItems.addAll(
       [
-        DropdownMenuItem<String>(
+        DropdownItem<String>(
           value: item,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -378,7 +378,7 @@ List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
         ),
         //If it's last item, we will not add Divider after it.
         if (item != items.last)
-          const DropdownMenuItem<String>(
+          const DropdownItem<String>(
             enabled: false,
             child: Divider(),
           ),
@@ -473,7 +473,7 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items.map((item) {
-            return DropdownMenuItem(
+            return DropdownItem(
               value: item,
               //disable default onTap to avoid closing menu when selecting an item
               enabled: false,
@@ -590,7 +590,7 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-              .map((item) => DropdownMenuItem(
+              .map((item) => DropdownItem(
                     value: item,
                     child: Text(
                       item,
@@ -691,14 +691,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             items: [
               ...MenuItems.firstItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+                (item) => DropdownItem<MenuItem>(
                   value: item,
                   child: MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
+              const DropdownItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+                (item) => DropdownItem<MenuItem>(
                   value: item,
                   child: MenuItems.buildItem(item),
                 ),
@@ -823,14 +823,14 @@ class _MyHomePageState extends State<MyHomePage> {
             openWithLongPress: true,
             items: [
               ...MenuItems.firstItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+                (item) => DropdownItem<MenuItem>(
                   value: item,
                   child: MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
+              const DropdownItem<Divider>(enabled: false, child: Divider()),
               ...MenuItems.secondItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+                (item) => DropdownItem<MenuItem>(
                   value: item,
                   child: MenuItems.buildItem(item),
                 ),
@@ -981,7 +981,7 @@ Widget build(BuildContext context) {
                 style: TextStyle(fontSize: 14),
               ),
               items: genderItems
-                  .map((item) => DropdownMenuItem<String>(
+                  .map((item) => DropdownItem<String>(
                         value: item,
                         child: Text(
                           item,
@@ -1119,7 +1119,7 @@ class CustomDropdownButton2 extends StatelessWidget {
         ),
         value: value,
         items: dropdownItems
-            .map((String item) => DropdownMenuItem<String>(
+            .map((String item) => DropdownItem<String>(
                   value: item,
                   child: Container(
                     alignment: valueAlignment,

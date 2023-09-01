@@ -1,6 +1,24 @@
+## Unreleased
+
+- **BREAKING**: Replaces DropdownMenuItem with DropdownItem to provide extra functionality.
+
+  Instead of:
+
+  ```dart
+  items: items.map((String item) => DropdownMenuItem<String>(...)).toList(),
+  ```
+
+  do:
+
+  ```dart
+  items: items.map((String item) => DropdownItem<String>(...)).toList(),
+  ```
+
+- Add `closeOnTap` property to DropdownItem. It controls whether the dropdown should close when the item is tapped.
+
 ## 2.3.9
 
- - Use melos to separate package golden tests, closes #176.
+- Use melos to separate package golden tests, closes #176.
 
 ## 2.3.8
 

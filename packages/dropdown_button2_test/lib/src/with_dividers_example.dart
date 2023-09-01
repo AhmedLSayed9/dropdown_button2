@@ -17,12 +17,12 @@ class _WithDividersExampleState extends State<WithDividersExample> {
   ];
   String? selectedValue;
 
-  List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
-    final List<DropdownMenuItem<String>> menuItems = [];
+  List<DropdownItem<String>> _addDividersAfterItems(List<String> items) {
+    final List<DropdownItem<String>> menuItems = [];
     for (final String item in items) {
       menuItems.addAll(
         [
-          DropdownMenuItem<String>(
+          DropdownItem<String>(
             value: item,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -36,7 +36,7 @@ class _WithDividersExampleState extends State<WithDividersExample> {
           ),
           //If it's last item, we will not add Divider after it.
           if (item != items.last)
-            const DropdownMenuItem<String>(
+            const DropdownItem<String>(
               enabled: false,
               child: Divider(),
             ),

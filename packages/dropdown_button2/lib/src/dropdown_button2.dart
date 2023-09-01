@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+import 'dropdown_item.dart';
+
 part 'dropdown_button2_data.dart';
 
 part 'enums.dart';
@@ -34,11 +36,11 @@ typedef OnMenuStateChangeFn = void Function(bool isOpen);
 
 /// Signature for the callback for the match function used for searchable dropdowns.
 typedef SearchMatchFn<T> = bool Function(
-  DropdownMenuItem<T> item,
+  DropdownItem<T> item,
   String searchValue,
 );
 
-SearchMatchFn<T> _defaultSearchMatchFn<T>() => (DropdownMenuItem<T> item, String searchValue) =>
+SearchMatchFn<T> _defaultSearchMatchFn<T>() => (DropdownItem<T> item, String searchValue) =>
     item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
 
 class _DropdownMenuPainter extends CustomPainter {
@@ -105,8 +107,8 @@ class _DropdownMenuPainter extends CustomPainter {
 }
 
 // The widget that is the button wrapping the menu items.
-class _DropdownMenuItemButton<T> extends StatefulWidget {
-  const _DropdownMenuItemButton({
+class _DropdownItemButton<T> extends StatefulWidget {
+  const _DropdownItemButton({
     super.key,
     required this.route,
     required this.textDirection,
@@ -126,10 +128,10 @@ class _DropdownMenuItemButton<T> extends StatefulWidget {
   final bool enableFeedback;
 
   @override
-  _DropdownMenuItemButtonState<T> createState() => _DropdownMenuItemButtonState<T>();
+  _DropdownItemButtonState<T> createState() => _DropdownItemButtonState<T>();
 }
 
-class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> {
+class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
   void _handleFocusChange(bool focused) {
     final bool inTraditionalMode;
     switch (FocusManager.instance.highlightMode) {
@@ -158,14 +160,16 @@ class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> 
   }
 
   void _handleOnTap() {
-    final DropdownMenuItem<T> dropdownMenuItem = widget.route.items[widget.itemIndex].item!;
+    final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex].item!;
 
-    dropdownMenuItem.onTap?.call();
+    dropdownItem.onTap?.call();
 
-    Navigator.pop(
-      context,
-      _DropdownRouteResult<T>(dropdownMenuItem.value),
-    );
+    if (dropdownItem.closeOnTap) {
+      Navigator.pop(
+        context,
+        _DropdownRouteResult<T>(dropdownItem.value),
+      );
+    }
   }
 
   static const Map<ShortcutActivator, Intent> _webShortcuts = <ShortcutActivator, Intent>{
@@ -181,7 +185,7 @@ class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> 
   Widget build(BuildContext context) {
     final double menuCurveEnd = widget.route.dropdownStyle.openInterval.end;
 
-    final DropdownMenuItem<T> dropdownMenuItem = widget.route.items[widget.itemIndex].item!;
+    final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex].item!;
     final double unit = 0.5 / (widget.route.items.length + 1.5);
     final double start = _clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
     final double end = _clampDouble(start + 1.5 * unit, 0.0, 1.0);
@@ -197,7 +201,7 @@ class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> 
     );
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
-    if (dropdownMenuItem.enabled) {
+    if (dropdownItem.enabled) {
       final bool isSelectedItem =
           !widget.route.isNoSelectedItem && widget.itemIndex == widget.route.selectedIndex;
       child = InkWell(
@@ -212,7 +216,7 @@ class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> 
       );
     }
     child = FadeTransition(opacity: opacity, child: child);
-    if (kIsWeb && dropdownMenuItem.enabled) {
+    if (kIsWeb && dropdownItem.enabled) {
       child = Shortcuts(
         shortcuts: _webShortcuts,
         child: child,
@@ -276,7 +280,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     if (searchData?.searchController == null) {
       _children = <Widget>[
         for (int index = 0; index < widget.route.items.length; ++index)
-          _DropdownMenuItemButton<T>(
+          _DropdownItemButton<T>(
             route: widget.route,
             textDirection: widget.textDirection,
             buttonRect: widget.buttonRect,
@@ -304,7 +308,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     return <Widget>[
       for (int index = 0; index < widget.route.items.length; ++index)
         if (_searchMatchFn(widget.route.items[index].item!, currentSearch))
-          _DropdownMenuItemButton<T>(
+          _DropdownItemButton<T>(
             route: widget.route,
             textDirection: widget.textDirection,
             buttonRect: widget.buttonRect,
@@ -844,7 +848,7 @@ class _MenuItem<T> extends SingleChildRenderObjectWidget {
   }) : super(child: item);
 
   final ValueChanged<Size> onLayout;
-  final DropdownMenuItem<T>? item;
+  final DropdownItem<T>? item;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -870,13 +874,13 @@ class _RenderMenuItem extends RenderProxyBox {
 }
 
 // The container widget for a menu item created by a [DropdownButton]. It
-// provides the default configuration for [DropdownMenuItem]s, as well as a
+// provides the default configuration for [DropdownItem]s, as well as a
 // [DropdownButton]'s hint and disabledHint widgets.
-class _DropdownMenuItemContainer extends StatelessWidget {
+class _DropdownItemContainer extends StatelessWidget {
   /// Creates an item for a dropdown menu.
   ///
   /// The [child] argument is required.
-  const _DropdownMenuItemContainer({
+  const _DropdownItemContainer({
     // ignore: unused_element
     super.key,
     this.alignment = AlignmentDirectional.centerStart,
@@ -921,7 +925,7 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 ///
 /// The type `T` is the type of the [value] that each dropdown item represents.
 /// All the entries in a given menu must represent values with consistent types.
-/// Typically, an enum is used. Each [DropdownMenuItem] in [items] must be
+/// Typically, an enum is used. Each [DropdownItem] in [items] must be
 /// specialized with that same type argument.
 ///
 /// The [onChanged] callback should update a state variable that defines the
@@ -938,7 +942,7 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 /// See also:
 ///
 ///  * [DropdownButtonFormField2], which integrates with the [Form] widget.
-///  * [DropdownMenuItem], the class used to represent the [items].
+///  * [DropdownItem], the class used to represent the [items].
 ///  * [DropdownButtonHideUnderline], which prevents its descendant dropdown buttons
 ///    from displaying their underlines.
 ///  * [ElevatedButton], [TextButton], ordinary buttons that trigger a single action.
@@ -948,7 +952,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// It's customizable DropdownButton with steady dropdown menu and many other features.
   ///
   /// The [items] must have distinct values. If [value] isn't null then it
-  /// must be equal to one of the [DropdownMenuItem] values. If [items] or
+  /// must be equal to one of the [DropdownItem] values. If [items] or
   /// [onChanged] is null, the button will be disabled, the down arrow
   /// will be greyed out.
   ///
@@ -991,13 +995,13 @@ class DropdownButton2<T> extends StatefulWidget {
           items == null ||
               items.isEmpty ||
               value == null ||
-              items.where((DropdownMenuItem<T> item) {
+              items.where((DropdownItem<T> item) {
                     return item.value == value;
                   }).length ==
                   1,
           "There should be exactly one item with [DropdownButton]'s value: "
           '$value. \n'
-          'Either zero or 2 or more [DropdownMenuItem]s were detected '
+          'Either zero or 2 or more [DropdownItem]s were detected '
           'with the same value',
         ),
         assert(
@@ -1045,13 +1049,13 @@ class DropdownButton2<T> extends StatefulWidget {
           items == null ||
               items.isEmpty ||
               value == null ||
-              items.where((DropdownMenuItem<T> item) {
+              items.where((DropdownItem<T> item) {
                     return item.value == value;
                   }).length ==
                   1,
           "There should be exactly one item with [DropdownButtonFormField]'s value: "
           '$value. \n'
-          'Either zero or 2 or more [DropdownMenuItem]s were detected '
+          'Either zero or 2 or more [DropdownItem]s were detected '
           'with the same value',
         ),
         assert(
@@ -1070,27 +1074,27 @@ class DropdownButton2<T> extends StatefulWidget {
   /// If the [onChanged] callback is null or the list of items is null
   /// then the dropdown button will be disabled, i.e. its arrow will be
   /// displayed in grey and it will not respond to input.
-  final List<DropdownMenuItem<T>>? items;
+  final List<DropdownItem<T>>? items;
 
   /// A builder to customize the dropdown buttons corresponding to the
-  /// [DropdownMenuItem]s in [items].
+  /// [DropdownItem]s in [items].
   ///
-  /// When a [DropdownMenuItem] is selected, the widget that will be displayed
-  /// from the list corresponds to the [DropdownMenuItem] of the same index
+  /// When a [DropdownItem] is selected, the widget that will be displayed
+  /// from the list corresponds to the [DropdownItem] of the same index
   /// in [items].
   ///
   /// {@tool dartpad}
   /// This sample shows a [DropdownButton] with a button with [Text] that
-  /// corresponds to but is unique from [DropdownMenuItem].
+  /// corresponds to but is unique from [DropdownItem].
   ///
   /// ** See code in examples/api/lib/material/dropdown/dropdown_button.selected_item_builder.0.dart **
   /// {@end-tool}
   ///
-  /// If this callback is null, the [DropdownMenuItem] from [items]
+  /// If this callback is null, the [DropdownItem] from [items]
   /// that matches [value] will be displayed.
   final DropdownButtonBuilder? selectedItemBuilder;
 
-  /// The value of the currently selected [DropdownMenuItem].
+  /// The value of the currently selected [DropdownItem].
   ///
   /// If [value] is null and the button is enabled, [hint] will be displayed
   /// if it is non-null.
@@ -1319,14 +1323,13 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
         widget.items!.isEmpty ||
         (widget.value == null &&
             widget.items!
-                .where((DropdownMenuItem<T> item) => item.enabled && item.value == widget.value)
+                .where((DropdownItem<T> item) => item.enabled && item.value == widget.value)
                 .isEmpty)) {
       _selectedIndex = null;
       return;
     }
 
-    assert(
-        widget.items!.where((DropdownMenuItem<T> item) => item.value == widget.value).length == 1);
+    assert(widget.items!.where((DropdownItem<T> item) => item.value == widget.value).length == 1);
     for (int itemIndex = 0; itemIndex < widget.items!.length; itemIndex++) {
       if (widget.items![itemIndex].value == widget.value) {
         _selectedIndex = itemIndex;
@@ -1539,7 +1542,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
       items.add(DefaultTextStyle(
         style: _textStyle!.copyWith(color: Theme.of(context).hintColor),
         child: IgnorePointer(
-          child: _DropdownMenuItemContainer(
+          child: _DropdownItemContainer(
             alignment: widget.alignment,
             child: displayedHint,
           ),
@@ -1707,7 +1710,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   DropdownButtonFormField2({
     super.key,
     this.dropdownButtonKey,
-    required List<DropdownMenuItem<T>>? items,
+    required List<DropdownItem<T>>? items,
     DropdownButtonBuilder? selectedItemBuilder,
     T? value,
     Widget? hint,
@@ -1739,13 +1742,13 @@ class DropdownButtonFormField2<T> extends FormField<T> {
           items == null ||
               items.isEmpty ||
               value == null ||
-              items.where((DropdownMenuItem<T> item) {
+              items.where((DropdownItem<T> item) {
                     return item.value == value;
                   }).length ==
                   1,
           "There should be exactly one item with [DropdownButton]'s value: "
           '$value. \n'
-          'Either zero or 2 or more [DropdownMenuItem]s were detected '
+          'Either zero or 2 or more [DropdownItem]s were detected '
           'with the same value',
         ),
         decoration = _getInputDecoration(decoration, buttonStyleData),
@@ -1761,7 +1764,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
             );
 
             final bool showSelectedItem = items != null &&
-                items.where((DropdownMenuItem<T> item) => item.value == state.value).isNotEmpty;
+                items.where((DropdownItem<T> item) => item.value == state.value).isNotEmpty;
             bool isHintOrDisabledHintAvailable() {
               final bool isDropdownDisabled = onChanged == null || (items == null || items.isEmpty);
               if (isDropdownDisabled) {

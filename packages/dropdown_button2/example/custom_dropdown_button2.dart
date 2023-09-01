@@ -78,7 +78,7 @@ class CustomDropdownButton2 extends StatelessWidget {
         ),
         value: value,
         items: dropdownItems
-            .map((String item) => DropdownMenuItem<String>(
+            .map((String item) => DropdownItem<String>(
                   value: item,
                   child: Container(
                     alignment: valueAlignment,

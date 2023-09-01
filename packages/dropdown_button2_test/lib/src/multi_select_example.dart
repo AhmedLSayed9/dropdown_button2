@@ -32,7 +32,7 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
               ),
             ),
             items: items.map((item) {
-              return DropdownMenuItem(
+              return DropdownItem(
                 value: item,
                 //disable default onTap to avoid closing menu when selecting an item
                 enabled: false,

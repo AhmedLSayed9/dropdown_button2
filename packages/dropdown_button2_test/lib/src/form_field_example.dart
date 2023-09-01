@@ -55,7 +55,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   style: TextStyle(fontSize: 14),
                 ),
                 items: genderItems
-                    .map((item) => DropdownMenuItem<String>(
+                    .map((item) => DropdownItem<String>(
                           value: item,
                           child: Text(
                             item,

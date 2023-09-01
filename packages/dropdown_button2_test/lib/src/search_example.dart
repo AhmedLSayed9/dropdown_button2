@@ -44,7 +44,7 @@ class _SearchExampleState extends State<SearchExample> {
               ),
             ),
             items: items
-                .map((item) => DropdownMenuItem(
+                .map((item) => DropdownItem(
                       value: item,
                       child: Text(
                         item,

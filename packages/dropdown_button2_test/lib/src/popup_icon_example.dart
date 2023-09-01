@@ -22,14 +22,14 @@ class _PopupIconExampleState extends State<PopupIconExample> {
             ),
             items: [
               ..._MenuItems.firstItems.map(
-                (item) => DropdownMenuItem<_MenuItem>(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
                   child: _MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
+              const DropdownItem<Divider>(enabled: false, child: Divider()),
               ..._MenuItems.secondItems.map(
-                (item) => DropdownMenuItem<_MenuItem>(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
                   child: _MenuItems.buildItem(item),
                 ),
