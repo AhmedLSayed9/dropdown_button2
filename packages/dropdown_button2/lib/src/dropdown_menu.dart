@@ -118,40 +118,14 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 
   ScrollbarThemeData? get _scrollbarTheme => dropdownStyle.scrollbarTheme;
 
-  bool? get _iOSThumbVisibility => _scrollbarTheme?.thumbVisibility?.resolve(_states);
+  bool get _iOSThumbVisibility => _scrollbarTheme?.thumbVisibility?.resolve(_states) ?? true;
 
-  Widget get _materialScrollBar => Theme(
-        data: Theme.of(context).copyWith(
-          scrollbarTheme: dropdownStyle.scrollbarTheme,
-        ),
-        child: Scrollbar(
-          thumbVisibility: true,
-          child: ListView(
-            // Ensure this always inherits the PrimaryScrollController
-            primary: true,
-            padding: dropdownStyle.padding ?? kMaterialListPadding,
-            shrinkWrap: true,
-            children: _children,
-          ),
-        ),
-      );
-
-  Widget get _cupertinoScrollBar => Theme(
-        data: Theme.of(context).copyWith(
-          scrollbarTheme: dropdownStyle.scrollbarTheme,
-        ),
-        child: Scrollbar(
-          thumbVisibility: _iOSThumbVisibility ?? true,
-          thickness: _scrollbarTheme?.thickness?.resolve(_states),
-          radius: _scrollbarTheme?.radius,
-          child: ListView(
-            // Ensure this always inherits the PrimaryScrollController
-            primary: true,
-            padding: dropdownStyle.padding ?? kMaterialListPadding,
-            shrinkWrap: true,
-            children: _children,
-          ),
-        ),
+  ListView get _dropdownListView => ListView(
+        // Ensure this always inherits the PrimaryScrollController
+        primary: true,
+        padding: dropdownStyle.padding ?? kMaterialListPadding,
+        shrinkWrap: true,
+        children: _children,
       );
 
   @override
@@ -213,7 +187,18 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                         ),
                         child: PrimaryScrollController(
                           controller: route.scrollController!,
-                          child: _isIOS ? _cupertinoScrollBar : _materialScrollBar,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              scrollbarTheme: dropdownStyle.scrollbarTheme,
+                            ),
+                            child: Scrollbar(
+                              thumbVisibility: _isIOS ? _iOSThumbVisibility : true,
+                              thickness:
+                                  _isIOS ? _scrollbarTheme?.thickness?.resolve(_states) : null,
+                              radius: _isIOS ? _scrollbarTheme?.radius : null,
+                              child: _dropdownListView,
+                            ),
+                          ),
                         ),
                       ),
                     ),
