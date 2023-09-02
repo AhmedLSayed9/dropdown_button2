@@ -44,6 +44,8 @@
     .toList(),
   ```
 
+- Support adding separator widget internally, closes #134.
+
 ## 2.3.9
 
 - Use melos to separate package golden tests, closes #176.

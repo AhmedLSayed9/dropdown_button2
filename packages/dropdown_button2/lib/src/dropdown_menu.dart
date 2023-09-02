@@ -120,13 +120,20 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 
   bool get _iOSThumbVisibility => _scrollbarTheme?.thumbVisibility?.resolve(_states) ?? true;
 
-  ListView get _dropdownListView => ListView(
-        // Ensure this always inherits the PrimaryScrollController
-        primary: true,
-        shrinkWrap: true,
-        padding: dropdownStyle.padding ?? kMaterialListPadding,
-        children: _children,
-      );
+  ListView get _dropdownListView {
+    final separator = widget.route.dropdownSeparator;
+    return ListView.separated(
+      // Ensure this always inherits the PrimaryScrollController
+      primary: true,
+      shrinkWrap: true,
+      padding: dropdownStyle.padding ?? kMaterialListPadding,
+      itemCount: _children.length,
+      itemBuilder: (context, index) => _children[index],
+      separatorBuilder: (context, index) => separator != null
+          ? SizedBox(height: separator.height, child: separator)
+          : const SizedBox.shrink(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

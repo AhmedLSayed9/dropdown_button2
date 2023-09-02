@@ -16,6 +16,7 @@ part 'dropdown_style_data.dart';
 part 'dropdown_route.dart';
 part 'dropdown_menu.dart';
 part 'dropdown_menu_item.dart';
+part 'dropdown_menu_separators.dart';
 part 'enums.dart';
 part 'utils.dart';
 
@@ -105,6 +106,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.dropdownStyleData = const DropdownStyleData(),
     this.menuItemStyleData = const MenuItemStyleData(),
     this.dropdownSearchData,
+    this.dropdownSeparator,
     this.customButton,
     this.openWithLongPress = false,
     this.barrierDismissible = true,
@@ -151,6 +153,7 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.dropdownStyleData,
     required this.menuItemStyleData,
     this.dropdownSearchData,
+    this.dropdownSeparator,
     this.customButton,
     this.openWithLongPress = false,
     this.barrierDismissible = true,
@@ -323,6 +326,11 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Used to configure searchable dropdowns
   final DropdownSearchData<T>? dropdownSearchData;
 
+  /// Adds separator widget to the dropdown menu.
+  ///
+  /// Defaults to null.
+  final DropdownSeparator<T>? dropdownSeparator;
+
   /// Uses custom widget like icon,image,etc.. instead of the default button
   final Widget? customButton;
 
@@ -486,10 +494,14 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
   void _handleTap() {
     final NavigatorState navigator = Navigator.of(context,
         rootNavigator: _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator);
-    assert(_dropdownRoute == null);
+
+    final items = widget.items!;
+    final separator = widget.dropdownSeparator;
     _rect.value = _getRect();
+
+    assert(_dropdownRoute == null);
     _dropdownRoute = _DropdownRoute<T>(
-      items: widget.items!,
+      items: items,
       buttonRect: _rect,
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
@@ -503,6 +515,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
       dropdownStyle: _dropdownStyle,
       menuItemStyle: _menuItemStyle,
       searchData: _searchData,
+      dropdownSeparator: separator,
     );
 
     _isMenuOpen.value = true;
@@ -861,6 +874,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     DropdownStyleData dropdownStyleData = const DropdownStyleData(),
     MenuItemStyleData menuItemStyleData = const MenuItemStyleData(),
     DropdownSearchData<T>? dropdownSearchData,
+    DropdownSeparator<T>? dropdownSeparator,
     Widget? customButton,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
@@ -933,6 +947,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                       dropdownStyleData: dropdownStyleData,
                       menuItemStyleData: menuItemStyleData,
                       dropdownSearchData: dropdownSearchData,
+                      dropdownSeparator: dropdownSeparator,
                       customButton: customButton,
                       openWithLongPress: openWithLongPress,
                       barrierDismissible: barrierDismissible,

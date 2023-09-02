@@ -23,7 +23,7 @@ customize to your needs.
 - [Usage and Examples](#usage-and-examples)
   - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
   - [2. DropdownButton2 with few styling and customization](#2-dropdownbutton2-with-few-styling-and-customization)
-  - [3. DropdownButton2 with items of different heights like dividers](#3-dropdownbutton2-with-items-of-different-heights-like-dividers)
+  - [3. DropdownButton2 with separator widgets like dividers](#3-dropdownbutton2-with-separator-widgets-like-dividers)
   - [4. DropdownButton2 as Multiselect Dropdown with Checkboxes](#4-dropdownbutton2-as-multiselect-dropdown-with-checkboxes)
   - [5. DropdownButton2 as Searchable Dropdown](#5-dropdownbutton2-as-searchable-dropdown)
   - [6. DropdownButton2 as Popup menu button using customButton parameter](#6-dropdownbutton2-as-popup-menu-button-using-custombutton-parameter)
@@ -81,6 +81,7 @@ customize to your needs.
 | [dropdownStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownStyleData.html)     | Used to configure the theme of the dropdown menu                                         | DropdownStyleData     |    No    |
 | [menuItemStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/menuItemStyleData.html)     | Used to configure the theme of the dropdown menu items                                   | MenuItemStyleData     |    No    |
 | [dropdownSearchData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownSearchData.html)   | Used to configure searchable dropdowns                                                   | DropdownSearchData    |    No    |
+| [dropdownSeparator](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownSeparator.html)     | Adds separator widget to the dropdown menu                                               | DropdownSeparator     |    No    |
 | [customButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customButton.html)               | Uses custom widget like icon,image,etc.. instead of the default button                   | Widget                |    No    |
 | [openWithLongPress](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openWithLongPress.html)     | Opens the dropdown menu on long-pressing instead of tapping                              | bool                  |    No    |
 | [barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html)   | Whether you can dismiss this route by tapping the modal barrier                          | bool                  |    No    |
@@ -343,9 +344,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 3. DropdownButton2 with items of different heights like dividers:
+### 3. DropdownButton2 with separator widgets like dividers:
 
-<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/with_dividers.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/with_separators.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -355,37 +356,6 @@ final List<String> items = [
   'Item4',
 ];
 String? selectedValue;
-
-List<DropdownItem<String>> _addDividersAfterItems(List<String> items) {
-  final List<DropdownItem<String>> menuItems = [];
-  for (final String item in items) {
-    menuItems.addAll(
-      [
-        DropdownItem<String>(
-          value: item,
-          height: 40,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              item,
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ),
-        //If it's last item, we will not add Divider after it.
-        if (item != items.last)
-          const DropdownItem<String>(
-            enabled: false,
-            height: 4,
-            child: Divider(),
-          ),
-      ],
-    );
-  }
-  return menuItems;
-}
 
 @override
 Widget build(BuildContext context) {
@@ -401,7 +371,28 @@ Widget build(BuildContext context) {
               color: Theme.of(context).hintColor,
             ),
           ),
-          items: _addDividersAfterItems(items),
+          items: items
+              .map((String item) => DropdownItem<String>(
+                    value: item,
+                    height: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ))
+              .toList(),
+          dropdownSeparator: const DropdownSeparator(
+            height: 4,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Divider(),
+            ),
+          ),
           value: selectedValue,
           onChanged: (String? value) {
             setState(() {

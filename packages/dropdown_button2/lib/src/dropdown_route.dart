@@ -15,7 +15,11 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.dropdownStyle,
     required this.menuItemStyle,
     required this.searchData,
-  }) : itemHeights = items.map((item) => item.height).toList();
+    this.dropdownSeparator,
+  }) : itemHeights = addSeparatorsHeights(
+          itemHeights: items.map((item) => item.height).toList(),
+          separatorHeight: dropdownSeparator?.height,
+        );
 
   final List<DropdownItem<T>> items;
   final ValueNotifier<Rect?> buttonRect;
@@ -27,6 +31,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final DropdownStyleData dropdownStyle;
   final MenuItemStyleData menuItemStyle;
   final DropdownSearchData<T>? searchData;
+  final DropdownSeparator<T>? dropdownSeparator;
 
   final List<double> itemHeights;
   ScrollController? scrollController;
@@ -82,13 +87,20 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     }
   }
 
-  double getItemOffset(int index, double paddingTop) {
+  double getItemOffset(int index) {
+    final double paddingTop = dropdownStyle.padding != null
+        ? dropdownStyle.padding!.resolve(null).top
+        : kMaterialListPadding.top;
     double offset = paddingTop;
+
     if (items.isNotEmpty && index > 0) {
-      assert(items.length == itemHeights.length);
+      assert(
+        items.length + (dropdownSeparator != null ? items.length - 1 : 0) == itemHeights.length,
+      );
       offset +=
           itemHeights.sublist(0, index).reduce((double total, double height) => total + height);
     }
+
     return offset;
   }
 
@@ -149,12 +161,10 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
       final double actualMenuNetHeight = actualMenuHeight - innerWidgetHeight;
       // The offset should be zero if the selected item is in view at the beginning
       // of the menu. Otherwise, the scroll offset should center the item if possible.
-      final double paddingTop = dropdownStyle.padding != null
-          ? dropdownStyle.padding!.resolve(null).top
-          : kMaterialListPadding.top;
-      final double selectedItemOffset = getItemOffset(index, paddingTop);
-      scrollOffset = math.max(
-          0.0, selectedItemOffset - (menuNetHeight / 2) + (itemHeights[selectedIndex] / 2));
+      final actualIndex = dropdownSeparator?.height != null ? index * 2 : index;
+      final double selectedItemOffset = getItemOffset(actualIndex);
+      scrollOffset =
+          math.max(0.0, selectedItemOffset - (menuNetHeight / 2) + (itemHeights[actualIndex] / 2));
       // If the selected item's scroll offset is greater than the maximum scroll offset,
       // set it instead to the maximum allowed scroll offset.
       final double maxScrollOffset = actualMenuNetHeight - menuNetHeight;
