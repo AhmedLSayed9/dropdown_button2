@@ -377,7 +377,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
 
   DropdownSearchData<T>? get _searchData => widget.dropdownSearchData;
 
-  FocusNode? get _focusNode => widget.focusNode ?? _internalNode;
+  FocusNode get _focusNode => widget.focusNode ?? _internalNode!;
+
   late Map<Type, Action<Intent>> _actionMap;
 
   // Using ValueNotifier for tracking when menu is open/close to update the button icon.
@@ -511,6 +512,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
       barrierColor: widget.barrierColor,
       barrierLabel:
           widget.barrierLabel ?? MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      parentFocusNode: _focusNode,
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: _dropdownStyle,
       menuItemStyle: _menuItemStyle,
@@ -519,16 +521,15 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     );
 
     _isMenuOpen.value = true;
+    _focusNode.requestFocus();
     // This is a temporary fix for the "dropdown menu steal the focus from the
-    // underlying button" issue, until share focus is fixed in flutter. see #152.
-    // ignore: always_specify_types
+    // underlying button" issue, until share focus is fixed in flutter (#106923).
     Future.delayed(const Duration(milliseconds: 20), () {
-      _focusNode?.requestFocus();
+      _dropdownRoute?._childNode.requestFocus();
     });
     navigator.push(_dropdownRoute!).then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
       _isMenuOpen.value = false;
-      _focusNode?.unfocus();
       widget.onMenuStateChange?.call(false);
       if (!mounted || newValue == null) {
         return;
