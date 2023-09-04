@@ -1,3 +1,7 @@
+## 3.0.0-beta.1
+
+ - Fix formatting.
+
 ## 3.0.0-beta.0
 
 - **BREAKING**: Replaces DropdownMenuItem with DropdownItem to provide extra functionality.
