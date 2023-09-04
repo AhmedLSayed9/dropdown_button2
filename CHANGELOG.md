@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`dropdown_button2` - `v3.0.0-beta.1`](#dropdown_button2---v300-beta1)
+
+---
+
+#### `dropdown_button2` - `v3.0.0-beta.1`
+
+ - n
+
+
+## 2023-09-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`dropdown_button2` - `v3.0.0-beta.0`](#dropdown_button2---v300-beta0)
 
 ---
