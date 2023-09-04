@@ -1,4 +1,4 @@
-## Unreleased
+## 3.0.0-beta.0
 
 - **BREAKING**: Replaces DropdownMenuItem with DropdownItem to provide extra functionality.
 
@@ -45,6 +45,8 @@
   ```
 
 - Support adding separator widget internally, closes #134.
+
+- Update highlight behavior, closes #184.
 
 ## 2.3.9
 

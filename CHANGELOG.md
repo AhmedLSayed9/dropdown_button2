@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 2023-08-31
+## 2023-09-04
 
 ### Changes
 
@@ -15,11 +15,9 @@ Packages with breaking changes:
 
 Packages with other changes:
 
- - [`dropdown_button2` - `v2.3.9`](#dropdown_button2---v239)
+ - [`dropdown_button2` - `v3.0.0-beta.0`](#dropdown_button2---v300-beta0)
 
 ---
 
-#### `dropdown_button2` - `v2.3.9`
-
- - Use melos to separate package golden tests, closes #176.
+#### `dropdown_button2` - `v3.0.0-beta.0`
 
