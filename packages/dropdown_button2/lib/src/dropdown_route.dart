@@ -11,6 +11,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.barrierDismissible,
     this.barrierColor,
     this.barrierLabel,
+    required this.parentFocusNode,
     required this.enableFeedback,
     required this.dropdownStyle,
     required this.menuItemStyle,
@@ -27,6 +28,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool isNoSelectedItem;
   final CapturedThemes capturedThemes;
   final TextStyle style;
+  final FocusNode parentFocusNode;
   final bool enableFeedback;
   final DropdownStyleData dropdownStyle;
   final MenuItemStyleData menuItemStyle;
@@ -48,41 +50,48 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   @override
   final String? barrierLabel;
 
+  final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
+
   @override
   Widget buildPage(
       BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-    return LayoutBuilder(
-      builder: (BuildContext ctx, BoxConstraints constraints) {
-        //Exclude BottomInset from maxHeight to avoid overlapping menu items
-        //with keyboard when using searchable dropdown.
-        //This will ensure menu is drawn in the actual available height.
-        // TODO(Ahmed): use paddingOf/paddingOf [flutter>=v3.10.0].
-        final MediaQueryData mediaQuery = MediaQuery.of(ctx);
-        final BoxConstraints actualConstraints =
-            constraints.copyWith(maxHeight: constraints.maxHeight - mediaQuery.viewInsets.bottom);
-        final EdgeInsets mediaQueryPadding =
-            dropdownStyle.useSafeArea ? mediaQuery.padding : EdgeInsets.zero;
-        return ValueListenableBuilder<Rect?>(
-          valueListenable: buttonRect,
-          builder: (BuildContext context, Rect? rect, _) {
-            return _DropdownRoutePage<T>(
-              route: this,
-              constraints: actualConstraints,
-              mediaQueryPadding: mediaQueryPadding,
-              buttonRect: rect!,
-              selectedIndex: selectedIndex,
-              capturedThemes: capturedThemes,
-              style: style,
-              enableFeedback: enableFeedback,
-            );
-          },
-        );
-      },
+    return FocusScope.withExternalFocusNode(
+      focusScopeNode: _childNode,
+      parentNode: parentFocusNode,
+      child: LayoutBuilder(
+        builder: (BuildContext ctx, BoxConstraints constraints) {
+          //Exclude BottomInset from maxHeight to avoid overlapping menu items
+          //with keyboard when using searchable dropdown.
+          //This will ensure menu is drawn in the actual available height.
+          // TODO(Ahmed): use paddingOf/paddingOf [flutter>=v3.10.0].
+          final MediaQueryData mediaQuery = MediaQuery.of(ctx);
+          final BoxConstraints actualConstraints =
+              constraints.copyWith(maxHeight: constraints.maxHeight - mediaQuery.viewInsets.bottom);
+          final EdgeInsets mediaQueryPadding =
+              dropdownStyle.useSafeArea ? mediaQuery.padding : EdgeInsets.zero;
+          return ValueListenableBuilder<Rect?>(
+            valueListenable: buttonRect,
+            builder: (BuildContext context, Rect? rect, _) {
+              return _DropdownRoutePage<T>(
+                route: this,
+                constraints: actualConstraints,
+                mediaQueryPadding: mediaQueryPadding,
+                buttonRect: rect!,
+                selectedIndex: selectedIndex,
+                capturedThemes: capturedThemes,
+                style: style,
+                enableFeedback: enableFeedback,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
   void _dismiss() {
     if (isActive) {
+      _childNode.dispose();
       navigator?.removeRoute(this);
     }
   }
