@@ -32,7 +32,8 @@ extension WidgetTesterX on WidgetTester {
   /// Pauses test until images are ready to be rendered.
   Future<void> precacheImages() async {
     final imageElements = find.byType(Image, skipOffstage: false).evaluate();
-    final containerElements = find.byType(DecoratedBox, skipOffstage: false).evaluate();
+    final containerElements =
+        find.byType(DecoratedBox, skipOffstage: false).evaluate();
 
     await runAsync(() async {
       for (final element in imageElements) {

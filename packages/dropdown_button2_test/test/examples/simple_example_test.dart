@@ -15,7 +15,8 @@ void main() {
       // THEN
       await expectLater(
         find.byType(TestApp),
-        matchesGoldenFile('goldens/simple_example/${variant.name}_closed_menu.png'),
+        matchesGoldenFile(
+            'goldens/simple_example/${variant.name}_closed_menu.png'),
       );
 
       // GIVEN
@@ -26,7 +27,8 @@ void main() {
       // THEN
       await expectLater(
         find.byType(TestApp),
-        matchesGoldenFile('goldens/simple_example/${variant.name}_open_menu.png'),
+        matchesGoldenFile(
+            'goldens/simple_example/${variant.name}_open_menu.png'),
       );
     },
   );

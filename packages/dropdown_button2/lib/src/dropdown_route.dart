@@ -53,8 +53,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
 
   @override
-  Widget buildPage(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
     return FocusScope.withExternalFocusNode(
       focusScopeNode: _childNode,
       parentNode: parentFocusNode,
@@ -65,8 +65,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
           //This will ensure menu is drawn in the actual available height.
           // TODO(Ahmed): use paddingOf/paddingOf [flutter>=v3.10.0].
           final MediaQueryData mediaQuery = MediaQuery.of(ctx);
-          final BoxConstraints actualConstraints =
-              constraints.copyWith(maxHeight: constraints.maxHeight - mediaQuery.viewInsets.bottom);
+          final BoxConstraints actualConstraints = constraints.copyWith(
+              maxHeight: constraints.maxHeight - mediaQuery.viewInsets.bottom);
           final EdgeInsets mediaQueryPadding =
               dropdownStyle.useSafeArea ? mediaQuery.padding : EdgeInsets.zero;
           return ValueListenableBuilder<Rect?>(
@@ -104,10 +104,12 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
     if (items.isNotEmpty && index > 0) {
       assert(
-        items.length + (dropdownSeparator != null ? items.length - 1 : 0) == itemHeights.length,
+        items.length + (dropdownSeparator != null ? items.length - 1 : 0) ==
+            itemHeights.length,
       );
-      offset +=
-          itemHeights.sublist(0, index).reduce((double total, double height) => total + height);
+      offset += itemHeights
+          .sublist(0, index)
+          .reduce((double total, double height) => total + height);
     }
 
     return offset;
@@ -121,18 +123,21 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     EdgeInsets mediaQueryPadding,
     int index,
   ) {
-    double maxHeight = getMenuAvailableHeight(availableHeight, mediaQueryPadding);
+    double maxHeight =
+        getMenuAvailableHeight(availableHeight, mediaQueryPadding);
     // If a preferred MaxHeight is set by the user, use it instead of the available maxHeight.
     final double? preferredMaxHeight = dropdownStyle.maxHeight;
     if (preferredMaxHeight != null) {
       maxHeight = math.min(maxHeight, preferredMaxHeight);
     }
 
-    double actualMenuHeight = dropdownStyle.padding?.vertical ?? kMaterialListPadding.vertical;
+    double actualMenuHeight =
+        dropdownStyle.padding?.vertical ?? kMaterialListPadding.vertical;
     final double innerWidgetHeight = searchData?.searchInnerWidgetHeight ?? 0.0;
     actualMenuHeight += innerWidgetHeight;
     if (items.isNotEmpty) {
-      actualMenuHeight += itemHeights.reduce((double total, double height) => total + height);
+      actualMenuHeight +=
+          itemHeights.reduce((double total, double height) => total + height);
     }
 
     // Use actualMenuHeight if it's less than maxHeight.
@@ -172,8 +177,11 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
       // of the menu. Otherwise, the scroll offset should center the item if possible.
       final actualIndex = dropdownSeparator?.height != null ? index * 2 : index;
       final double selectedItemOffset = getItemOffset(actualIndex);
-      scrollOffset =
-          math.max(0.0, selectedItemOffset - (menuNetHeight / 2) + (itemHeights[actualIndex] / 2));
+      scrollOffset = math.max(
+          0.0,
+          selectedItemOffset -
+              (menuNetHeight / 2) +
+              (itemHeights[actualIndex] / 2));
       // If the selected item's scroll offset is greater than the maximum scroll offset,
       // set it instead to the maximum allowed scroll offset.
       final double maxScrollOffset = actualMenuNetHeight - menuNetHeight;
@@ -240,7 +248,8 @@ class _DropdownRoutePage<T> extends StatelessWidget {
         mediaQueryPadding,
         selectedIndex,
       );
-      route.scrollController = ScrollController(initialScrollOffset: menuLimits.scrollOffset);
+      route.scrollController =
+          ScrollController(initialScrollOffset: menuLimits.scrollOffset);
     }
 
     final TextDirection? textDirection = Directionality.maybeOf(context);
@@ -296,14 +305,16 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
     final double? itemWidth = route.dropdownStyle.width;
-    double maxHeight = route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
+    double maxHeight =
+        route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
     final double? preferredMaxHeight = route.dropdownStyle.maxHeight;
     if (preferredMaxHeight != null && preferredMaxHeight <= maxHeight) {
       maxHeight = preferredMaxHeight;
     }
     // The width of a menu should be at most the view width. This ensures that
     // the menu does not extend past the left and right edges of the screen.
-    final double width = math.min(constraints.maxWidth, itemWidth ?? buttonRect.width);
+    final double width =
+        math.min(constraints.maxWidth, itemWidth ?? buttonRect.width);
     return BoxConstraints(
       minWidth: width,
       maxWidth: width,
@@ -376,7 +387,8 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
 
   @override
   bool shouldRelayout(_DropdownMenuRouteLayout<T> oldDelegate) {
-    return buttonRect != oldDelegate.buttonRect || textDirection != oldDelegate.textDirection;
+    return buttonRect != oldDelegate.buttonRect ||
+        textDirection != oldDelegate.textDirection;
   }
 }
 

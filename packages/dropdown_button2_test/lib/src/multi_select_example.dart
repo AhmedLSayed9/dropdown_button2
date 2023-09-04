@@ -42,7 +42,9 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
                     final isSelected = selectedItems.contains(item);
                     return InkWell(
                       onTap: () {
-                        isSelected ? selectedItems.remove(item) : selectedItems.add(item);
+                        isSelected
+                            ? selectedItems.remove(item)
+                            : selectedItems.add(item);
                         //This rebuilds the StatefulWidget to update the button's text
                         setState(() {});
                         //This rebuilds the dropdownMenu Widget to update the check mark

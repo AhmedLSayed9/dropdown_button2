@@ -10,9 +10,11 @@ void main() {
       final value = menuItems.first;
 
       final dropdownButton = find.byType(DropdownButton2<int>);
-      final dropdownButtonText = find.descendant(of: dropdownButton, matching: find.text('$value'));
+      final dropdownButtonText =
+          find.descendant(of: dropdownButton, matching: find.text('$value'));
       final dropdownMenu = find.byType(ListView);
-      final dropdownMenuText = find.descendant(of: dropdownMenu, matching: find.text('$value'));
+      final dropdownMenuText =
+          find.descendant(of: dropdownMenu, matching: find.text('$value'));
 
       testWidgets('onTap should request focus for both button and menu',
           (WidgetTester tester) async {
@@ -50,7 +52,8 @@ void main() {
         expect(buttonFocusNode.hasFocus, isTrue);
       });
 
-      testWidgets('button should stay highlighted when menu closes', (WidgetTester tester) async {
+      testWidgets('button should stay highlighted when menu closes',
+          (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
