@@ -194,8 +194,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                               scrollbarTheme: dropdownStyle.scrollbarTheme,
                             ),
                             child: Scrollbar(
-                              // ignore: avoid_bool_literals_in_conditional_expressions
                               thumbVisibility:
+                                  // ignore: avoid_bool_literals_in_conditional_expressions
                                   _isIOS ? _iOSThumbVisibility : true,
                               thickness: _isIOS
                                   ? _scrollbarTheme?.thickness?.resolve(_states)
