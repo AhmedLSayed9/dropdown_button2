@@ -1,13 +1,16 @@
 # Flutter DropdownButton2
 
 <a href="https://pub.dev/packages/dropdown_button2">
-  <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub"/>
+  <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub" alt="Pub Version"/>
 </a>
 <a href="https://flutter.dev/">
-  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.0.0-green.svg"/>
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.0.0-green.svg" alt="Flutter Version"/>
 </a>
 <a href="https://opensource.org/licenses/MIT">
-  <img src="https://img.shields.io/badge/License-MIT-red"/>
+  <img src="https://img.shields.io/badge/License-MIT-red" alt="License: MIT"/>
+</a>
+<a href="https://github.com/AhmedLSayed9/dropdown_button2/actions">
+  <img src="https://github.com/AhmedLSayed9/dropdown_button2/workflows/Build/badge.svg" alt="Build Status"/>
 </a>
 
 ## Intro
