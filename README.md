@@ -134,8 +134,8 @@ customize to your needs.
 
 | Option                                                                                                                                           | Description                                                            | Type                          | Required |
 | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ----------------------------- | :------: |
-| [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/height.html)                                   | The height of the menu item                                            | double                        |    No    |
 | [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                 | The padding of menu items                                              | EdgeInsetsGeometry            |    No    |
+| [borderRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/borderRadius.html)                       | The border radius of the menu item                                     | BorderRadius                  |    No    |
 | [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                       | Defines the ink response focus, hover, and splash colors for the items | MaterialStateProperty<Color?> |    No    |
 | [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html) | A builder to customize the selected menu item                          | SelectedMenuItemBuilder       |    No    |
 
