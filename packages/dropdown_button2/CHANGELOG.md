@@ -1,3 +1,7 @@
+## 3.0.0-beta.2
+
+ - - Add border radius parameter for menu item.
+
 ## 3.0.0-beta.1
 
  - Fix formatting.
