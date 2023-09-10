@@ -185,12 +185,16 @@ class MenuItemStyleData {
   /// Creates a MenuItemStyleData.
   const MenuItemStyleData({
     this.padding,
+    this.borderRadius,
     this.overlayColor,
     this.selectedMenuItemBuilder,
   });
 
   /// The padding of menu items
   final EdgeInsetsGeometry? padding;
+
+  /// The border radius of the menu item
+  final BorderRadius? borderRadius;
 
   /// Defines the ink response focus, hover, and splash colors.
   ///
