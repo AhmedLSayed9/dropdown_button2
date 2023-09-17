@@ -622,6 +622,10 @@ Widget build(BuildContext context) {
                 ),
               ),
             ),
+            searchNotFoundWidget: const Padding(
+              padding: EdgeInsets.all(8),
+              child: Text('No Items Found!'),
+            ),
             searchMatchFn: (item, searchValue) {
               return item.value.toString().contains(searchValue);
             },
