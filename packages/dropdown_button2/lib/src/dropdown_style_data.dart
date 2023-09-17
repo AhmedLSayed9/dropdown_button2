@@ -245,6 +245,7 @@ class DropdownSearchData<T> {
   const DropdownSearchData({
     this.searchController,
     this.searchInnerWidget,
+    this.searchNotFoundWidget,
     this.searchInnerWidgetHeight,
     this.searchMatchFn,
   }) : assert(
@@ -260,6 +261,9 @@ class DropdownSearchData<T> {
   /// The widget to use for searchable dropdowns, such as search bar.
   /// It will be shown at the top of the dropdown menu.
   final Widget? searchInnerWidget;
+
+  /// The widget to display when no suggestions are available.
+  final Widget? searchNotFoundWidget;
 
   /// The height of the searchInnerWidget if used.
   final double? searchInnerWidgetHeight;
