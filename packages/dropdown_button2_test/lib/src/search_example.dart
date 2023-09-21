@@ -98,6 +98,10 @@ class _SearchExampleState extends State<SearchExample> {
                   ),
                 ),
               ),
+              noResultsWidget: const Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('No Item Found!'),
+              ),
               searchMatchFn: (item, searchValue) {
                 return item.value.toString().contains(searchValue);
               },
