@@ -1,3 +1,7 @@
+## 3.0.0-beta.3
+
+ - Fix inkwell covers error message.
+
 ## 3.0.0-beta.2
 
  - Add border radius parameter for menu item.
