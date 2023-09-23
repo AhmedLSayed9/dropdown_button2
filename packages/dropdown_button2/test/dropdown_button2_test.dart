@@ -10,6 +10,8 @@ void main() {
       final value = menuItems.first;
 
       final findDropdownButton = find.byType(DropdownButton2<int>);
+      final findDropdownButtonFormField =
+          find.byType(DropdownButtonFormField2<int>);
       final findDropdownButtonText = find.descendant(
           of: findDropdownButton, matching: find.text('$value'));
       final findDropdownMenu = find.byType(ListView);
@@ -94,36 +96,55 @@ void main() {
           'inkwell should not go beyond border and cover error message when pressed',
           (WidgetTester tester) async {
         // Regression test for https://github.com/AhmedLSayed9/dropdown_button2/issues/56
+
+        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        const errorMessage = 'error_message';
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
               body: Center(
-                child: DropdownButtonFormField2<int>(
-                  value: value,
-                  items: menuItems.map<DropdownItem<int>>((int item) {
-                    return DropdownItem<int>(
-                      value: item,
-                      child: Text(item.toString()),
-                    );
-                  }).toList(),
-                  onChanged: (_) {},
+                child: Form(
+                  key: formKey,
+                  child: DropdownButtonFormField2<int>(
+                    value: value,
+                    items: menuItems.map<DropdownItem<int>>((int item) {
+                      return DropdownItem<int>(
+                        value: item,
+                        child: Text(item.toString()),
+                      );
+                    }).toList(),
+                    onChanged: (_) {},
+                    validator: (value) => errorMessage,
+                  ),
                 ),
               ),
             ),
           ),
         );
 
+        formKey.currentState!.validate();
+        await tester.pumpAndSettle();
+
         final findInkWell = find.descendant(
             of: findDropdownButton, matching: find.byType(InkWell));
         expect(findInkWell, findsOneWidget);
 
-        Finder findInputDecorator = find.descendant(
-            of: findInkWell, matching: find.byType(InputDecorator));
-        expect(findInputDecorator, findsNothing);
+        final findInkwellInputDecorator = find.descendant(
+          of: findInkWell,
+          matching: find.byType(InputDecorator),
+        );
+        final inkwellInputDecorator =
+            tester.widget<InputDecorator>(findInkwellInputDecorator);
+        expect(inkwellInputDecorator.decoration.errorText, null);
 
-        findInputDecorator = find.descendant(
-            of: findDropdownButton, matching: find.byType(InputDecorator));
-        expect(findInputDecorator, findsOneWidget);
+        final findFormFieldInputDecorator = find.descendant(
+          of: findDropdownButtonFormField,
+          matching: find.byType(InputDecorator),
+        );
+        final formFieldInputDecorator =
+            tester.widget<InputDecorator>(findFormFieldInputDecorator.first);
+        expect(formFieldInputDecorator.decoration.errorText, errorMessage);
       });
     },
   );
