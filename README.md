@@ -146,6 +146,7 @@ customize to your needs.
 | [searchController](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchController.html)               | The controller used for searchable dropdowns, if null, then it'll perform as a normal dropdown | TextEditingController |    No    |
 | [searchInnerWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchInnerWidget.html)             | The widget to be shown at the top of the dropdown menu for searchable dropdowns                | Widget                |    No    |
 | [searchInnerWidgetHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchInnerWidgetHeight.html) | The height of the searchInnerWidget if used                                                    | double                |    No    |
+| [noResultsWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/noResultsWidget.html)                 | The widget to show when the search results are empty                                           | Widget                |    No    |
 | [searchMatchFn](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchMatchFn.html)                     | The match function used for searchable dropdowns, if null, defaultFn will be used              | SearchMatchFn         |    No    |
 
 ### DropdownButtonFormField2 (In addition to the above):

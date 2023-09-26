@@ -201,7 +201,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                                     // ignore: avoid_bool_literals_in_conditional_expressions
                                     _isIOS ? _iOSThumbVisibility : true,
                                 thickness: _isIOS
-                                    ? _scrollbarTheme?.thickness?.resolve(_states)
+                                    ? _scrollbarTheme?.thickness
+                                        ?.resolve(_states)
                                     : null,
                                 radius: _isIOS ? _scrollbarTheme?.radius : null,
                                 child: ListView.separated(

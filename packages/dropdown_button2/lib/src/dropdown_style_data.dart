@@ -265,7 +265,7 @@ class DropdownSearchData<T> {
   /// The height of the searchInnerWidget if used.
   final double? searchInnerWidgetHeight;
 
-  /// The widget to use for showing custom message. If search item is empty.
+  /// The widget to show when the search results are empty.
   final Widget? noResultsWidget;
 
   /// The match function used for searchable dropdowns. If this is null,
