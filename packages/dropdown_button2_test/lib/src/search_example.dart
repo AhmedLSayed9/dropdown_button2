@@ -71,8 +71,8 @@ class _SearchExampleState extends State<SearchExample> {
             ),
             dropdownSearchData: DropdownSearchData(
               searchController: textEditingController,
-              searchInnerWidgetHeight: 50,
-              searchInnerWidget: Container(
+              searchBarWidgetHeight: 50,
+              searchBarWidget: Container(
                 height: 50,
                 padding: const EdgeInsets.only(
                   top: 8,

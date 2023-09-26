@@ -172,8 +172,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  if (searchData?.searchInnerWidget != null)
-                    searchData!.searchInnerWidget!,
+                  if (searchData?.searchBarWidget != null)
+                    searchData!.searchBarWidget!,
                   if (_children.isEmpty && searchData?.noResultsWidget != null)
                     searchData!.noResultsWidget!
                   else

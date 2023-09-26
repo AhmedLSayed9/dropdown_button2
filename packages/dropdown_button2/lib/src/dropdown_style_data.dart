@@ -244,13 +244,13 @@ class DropdownSearchData<T> {
   /// Creates a DropdownSearchData.
   const DropdownSearchData({
     this.searchController,
-    this.searchInnerWidget,
-    this.searchInnerWidgetHeight,
+    this.searchBarWidget,
+    this.searchBarWidgetHeight,
     this.noResultsWidget,
     this.searchMatchFn,
   }) : assert(
-          (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
-          'searchInnerWidgetHeight should not be null when using searchInnerWidget\n'
+          (searchBarWidget == null) == (searchBarWidgetHeight == null),
+          'searchBarWidgetHeight should not be null when using searchBarWidget\n'
           'This is necessary to properly determine menu limits and scroll offset',
         );
 
@@ -260,10 +260,10 @@ class DropdownSearchData<T> {
 
   /// The widget to use for searchable dropdowns, such as search bar.
   /// It will be shown at the top of the dropdown menu.
-  final Widget? searchInnerWidget;
+  final Widget? searchBarWidget;
 
-  /// The height of the searchInnerWidget if used.
-  final double? searchInnerWidgetHeight;
+  /// The height of the searchBarWidget if used.
+  final double? searchBarWidgetHeight;
 
   /// The widget to show when the search results are empty.
   final Widget? noResultsWidget;

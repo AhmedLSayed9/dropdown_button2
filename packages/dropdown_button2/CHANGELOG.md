@@ -1,14 +1,14 @@
 ## 3.0.0-beta.3
 
- - Fix inkwell covers error message.
+- Fix inkwell covers error message.
 
 ## 3.0.0-beta.2
 
- - Add border radius parameter for menu item.
+- Add border radius parameter for menu item.
 
 ## 3.0.0-beta.1
 
- - Fix formatting.
+- Fix formatting.
 
 ## 3.0.0-beta.0
 
@@ -155,7 +155,7 @@
 
 ## 1.9.3
 
-- Add searchInnerWidgetHeight, it fixes menu limits and scroll offset when using searchInnerWidget.
+- Add searchBarWidgetHeight, it fixes menu limits and scroll offset when using searchBarWidget.
 
 ## 1.9.2
 
@@ -268,7 +268,7 @@
 
 * searchController parameter, The TextEditingController used for searchable dropdowns. If null, then
   it'll perform as a normal dropdown without searching feature.
-* searchInnerWidget parameter, The widget to be shown at the top of the dropdown menu for searchable
+* searchBarWidget parameter, The widget to be shown at the top of the dropdown menu for searchable
   dropdowns, such as search bar.
 * searchMatchFn parameter, The match function used for searchable dropdowns, if null \_
   defaultSearchMatchFn will be used.

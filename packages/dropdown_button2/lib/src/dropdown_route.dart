@@ -133,7 +133,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
     double actualMenuHeight =
         dropdownStyle.padding?.vertical ?? kMaterialListPadding.vertical;
-    final double innerWidgetHeight = searchData?.searchInnerWidgetHeight ?? 0.0;
+    final double innerWidgetHeight = searchData?.searchBarWidgetHeight ?? 0.0;
     actualMenuHeight += innerWidgetHeight;
     if (items.isNotEmpty) {
       actualMenuHeight +=
