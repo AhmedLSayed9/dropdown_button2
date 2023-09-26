@@ -246,6 +246,7 @@ class DropdownSearchData<T> {
     this.searchController,
     this.searchInnerWidget,
     this.searchInnerWidgetHeight,
+    this.noResultsWidget,
     this.searchMatchFn,
   }) : assert(
           (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
@@ -263,6 +264,9 @@ class DropdownSearchData<T> {
 
   /// The height of the searchInnerWidget if used.
   final double? searchInnerWidgetHeight;
+
+  /// The widget to use for showing custom message. If search item is empty.
+  final Widget? noResultsWidget;
 
   /// The match function used for searchable dropdowns. If this is null,
   /// then _defaultSearchMatchFn will be used.
