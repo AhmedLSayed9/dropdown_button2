@@ -1,6 +1,7 @@
 ## 3.0.0-beta.4
 
- - - Add `noResultsWidget` property for DropdownSearchData. It can be used to show some widget when the search results are empty.
+- Add `noResultsWidget` property for DropdownSearchData. It can be used to show some widget when the search results are empty.
+- Rename searchInnerWidget[Height] to searchBarWidget[Height].
 
 ## 3.0.0-beta.3
 
