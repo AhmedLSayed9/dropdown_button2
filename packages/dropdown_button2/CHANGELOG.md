@@ -1,3 +1,7 @@
+## 3.0.0-beta.4
+
+ - - Add `noResultsWidget` property for DropdownSearchData. It can be used to show some widget when the search results are empty.
+
 ## 3.0.0-beta.3
 
 - Fix inkwell covers error message.
