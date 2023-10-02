@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`dropdown_button2` - `v3.0.0-beta.5`](#dropdown_button2---v300-beta5)
+
+---
+
+#### `dropdown_button2` - `v3.0.0-beta.5`
+
+ - Enhance rendering performance when dealing with big items list.
+
+
 ## 2023-09-27
 
 ### Changes

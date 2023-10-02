@@ -1,3 +1,7 @@
+## 3.0.0-beta.5
+
+ - Enhance rendering performance when dealing with big items list.
+
 ## 3.0.0-beta.4
 
 - Add `noResultsWidget` property for DropdownSearchData. It can be used to show some widget when the search results are empty.
