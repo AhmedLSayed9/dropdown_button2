@@ -662,10 +662,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       buttonItems.add(DefaultTextStyle(
         style: _textStyle!.copyWith(color: Theme.of(context).hintColor),
         child: IgnorePointer(
-          child: _DropdownItemContainer(
-            alignment: widget.alignment,
-            child: displayedHint,
-          ),
+          child: displayedHint,
         ),
       ));
     }
@@ -674,6 +671,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         ? _kAlignedButtonPadding
         : _kUnalignedButtonPadding;
 
+    final buttonHeight =
+        _buttonStyle?.height ?? (widget.isDense ? _denseButtonHeight : null);
+
     // If value is null (then _selectedIndex is null) then we
     // display the hint or nothing at all.
     final Widget innerItemsWidget;
@@ -681,31 +681,48 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       innerItemsWidget = const SizedBox.shrink();
     } else {
       innerItemsWidget = Padding(
-        //When buttonWidth & dropdownWidth is null, their width will be calculated
-        //from the maximum width of menu items or the hint text (width of IndexedStack).
-        //We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
+        // When buttonWidth & dropdownWidth is null, their width will be calculated
+        // from the maximum width of menu items or the hint text (width of IndexedStack).
+        // We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
         padding: EdgeInsets.symmetric(
           horizontal:
               _buttonStyle?.width == null && _dropdownStyle.width == null
                   ? _getMenuHorizontalPadding()
                   : 0.0,
         ),
-        child: IndexedStack(
-          index: _selectedIndex ?? hintIndex,
-          alignment: widget.alignment,
-          children: widget.isDense
-              ? buttonItems
-              // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
-              : buttonItems.mapIndexed((item, index) {
-                  return SizedBox(
-                    // hintIndex is the last item in buttonItems.
-                    height: index == hintIndex
-                        ? _kMenuItemHeight
-                        : widget.items![index].height,
-                    child: item,
-                  );
-                }).toList(),
-        ),
+        // When both buttonHeight & buttonWidth are specified, we don't have to use IndexedStack,
+        // which enhances the performance when dealing with big items list.
+        // Note: Both buttonHeight & buttonWidth must be specified to avoid changing
+        // button's size when selecting different items, which is a bad UX.
+        child: buttonHeight != null && _buttonStyle?.width != null
+            ? Align(
+                alignment: widget.alignment,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [buttonItems[_selectedIndex ?? hintIndex ?? 0]],
+                ),
+              )
+            : IndexedStack(
+                index: _selectedIndex ?? hintIndex,
+                alignment: widget.alignment,
+                children: buttonHeight != null
+                    ? buttonItems.mapIndexed((item, index) {
+                        return Row(
+                            mainAxisSize: MainAxisSize.min, children: [item]);
+                      }).toList()
+                    // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
+                    : buttonItems.mapIndexed((item, index) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [item],
+                            ),
+                          ],
+                        );
+                      }).toList(),
+              ),
       );
     }
 
@@ -721,8 +738,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
             ),
             padding: _buttonStyle?.padding ??
                 padding.resolve(Directionality.of(context)),
-            height: _buttonStyle?.height ??
-                (widget.isDense ? _denseButtonHeight : null),
+            height: buttonHeight,
             width: _buttonStyle?.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -813,47 +829,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           child: result,
         ),
       ),
-    );
-  }
-}
-
-// The container widget for a menu item created by a [DropdownButton]. It
-// provides the default configuration for [DropdownItem]s, as well as a
-// [DropdownButton]'s hint and disabledHint widgets.
-class _DropdownItemContainer extends StatelessWidget {
-  /// Creates an item for a dropdown menu.
-  ///
-  /// The [child] argument is required.
-  const _DropdownItemContainer({
-    // ignore: unused_element
-    super.key,
-    this.alignment = AlignmentDirectional.centerStart,
-    required this.child,
-  });
-
-  /// The widget below this widget in the tree.
-  ///
-  /// Typically a [Text] widget.
-  final Widget child;
-
-  /// Defines how the item is positioned within the container.
-  ///
-  /// This property must not be null. It defaults to [AlignmentDirectional.centerStart].
-  ///
-  /// See also:
-  ///
-  ///  * [Alignment], a class with convenient constants typically used to
-  ///    specify an [AlignmentGeometry].
-  ///  * [AlignmentDirectional], like [Alignment] for specifying alignments
-  ///    relative to text direction.
-  final AlignmentGeometry alignment;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(minHeight: _kMenuItemHeight),
-      alignment: alignment,
-      child: child,
     );
   }
 }
