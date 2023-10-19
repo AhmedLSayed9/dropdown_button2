@@ -45,16 +45,19 @@ class _DropdownBarrierPainter extends CustomPainter {
   const _DropdownBarrierPainter({
     this.buttonRect,
     this.barrierColor,
+    required this.pageSize,
   });
 
   final Rect? buttonRect;
   final Color? barrierColor;
+  final Size pageSize;
 
   @override
   void paint(Canvas canvas, Size size) {
     if (barrierColor != null && buttonRect != null) {
-      canvas.saveLayer(Rect.largest, Paint());
-      canvas.drawRect(Rect.largest, Paint()..color = barrierColor!);
+      final Rect rect = Rect.fromLTRB(-buttonRect!.left, -buttonRect!.top, pageSize.width, pageSize.height);
+      canvas.saveLayer(rect, Paint());
+      canvas.drawRect(rect, Paint()..color = barrierColor!);
       canvas.drawRect(buttonRect!, Paint()..blendMode = BlendMode.clear);
       canvas.restore();
     }
@@ -647,6 +650,8 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
       return widget.child;
     }
 
+    final size = MediaQuery.of(context).size;
+
     return Stack(
       children: [
         ValueListenableBuilder(
@@ -656,6 +661,7 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
               painter: _DropdownBarrierPainter(
                 buttonRect: widget.buttonRect,
                 barrierColor: value,
+                pageSize: size,
               ),
             );
           },
