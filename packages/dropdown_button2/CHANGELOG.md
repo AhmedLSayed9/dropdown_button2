@@ -1,3 +1,7 @@
+## 3.0.0-beta.6
+
+ - Fix isExpanded and alignment functionality.
+
 ## 3.0.0-beta.5
 
  - Enhance rendering performance when dealing with big items list.
