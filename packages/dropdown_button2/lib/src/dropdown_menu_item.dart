@@ -26,6 +26,27 @@ class DropdownItem<T> extends DropdownMenuItem<T> {
   ///
   /// Defaults to true.
   final bool closeOnTap;
+
+  /// Creates a copy of this DropdownItem but with the given fields replaced with the new values.
+  DropdownItem<T> copyWith({
+    Widget? child,
+    double? height,
+    void Function()? onTap,
+    T? value,
+    bool? enabled,
+    AlignmentGeometry? alignment,
+    bool? closeOnTap,
+  }) {
+    return DropdownItem<T>(
+      height: height ?? this.height,
+      onTap: onTap ?? this.onTap,
+      value: value ?? this.value,
+      enabled: enabled ?? this.enabled,
+      alignment: alignment ?? this.alignment,
+      closeOnTap: closeOnTap ?? this.closeOnTap,
+      child: child ?? this.child,
+    );
+  }
 }
 
 // The widget that is the button wrapping the menu items.

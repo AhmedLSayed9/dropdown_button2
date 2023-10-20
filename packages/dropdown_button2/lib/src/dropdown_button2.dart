@@ -674,6 +674,11 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     final buttonHeight =
         _buttonStyle?.height ?? (widget.isDense ? _denseButtonHeight : null);
 
+    Widget item = buttonItems[_selectedIndex ?? hintIndex ?? 0];
+    if (item is DropdownItem) {
+      item = item.copyWith(alignment: widget.alignment);
+    }
+
     // If value is null (then _selectedIndex is null) then we
     // display the hint or nothing at all.
     final Widget innerItemsWidget;
@@ -697,29 +702,18 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         child: buttonHeight != null && _buttonStyle?.width != null
             ? Align(
                 alignment: widget.alignment,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [buttonItems[_selectedIndex ?? hintIndex ?? 0]],
-                ),
+                child: item,
               )
             : IndexedStack(
                 index: _selectedIndex ?? hintIndex,
                 alignment: widget.alignment,
                 children: buttonHeight != null
-                    ? buttonItems.mapIndexed((item, index) {
-                        return Row(
-                            mainAxisSize: MainAxisSize.min, children: [item]);
-                      }).toList()
+                    ? buttonItems.mapIndexed((item, index) => item).toList()
                     // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
                     : buttonItems.mapIndexed((item, index) {
                         return Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [item],
-                            ),
-                          ],
+                          children: <Widget>[item],
                         );
                       }).toList(),
               ),
