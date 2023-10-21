@@ -1,3 +1,7 @@
+## 3.0.0-beta.7
+
+ - Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
+
 ## 3.0.0-beta.6
 
  - Fix isExpanded and alignment functionality.

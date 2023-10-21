@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`dropdown_button2` - `v3.0.0-beta.7`](#dropdown_button2---v300-beta7)
+
+---
+
+#### `dropdown_button2` - `v3.0.0-beta.7`
+
+ - Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
+
+
 ## 2023-10-20
 
 ### Changes
