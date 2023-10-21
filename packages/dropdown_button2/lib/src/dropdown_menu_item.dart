@@ -11,6 +11,7 @@ class DropdownItem<T> extends DropdownMenuItem<T> {
   const DropdownItem({
     required super.child,
     this.height = _kMenuItemHeight,
+    this.intrinsicHeight = false,
     super.onTap,
     super.value,
     super.enabled,
@@ -22,6 +23,15 @@ class DropdownItem<T> extends DropdownMenuItem<T> {
   /// The height of the menu item, default value is [kMinInteractiveDimension]
   final double height;
 
+  /// If set to true, then this item's height will vary according to its
+  /// intrinsic height instead of using [height] property.
+  ///
+  /// Note: If set to true and there isn't enough vertical room for the menu, there's
+  /// no way to know the item's intrinsic height in-advance to properly scroll to
+  /// the selected item. Instead, the provided [height] value will be used, which means
+  /// the menu's initial scroll offset may not properly scroll to the selected item.
+  final bool intrinsicHeight;
+
   /// Whether the dropdown should close when the item is tapped.
   ///
   /// Defaults to true.
@@ -31,6 +41,7 @@ class DropdownItem<T> extends DropdownMenuItem<T> {
   DropdownItem<T> copyWith({
     Widget? child,
     double? height,
+    bool? intrinsicHeight,
     void Function()? onTap,
     T? value,
     bool? enabled,
@@ -39,6 +50,7 @@ class DropdownItem<T> extends DropdownMenuItem<T> {
   }) {
     return DropdownItem<T>(
       height: height ?? this.height,
+      intrinsicHeight: intrinsicHeight ?? this.intrinsicHeight,
       onTap: onTap ?? this.onTap,
       value: value ?? this.value,
       enabled: enabled ?? this.enabled,
@@ -142,7 +154,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
     Widget child = Container(
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
-      height: dropdownItem.height,
+      height: dropdownItem.intrinsicHeight ? null : dropdownItem.height,
       child: widget.route.items[widget.itemIndex],
     );
     // An [InkWell] is added to the item only if it is enabled

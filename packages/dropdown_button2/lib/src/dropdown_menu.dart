@@ -217,8 +217,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                                   separatorBuilder: (context, index) =>
                                       separator != null
                                           ? SizedBox(
-                                              height: separator!.height,
-                                              child: separator)
+                                              height: separator!.intrinsicHeight
+                                                  ? null
+                                                  : separator!.height,
+                                              child: separator,
+                                            )
                                           : const SizedBox.shrink(),
                                 ),
                               ),
