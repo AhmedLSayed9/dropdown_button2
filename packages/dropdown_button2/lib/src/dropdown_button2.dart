@@ -420,6 +420,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     WidgetsBinding.instance.removeObserver(this);
     _removeDropdownRoute();
     _internalNode?.dispose();
+    _isMenuOpen.dispose();
+    _rect.dispose();
     super.dispose();
   }
 
