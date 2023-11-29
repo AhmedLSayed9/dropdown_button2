@@ -1,3 +1,7 @@
+## 3.0.0-beta.8
+
+ - Add `foregroundDecoration` property for ButtonStyleData
+
 ## 3.0.0-beta.7
 
  - Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
