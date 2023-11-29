@@ -8,6 +8,7 @@ class ButtonStyleData {
     this.width,
     this.padding,
     this.decoration,
+    this.foregroundDecoration,
     this.elevation,
     this.overlayColor,
   });
@@ -23,6 +24,9 @@ class ButtonStyleData {
 
   /// The decoration of the Button
   final BoxDecoration? decoration;
+
+  /// The decoration to paint in front of the Button
+  final BoxDecoration? foregroundDecoration;
 
   /// The elevation of the Button
   final int? elevation;

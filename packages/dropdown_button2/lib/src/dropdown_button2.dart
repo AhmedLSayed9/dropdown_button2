@@ -622,7 +622,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   }
 
   BorderRadius? _getButtonBorderRadius(BuildContext context) {
-    final buttonRadius = _buttonStyle?.decoration?.borderRadius;
+    final buttonRadius = _buttonStyle?.decoration?.borderRadius ??
+        _buttonStyle?.foregroundDecoration?.borderRadius;
     if (buttonRadius != null) {
       return buttonRadius.resolve(Directionality.of(context));
     }
@@ -730,6 +731,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           Container(
             decoration: _buttonStyle?.decoration?.copyWith(
               boxShadow: _buttonStyle!.decoration!.boxShadow ??
+                  kElevationToShadow[_buttonStyle!.elevation ?? 0],
+            ),
+            foregroundDecoration: _buttonStyle?.foregroundDecoration?.copyWith(
+              boxShadow: _buttonStyle!.foregroundDecoration!.boxShadow ??
                   kElevationToShadow[_buttonStyle!.elevation ?? 0],
             ),
             padding: _buttonStyle?.padding ??
