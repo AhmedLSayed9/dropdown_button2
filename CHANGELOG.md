@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`dropdown_button2` - `v3.0.0-beta.8`](#dropdown_button2---v300-beta8)
+
+---
+
+#### `dropdown_button2` - `v3.0.0-beta.8`
+
+ - Add `foregroundDecoration` property for ButtonStyleData.
+
+
 ## 2023-10-21
 
 ### Changes
