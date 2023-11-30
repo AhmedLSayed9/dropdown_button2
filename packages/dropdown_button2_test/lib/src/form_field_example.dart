@@ -77,9 +77,6 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                 onSaved: (value) {
                   selectedValue = value.toString();
                 },
-                buttonStyleData: const ButtonStyleData(
-                  padding: EdgeInsets.only(right: 8),
-                ),
                 iconStyleData: const IconStyleData(
                   icon: Icon(
                     Icons.arrow_drop_down,
