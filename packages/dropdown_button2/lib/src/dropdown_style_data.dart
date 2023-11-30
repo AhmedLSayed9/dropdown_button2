@@ -134,9 +134,15 @@ class DropdownStyleData {
   final double? width;
 
   /// The inner padding of the dropdown menu
+  ///
+  /// The horizontal padding will be added to the button's padding as well, ensuring that
+  /// the menu width and button width adapt seamlessly to the maximum width of the items.
   final EdgeInsetsGeometry? padding;
 
   /// The inner padding of the dropdown menu including the scrollbar
+  ///
+  /// The horizontal padding will be added to the button's padding as well, ensuring that
+  /// the menu width and button width adapt seamlessly to the maximum width of the items.
   final EdgeInsetsGeometry? scrollPadding;
 
   /// The decoration of the dropdown menu
@@ -194,10 +200,13 @@ class MenuItemStyleData {
     this.selectedMenuItemBuilder,
   });
 
-  /// The padding of menu items
+  /// The padding applied to each menu item.
+  ///
+  /// The horizontal padding will be added to the button's padding as well, ensuring that
+  /// the menu width and button width adapt seamlessly to the maximum width of the items.
   final EdgeInsetsGeometry? padding;
 
-  /// The border radius of the menu item
+  /// The border radius of the menu item.
   final BorderRadius? borderRadius;
 
   /// Defines the ink response focus, hover, and splash colors.

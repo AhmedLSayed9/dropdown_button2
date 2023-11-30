@@ -496,12 +496,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     return menuMargin.resolve(textDirection).inflateRect(itemRect);
   }
 
-  double _getMenuHorizontalPadding() {
-    final double menuHorizontalPadding =
-        (_menuItemStyle.padding?.horizontal ?? _kMenuItemPadding.horizontal) +
-            (_dropdownStyle.padding?.horizontal ?? 0.0) +
-            (_dropdownStyle.scrollPadding?.horizontal ?? 0.0);
-    return menuHorizontalPadding / 2;
+  EdgeInsetsGeometry _getMenuPadding() {
+    return (_menuItemStyle.padding ?? _kMenuItemPadding)
+        .add(_dropdownStyle.padding ?? EdgeInsets.zero)
+        .add(_dropdownStyle.scrollPadding ?? EdgeInsets.zero);
   }
 
   void _handleTap() {
@@ -689,39 +687,28 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (buttonItems.isEmpty) {
       innerItemsWidget = const SizedBox.shrink();
     } else {
-      innerItemsWidget = Padding(
-        // When buttonWidth & dropdownWidth is null, their width will be calculated
-        // from the maximum width of menu items or the hint text (width of IndexedStack).
-        // We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
-        padding: EdgeInsets.symmetric(
-          horizontal:
-              _buttonStyle?.width == null && _dropdownStyle.width == null
-                  ? _getMenuHorizontalPadding()
-                  : 0.0,
-        ),
-        // When both buttonHeight & buttonWidth are specified, we don't have to use IndexedStack,
-        // which enhances the performance when dealing with big items list.
-        // Note: Both buttonHeight & buttonWidth must be specified to avoid changing
-        // button's size when selecting different items, which is a bad UX.
-        child: buttonHeight != null && _buttonStyle?.width != null
-            ? Align(
-                alignment: widget.alignment,
-                child: item,
-              )
-            : IndexedStack(
-                index: _selectedIndex ?? hintIndex,
-                alignment: widget.alignment,
-                children: buttonHeight != null
-                    ? buttonItems.mapIndexed((item, index) => item).toList()
-                    // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
-                    : buttonItems.mapIndexed((item, index) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[item],
-                        );
-                      }).toList(),
-              ),
-      );
+      // When both buttonHeight & buttonWidth are specified, we don't have to use IndexedStack,
+      // which enhances the performance when dealing with big items list.
+      // Note: Both buttonHeight & buttonWidth must be specified to avoid changing
+      // button's size when selecting different items, which is a bad UX.
+      innerItemsWidget = buttonHeight != null && _buttonStyle?.width != null
+          ? Align(
+              alignment: widget.alignment,
+              child: item,
+            )
+          : IndexedStack(
+              index: _selectedIndex ?? hintIndex,
+              alignment: widget.alignment,
+              children: buttonHeight != null
+                  ? buttonItems.mapIndexed((item, index) => item).toList()
+                  // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
+                  : buttonItems.mapIndexed((item, index) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[item],
+                      );
+                    }).toList(),
+            );
     }
 
     Widget result = DefaultTextStyle(
@@ -738,8 +725,18 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
               boxShadow: _buttonStyle!.foregroundDecoration!.boxShadow ??
                   kElevationToShadow[_buttonStyle!.elevation ?? 0],
             ),
-            padding: _buttonStyle?.padding ??
-                padding.resolve(Directionality.of(context)),
+            padding: (_buttonStyle?.padding ??
+                    padding.resolve(Directionality.of(context)))
+                .add(
+              // When buttonWidth & dropdownWidth is null, their width will be calculated
+              // from the maximum width of menu items or the hint text (width of IndexedStack).
+              // We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
+              _buttonStyle?.width == null && _dropdownStyle.width == null
+                  ? _getMenuPadding()
+                      .resolve(Directionality.of(context))
+                      .copyWith(top: 0, bottom: 0)
+                  : EdgeInsets.zero,
+            ),
             height: buttonHeight,
             width: _buttonStyle?.width,
             child: Row(
