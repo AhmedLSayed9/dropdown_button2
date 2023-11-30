@@ -1,18 +1,23 @@
+## 3.0.0-beta.9
+
+- Update DropdownItem to respect intrinsicHeight.
+- Update added menu padding to include button icon.
+
 ## 3.0.0-beta.8
 
- - Add `foregroundDecoration` property for ButtonStyleData.
+- Add `foregroundDecoration` property for ButtonStyleData.
 
 ## 3.0.0-beta.7
 
- - Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
+- Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
 
 ## 3.0.0-beta.6
 
- - Fix isExpanded and alignment functionality.
+- Fix isExpanded and alignment functionality.
 
 ## 3.0.0-beta.5
 
- - Enhance rendering performance when dealing with big items list.
+- Enhance rendering performance when dealing with big items list.
 
 ## 3.0.0-beta.4
 
