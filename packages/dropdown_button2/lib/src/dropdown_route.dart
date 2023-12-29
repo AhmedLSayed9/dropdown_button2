@@ -380,6 +380,13 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
           size.width - childSize.width,
         );
         break;
+      case DropdownDirection.center:
+        left = _clampDouble(
+          (size.width - childSize.width) / 2 + offset.dx,
+          0.0,
+          size.width - childSize.width,
+        );
+        break;
     }
 
     return Offset(left, menuLimits.top);
