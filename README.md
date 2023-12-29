@@ -90,6 +90,7 @@ customize to your needs.
 | [barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html)   | Whether you can dismiss this route by tapping the modal barrier                          | bool                  |    No    |
 | [barrierColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierColor.html)               | The color to use for the modal barrier. If this is null, the barrier will be transparent | Color                 |    No    |
 | [barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html)               | The semantic label used for a dismissible barrier                                        | String                |    No    |
+| [barrierCoversButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierCoversButton.html) | Specifies whether the modal barrier should cover the dropdown button or not.             | bool                  |    No    |
 
 #### Subclass ButtonStyleData:
 

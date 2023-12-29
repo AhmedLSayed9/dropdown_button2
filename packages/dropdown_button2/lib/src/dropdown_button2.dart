@@ -115,6 +115,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
+    this.barrierCoversButton = true,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -161,6 +162,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
+    this.barrierCoversButton = true,
     this.barrierLabel,
     required InputDecoration inputDecoration,
     required bool isEmpty,
@@ -353,6 +355,11 @@ class DropdownButton2<T> extends StatefulWidget {
   /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
   final String? barrierLabel;
 
+  /// Specifies whether the modal barrier should cover the dropdown button or not.
+  ///
+  /// Defaults to true.
+  final bool barrierCoversButton;
+
   final InputDecoration? _inputDecoration;
 
   final bool _isEmpty;
@@ -524,6 +531,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       barrierColor: widget.barrierColor,
       barrierLabel: widget.barrierLabel ??
           MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierCoversButton: widget.barrierCoversButton,
       parentFocusNode: _focusNode,
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: _dropdownStyle,

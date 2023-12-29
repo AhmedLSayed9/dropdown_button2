@@ -9,18 +9,21 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.capturedThemes,
     required this.style,
     required this.barrierDismissible,
-    this.barrierColor,
+    Color? barrierColor,
     this.barrierLabel,
+    required this.barrierCoversButton,
     required this.parentFocusNode,
     required this.enableFeedback,
     required this.dropdownStyle,
     required this.menuItemStyle,
     required this.searchData,
     this.dropdownSeparator,
-  }) : itemHeights = addSeparatorsHeights(
+  })  : itemHeights = addSeparatorsHeights(
           itemHeights: items.map((item) => item.height).toList(),
           separatorHeight: dropdownSeparator?.height,
-        );
+        ),
+        barrierColor = barrierCoversButton ? barrierColor : null,
+        _altBarrierColor = barrierColor;
 
   final List<DropdownItem<T>> items;
   final ValueNotifier<Rect?> buttonRect;
@@ -47,14 +50,18 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   @override
   final Color? barrierColor;
 
+  /// This is used by [_CustomModalBarrier].
+  final Color? _altBarrierColor;
+
   @override
   final String? barrierLabel;
+
+  final bool barrierCoversButton;
 
   final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, _, __) {
     return FocusScope.withExternalFocusNode(
       focusScopeNode: _childNode,
       parentNode: parentFocusNode,
@@ -72,7 +79,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
           return ValueListenableBuilder<Rect?>(
             valueListenable: buttonRect,
             builder: (BuildContext context, Rect? rect, _) {
-              return _DropdownRoutePage<T>(
+              final routePage = _DropdownRoutePage<T>(
                 route: this,
                 constraints: actualConstraints,
                 mediaQueryPadding: mediaQueryPadding,
@@ -82,6 +89,15 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
                 style: style,
                 enableFeedback: enableFeedback,
               );
+              return barrierCoversButton
+                  ? routePage
+                  : _CustomModalBarrier(
+                      animation: animation,
+                      barrierColor: _altBarrierColor,
+                      barrierCurve: barrierCurve,
+                      buttonRect: rect,
+                      child: routePage,
+                    );
             },
           );
         },
@@ -415,4 +431,93 @@ class _DropdownRouteResult<T> {
 
   @override
   int get hashCode => result.hashCode;
+}
+
+/// This barrier doesn't cover the dropdown button.
+/// It's used instead of the route barrier when `barrierCoversButton` is set to false.
+class _CustomModalBarrier extends StatefulWidget {
+  const _CustomModalBarrier({
+    this.animation,
+    this.barrierColor,
+    required this.barrierCurve,
+    required this.child,
+    this.buttonRect,
+  });
+
+  final Animation<double>? animation;
+  final Color? barrierColor;
+  final Curve barrierCurve;
+  final Widget child;
+  final Rect? buttonRect;
+
+  @override
+  State<_CustomModalBarrier> createState() => _CustomModalBarrierState();
+}
+
+class _CustomModalBarrierState extends State<_CustomModalBarrier> {
+  late final Animation<Color?> color;
+
+  @override
+  void initState() {
+    super.initState();
+    color = widget.animation!.drive(
+      ColorTween(
+        begin: widget.barrierColor!.withOpacity(0.0),
+        end: widget.barrierColor,
+      ).chain(CurveTween(curve: widget.barrierCurve)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
+    return Stack(
+      children: [
+        ValueListenableBuilder(
+          valueListenable: color,
+          builder: (BuildContext context, Color? value, Widget? child) {
+            return CustomPaint(
+              painter: _DropdownBarrierPainter(
+                buttonRect: widget.buttonRect,
+                barrierColor: value,
+                pageSize: size,
+              ),
+            );
+          },
+        ),
+        widget.child,
+      ],
+    );
+  }
+}
+
+class _DropdownBarrierPainter extends CustomPainter {
+  const _DropdownBarrierPainter({
+    this.buttonRect,
+    this.barrierColor,
+    required this.pageSize,
+  });
+
+  final Rect? buttonRect;
+  final Color? barrierColor;
+  final Size pageSize;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (barrierColor != null && buttonRect != null) {
+      final Rect rect = Rect.fromLTRB(
+          -buttonRect!.left, -buttonRect!.top, pageSize.width, pageSize.height);
+      canvas.saveLayer(rect, Paint());
+      canvas.drawRect(rect, Paint()..color = barrierColor!);
+      canvas.drawRect(buttonRect!, Paint()..blendMode = BlendMode.clear);
+      canvas.restore();
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DropdownBarrierPainter oldPainter) {
+    return oldPainter.buttonRect != buttonRect ||
+        oldPainter.barrierColor != barrierColor;
+  }
 }
