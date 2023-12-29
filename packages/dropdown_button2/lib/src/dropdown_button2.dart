@@ -115,6 +115,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
+    this.altBarrierColor,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -161,6 +162,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
+    this.altBarrierColor,
     this.barrierLabel,
     required InputDecoration inputDecoration,
     required bool isEmpty,
@@ -347,6 +349,12 @@ class DropdownButton2<T> extends StatefulWidget {
   /// be transparent.
   final Color? barrierColor;
 
+  /// The color to use for the modal barrier. This barrier doesn't cover the
+  /// dropdown button like barrier color. Overrides route barrier.
+  ///
+  /// When set, [barrierColor] have not effect.
+  final Color? altBarrierColor;
+
   /// The semantic label used for a dismissible barrier.
   ///
   /// If the barrier is dismissible, this label will be read out if
@@ -521,9 +529,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           InheritedTheme.capture(from: context, to: navigator.context),
       style: _textStyle!,
       barrierDismissible: widget.barrierDismissible,
-      barrierColor: widget.barrierColor,
+      barrierColor: widget.altBarrierColor != null ? null : widget.barrierColor,
       barrierLabel: widget.barrierLabel ??
           MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      altBarrierColor: widget.altBarrierColor,
       parentFocusNode: _focusNode,
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: _dropdownStyle,

@@ -9,6 +9,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.capturedThemes,
     required this.style,
     required this.barrierDismissible,
+    required this.altBarrierColor,
     this.barrierColor,
     this.barrierLabel,
     required this.parentFocusNode,
@@ -47,14 +48,15 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   @override
   final Color? barrierColor;
 
+  final Color? altBarrierColor;
+
   @override
   final String? barrierLabel;
 
   final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, _, __) {
     return FocusScope.withExternalFocusNode(
       focusScopeNode: _childNode,
       parentNode: parentFocusNode,
@@ -72,7 +74,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
           return ValueListenableBuilder<Rect?>(
             valueListenable: buttonRect,
             builder: (BuildContext context, Rect? rect, _) {
-              return _DropdownRoutePage<T>(
+              final routePage =  _DropdownRoutePage<T>(
                 route: this,
                 constraints: actualConstraints,
                 mediaQueryPadding: mediaQueryPadding,
@@ -81,6 +83,13 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
                 capturedThemes: capturedThemes,
                 style: style,
                 enableFeedback: enableFeedback,
+              );
+              return _CustomModalBarrier(
+                animation: animation,
+                barrierColor: altBarrierColor,
+                barrierCurve: barrierCurve,
+                buttonRect: rect,
+                child: routePage,
               );
             },
           );
@@ -408,4 +417,96 @@ class _DropdownRouteResult<T> {
 
   @override
   int get hashCode => result.hashCode;
+}
+
+
+class _CustomModalBarrier extends StatefulWidget {
+  const _CustomModalBarrier({
+    this.animation,
+    this.barrierColor,
+    required this.barrierCurve,
+    required this.child,
+    this.buttonRect,
+  });
+
+  final Animation<double>? animation;
+  final Color? barrierColor;
+  final Curve barrierCurve;
+  final Widget child;
+  final Rect? buttonRect;
+
+  @override
+  State<_CustomModalBarrier> createState() => _CustomModalBarrierState();
+}
+
+class _CustomModalBarrierState extends State<_CustomModalBarrier> {
+  late Animation<Color?>? color;
+
+  @override
+  void initState() {
+    super.initState();
+    color = widget.animation?.drive(
+      ColorTween(
+        begin: Colors.transparent,
+        end: widget.barrierColor,
+      ).chain(CurveTween(curve: widget.barrierCurve)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (color == null) {
+      //if animation is null, we don't want to display barrier that animations ugly
+      return widget.child;
+    }
+
+    final size = MediaQuery.of(context).size;
+
+    return Stack(
+      children: [
+        ValueListenableBuilder(
+          valueListenable: color!,
+          builder: (BuildContext context, Color? value, Widget? child) {
+            return CustomPaint(
+              painter: _DropdownBarrierPainter(
+                buttonRect: widget.buttonRect,
+                barrierColor: value,
+                pageSize: size,
+              ),
+            );
+          },
+        ),
+        widget.child,
+      ],
+    );
+  }
+}
+
+class _DropdownBarrierPainter extends CustomPainter {
+  const _DropdownBarrierPainter({
+    this.buttonRect,
+    this.barrierColor,
+    required this.pageSize,
+  });
+
+  final Rect? buttonRect;
+  final Color? barrierColor;
+  final Size pageSize;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (barrierColor != null && buttonRect != null) {
+      final Rect rect = Rect.fromLTRB(-buttonRect!.left, -buttonRect!.top, pageSize.width, pageSize.height);
+      canvas.saveLayer(rect, Paint());
+      canvas.drawRect(rect, Paint()..color = barrierColor!);
+      canvas.drawRect(buttonRect!, Paint()..blendMode = BlendMode.clear);
+      canvas.restore();
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DropdownBarrierPainter oldPainter) {
+    return oldPainter.buttonRect != buttonRect ||
+        oldPainter.barrierColor != barrierColor;
+  }
 }
