@@ -115,7 +115,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
-    this.altBarrierColor,
+    this.barrierCoversButton = true,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -162,7 +162,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierColor,
-    this.altBarrierColor,
+    this.barrierCoversButton = true,
     this.barrierLabel,
     required InputDecoration inputDecoration,
     required bool isEmpty,
@@ -349,17 +349,16 @@ class DropdownButton2<T> extends StatefulWidget {
   /// be transparent.
   final Color? barrierColor;
 
-  /// The color to use for the modal barrier. This barrier doesn't cover the
-  /// dropdown button like barrier color. Overrides route barrier.
-  ///
-  /// When set, [barrierColor] have not effect.
-  final Color? altBarrierColor;
-
   /// The semantic label used for a dismissible barrier.
   ///
   /// If the barrier is dismissible, this label will be read out if
   /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
   final String? barrierLabel;
+
+  /// Specifies whether the barrier color should cover the dropdown button or not.
+  ///
+  /// Defaults to true.
+  final bool barrierCoversButton;
 
   final InputDecoration? _inputDecoration;
 
@@ -529,10 +528,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
           InheritedTheme.capture(from: context, to: navigator.context),
       style: _textStyle!,
       barrierDismissible: widget.barrierDismissible,
-      barrierColor: widget.altBarrierColor != null ? null : widget.barrierColor,
+      barrierColor: widget.barrierColor,
       barrierLabel: widget.barrierLabel ??
           MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      altBarrierColor: widget.altBarrierColor,
+      barrierCoversButton: widget.barrierCoversButton,
       parentFocusNode: _focusNode,
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: _dropdownStyle,
