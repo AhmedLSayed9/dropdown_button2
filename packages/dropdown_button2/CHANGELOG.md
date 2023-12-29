@@ -1,3 +1,8 @@
+## 3.0.0-beta.10
+
+- Add the possibility to display a dropdown menu centered through `DropdownDirection.center`.
+- Add `barrierCoversButton` property, used to specify whether the modal barrier should cover the dropdown button or not.
+
 ## 3.0.0-beta.9
 
 - Update DropdownItem to respect intrinsicHeight.
