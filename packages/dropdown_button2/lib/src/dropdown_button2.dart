@@ -355,7 +355,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
   final String? barrierLabel;
 
-  /// Specifies whether the barrier color should cover the dropdown button or not.
+  /// Specifies whether the modal barrier should cover the dropdown button or not.
   ///
   /// Defaults to true.
   final bool barrierCoversButton;
