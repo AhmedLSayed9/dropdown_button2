@@ -20,7 +20,7 @@ class _SearchExampleState extends State<SearchExample> {
     'B_Item4',
   ];
 
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
   final TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -55,11 +55,9 @@ class _SearchExampleState extends State<SearchExample> {
                       ),
                     ))
                 .toList(),
-            value: selectedValue,
+            valueListenable: valueListenable,
             onChanged: (value) {
-              setState(() {
-                selectedValue = value;
-              });
+              valueListenable.value = value;
             },
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.symmetric(horizontal: 16),

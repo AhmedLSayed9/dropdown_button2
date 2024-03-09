@@ -10,12 +10,13 @@ class MultiSelectExample extends StatefulWidget {
 
 class _MultiSelectExampleState extends State<MultiSelectExample> {
   final List<String> items = [
+    'All',
     'Item1',
     'Item2',
     'Item3',
     'Item4',
   ];
-  List<String> selectedItems = [];
+  final multiValueListenable = ValueNotifier<List<String>>([]);
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +38,21 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
                 height: 40,
                 //disable default onTap to avoid closing menu when selecting an item
                 enabled: false,
-                child: StatefulBuilder(
-                  builder: (context, menuSetState) {
-                    final isSelected = selectedItems.contains(item);
+                child: ValueListenableBuilder<List<String>>(
+                  valueListenable: multiValueListenable,
+                  builder: (context, multiValue, _) {
+                    final isSelected = multiValue.contains(item);
                     return InkWell(
                       onTap: () {
-                        isSelected
-                            ? selectedItems.remove(item)
-                            : selectedItems.add(item);
-                        //This rebuilds the StatefulWidget to update the button's text
-                        setState(() {});
-                        //This rebuilds the dropdownMenu Widget to update the check mark
-                        menuSetState(() {});
+                        if (item == 'All') {
+                          isSelected
+                              ? multiValueListenable.value = []
+                              : multiValueListenable.value = List.from(items);
+                        } else {
+                          multiValueListenable.value = isSelected
+                              ? ([...multiValue]..remove(item))
+                              : [...multiValue, item];
+                        }
                       },
                       child: Container(
                         height: double.infinity,
@@ -76,23 +80,28 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
                 ),
               );
             }).toList(),
-            //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
-            value: selectedItems.isEmpty ? null : selectedItems.last,
+            multiValueListenable: multiValueListenable,
             onChanged: (value) {},
             selectedItemBuilder: (context) {
               return items.map(
                 (item) {
-                  return Container(
-                    alignment: AlignmentDirectional.center,
-                    child: Text(
-                      selectedItems.join(', '),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      maxLines: 1,
-                    ),
-                  );
+                  return ValueListenableBuilder<List<String>>(
+                      valueListenable: multiValueListenable,
+                      builder: (context, multiValue, _) {
+                        return Container(
+                          alignment: AlignmentDirectional.center,
+                          child: Text(
+                            multiValue
+                                .where((item) => item != 'All')
+                                .join(', '),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        );
+                      });
                 },
               ).toList();
             },

@@ -61,4 +61,50 @@ extension ExtendedIterable<E> on Iterable<E> {
     var i = 0;
     return map((e) => f(e, i++));
   }
+
+  /// The last element of this iterable, or `null` if the iterable is empty.
+  ///
+  // TODO(Ahmed): use lastOrNull from Flutter [Dart>=v3.0.0].
+  E? get lastOrNull {
+    if (isEmpty) {
+      return null;
+    }
+    return last;
+  }
+}
+
+void _uniqueValueAssert<T>(
+  List<DropdownItem<T>>? items,
+  ValueListenable<T?>? valueListenable,
+  ValueListenable<List<T>>? multiValueListenable,
+) {
+  if (items == null || items.isEmpty) {
+    return;
+  }
+
+  String assertMessage(T value) {
+    return "There should be exactly one item with [DropdownButton]'s value: "
+        '$value. \n'
+        'Either zero or 2 or more [DropdownItem]s were detected '
+        'with the same value';
+  }
+
+  assert(
+    valueListenable?.value == null ||
+        items.where((DropdownItem<T> item) {
+              return item.value == valueListenable!.value;
+            }).length ==
+            1,
+    assertMessage(valueListenable!.value as T),
+  );
+
+  final currentMultiValue = multiValueListenable?.value.lastOrNull;
+  assert(
+    currentMultiValue == null ||
+        items.where((DropdownItem<T> item) {
+              return item.value == currentMultiValue;
+            }).length ==
+            1,
+    assertMessage(currentMultiValue),
+  );
 }

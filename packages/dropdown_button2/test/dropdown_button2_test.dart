@@ -7,7 +7,8 @@ void main() {
     'Button and Menu Focus',
     () {
       final List<int> menuItems = List<int>.generate(10, (int index) => index);
-      final value = menuItems.first;
+      final valueListenable = ValueNotifier(menuItems.first);
+      final value = valueListenable.value;
 
       final findDropdownButton = find.byType(DropdownButton2<int>);
       final findDropdownButtonFormField =
@@ -25,7 +26,7 @@ void main() {
             home: Scaffold(
               body: Center(
                 child: DropdownButton2<int>(
-                  value: value,
+                  valueListenable: valueListenable,
                   items: menuItems.map<DropdownItem<int>>((int item) {
                     return DropdownItem<int>(
                       value: item,
@@ -62,7 +63,7 @@ void main() {
             home: Scaffold(
               body: Center(
                 child: DropdownButton2<int>(
-                  value: value,
+                  valueListenable: valueListenable,
                   items: menuItems.map<DropdownItem<int>>((int item) {
                     return DropdownItem<int>(
                       value: item,
@@ -107,7 +108,7 @@ void main() {
                 child: Form(
                   key: formKey,
                   child: DropdownButtonFormField2<int>(
-                    value: value,
+                    valueListenable: valueListenable,
                     items: menuItems.map<DropdownItem<int>>((int item) {
                       return DropdownItem<int>(
                         value: item,

@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
     'Item7',
     'Item8',
   ];
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ))
                 .toList(),
-            value: selectedValue,
-            onChanged: (String? value) {
-              setState(() {
-                selectedValue = value;
-              });
+            valueListenable: valueListenable,
+            onChanged: (value) {
+              valueListenable.value = value;
             },
             buttonStyleData: ButtonStyleData(
               height: 50,

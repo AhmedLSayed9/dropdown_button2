@@ -19,7 +19,7 @@ class _FewStylingExampleState extends State<FewStylingExample> {
     'Item7',
     'Item8',
   ];
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +66,9 @@ class _FewStylingExampleState extends State<FewStylingExample> {
                       ),
                     ))
                 .toList(),
-            value: selectedValue,
+            valueListenable: valueListenable,
             onChanged: (value) {
-              setState(() {
-                selectedValue = value;
-              });
+              valueListenable.value = value;
             },
             buttonStyleData: ButtonStyleData(
               height: 50,

@@ -13,8 +13,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
     'Male',
     'Female',
   ];
-
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -65,6 +64,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                           ),
                         ))
                     .toList(),
+                valueListenable: valueListenable,
                 validator: (value) {
                   if (value == null) {
                     return 'Please select gender.';
@@ -72,10 +72,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   return null;
                 },
                 onChanged: (value) {
-                  //Do something when selected item is changed.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
+                  valueListenable.value = value;
                 },
                 iconStyleData: const IconStyleData(
                   icon: Icon(
@@ -96,7 +93,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
               TextButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                    // Do something.
                   }
                 },
                 child: const Text('Submit Button'),

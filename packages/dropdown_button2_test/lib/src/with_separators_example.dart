@@ -15,7 +15,7 @@ class _WithSeparatorsExampleState extends State<WithSeparatorsExample> {
     'Item3',
     'Item4',
   ];
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +53,9 @@ class _WithSeparatorsExampleState extends State<WithSeparatorsExample> {
                 child: Divider(),
               ),
             ),
-            value: selectedValue,
-            onChanged: (String? value) {
-              setState(() {
-                selectedValue = value;
-              });
+            valueListenable: valueListenable,
+            onChanged: (value) {
+              valueListenable.value = value;
             },
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.symmetric(horizontal: 16),

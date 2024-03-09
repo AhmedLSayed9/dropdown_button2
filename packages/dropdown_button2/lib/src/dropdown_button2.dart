@@ -48,7 +48,7 @@ typedef SearchMatchFn<T> = bool Function(
 /// One ancestor must be a [Material] widget and typically this is
 /// provided by the app's [Scaffold].
 ///
-/// The type `T` is the type of the [value] that each dropdown item represents.
+/// The type `T` is the type of the value that each dropdown item represents.
 /// All the entries in a given menu must represent values with consistent types.
 /// Typically, an enum is used. Each [DropdownItem] in [items] must be
 /// specialized with that same type argument.
@@ -76,22 +76,24 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Creates a DropdownButton2.
   /// It's customizable DropdownButton with steady dropdown menu and many other features.
   ///
-  /// The [items] must have distinct values. If [value] isn't null then it
-  /// must be equal to one of the [DropdownItem] values. If [items] or
-  /// [onChanged] is null, the button will be disabled, the down arrow
+  /// The [items] must have distinct values. If [valueListenable] isn't null then its value
+  /// must be equal to one of the [DropdownItem] values. If [multiValueListenable] isn't null
+  /// then its value must be equal to one or more of the [DropdownItem] values.
+  /// If [items] or [onChanged] is null, the button will be disabled, the down arrow
   /// will be greyed out.
   ///
-  /// If [value] is null and the button is enabled, [hint] will be displayed
+  /// If no [DropdownItem] is selected and the button is enabled, [hint] will be displayed
   /// if it is non-null.
   ///
-  /// If [value] is null and the button is disabled, [disabledHint] will be displayed
+  /// If no [DropdownItem] is selected and the button is disabled, [disabledHint] will be displayed
   /// if it is non-null. If [disabledHint] is null, then [hint] will be displayed
   /// if it is non-null.
-  DropdownButton2({
+  const DropdownButton2({
     super.key,
     required this.items,
     this.selectedItemBuilder,
-    this.value,
+    this.valueListenable,
+    this.multiValueListenable,
     this.hint,
     this.disabledHint,
     this.onChanged,
@@ -119,27 +121,19 @@ class DropdownButton2<T> extends StatefulWidget {
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
-          items == null ||
-              items.isEmpty ||
-              value == null ||
-              items.where((DropdownItem<T> item) {
-                    return item.value == value;
-                  }).length ==
-                  1,
-          "There should be exactly one item with [DropdownButton]'s value: "
-          '$value. \n'
-          'Either zero or 2 or more [DropdownItem]s were detected '
-          'with the same value',
+          valueListenable == null || multiValueListenable == null,
+          'Only one of valueListenable or multiValueListenable can be used.',
         ),
         _inputDecoration = null,
         _isEmpty = false,
         _isFocused = false;
 
-  DropdownButton2._formField({
+  const DropdownButton2._formField({
     super.key,
     required this.items,
     this.selectedItemBuilder,
-    this.value,
+    required this.valueListenable,
+    required this.multiValueListenable,
     this.hint,
     this.disabledHint,
     required this.onChanged,
@@ -167,20 +161,7 @@ class DropdownButton2<T> extends StatefulWidget {
     required InputDecoration inputDecoration,
     required bool isEmpty,
     required bool isFocused,
-  })  : assert(
-          items == null ||
-              items.isEmpty ||
-              value == null ||
-              items.where((DropdownItem<T> item) {
-                    return item.value == value;
-                  }).length ==
-                  1,
-          "There should be exactly one item with [DropdownButtonFormField]'s value: "
-          '$value. \n'
-          'Either zero or 2 or more [DropdownItem]s were detected '
-          'with the same value',
-        ),
-        _inputDecoration = inputDecoration,
+  })  : _inputDecoration = inputDecoration,
         _isEmpty = isEmpty,
         _isFocused = isFocused;
 
@@ -206,31 +187,43 @@ class DropdownButton2<T> extends StatefulWidget {
   /// {@end-tool}
   ///
   /// If this callback is null, the [DropdownItem] from [items]
-  /// that matches [value] will be displayed.
+  /// that matches the selected [DropdownItem]'s value will be displayed.
   final DropdownButtonBuilder? selectedItemBuilder;
 
-  /// The value of the currently selected [DropdownItem].
+  /// A [ValueListenable] that represents the value of the currently selected [DropdownItem].
+  /// It holds a value of type `T?`, where `T` represents the type of [DropdownItem]'s value.
   ///
-  /// If [value] is null and the button is enabled, [hint] will be displayed
+  /// If the value is null and the button is enabled, [hint] will be displayed
   /// if it is non-null.
   ///
-  /// If [value] is null and the button is disabled, [disabledHint] will be displayed
+  /// If the value is null and the button is disabled, [disabledHint] will be displayed
   /// if it is non-null. If [disabledHint] is null, then [hint] will be displayed
   /// if it is non-null.
-  final T? value;
+  final ValueListenable<T?>? valueListenable;
+
+  /// A [ValueListenable] that represents a list of the currently selected [DropdownItem]s.
+  /// It holds a list of type `List<T>`, where `T` represents the type of [DropdownItem]'s value.
+  ///
+  /// If the list is empty and the button is enabled, [hint] will be displayed
+  /// if it is non-null.
+  ///
+  /// If the list is empty and the button is disabled, [disabledHint] will be displayed
+  /// if it is non-null. If [disabledHint] is null, then [hint] will be displayed
+  /// if it is non-null.
+  final ValueListenable<List<T>>? multiValueListenable;
 
   /// A placeholder widget that is displayed by the dropdown button.
   ///
-  /// If [value] is null and the dropdown is enabled ([items] and [onChanged] are non-null),
+  /// If no [DropdownItem] is selected and the dropdown is enabled ([items] and [onChanged] are non-null),
   /// this widget is displayed as a placeholder for the dropdown button's value.
   ///
-  /// If [value] is null and the dropdown is disabled and [disabledHint] is null,
+  /// If no [DropdownItem] is selected and the dropdown is disabled and [disabledHint] is null,
   /// this widget is used as the placeholder.
   final Widget? hint;
 
   /// A preferred placeholder widget that is displayed when the dropdown is disabled.
   ///
-  /// If [value] is null, the dropdown is disabled ([items] or [onChanged] is null),
+  /// If no [DropdownItem] is selected and the dropdown is disabled ([items] or [onChanged] is null),
   /// this widget is displayed as a placeholder for the dropdown button's value.
   final Widget? disabledHint;
 
@@ -409,6 +402,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _updateSelectedIndex();
+    widget.valueListenable?.addListener(_updateSelectedIndex);
+    widget.multiValueListenable?.addListener(_updateSelectedIndex);
     if (widget.focusNode == null) {
       _internalNode ??= _createFocusNode();
     }
@@ -425,11 +420,24 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    widget.valueListenable?.removeListener(_updateSelectedIndex);
+    widget.multiValueListenable?.removeListener(_updateSelectedIndex);
     _removeDropdownRoute();
     _internalNode?.dispose();
     _isMenuOpen.dispose();
     _rect.dispose();
     super.dispose();
+  }
+
+  T? get _currentValue {
+    if (widget.valueListenable != null) {
+      return widget.valueListenable!.value;
+    }
+    if (widget.multiValueListenable != null) {
+      //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
+      return widget.multiValueListenable!.value.lastOrNull;
+    }
+    return null;
   }
 
   void _removeDropdownRoute() {
@@ -444,27 +452,34 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (widget.focusNode == null) {
       _internalNode ??= _createFocusNode();
     }
-    _updateSelectedIndex();
+    if (widget.valueListenable != oldWidget.valueListenable ||
+        widget.multiValueListenable != oldWidget.multiValueListenable) {
+      _updateSelectedIndex();
+      oldWidget.valueListenable?.removeListener(_updateSelectedIndex);
+      oldWidget.multiValueListenable?.removeListener(_updateSelectedIndex);
+      widget.valueListenable?.addListener(_updateSelectedIndex);
+      widget.multiValueListenable?.addListener(_updateSelectedIndex);
+    }
   }
 
   void _updateSelectedIndex() {
     if (widget.items == null ||
         widget.items!.isEmpty ||
-        (widget.value == null &&
+        (_currentValue == null &&
             widget.items!
                 .where((DropdownItem<T> item) =>
-                    item.enabled && item.value == widget.value)
+                    item.enabled && item.value == _currentValue)
                 .isEmpty)) {
       _selectedIndex = null;
       return;
     }
 
     assert(widget.items!
-            .where((DropdownItem<T> item) => item.value == widget.value)
+            .where((DropdownItem<T> item) => item.value == _currentValue)
             .length ==
         1);
     for (int itemIndex = 0; itemIndex < widget.items!.length; itemIndex++) {
-      if (widget.items![itemIndex].value == widget.value) {
+      if (widget.items![itemIndex].value == _currentValue) {
         _selectedIndex = itemIndex;
         return;
       }
@@ -684,40 +699,49 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     final buttonHeight =
         _buttonStyle?.height ?? (widget.isDense ? _denseButtonHeight : null);
 
-    Widget item = buttonItems[_selectedIndex ?? hintIndex ?? 0];
-    if (item is DropdownItem) {
-      item = item.copyWith(alignment: widget.alignment);
-    }
+    final Widget innerItemsWidget = buttonItems.isEmpty
+        ? const SizedBox.shrink()
+        : ValueListenableBuilder(
+            valueListenable: widget.valueListenable ??
+                widget.multiValueListenable ??
+                ValueNotifier(null),
+            builder: (context, multiValue, _) {
+              _uniqueValueAssert(
+                widget.items,
+                widget.valueListenable,
+                widget.multiValueListenable,
+              );
+              Widget item = buttonItems[_selectedIndex ?? hintIndex ?? 0];
+              if (item is DropdownItem) {
+                item = item.copyWith(alignment: widget.alignment);
+              }
 
-    // If value is null (then _selectedIndex is null) then we
-    // display the hint or nothing at all.
-    final Widget innerItemsWidget;
-    if (buttonItems.isEmpty) {
-      innerItemsWidget = const SizedBox.shrink();
-    } else {
-      // When both buttonHeight & buttonWidth are specified, we don't have to use IndexedStack,
-      // which enhances the performance when dealing with big items list.
-      // Note: Both buttonHeight & buttonWidth must be specified to avoid changing
-      // button's size when selecting different items, which is a bad UX.
-      innerItemsWidget = buttonHeight != null && _buttonStyle?.width != null
-          ? Align(
-              alignment: widget.alignment,
-              child: item,
-            )
-          : IndexedStack(
-              index: _selectedIndex ?? hintIndex,
-              alignment: widget.alignment,
-              children: buttonHeight != null
-                  ? buttonItems.mapIndexed((item, index) => item).toList()
-                  // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
-                  : buttonItems.mapIndexed((item, index) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[item],
-                      );
-                    }).toList(),
-            );
-    }
+              // When both buttonHeight & buttonWidth are specified, we don't have to use IndexedStack,
+              // which enhances the performance when dealing with big items list.
+              // Note: Both buttonHeight & buttonWidth must be specified to avoid changing
+              // button's size when selecting different items, which is a bad UX.
+              return buttonHeight != null && _buttonStyle?.width != null
+                  ? Align(
+                      alignment: widget.alignment,
+                      child: item,
+                    )
+                  : IndexedStack(
+                      index: _selectedIndex ?? hintIndex,
+                      alignment: widget.alignment,
+                      children: buttonHeight != null
+                          ? buttonItems
+                              .mapIndexed((item, index) => item)
+                              .toList()
+                          // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
+                          : buttonItems.mapIndexed((item, index) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[item],
+                              );
+                            }).toList(),
+                    );
+            },
+          );
 
     Widget result = DefaultTextStyle(
       style: _enabled
@@ -869,7 +893,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     this.dropdownButtonKey,
     required List<DropdownItem<T>>? items,
     DropdownButtonBuilder? selectedItemBuilder,
-    T? value,
+    ValueListenable<T?>? valueListenable,
+    ValueListenable<List<T>>? multiValueListenable,
     Widget? hint,
     Widget? disabledHint,
     this.onChanged,
@@ -897,21 +922,14 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Color? barrierColor,
     String? barrierLabel,
   })  : assert(
-          items == null ||
-              items.isEmpty ||
-              value == null ||
-              items.where((DropdownItem<T> item) {
-                    return item.value == value;
-                  }).length ==
-                  1,
-          "There should be exactly one item with [DropdownButton]'s value: "
-          '$value. \n'
-          'Either zero or 2 or more [DropdownItem]s were detected '
-          'with the same value',
+          valueListenable == null || multiValueListenable == null,
+          'Only one of valueListenable or multiValueListenable can be used.',
         ),
         decoration = _getInputDecoration(decoration, buttonStyleData),
         super(
-          initialValue: value,
+          initialValue: valueListenable != null
+              ? valueListenable.value
+              : multiValueListenable?.value.lastOrNull,
           autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
           builder: (FormFieldState<T> field) {
             final _DropdownButtonFormFieldState<T> state =
@@ -955,7 +973,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         key: dropdownButtonKey,
                         items: items,
                         selectedItemBuilder: selectedItemBuilder,
-                        value: state.value,
+                        valueListenable: valueListenable,
+                        multiValueListenable: multiValueListenable,
                         hint: hint,
                         disabledHint: disabledHint,
                         onChanged: onChanged == null ? null : state.didChange,
