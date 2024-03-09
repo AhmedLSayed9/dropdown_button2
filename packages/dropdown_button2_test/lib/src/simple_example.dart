@@ -15,7 +15,7 @@ class _SimpleExampleState extends State<SimpleExample> {
     'Item3',
     'Item4',
   ];
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +43,9 @@ class _SimpleExampleState extends State<SimpleExample> {
                       ),
                     ))
                 .toList(),
-            value: selectedValue,
+            valueListenable: valueListenable,
             onChanged: (String? value) {
-              setState(() {
-                selectedValue = value;
-              });
+              valueListenable.value = value;
             },
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.symmetric(horizontal: 16),
