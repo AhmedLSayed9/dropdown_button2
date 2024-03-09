@@ -462,7 +462,7 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
     super.initState();
     color = widget.animation!.drive(
       ColorTween(
-        begin: widget.barrierColor!.withOpacity(0.0),
+        begin: widget.barrierColor?.withOpacity(0.0),
         end: widget.barrierColor,
       ).chain(CurveTween(curve: widget.barrierCurve)),
     );
