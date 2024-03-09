@@ -64,7 +64,7 @@ extension ExtendedIterable<E> on Iterable<E> {
 
   /// The last element of this iterable, or `null` if the iterable is empty.
   ///
-  /// TODO(Ahmed): use lastOrNull from Flutter [Dart>=v3.0.0].
+  // TODO(Ahmed): use lastOrNull from Flutter [Dart>=v3.0.0].
   E? get lastOrNull {
     if (isEmpty) {
       return null;
