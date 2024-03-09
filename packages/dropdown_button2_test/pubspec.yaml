@@ -10,7 +10,8 @@ dependencies:
     sdk: flutter
   meta: ^1.9.1
 
-  dropdown_button2: ^3.0.0-beta.10
+  dropdown_button2:
+    path: ../dropdown_button2
 
 dev_dependencies:
   flutter_lints: ^2.0.1

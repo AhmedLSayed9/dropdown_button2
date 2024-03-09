@@ -1,3 +1,8 @@
+## 3.0.0-beta.11
+
+- Introduce `valueListenable` and `multiValueListenable`, which replaces SetState with ValueListenable.
+- Support implementing select all option (Check multi-select example), closes #121 and #167.
+
 ## 3.0.0-beta.10
 
 - Add the possibility to display a dropdown menu centered through `DropdownDirection.center`.
