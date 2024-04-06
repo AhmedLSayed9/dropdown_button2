@@ -117,6 +117,7 @@ class DropdownStyleData {
     this.useRootNavigator = false,
     this.scrollbarTheme,
     this.openInterval = const Interval(0.25, 0.5),
+    this.dropdownBuilder,
   });
 
   /// The maximum height of the dropdown menu
@@ -188,6 +189,22 @@ class DropdownStyleData {
 
   /// The animation curve used for opening the dropdown menu (forward direction)
   final Interval openInterval;
+
+  /// A builder to customize the dropdown menu.
+  ///
+  /// Example:
+  /// ```dart
+  /// dropdownBuilder: (ctx, child) {
+  ///   return ClipRRect(
+  ///     clipBehavior: Clip.antiAlias,
+  ///     child: BackdropFilter(
+  ///       filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+  ///       child: child,
+  ///     ),
+  ///   );
+  /// },
+  /// ```
+  final DropdownBuilder? dropdownBuilder;
 }
 
 /// A class to configure the theme of the dropdown menu items.
