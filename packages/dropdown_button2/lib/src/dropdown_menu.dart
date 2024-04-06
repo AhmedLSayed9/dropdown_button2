@@ -142,6 +142,71 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
         MaterialLocalizations.of(context);
     final _DropdownRoute<T> route = widget.route;
 
+    final Widget dropdownMenu = Material(
+      type: MaterialType.transparency,
+      textStyle: route.style,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (searchData?.searchBarWidget != null) searchData!.searchBarWidget!,
+          if (_children.isEmpty && searchData?.noResultsWidget != null)
+            searchData!.noResultsWidget!
+          else
+            Flexible(
+              child: Padding(
+                padding: dropdownStyle.scrollPadding ?? EdgeInsets.zero,
+                child: ScrollConfiguration(
+                  // Dropdown menus should never overscroll or display an overscroll indicator.
+                  // Scrollbars are built-in below.
+                  // Platform must use Theme and ScrollPhysics must be Clamping.
+                  behavior: ScrollConfiguration.of(context).copyWith(
+                    scrollbars: false,
+                    overscroll: false,
+                    physics: const ClampingScrollPhysics(),
+                    platform: Theme.of(context).platform,
+                  ),
+                  child: PrimaryScrollController(
+                    controller: route.scrollController!,
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                        scrollbarTheme: dropdownStyle.scrollbarTheme,
+                      ),
+                      child: Scrollbar(
+                        thumbVisibility:
+                            // ignore: avoid_bool_literals_in_conditional_expressions
+                            _isIOS ? _iOSThumbVisibility : true,
+                        thickness: _isIOS
+                            ? _scrollbarTheme?.thickness?.resolve(_states)
+                            : null,
+                        radius: _isIOS ? _scrollbarTheme?.radius : null,
+                        child: ListView.separated(
+                          // Ensure this always inherits the PrimaryScrollController
+                          primary: true,
+                          shrinkWrap: true,
+                          padding:
+                              dropdownStyle.padding ?? kMaterialListPadding,
+                          itemCount: _children.length,
+                          itemBuilder: (context, index) => _children[index],
+                          separatorBuilder: (context, index) =>
+                              separator != null
+                                  ? SizedBox(
+                                      height: separator!.intrinsicHeight
+                                          ? null
+                                          : separator!.height,
+                                      child: separator,
+                                    )
+                                  : const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+
     return FadeTransition(
       opacity: _fadeOpacity,
       child: CustomPaint(
@@ -166,73 +231,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             borderRadius: dropdownStyle.decoration?.borderRadius
                     ?.resolve(Directionality.of(context)) ??
                 BorderRadius.zero,
-            child: Material(
-              type: MaterialType.transparency,
-              textStyle: route.style,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  if (searchData?.searchBarWidget != null)
-                    searchData!.searchBarWidget!,
-                  if (_children.isEmpty && searchData?.noResultsWidget != null)
-                    searchData!.noResultsWidget!
-                  else
-                    Flexible(
-                      child: Padding(
-                        padding: dropdownStyle.scrollPadding ?? EdgeInsets.zero,
-                        child: ScrollConfiguration(
-                          // Dropdown menus should never overscroll or display an overscroll indicator.
-                          // Scrollbars are built-in below.
-                          // Platform must use Theme and ScrollPhysics must be Clamping.
-                          behavior: ScrollConfiguration.of(context).copyWith(
-                            scrollbars: false,
-                            overscroll: false,
-                            physics: const ClampingScrollPhysics(),
-                            platform: Theme.of(context).platform,
-                          ),
-                          child: PrimaryScrollController(
-                            controller: route.scrollController!,
-                            child: Theme(
-                              data: Theme.of(context).copyWith(
-                                scrollbarTheme: dropdownStyle.scrollbarTheme,
-                              ),
-                              child: Scrollbar(
-                                thumbVisibility:
-                                    // ignore: avoid_bool_literals_in_conditional_expressions
-                                    _isIOS ? _iOSThumbVisibility : true,
-                                thickness: _isIOS
-                                    ? _scrollbarTheme?.thickness
-                                        ?.resolve(_states)
-                                    : null,
-                                radius: _isIOS ? _scrollbarTheme?.radius : null,
-                                child: ListView.separated(
-                                  // Ensure this always inherits the PrimaryScrollController
-                                  primary: true,
-                                  shrinkWrap: true,
-                                  padding: dropdownStyle.padding ??
-                                      kMaterialListPadding,
-                                  itemCount: _children.length,
-                                  itemBuilder: (context, index) =>
-                                      _children[index],
-                                  separatorBuilder: (context, index) =>
-                                      separator != null
-                                          ? SizedBox(
-                                              height: separator!.intrinsicHeight
-                                                  ? null
-                                                  : separator!.height,
-                                              child: separator,
-                                            )
-                                          : const SizedBox.shrink(),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+            child: dropdownStyle.dropdownBuilder?.call(context, dropdownMenu) ??
+                dropdownMenu,
           ),
         ),
       ),

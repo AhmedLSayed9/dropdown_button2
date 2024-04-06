@@ -32,6 +32,9 @@ const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 typedef SelectedMenuItemBuilder = Widget Function(
     BuildContext context, Widget child);
 
+/// A builder to customize the dropdown menu.
+typedef DropdownBuilder = Widget Function(BuildContext context, Widget child);
+
 /// Signature for the callback that's called when when the dropdown menu opens or closes.
 typedef OnMenuStateChangeFn = void Function(bool isOpen);
 
