@@ -131,6 +131,7 @@ customize to your needs.
 | [useRootNavigator](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/useRootNavigator.html) | Determine whether to open the dropdown menu using the root Navigator or not    | bool               |    No    |
 | [scrollbarTheme](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/scrollbarTheme.html)     | Configures the theme of the menu's scrollbar                                   | ScrollbarThemeData |    No    |
 | [openInterval](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/openInterval.html)         | The animation curve used for opening the dropdown menu (forward direction)     | Interval           |    No    |
+| [dropdownBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/dropdownBuilder.html)   | A builder to customize the dropdown menu                                       | DropdownBuilder    |    No    |
 
 #### Subclass MenuItemStyleData:
 
