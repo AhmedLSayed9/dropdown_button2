@@ -1,3 +1,7 @@
+## 3.0.0-beta.12
+
+- Add `dropdownBuilder` property for DropdownStyleData, it can be used to customize the dropdown menu.
+
 ## 3.0.0-beta.11
 
 - Introduce `valueListenable` and `multiValueListenable`, which replaces SetState with ValueListenable.
