@@ -215,7 +215,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           elevation: dropdownStyle.elevation,
           selectedIndex: route.selectedIndex,
           resize: _resize,
-          itemHeight: items[0].height,
+          itemHeight: route.itemHeight ?? items[0].height,
           dropdownDecoration: dropdownStyle.decoration,
         ),
         child: Semantics(

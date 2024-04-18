@@ -3,6 +3,7 @@ part of 'dropdown_button2.dart';
 class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   _DropdownRoute({
     required this.items,
+    required this.itemHeight,
     required this.buttonRect,
     required this.selectedIndex,
     required this.isNoSelectedItem,
@@ -29,6 +30,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final ValueNotifier<Rect?> buttonRect;
   final int selectedIndex;
   final bool isNoSelectedItem;
+  final double? itemHeight;
   final CapturedThemes capturedThemes;
   final TextStyle style;
   final FocusNode parentFocusNode;

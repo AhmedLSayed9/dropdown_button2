@@ -98,6 +98,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.valueListenable,
     this.multiValueListenable,
     this.hint,
+    this.itemHeight,
     this.disabledHint,
     this.onChanged,
     this.onMenuStateChange,
@@ -138,6 +139,7 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.valueListenable,
     required this.multiValueListenable,
     this.hint,
+    this.itemHeight,
     this.disabledHint,
     required this.onChanged,
     this.onMenuStateChange,
@@ -267,6 +269,11 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Defaults to a 0.0 width bottom border with color 0xFFBDBDBD.
   final Widget? underline;
 
+  /// Specify item height for dropdown to open even when empty.
+  ///
+  /// Defaults to a dynamic value.
+  final double? itemHeight;
+
   /// Reduce the button's height.
   ///
   /// By default this button's height is the same as its menu items' heights.
@@ -377,6 +384,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
   ButtonStyleData? get _buttonStyle => widget.buttonStyleData;
 
   IconStyleData get _iconStyle => widget.iconStyleData;
+
+  double? get _itemHeight => widget.itemHeight;
 
   DropdownStyleData get _dropdownStyle => widget.dropdownStyleData;
 
@@ -539,6 +548,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     assert(_dropdownRoute == null);
     _dropdownRoute = _DropdownRoute<T>(
       items: items,
+      itemHeight: _itemHeight,
       buttonRect: _rect,
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
@@ -627,7 +637,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   bool get _enabled =>
       widget.items != null &&
-      widget.items!.isNotEmpty &&
       widget.onChanged != null;
 
   Orientation _getOrientation(BuildContext context) {
