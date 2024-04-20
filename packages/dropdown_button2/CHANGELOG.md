@@ -1,3 +1,51 @@
+## UNRELEASED
+
+- **BREAKING**: Add `openDropdownListenable` property that can be used to programmatically open the dropdown menu.
+
+  Instead of:
+
+  ```dart
+  final dropdownKey = GlobalKey<DropdownButton2State>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children:[
+        DropdownButton2<String>(
+          // Other properties...
+          key: dropdownKey,
+        );
+        // Open the dropdown programmatically, like when another button is pressed:
+        ElevatedButton(
+          onTap: () => dropdownKey.currentState!.callTap(),
+        ),
+      ],
+    );
+  }
+  ```
+
+  do:
+
+  ```dart
+  final openDropdownListenable = ValueNotifier<Object?>(null);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children:[
+        DropdownButton2<String>(
+          // Other properties...
+          openDropdownListenable: openDropdownListenable,
+        );
+        // Open the dropdown programmatically, like when another button is pressed:
+        ElevatedButton(
+          onTap: () => openDropdownListenable.value = Object(),
+        ),
+      ],
+    );
+  }
+  ```
+
 ## 3.0.0-beta.12
 
 - Add `dropdownBuilder` property for DropdownStyleData, it can be used to customize the dropdown menu.

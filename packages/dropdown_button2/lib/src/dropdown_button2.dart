@@ -365,16 +365,21 @@ class DropdownButton2<T> extends StatefulWidget {
   /// For example:
   /// ```dart
   /// final openDropdownListenable = ValueNotifier<Object?>(null);
-  ///
-  /// DropdownButton2<String>(
-  ///   // Other properties...
-  ///   openDropdownListenable: openDropdownListenable,
-  /// );
-  ///
-  /// // Open the dropdown programmatically, like when another button is pressed.
-  /// Button(
-  ///   onTap: () => openDropdownListenable.value = Object(),
-  /// )
+  /// @override
+  /// Widget build(BuildContext context) {
+  ///   return Column(
+  ///     children:[
+  ///       DropdownButton2<String>(
+  ///         // Other properties...
+  ///         openDropdownListenable: openDropdownListenable,
+  ///       );
+  ///       // Open the dropdown programmatically, like when another button is pressed:
+  ///       ElevatedButton(
+  ///         onTap: () => openDropdownListenable.value = Object(),
+  ///       ),
+  ///     ],
+  ///   );
+  /// }
   /// ```
   final Listenable? openDropdownListenable;
 
