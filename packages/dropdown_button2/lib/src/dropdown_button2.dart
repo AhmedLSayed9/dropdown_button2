@@ -121,6 +121,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierColor,
     this.barrierLabel,
     this.barrierCoversButton = true,
+    this.openDropdownListenable,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -161,6 +162,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierColor,
     this.barrierCoversButton = true,
     this.barrierLabel,
+    this.openDropdownListenable,
     required InputDecoration inputDecoration,
     required bool isEmpty,
     required bool isFocused,
@@ -356,6 +358,31 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Defaults to true.
   final bool barrierCoversButton;
 
+  /// A [Listenable] that can be used to programmatically open the dropdown menu.
+  ///
+  /// The [openDropdownListenable] allows you to manually open the dropdown by modifying its value.
+  ///
+  /// For example:
+  /// ```dart
+  /// final openDropdownListenable = ValueNotifier<Object?>(null);
+  /// @override
+  /// Widget build(BuildContext context) {
+  ///   return Column(
+  ///     children:[
+  ///       DropdownButton2<String>(
+  ///         // Other properties...
+  ///         openDropdownListenable: openDropdownListenable,
+  ///       );
+  ///       // Open the dropdown programmatically, like when another button is pressed:
+  ///       ElevatedButton(
+  ///         onTap: () => openDropdownListenable.value = Object(),
+  ///       ),
+  ///     ],
+  ///   );
+  /// }
+  /// ```
+  final Listenable? openDropdownListenable;
+
   final InputDecoration? _inputDecoration;
 
   final bool _isEmpty;
@@ -363,11 +390,10 @@ class DropdownButton2<T> extends StatefulWidget {
   final bool _isFocused;
 
   @override
-  State<DropdownButton2<T>> createState() => DropdownButton2State<T>();
+  State<DropdownButton2<T>> createState() => _DropdownButton2State<T>();
 }
 
-// ignore: public_member_api_docs
-class DropdownButton2State<T> extends State<DropdownButton2<T>>
+class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     with WidgetsBindingObserver {
   int? _selectedIndex;
   _DropdownRoute<T>? _dropdownRoute;
@@ -407,6 +433,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     _updateSelectedIndex();
     widget.valueListenable?.addListener(_updateSelectedIndex);
     widget.multiValueListenable?.addListener(_updateSelectedIndex);
+    widget.openDropdownListenable?.addListener(_programmaticallyOpenDropdown);
     if (widget.focusNode == null) {
       _internalNode ??= _createFocusNode();
     }
@@ -425,6 +452,8 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
     WidgetsBinding.instance.removeObserver(this);
     widget.valueListenable?.removeListener(_updateSelectedIndex);
     widget.multiValueListenable?.removeListener(_updateSelectedIndex);
+    widget.openDropdownListenable
+        ?.removeListener(_programmaticallyOpenDropdown);
     _removeDropdownRoute();
     _internalNode?.dispose();
     _isMenuOpen.dispose();
@@ -463,6 +492,11 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
       widget.valueListenable?.addListener(_updateSelectedIndex);
       widget.multiValueListenable?.addListener(_updateSelectedIndex);
     }
+    if (widget.openDropdownListenable != oldWidget.openDropdownListenable) {
+      oldWidget.openDropdownListenable
+          ?.removeListener(_programmaticallyOpenDropdown);
+      widget.openDropdownListenable?.addListener(_programmaticallyOpenDropdown);
+    }
   }
 
   void _updateSelectedIndex() {
@@ -486,6 +520,12 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
         _selectedIndex = itemIndex;
         return;
       }
+    }
+  }
+
+  void _programmaticallyOpenDropdown() {
+    if (_enabled && !_isMenuOpen.value) {
+      _handleTap();
     }
   }
 
@@ -579,10 +619,6 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>>
 
     widget.onMenuStateChange?.call(true);
   }
-
-  /// Exposes the _handleTap() to Allow opening the button programmatically using GlobalKey.
-  // Note: DropdownButton2State should be public as we need typed access to it through key.
-  void callTap() => _handleTap();
 
   // When isDense is true, reduce the height of this button from _kMenuItemHeight to
   // _kDenseButtonHeight, but don't make it smaller than the text that it contains.
@@ -893,7 +929,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   /// `autofocus`, and `decoration`  parameters must not be null.
   DropdownButtonFormField2({
     super.key,
-    this.dropdownButtonKey,
     required List<DropdownItem<T>>? items,
     DropdownButtonBuilder? selectedItemBuilder,
     ValueListenable<T?>? valueListenable,
@@ -924,6 +959,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     bool barrierDismissible = true,
     Color? barrierColor,
     String? barrierLabel,
+    Listenable? openDropdownListenable,
   })  : assert(
           valueListenable == null || multiValueListenable == null,
           'Only one of valueListenable or multiValueListenable can be used.',
@@ -973,7 +1009,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         .copyWith(errorText: field.errorText),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2<T>._formField(
-                        key: dropdownButtonKey,
                         items: items,
                         selectedItemBuilder: selectedItemBuilder,
                         valueListenable: valueListenable,
@@ -1000,6 +1035,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         barrierDismissible: barrierDismissible,
                         barrierColor: barrierColor,
                         barrierLabel: barrierLabel,
+                        openDropdownListenable: openDropdownListenable,
                         inputDecoration: effectiveDecoration,
                         isEmpty: isEmpty,
                         isFocused: Focus.of(context).hasFocus,
@@ -1011,12 +1047,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
             );
           },
         );
-
-  /// The key of DropdownButton2 child widget
-  ///
-  /// This allows accessing DropdownButton2State.
-  /// It is useful for some cases, i.e: calling callTap() method to open the menu programmatically
-  final Key? dropdownButtonKey;
 
   /// {@macro flutter.material.dropdownButton.onChanged}
   final ValueChanged<T?>? onChanged;
