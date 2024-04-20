@@ -1,4 +1,4 @@
-## UNRELEASED
+## 3.0.0-beta.13
 
 - **BREAKING**: Add `openDropdownListenable` property that can be used to programmatically open the dropdown menu.
 
