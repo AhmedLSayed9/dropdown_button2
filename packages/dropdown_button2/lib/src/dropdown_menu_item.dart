@@ -175,6 +175,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
     final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
 
     dropdownItem.onTap?.call();
+    widget.route.onChanged?.call(dropdownItem.value);
 
     if (dropdownItem.closeOnTap) {
       Navigator.pop(

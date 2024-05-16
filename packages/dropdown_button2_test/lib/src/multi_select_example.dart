@@ -36,44 +36,30 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
               return DropdownItem(
                 value: item,
                 height: 40,
-                //disable default onTap to avoid closing menu when selecting an item
-                enabled: false,
+                closeOnTap: false,
                 child: ValueListenableBuilder<List<String>>(
                   valueListenable: multiValueListenable,
                   builder: (context, multiValue, _) {
                     final isSelected = multiValue.contains(item);
-                    return InkWell(
-                      onTap: () {
-                        if (item == 'All') {
-                          isSelected
-                              ? multiValueListenable.value = []
-                              : multiValueListenable.value = List.from(items);
-                        } else {
-                          multiValueListenable.value = isSelected
-                              ? ([...multiValue]..remove(item))
-                              : [...multiValue, item];
-                        }
-                      },
-                      child: Container(
-                        height: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          children: [
-                            if (isSelected)
-                              const Icon(Icons.check_box_outlined)
-                            else
-                              const Icon(Icons.check_box_outline_blank),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
+                    return Container(
+                      height: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          if (isSelected)
+                            const Icon(Icons.check_box_outlined)
+                          else
+                            const Icon(Icons.check_box_outline_blank),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -81,7 +67,19 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
               );
             }).toList(),
             multiValueListenable: multiValueListenable,
-            onChanged: (value) {},
+            onChanged: (value) {
+              final multiValue = multiValueListenable.value;
+              final isSelected = multiValue.contains(value);
+              if (value == 'All') {
+                isSelected
+                    ? multiValueListenable.value = []
+                    : multiValueListenable.value = List.from(items);
+              } else {
+                multiValueListenable.value = isSelected
+                    ? ([...multiValue]..remove(value))
+                    : [...multiValue, value!];
+              }
+            },
             selectedItemBuilder: (context) {
               return items.map(
                 (item) {
