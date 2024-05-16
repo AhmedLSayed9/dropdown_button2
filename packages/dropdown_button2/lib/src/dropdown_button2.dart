@@ -582,6 +582,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       buttonRect: _rect,
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
+      onChanged: widget.onChanged,
       capturedThemes:
           InheritedTheme.capture(from: context, to: navigator.context),
       style: _textStyle!,
@@ -611,10 +612,6 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       _removeDropdownRoute();
       _isMenuOpen.value = false;
       widget.onMenuStateChange?.call(false);
-      if (!mounted || newValue == null) {
-        return;
-      }
-      widget.onChanged?.call(newValue.result);
     });
 
     widget.onMenuStateChange?.call(true);
