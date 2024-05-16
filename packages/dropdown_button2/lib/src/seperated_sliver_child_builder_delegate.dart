@@ -65,7 +65,8 @@ class SeparatedSliverChildBuilderDelegate extends SliverChildBuilderDelegate {
           },
         );
 
-  // Helper method to compute the actual child count.
+  /// Computes the actual child count from the given item count, taking into account separators.
+  /// It returns the actual child count, excluding separators.
   static int computeActualChildCount(int itemCount) {
     return math.max(0, itemCount * 2 - 1);
   }
