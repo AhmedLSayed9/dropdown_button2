@@ -122,6 +122,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierLabel,
     this.barrierCoversButton = true,
     this.openDropdownListenable,
+    this.dropdownOnlyBeneathButton = false,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -163,6 +164,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierCoversButton = true,
     this.barrierLabel,
     this.openDropdownListenable,
+    this.dropdownOnlyBeneathButton = false,
     required InputDecoration inputDecoration,
     required bool isEmpty,
     required bool isFocused,
@@ -383,6 +385,12 @@ class DropdownButton2<T> extends StatefulWidget {
   /// ```
   final Listenable? openDropdownListenable;
 
+  /// If set, the dropdown menu will only be displayed beneath the button,
+  /// even if it means to make the menu scrollable.
+  ///
+  /// Defaults to false
+  final bool dropdownOnlyBeneathButton;
+
   final InputDecoration? _inputDecoration;
 
   final bool _isEmpty;
@@ -597,6 +605,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       menuItemStyle: _menuItemStyle,
       searchData: _searchData,
       dropdownSeparator: separator,
+      dropdownOnlyBeneathButton: widget.dropdownOnlyBeneathButton,
     );
 
     _isMenuOpen.value = true;
