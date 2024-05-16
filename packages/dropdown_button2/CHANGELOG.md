@@ -1,3 +1,7 @@
+## 3.0.0-beta.15
+
+- Always call `onChanged` when tapping enabled item, closes #275.
+
 ## 3.0.0-beta.14
 
 - Optimize scroll performance when dealing with large items list.
