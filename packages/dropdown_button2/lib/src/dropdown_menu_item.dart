@@ -100,6 +100,9 @@ class _DropdownMenuItemContainer extends StatelessWidget {
   /// If set to true, then this item's height will vary according to its
   /// intrinsic height instead of using [height] property.
   ///
+  /// It is highly recommended to keep this value as false when dealing with
+  /// a significantly large items list in order to optimize performance.
+  ///
   /// Note: If set to true and there isn't enough vertical room for the menu, there's
   /// no way to know the item's intrinsic height in-advance to properly scroll to
   /// the selected item. Instead, the provided [height] value will be used, which means

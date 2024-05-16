@@ -125,7 +125,10 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   bool get _iOSThumbVisibility =>
       _scrollbarTheme?.thumbVisibility?.resolve(_states) ?? true;
 
-  DropdownSeparator<T>? get separator => widget.route.dropdownSeparator;
+  bool get _hasIntrinsicHeight =>
+      widget.route.items.any((item) => item.intrinsicHeight) ||
+      (widget.route.dropdownSeparator != null &&
+          widget.route.dropdownSeparator!.intrinsicHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +144,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     final _DropdownRoute<T> route = widget.route;
+
+    final separator = widget.route.dropdownSeparator;
 
     final Widget dropdownMenu = Material(
       type: MaterialType.transparency,
@@ -179,23 +184,46 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                             ? _scrollbarTheme?.thickness?.resolve(_states)
                             : null,
                         radius: _isIOS ? _scrollbarTheme?.radius : null,
-                        child: ListView.separated(
+                        child: ListView.custom(
                           // Ensure this always inherits the PrimaryScrollController
                           primary: true,
                           shrinkWrap: true,
                           padding:
                               dropdownStyle.padding ?? kMaterialListPadding,
-                          itemCount: _children.length,
-                          itemBuilder: (context, index) => _children[index],
-                          separatorBuilder: (context, index) =>
-                              separator != null
-                                  ? SizedBox(
-                                      height: separator!.intrinsicHeight
-                                          ? null
-                                          : separator!.height,
-                                      child: separator,
-                                    )
-                                  : const SizedBox.shrink(),
+                          itemExtentBuilder: _hasIntrinsicHeight
+                              ? null
+                              : (index, dimensions) {
+                                  final childrenLength = separator == null
+                                      ? _children.length
+                                      : SeparatedSliverChildBuilderDelegate
+                                          .computeActualChildCount(
+                                              _children.length);
+                                  // TODO(Ahmed): Remove this when https://github.com/flutter/flutter/pull/142428
+                                  // is supported by the min version of the package [Flutter>=3.22.0].
+                                  if (index >= childrenLength) {
+                                    return 100;
+                                  }
+                                  return separator != null && index.isOdd
+                                      ? separator.height
+                                      : route.itemHeights[index];
+                                },
+                          childrenDelegate: separator == null
+                              ? SliverChildBuilderDelegate(
+                                  (context, index) => _children[index],
+                                  childCount: _children.length,
+                                )
+                              : SeparatedSliverChildBuilderDelegate(
+                                  itemCount: _children.length,
+                                  itemBuilder: (context, index) =>
+                                      _children[index],
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                    height: separator.intrinsicHeight
+                                        ? null
+                                        : separator.height,
+                                    child: separator,
+                                  ),
+                                ),
                         ),
                       ),
                     ),
