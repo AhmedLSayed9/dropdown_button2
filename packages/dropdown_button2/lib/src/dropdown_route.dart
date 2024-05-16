@@ -70,12 +70,12 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
           //Exclude BottomInset from maxHeight to avoid overlapping menu items
           //with keyboard when using searchable dropdown.
           //This will ensure menu is drawn in the actual available height.
-          // TODO(Ahmed): use paddingOf/paddingOf [flutter>=v3.10.0].
-          final MediaQueryData mediaQuery = MediaQuery.of(ctx);
+          final padding = MediaQuery.paddingOf(context);
+          final viewInsets = MediaQuery.viewInsetsOf(context);
           final BoxConstraints actualConstraints = constraints.copyWith(
-              maxHeight: constraints.maxHeight - mediaQuery.viewInsets.bottom);
+              maxHeight: constraints.maxHeight - viewInsets.bottom);
           final EdgeInsets mediaQueryPadding =
-              dropdownStyle.useSafeArea ? mediaQuery.padding : EdgeInsets.zero;
+              dropdownStyle.useSafeArea ? padding : EdgeInsets.zero;
           return ValueListenableBuilder<Rect?>(
             valueListenable: buttonRect,
             builder: (BuildContext context, Rect? rect, _) {
@@ -367,14 +367,14 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
       case DropdownDirection.textDirection:
         switch (textDirection!) {
           case TextDirection.rtl:
-            left = _clampDouble(
+            left = clampDouble(
               buttonRect.right - childSize.width + offset.dx,
               0.0,
               size.width - childSize.width,
             );
             break;
           case TextDirection.ltr:
-            left = _clampDouble(
+            left = clampDouble(
               buttonRect.left + offset.dx,
               0.0,
               size.width - childSize.width,
@@ -383,21 +383,21 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
         }
         break;
       case DropdownDirection.right:
-        left = _clampDouble(
+        left = clampDouble(
           buttonRect.left + offset.dx,
           0.0,
           size.width - childSize.width,
         );
         break;
       case DropdownDirection.left:
-        left = _clampDouble(
+        left = clampDouble(
           buttonRect.right - childSize.width + offset.dx,
           0.0,
           size.width - childSize.width,
         );
         break;
       case DropdownDirection.center:
-        left = _clampDouble(
+        left = clampDouble(
           (size.width - childSize.width) / 2 + offset.dx,
           0.0,
           size.width - childSize.width,

@@ -312,7 +312,7 @@ class _DropdownMenuPainter extends CustomPainter {
     );
 
     final Tween<double> bottom = Tween<double>(
-      begin: _clampDouble(top.begin! + itemHeight,
+      begin: clampDouble(top.begin! + itemHeight,
           math.min(itemHeight, size.height), size.height),
       end: size.height,
     );

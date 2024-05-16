@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use_from_same_package
-
 /*
  * Created by AHMED ELSAYED on 30 Nov 2021.
  * email: ahmedelsaayid@gmail.com
@@ -669,14 +667,11 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       widget.onChanged != null;
 
   Orientation _getOrientation(BuildContext context) {
-    // TODO(Ahmed): use maybeOrientationOf [flutter>=v3.10.0].
-    Orientation? result = MediaQuery.maybeOf(context)?.orientation;
+    Orientation? result = MediaQuery.maybeOrientationOf(context);
     if (result == null) {
-      // If there's no MediaQuery, then use the window aspect to determine
+      // If there's no MediaQuery, then use the current FlutterView to determine
       // orientation.
-      // TODO(Ahmed): use View.of(context) and update the comment [flutter>=v3.10.0].
-      // ignore: deprecated_member_use
-      final Size size = WidgetsBinding.instance.window.physicalSize;
+      final Size size = View.of(context).physicalSize;
       result = size.width > size.height
           ? Orientation.landscape
           : Orientation.portrait;
@@ -771,10 +766,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
                       alignment: widget.alignment,
                       children: buttonHeight != null
                           ? buttonItems
-                              .mapIndexed((item, index) => item)
-                              .toList()
-                          // TODO(Ahmed): use indexed from Flutter [Dart>=v3.0.0].
-                          : buttonItems.mapIndexed((item, index) {
+                          : buttonItems.map((item) {
                               return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[item],

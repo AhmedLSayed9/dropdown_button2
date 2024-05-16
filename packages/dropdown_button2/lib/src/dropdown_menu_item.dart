@@ -150,7 +150,6 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
     switch (FocusManager.instance.highlightMode) {
       case FocusHighlightMode.touch:
         inTraditionalMode = false;
-        // TODO(Ahmed): Remove decorative breaks and add lint to it [flutter>=v3.10.0].
         break;
       case FocusHighlightMode.traditional:
         inTraditionalMode = true;
@@ -204,8 +203,8 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
     final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
     final double unit = 0.5 / (widget.route.items.length + 1.5);
     final double start =
-        _clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
-    final double end = _clampDouble(start + 1.5 * unit, 0.0, 1.0);
+        clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
+    final double end = clampDouble(start + 1.5 * unit, 0.0, 1.0);
     final CurvedAnimation opacity = CurvedAnimation(
         parent: widget.route.animation!, curve: Interval(start, end));
 
