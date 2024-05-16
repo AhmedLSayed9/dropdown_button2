@@ -1,3 +1,8 @@
+## 3.0.0-beta.14
+
+- Optimize scroll performance when dealing with large items list.
+- Update SDK constraints: ">=3.2.0 <4.0.0"
+
 ## 3.0.0-beta.13
 
 - **BREAKING**: Add `openDropdownListenable` property that can be used to programmatically open the dropdown menu.
