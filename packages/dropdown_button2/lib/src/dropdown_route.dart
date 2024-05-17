@@ -18,7 +18,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.dropdownStyle,
     required this.menuItemStyle,
     required this.searchData,
-    required this.dropdownOnlyBeneathButton,
+    required this.dropdownOnlyBelowButton,
     this.dropdownSeparator,
   })  : itemHeights = addSeparatorsHeights(
           itemHeights: items.map((item) => item.height).toList(),
@@ -61,7 +61,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
   final bool barrierCoversButton;
 
-  final bool dropdownOnlyBeneathButton;
+  final bool dropdownOnlyBelowButton;
 
   final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
 
@@ -220,16 +220,16 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   double getMenuAvailableHeight(
     double availableHeight,
     EdgeInsets mediaQueryPadding,
-    Rect rect,
+    Rect buttonRect,
   ) {
-    if (!dropdownOnlyBeneathButton) {
+    if (!dropdownOnlyBelowButton) {
       return math.max(
         0.0,
         availableHeight - mediaQueryPadding.vertical - _kMenuItemHeight,
       );
     }
     return math.max(
-        0.0, availableHeight - rect.bottom - mediaQueryPadding.vertical);
+        0.0, availableHeight - buttonRect.bottom - mediaQueryPadding.vertical);
   }
 }
 
