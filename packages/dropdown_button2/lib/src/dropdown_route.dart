@@ -128,12 +128,33 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
         items.length + (dropdownSeparator != null ? items.length - 1 : 0) ==
             itemHeights.length,
       );
-      offset += itemHeights
-          .sublist(0, index)
-          .reduce((double total, double height) => total + height);
+      final double? searchOffset = _getSearchItemsHeight(endIndex: index);
+      if (searchOffset != null) {
+        offset += searchOffset;
+      } else {
+        offset += itemHeights
+            .sublist(0, index)
+            .reduce((double total, double height) => total + height);
+      }
     }
 
     return offset;
+  }
+
+  double? _getSearchItemsHeight({int? endIndex}) {
+    final String? currentSearch = searchData?.searchController?.text;
+    if (currentSearch == null || currentSearch.isEmpty) {
+      return null;
+    }
+    double height = 0.0;
+    final int limit = endIndex ?? items.length;
+    final searchMatchFn = searchData?.searchMatchFn ?? _defaultSearchMatchFn();
+    for (int index = 0; index < limit; ++index) {
+      if (searchMatchFn(items[index], currentSearch)) {
+        height += itemHeights[index];
+      }
+    }
+    return height;
   }
 
   // Returns the vertical extent of the menu and the initial scrollOffset
@@ -157,8 +178,13 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     final double innerWidgetHeight = searchData?.searchBarWidgetHeight ?? 0.0;
     actualMenuHeight += innerWidgetHeight;
     if (items.isNotEmpty) {
-      actualMenuHeight +=
-          itemHeights.reduce((double total, double height) => total + height);
+      final double? searchHeight = _getSearchItemsHeight();
+      if (searchHeight != null) {
+        actualMenuHeight += searchHeight;
+      } else {
+        actualMenuHeight +=
+            itemHeights.reduce((double total, double height) => total + height);
+      }
     }
 
     // Use actualMenuHeight if it's less than maxHeight.
