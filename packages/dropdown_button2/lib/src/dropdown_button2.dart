@@ -957,6 +957,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? customButton,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
+    bool dropdownOnlyBelowButton = false,
     Color? barrierColor,
     String? barrierLabel,
     Listenable? openDropdownListenable,
@@ -1039,6 +1040,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         inputDecoration: effectiveDecoration,
                         isEmpty: isEmpty,
                         isFocused: Focus.of(context).hasFocus,
+                        dropdownOnlyBelowButton: dropdownOnlyBelowButton,
                       ),
                     ),
                   );
