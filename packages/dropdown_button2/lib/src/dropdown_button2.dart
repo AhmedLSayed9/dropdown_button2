@@ -13,11 +13,17 @@ import 'package:flutter/services.dart';
 import 'seperated_sliver_child_builder_delegate.dart';
 
 part 'dropdown_style_data.dart';
+
 part 'dropdown_route.dart';
+
 part 'dropdown_menu.dart';
+
 part 'dropdown_menu_item.dart';
+
 part 'dropdown_menu_separators.dart';
+
 part 'enums.dart';
+
 part 'utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
@@ -957,6 +963,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? customButton,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
+    bool dropdownOnlyBelowButton = false,
     Color? barrierColor,
     String? barrierLabel,
     Listenable? openDropdownListenable,
@@ -1039,6 +1046,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         inputDecoration: effectiveDecoration,
                         isEmpty: isEmpty,
                         isFocused: Focus.of(context).hasFocus,
+                        dropdownOnlyBelowButton: dropdownOnlyBelowButton,
                       ),
                     ),
                   );
