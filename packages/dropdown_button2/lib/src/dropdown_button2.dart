@@ -535,12 +535,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (_rect.value == null) {
       return;
     }
-    final Rect newRect = _getRect();
-    //This avoid unnecessary rebuilds if _rect position hasn't changed
-    if (_rect.value!.top == newRect.top) {
-      return;
-    }
-    _rect.value = newRect;
+    _rect.value = _getRect();
   }
 
   TextStyle? get _textStyle =>
