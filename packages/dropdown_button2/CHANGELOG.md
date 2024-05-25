@@ -1,4 +1,4 @@
-## UNRELEASED
+## 3.0.0-beta.16
 
 - Fix dropdown menu position when window changes horizontally, closes #243.
 
