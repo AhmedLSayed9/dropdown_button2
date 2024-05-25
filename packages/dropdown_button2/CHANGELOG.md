@@ -1,3 +1,7 @@
+## UNRELEASED
+
+- Fix dropdown menu position when window changes horizontally, closes #243.
+
 ## 3.0.0-beta.15
 
 - Always call `onChanged` when tapping enabled item, closes #275.
