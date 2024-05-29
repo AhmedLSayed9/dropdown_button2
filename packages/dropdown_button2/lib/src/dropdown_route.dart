@@ -229,7 +229,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
       );
     }
     return math.max(
-        0.0, availableHeight - buttonRect.bottom - mediaQueryPadding.vertical);
+        0.0, availableHeight - buttonRect.bottom - mediaQueryPadding.bottom);
   }
 }
 
