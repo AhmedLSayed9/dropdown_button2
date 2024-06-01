@@ -126,7 +126,12 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
             itemHeights.length,
       );
       if (searchData?.searchController?.text case final searchText?) {
-        offset += _getSearchItemsHeight(index, searchText);
+        final searchMatchFn =
+            searchData?.searchMatchFn ?? _defaultSearchMatchFn();
+        final selectedItemExist = searchMatchFn(items[index], searchText);
+        if (selectedItemExist) {
+          offset += _getSearchItemsHeight(index, searchText);
+        }
       } else {
         for (int i = 0; i < index; i++) {
           offset += itemHeights[i];
