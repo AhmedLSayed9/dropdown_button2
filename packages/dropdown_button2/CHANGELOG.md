@@ -1,3 +1,7 @@
+## UNRELEASED
+
+- Enhance scroll position when using searchable dropdown, closes #285.
+
 ## 3.0.0-beta.16
 
 - Fix dropdown menu position when window changes horizontally, closes #243.
