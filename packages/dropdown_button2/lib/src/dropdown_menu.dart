@@ -159,6 +159,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           else
             Flexible(
               child: Material(
+                type: MaterialType.transparency,
+                textStyle: route.style,
                 child: Padding(
                   padding: dropdownStyle.scrollPadding ?? EdgeInsets.zero,
                   child: ScrollConfiguration(
