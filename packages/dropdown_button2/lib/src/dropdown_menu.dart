@@ -158,6 +158,9 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             searchData!.noResultsWidget!
           else
             Flexible(
+              // This Material wrapper is temporary until it's fixed by flutter at:
+              // https://github.com/flutter/flutter/issues/86584
+              // https://github.com/flutter/flutter/issues/73315
               child: Material(
                 type: MaterialType.transparency,
                 textStyle: route.style,
