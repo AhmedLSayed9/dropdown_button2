@@ -274,13 +274,13 @@ class DropdownSearchData<T> {
   /// Creates a DropdownSearchData.
   const DropdownSearchData({
     this.searchController,
-    this.searchBarWidget,
-    this.searchBarWidgetHeight,
-    this.noResultsWidget,
+    this.searchInnerWidget,
+    this.searchInnerWidgetHeight,
     this.searchMatchFn,
+    this.noDataFoundWidget, // New property for displaying "No data found"
   }) : assert(
-          (searchBarWidget == null) == (searchBarWidgetHeight == null),
-          'searchBarWidgetHeight should not be null when using searchBarWidget\n'
+          (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
+          'searchInnerWidgetHeight should not be null when using searchInnerWidget\n'
           'This is necessary to properly determine menu limits and scroll offset',
         );
 
@@ -290,13 +290,10 @@ class DropdownSearchData<T> {
 
   /// The widget to use for searchable dropdowns, such as search bar.
   /// It will be shown at the top of the dropdown menu.
-  final Widget? searchBarWidget;
+  final Widget? searchInnerWidget;
 
-  /// The height of the searchBarWidget if used.
-  final double? searchBarWidgetHeight;
-
-  /// The widget to show when the search results are empty.
-  final Widget? noResultsWidget;
+  /// The height of the searchInnerWidget if used.
+  final double? searchInnerWidgetHeight;
 
   /// The match function used for searchable dropdowns. If this is null,
   /// then _defaultSearchMatchFn will be used.
@@ -306,4 +303,7 @@ class DropdownSearchData<T> {
   ///   item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
   /// ```
   final SearchMatchFn<T>? searchMatchFn;
+
+  /// Widget to display when no data is found after searching.
+  final Widget? noDataFoundWidget;
 }
