@@ -14,6 +14,7 @@ class DropdownItem<T> extends _DropdownMenuItemContainer {
     super.intrinsicHeight,
     super.alignment,
     this.onTap,
+    this.onLongPress,
     this.value,
     this.enabled = true,
     this.closeOnTap = true,
@@ -22,6 +23,9 @@ class DropdownItem<T> extends _DropdownMenuItemContainer {
 
   /// Called when the dropdown menu item is tapped.
   final VoidCallback? onTap;
+
+  /// Called when the dropdown menu item is long pressed.
+  final VoidCallback? onLongPress;
 
   /// The value to return if the user selects this menu item.
   ///
@@ -185,14 +189,11 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
     }
   }
 
-  static const Map<ShortcutActivator, Intent> _webShortcuts =
-      <ShortcutActivator, Intent>{
+  static const Map<ShortcutActivator, Intent> _webShortcuts = <ShortcutActivator, Intent>{
     // On the web, up/down don't change focus, *except* in a <select>
     // element, which is what a dropdown emulates.
-    SingleActivator(LogicalKeyboardKey.arrowDown):
-        DirectionalFocusIntent(TraversalDirection.down),
-    SingleActivator(LogicalKeyboardKey.arrowUp):
-        DirectionalFocusIntent(TraversalDirection.up),
+    SingleActivator(LogicalKeyboardKey.arrowDown): DirectionalFocusIntent(TraversalDirection.down),
+    SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
   };
 
   MenuItemStyleData get menuItemStyle => widget.route.menuItemStyle;
@@ -203,33 +204,27 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
 
     final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
     final double unit = 0.5 / (widget.route.items.length + 1.5);
-    final double start =
-        clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
+    final double start = clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
     final double end = clampDouble(start + 1.5 * unit, 0.0, 1.0);
-    final CurvedAnimation opacity = CurvedAnimation(
-        parent: widget.route.animation!, curve: Interval(start, end));
+    final CurvedAnimation opacity = CurvedAnimation(parent: widget.route.animation!, curve: Interval(start, end));
 
     Widget child = Container(
-      padding: (menuItemStyle.padding ?? _kMenuItemPadding)
-          .resolve(widget.textDirection),
+      padding: (menuItemStyle.padding ?? _kMenuItemPadding).resolve(widget.textDirection),
       child: dropdownItem,
     );
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
     if (dropdownItem.enabled) {
-      final bool isSelectedItem = !widget.route.isNoSelectedItem &&
-          widget.itemIndex == widget.route.selectedIndex;
+      final bool isSelectedItem = !widget.route.isNoSelectedItem && widget.itemIndex == widget.route.selectedIndex;
       child = InkWell(
         autofocus: isSelectedItem,
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
+        onLongPress: dropdownItem.onLongPress,
         onFocusChange: _handleFocusChange,
         borderRadius: menuItemStyle.borderRadius,
         overlayColor: menuItemStyle.overlayColor,
-        child: isSelectedItem
-            ? menuItemStyle.selectedMenuItemBuilder?.call(context, child) ??
-                child
-            : child,
+        child: isSelectedItem ? menuItemStyle.selectedMenuItemBuilder?.call(context, child) ?? child : child,
       );
     }
     child = FadeTransition(opacity: opacity, child: child);
