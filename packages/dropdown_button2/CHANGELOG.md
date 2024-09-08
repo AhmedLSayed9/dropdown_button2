@@ -1,7 +1,8 @@
-## UNRELEASED
+## 3.0.0-beta.17
 
 - Enhance scroll position when using searchable dropdown, closes #285.
 - Temporarily fix ink splash gets displayed over search widget, closes #290.
+- Add copyWith method for style data classes, closes #314.
 
 ## 3.0.0-beta.16
 
