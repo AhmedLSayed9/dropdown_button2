@@ -69,7 +69,7 @@ extension _InputDecorationExtension on InputDecoration {
   InputDecoration updateSurroundingElements({
     required Widget? error,
     required String? errorText,
-    required Widget? helper,
+    // TODO(Ahmed): Add this when it's supported by the min version of the package [Flutter>=3.22.0].
     required String? helperText,
   }) {
     return InputDecoration(
@@ -79,7 +79,7 @@ extension _InputDecorationExtension on InputDecoration {
       labelText: labelText,
       labelStyle: labelStyle,
       floatingLabelStyle: floatingLabelStyle,
-      helper: helper,
+      //helper: helper,
       helperText: helperText,
       helperStyle: helperStyle,
       helperMaxLines: helperMaxLines,
