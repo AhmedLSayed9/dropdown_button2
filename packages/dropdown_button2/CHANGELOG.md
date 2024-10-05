@@ -1,3 +1,9 @@
+## 3.0.0-beta.18
+
+- Replaces textScaleFactor with TextScaler [Flutter core].
+- Fix DropdownButtonFormField2 ink response radius for different input borders.
+- Fix error border not showing for DropdownButtonFormField2, closes #297 & #319.
+
 ## 3.0.0-beta.17
 
 - Enhance scroll position when using searchable dropdown, closes #285.
