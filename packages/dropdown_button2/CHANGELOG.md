@@ -1,3 +1,7 @@
+## 3.0.0-beta.19
+
+- Enhance the display of error/helper elements at DropdownButtonFormField2, closes #199.
+
 ## 3.0.0-beta.18
 
 - Replaces textScaleFactor with TextScaler [Flutter core].
