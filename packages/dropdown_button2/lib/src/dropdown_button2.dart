@@ -986,10 +986,11 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                 field as _DropdownButtonFormFieldState<T>;
             final InputDecoration decorationArg =
                 _getInputDecoration(decoration, buttonStyleData);
-            final InputDecoration effectiveDecoration =
-                decorationArg.applyDefaults(
-              Theme.of(field.context).inputDecorationTheme,
-            );
+            final InputDecoration effectiveDecoration = decorationArg
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme)
+                .copyWith(
+                  error: field.hasError ? const SizedBox.shrink() : null,
+                );
 
             final bool showSelectedItem = items != null &&
                 items
