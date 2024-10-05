@@ -617,11 +617,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
   // Similarly, we don't reduce the height of the button so much that its icon
   // would be clipped.
   double get _denseButtonHeight {
-    // ignore: deprecated_member_use
-    final double textScaleFactor = MediaQuery.textScaleFactorOf(context);
     final double fontSize = _textStyle!.fontSize ??
         Theme.of(context).textTheme.titleMedium!.fontSize!;
-    final double scaledFontSize = textScaleFactor * fontSize;
+    final double scaledFontSize =
+        MediaQuery.textScalerOf(context).scale(fontSize);
     return math.max(
         scaledFontSize, math.max(_iconStyle.iconSize, _kDenseButtonHeight));
   }
