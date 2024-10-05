@@ -617,11 +617,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
   // Similarly, we don't reduce the height of the button so much that its icon
   // would be clipped.
   double get _denseButtonHeight {
-    // ignore: deprecated_member_use
-    final double textScaleFactor = MediaQuery.textScaleFactorOf(context);
     final double fontSize = _textStyle!.fontSize ??
         Theme.of(context).textTheme.titleMedium!.fontSize!;
-    final double scaledFontSize = textScaleFactor * fontSize;
+    final double scaledFontSize =
+        MediaQuery.textScalerOf(context).scale(fontSize);
     return math.max(
         scaledFontSize, math.max(_iconStyle.iconSize, _kDenseButtonHeight));
   }
@@ -677,12 +676,38 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (buttonRadius != null) {
       return buttonRadius.resolve(Directionality.of(context));
     }
-
-    final inputBorder = widget._inputDecoration?.border;
-    if (inputBorder?.isOutline ?? false) {
-      return (inputBorder! as OutlineInputBorder).borderRadius;
+    if (widget._inputDecoration case final border?) {
+      return _inputDecorationBorderRadius(border);
     }
     return null;
+  }
+
+  BorderRadius? _inputDecorationBorderRadius(InputDecoration inputDecoration) {
+    final InputBorder? inputBorder = _resolveInputBorder(inputDecoration);
+    if (inputBorder is OutlineInputBorder) {
+      return inputBorder.borderRadius;
+    }
+    if (inputBorder is UnderlineInputBorder) {
+      return inputBorder.borderRadius;
+    }
+    return null;
+  }
+
+  InputBorder? _resolveInputBorder(InputDecoration inputDecoration) {
+    final bool hasError = inputDecoration.errorText != null;
+    if (hasError) {
+      if (widget._isFocused) {
+        return inputDecoration.focusedErrorBorder;
+      }
+      return inputDecoration.errorBorder;
+    }
+    if (widget._isFocused) {
+      return inputDecoration.focusedBorder;
+    }
+    if (inputDecoration.enabled) {
+      return inputDecoration.enabledBorder;
+    }
+    return inputDecoration.border;
   }
 
   @override
