@@ -1021,7 +1021,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                       error: effectiveDecoration.error,
                       errorText:
                           field.errorText ?? effectiveDecoration.errorText,
-                      helper: effectiveDecoration.helper,
+                      //helper: effectiveDecoration.helper,
                       helperText: effectiveDecoration.helperText,
                     ),
                     child: DropdownButtonHideUnderline(
@@ -1061,7 +1061,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                             .updateSurroundingElements(
                               error: null,
                               errorText: null,
-                              helper: null,
+                              //helper: null,
                               helperText: null,
                             )
                             // This is crucial for the error border functionality to work.
