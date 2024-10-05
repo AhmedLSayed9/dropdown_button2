@@ -986,11 +986,10 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                 field as _DropdownButtonFormFieldState<T>;
             final InputDecoration decorationArg =
                 _getInputDecoration(decoration, buttonStyleData);
-            final InputDecoration effectiveDecoration = decorationArg
-                .applyDefaults(Theme.of(field.context).inputDecorationTheme)
-                .copyWith(
-                  error: field.hasError ? const SizedBox.shrink() : null,
-                );
+            final InputDecoration effectiveDecoration =
+                decorationArg.applyDefaults(
+              Theme.of(field.context).inputDecorationTheme,
+            );
 
             final bool showSelectedItem = items != null &&
                 items
@@ -1018,7 +1017,13 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                 builder: (BuildContext context) {
                   return InputDecorator(
                     decoration: const InputDecoration.collapsed(hintText: '')
-                        .copyWith(errorText: field.errorText),
+                        .updateSurroundingElements(
+                      error: effectiveDecoration.error,
+                      errorText:
+                          field.errorText ?? effectiveDecoration.errorText,
+                      helper: effectiveDecoration.helper,
+                      helperText: effectiveDecoration.helperText,
+                    ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2<T>._formField(
                         items: items,
@@ -1048,7 +1053,25 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                         barrierColor: barrierColor,
                         barrierLabel: barrierLabel,
                         openDropdownListenable: openDropdownListenable,
-                        inputDecoration: effectiveDecoration,
+                        inputDecoration: effectiveDecoration
+                            // The error/helper widgets are displayed by an InputDecorator wrapper
+                            // that surrounds the DropdownButton FormField. This setup is crucial
+                            // to prevent the inkwell from covering the error or helper widget
+                            // and to ensure that the menu does not open below them.
+                            .updateSurroundingElements(
+                              error: null,
+                              errorText: null,
+                              helper: null,
+                              helperText: null,
+                            )
+                            // This is crucial for the error border functionality to work.
+                            .copyWith(
+                              error: field.hasError ||
+                                      effectiveDecoration.error != null ||
+                                      effectiveDecoration.errorText != null
+                                  ? const SizedBox.shrink()
+                                  : null,
+                            ),
                         isEmpty: isEmpty,
                         isFocused: Focus.of(context).hasFocus,
                       ),
