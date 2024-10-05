@@ -676,12 +676,38 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (buttonRadius != null) {
       return buttonRadius.resolve(Directionality.of(context));
     }
-
-    final inputBorder = widget._inputDecoration?.border;
-    if (inputBorder?.isOutline ?? false) {
-      return (inputBorder! as OutlineInputBorder).borderRadius;
+    if (widget._inputDecoration case final border?) {
+      return _inputDecorationBorderRadius(border);
     }
     return null;
+  }
+
+  BorderRadius? _inputDecorationBorderRadius(InputDecoration inputDecoration) {
+    final InputBorder? inputBorder = _resolveInputBorder(inputDecoration);
+    if (inputBorder is OutlineInputBorder) {
+      return inputBorder.borderRadius;
+    }
+    if (inputBorder is UnderlineInputBorder) {
+      return inputBorder.borderRadius;
+    }
+    return null;
+  }
+
+  InputBorder? _resolveInputBorder(InputDecoration inputDecoration) {
+    final bool hasError = inputDecoration.errorText != null;
+    if (hasError) {
+      if (widget._isFocused) {
+        return inputDecoration.focusedErrorBorder;
+      }
+      return inputDecoration.errorBorder;
+    }
+    if (widget._isFocused) {
+      return inputDecoration.focusedBorder;
+    }
+    if (inputDecoration.enabled) {
+      return inputDecoration.enabledBorder;
+    }
+    return inputDecoration.border;
   }
 
   @override
