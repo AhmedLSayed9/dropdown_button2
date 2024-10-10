@@ -13,11 +13,17 @@ import 'package:flutter/services.dart';
 import 'seperated_sliver_child_builder_delegate.dart';
 
 part 'dropdown_style_data.dart';
+
 part 'dropdown_route.dart';
+
 part 'dropdown_menu.dart';
+
 part 'dropdown_menu_item.dart';
+
 part 'dropdown_menu_separators.dart';
+
 part 'enums.dart';
+
 part 'utils.dart';
 
 const Duration _kDropdownMenuDuration = Duration(milliseconds: 300);
@@ -122,6 +128,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierLabel,
     this.barrierCoversButton = true,
     this.openDropdownListenable,
+    this.dropdownOnlyBelowButton = false,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -163,6 +170,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierCoversButton = true,
     this.barrierLabel,
     this.openDropdownListenable,
+    this.dropdownOnlyBelowButton = false,
     required InputDecoration inputDecoration,
     required bool isEmpty,
     required bool isFocused,
@@ -383,6 +391,12 @@ class DropdownButton2<T> extends StatefulWidget {
   /// ```
   final Listenable? openDropdownListenable;
 
+  /// If set, the dropdown menu will only be displayed below the button,
+  /// even if it means to make the menu scrollable.
+  ///
+  /// Defaults to false
+  final bool dropdownOnlyBelowButton;
+
   final InputDecoration? _inputDecoration;
 
   final bool _isEmpty;
@@ -592,6 +606,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       menuItemStyle: _menuItemStyle,
       searchData: _searchData,
       dropdownSeparator: separator,
+      dropdownOnlyBelowButton: widget.dropdownOnlyBelowButton,
     );
 
     _isMenuOpen.value = true;
@@ -968,6 +983,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? customButton,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
+    bool dropdownOnlyBelowButton = false,
     Color? barrierColor,
     String? barrierLabel,
     Listenable? openDropdownListenable,
@@ -1074,6 +1090,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                             ),
                         isEmpty: isEmpty,
                         isFocused: Focus.of(context).hasFocus,
+                        dropdownOnlyBelowButton: dropdownOnlyBelowButton,
                       ),
                     ),
                   );
