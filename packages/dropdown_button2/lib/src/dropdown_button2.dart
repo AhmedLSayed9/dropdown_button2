@@ -511,10 +511,6 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       return;
     }
 
-    assert(widget.items!
-            .where((DropdownItem<T> item) => item.value == _currentValue)
-            .length ==
-        1);
     for (int itemIndex = 0; itemIndex < widget.items!.length; itemIndex++) {
       if (widget.items![itemIndex].value == _currentValue) {
         _selectedIndex = itemIndex;
@@ -758,7 +754,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
             valueListenable: widget.valueListenable ??
                 widget.multiValueListenable ??
                 ValueNotifier(null),
-            builder: (context, multiValue, _) {
+            builder: (context, _, __) {
               _uniqueValueAssert(
                 widget.items,
                 widget.valueListenable,
