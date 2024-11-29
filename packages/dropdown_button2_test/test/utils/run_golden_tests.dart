@@ -33,6 +33,6 @@ void runGoldenTests(
     // pipeline that uses Mac). This is necessary because fonts will have small differences when
     // tests are run on different platforms "Flutter related".
     // Alternatively, You can use the default "Ahem" font that shows black spaces instead of Roboto font.
-    skip: !Platform.isMacOS,
+    skip: !Platform.isMacOS && !Platform.isLinux,
   );
 }
