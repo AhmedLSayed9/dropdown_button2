@@ -74,7 +74,6 @@ class _SearchExampleState extends State<SearchExample> {
                 height: 50,
                 padding: const EdgeInsets.only(
                   top: 8,
-                  bottom: 4,
                   right: 8,
                   left: 8,
                 ),
@@ -84,10 +83,7 @@ class _SearchExampleState extends State<SearchExample> {
                   controller: textEditingController,
                   decoration: InputDecoration(
                     isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
-                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     hintText: 'Search for an item...',
                     hintStyle: const TextStyle(fontSize: 12),
                     border: OutlineInputBorder(
