@@ -13,4 +13,7 @@ enum DropdownDirection {
 
   /// The direction of the dropdown menu is to the left of the button.
   left,
+
+  /// Dropdown menu is centered on the screen.
+  center,
 }

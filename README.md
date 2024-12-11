@@ -1,13 +1,16 @@
 # Flutter DropdownButton2
 
 <a href="https://pub.dev/packages/dropdown_button2">
-  <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub"/>
+  <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub" alt="Pub Version"/>
 </a>
 <a href="https://flutter.dev/">
-  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.0.0-green.svg"/>
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.0.0-green.svg" alt="Flutter Version"/>
 </a>
 <a href="https://opensource.org/licenses/MIT">
-  <img src="https://img.shields.io/badge/License-MIT-red"/>
+  <img src="https://img.shields.io/badge/License-MIT-red" alt="License: MIT"/>
+</a>
+<a href="https://github.com/AhmedLSayed9/dropdown_button2/actions">
+  <img src="https://github.com/AhmedLSayed9/dropdown_button2/workflows/Build/badge.svg" alt="Build Status"/>
 </a>
 
 ## Intro
@@ -23,7 +26,7 @@ customize to your needs.
 - [Usage and Examples](#usage-and-examples)
   - [1. Simple DropdownButton2 with no styling](#1-simple-dropdownbutton2-with-no-styling)
   - [2. DropdownButton2 with few styling and customization](#2-dropdownbutton2-with-few-styling-and-customization)
-  - [3. DropdownButton2 with items of different heights like dividers](#3-dropdownbutton2-with-items-of-different-heights-like-dividers)
+  - [3. DropdownButton2 with separator widgets like dividers](#3-dropdownbutton2-with-separator-widgets-like-dividers)
   - [4. DropdownButton2 as Multiselect Dropdown with Checkboxes](#4-dropdownbutton2-as-multiselect-dropdown-with-checkboxes)
   - [5. DropdownButton2 as Searchable Dropdown](#5-dropdownbutton2-as-searchable-dropdown)
   - [6. DropdownButton2 as Popup menu button using customButton parameter](#6-dropdownbutton2-as-popup-menu-button-using-custombutton-parameter)
@@ -62,30 +65,34 @@ customize to your needs.
 
 ### DropdownButton2:
 
-| Option                                                                                                                                 | Description                                                                              | Type                      | Required |
-| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------- | :------: |
-| [items](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/items.html)                             | The list of items the user can select                                                    | List<DropdownMenuItem<T>> |   Yes    |
-| [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html) | A builder to customize how the selected item will be displayed on the button             | DropdownButtonBuilder     |    No    |
-| [value](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/value.html)                             | The value of the currently selected [DropdownMenuItem]                                   | T                         |    No    |
-| [hint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/hint.html)                               | The placeholder displayed before the user choose an item                                 | Widget                    |    No    |
-| [disabledHint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/disabledHint.html)               | The placeholder displayed if the dropdown is disabled                                    | Widget                    |    No    |
-| [onChanged](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onChanged.html)                     | Called when the user selects an item                                                     | ValueChanged<T?>          |    No    |
-| [onMenuStateChange](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onMenuStateChange.html)     | Called when the dropdown menu opens or closes                                            | OnMenuStateChangeFn       |    No    |
-| [style](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/style.html)                             | The text style to use for text in the dropdown button and the dropdown menu              | TextStyle                 |    No    |
-| [underline](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/underline.html)                     | The widget to use for drawing the drop-down button's underline                           | Widget                    |    No    |
-| [isDense](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isDense.html)                         | Reduce the button's height                                                               | bool                      |    No    |
-| [isExpanded](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isExpanded.html)                   | Makes the button's inner contents expanded (set true to avoid long text overflowing)     | bool                      |    No    |
-| [alignment](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/alignment.html)                     | Defines how the hint or the selected item is positioned within the button                | AlignmentGeometry         |    No    |
-| [buttonStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonStyleData.html)         | Used to configure the theme of the button                                                | ButtonStyleData           |    No    |
-| [iconStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconStyleData.html)             | Used to configure the theme of the button's icon                                         | IconStyleData             |    No    |
-| [dropdownStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownStyleData.html)     | Used to configure the theme of the dropdown menu                                         | DropdownStyleData         |    No    |
-| [menuItemStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/menuItemStyleData.html)     | Used to configure the theme of the dropdown menu items                                   | MenuItemStyleData         |    No    |
-| [dropdownSearchData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownSearchData.html)   | Used to configure searchable dropdowns                                                   | DropdownSearchData        |    No    |
-| [customButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customButton.html)               | Uses custom widget like icon,image,etc.. instead of the default button                   | Widget                    |    No    |
-| [openWithLongPress](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openWithLongPress.html)     | Opens the dropdown menu on long-pressing instead of tapping                              | bool                      |    No    |
-| [barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html)   | Whether you can dismiss this route by tapping the modal barrier                          | bool                      |    No    |
-| [barrierColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierColor.html)               | The color to use for the modal barrier. If this is null, the barrier will be transparent | Color                     |    No    |
-| [barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html)               | The semantic label used for a dismissible barrier                                        | String                    |    No    |
+| Option                                                                                                                                       | Description                                                                              | Type                       | Required |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------- | :------: |
+| [items](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/items.html)                                   | The list of items the user can select                                                    | List<DropdownItem<T>>      |   Yes    |
+| [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html)       | A builder to customize how the selected item will be displayed on the button             | DropdownButtonBuilder      |    No    |
+| [valueListenable](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/valueListenable.html)               | A [ValueListenable] that represents the value of the currently selected [DropdownItem].  | ValueListenable<T?>?       |    No    |
+| [multiValueListenable](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/multiValueListenable.html)     | A [ValueListenable] that represents a list of the currently selected [DropdownItem]s     | ValueListenable<List\<T>>? |    No    |
+| [hint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/hint.html)                                     | The placeholder displayed before the user choose an item                                 | Widget                     |    No    |
+| [disabledHint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/disabledHint.html)                     | The placeholder displayed if the dropdown is disabled                                    | Widget                     |    No    |
+| [onChanged](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onChanged.html)                           | Called when the user selects an item                                                     | ValueChanged<T?>           |    No    |
+| [onMenuStateChange](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/onMenuStateChange.html)           | Called when the dropdown menu opens or closes                                            | OnMenuStateChangeFn        |    No    |
+| [style](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/style.html)                                   | The text style to use for text in the dropdown button and the dropdown menu              | TextStyle                  |    No    |
+| [underline](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/underline.html)                           | The widget to use for drawing the drop-down button's underline                           | Widget                     |    No    |
+| [isDense](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isDense.html)                               | Reduce the button's height                                                               | bool                       |    No    |
+| [isExpanded](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/isExpanded.html)                         | Makes the button's inner contents expanded (set true to avoid long text overflowing)     | bool                       |    No    |
+| [alignment](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/alignment.html)                           | Defines how the hint or the selected item is positioned within the button                | AlignmentGeometry          |    No    |
+| [buttonStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/buttonStyleData.html)               | Used to configure the theme of the button                                                | ButtonStyleData            |    No    |
+| [iconStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/iconStyleData.html)                   | Used to configure the theme of the button's icon                                         | IconStyleData              |    No    |
+| [dropdownStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownStyleData.html)           | Used to configure the theme of the dropdown menu                                         | DropdownStyleData          |    No    |
+| [menuItemStyleData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/menuItemStyleData.html)           | Used to configure the theme of the dropdown menu items                                   | MenuItemStyleData          |    No    |
+| [dropdownSearchData](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownSearchData.html)         | Used to configure searchable dropdowns                                                   | DropdownSearchData         |    No    |
+| [dropdownSeparator](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/dropdownSeparator.html)           | Adds separator widget to the dropdown menu                                               | DropdownSeparator          |    No    |
+| [customButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/customButton.html)                     | Uses custom widget like icon,image,etc.. instead of the default button                   | Widget                     |    No    |
+| [openWithLongPress](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openWithLongPress.html)           | Opens the dropdown menu on long-pressing instead of tapping                              | bool                       |    No    |
+| [barrierDismissible](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierDismissible.html)         | Whether you can dismiss this route by tapping the modal barrier                          | bool                       |    No    |
+| [barrierColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierColor.html)                     | The color to use for the modal barrier. If this is null, the barrier will be transparent | Color                      |    No    |
+| [barrierLabel](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierLabel.html)                     | The semantic label used for a dismissible barrier                                        | String                     |    No    |
+| [barrierCoversButton](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/barrierCoversButton.html)       | Specifies whether the modal barrier should cover the dropdown button or not.             | bool                       |    No    |
+| [openDropdownListenable](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/openDropdownListenable.html) | A [Listenable] that can be used to programmatically open the dropdown menu.              | Listenable?                |    No    |
 
 #### Subclass ButtonStyleData:
 
@@ -125,35 +132,35 @@ customize to your needs.
 | [useRootNavigator](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/useRootNavigator.html) | Determine whether to open the dropdown menu using the root Navigator or not    | bool               |    No    |
 | [scrollbarTheme](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/scrollbarTheme.html)     | Configures the theme of the menu's scrollbar                                   | ScrollbarThemeData |    No    |
 | [openInterval](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/openInterval.html)         | The animation curve used for opening the dropdown menu (forward direction)     | Interval           |    No    |
+| [dropdownBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownStyleData/dropdownBuilder.html)   | A builder to customize the dropdown menu                                       | DropdownBuilder    |    No    |
 
 #### Subclass MenuItemStyleData:
 
-| Option                                                                                                                                           | Description                                                              | Type                          | Required |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ----------------------------- | :------: |
-| [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/height.html)                                   | The height of the menu item                                              | double                        |    No    |
-| [customHeights](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/customHeights.html)                     | Define different heights for the menu items (useful for adding dividers) | List<double>                  |    No    |
-| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                 | The padding of menu items                                                | EdgeInsetsGeometry            |    No    |
-| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                       | Defines the ink response focus, hover, and splash colors for the items   | MaterialStateProperty<Color?> |    No    |
-| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html) | A builder to customize the selected menu item                            | SelectedMenuItemBuilder       |    No    |
+| Option                                                                                                                                           | Description                                                            | Type                          | Required |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ----------------------------- | :------: |
+| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                 | The padding of menu items                                              | EdgeInsetsGeometry            |    No    |
+| [borderRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/borderRadius.html)                       | The border radius of the menu item                                     | BorderRadius                  |    No    |
+| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                       | Defines the ink response focus, hover, and splash colors for the items | MaterialStateProperty<Color?> |    No    |
+| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html) | A builder to customize the selected menu item                          | SelectedMenuItemBuilder       |    No    |
 
 #### Subclass DropdownSearchData:
 
-| Option                                                                                                                                            | Description                                                                                    | Type                  | Required |
-| ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------- | :------: |
-| [searchController](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchController.html)               | The controller used for searchable dropdowns, if null, then it'll perform as a normal dropdown | TextEditingController |    No    |
-| [searchInnerWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchInnerWidget.html)             | The widget to be shown at the top of the dropdown menu for searchable dropdowns                | Widget                |    No    |
-| [searchInnerWidgetHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchInnerWidgetHeight.html) | The height of the searchInnerWidget if used                                                    | double                |    No    |
-| [searchMatchFn](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchMatchFn.html)                     | The match function used for searchable dropdowns, if null, defaultFn will be used              | SearchMatchFn         |    No    |
+| Option                                                                                                                                        | Description                                                                                    | Type                  | Required |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------- | :------: |
+| [searchController](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchController.html)           | The controller used for searchable dropdowns, if null, then it'll perform as a normal dropdown | TextEditingController |    No    |
+| [searchBarWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchBarWidget.html)             | The widget to be shown at the top of the dropdown menu for searchable dropdowns                | Widget                |    No    |
+| [searchBarWidgetHeight](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchBarWidgetHeight.html) | The height of the searchBarWidget if used                                                      | double                |    No    |
+| [noResultsWidget](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/noResultsWidget.html)             | The widget to show when the search results are empty                                           | Widget                |    No    |
+| [searchMatchFn](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownSearchData/searchMatchFn.html)                 | The match function used for searchable dropdowns, if null, defaultFn will be used              | SearchMatchFn         |    No    |
 
 ### DropdownButtonFormField2 (In addition to the above):
 
-| Option                                                                                                                                      | Description                                                        | Type                  | Required |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------- | :------: |
-| [dropdownButtonKey](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/dropdownButtonKey.html) | The key of DropdownButton2 child widget                            | Key                   |    No    |
-| [decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/decoration.html)               | The decoration of the dropdown button form field                   | InputDecoration       |    No    |
-| [onSaved](https://api.flutter.dev/flutter/widgets/FormField/onSaved.html)                                                                   | Called with the current selected item when the form is saved       | FormFieldSetter<T>    |    No    |
-| [validator](https://api.flutter.dev/flutter/widgets/FormField/validator.html)                                                               | Called to validates if the input is invalid and display error text | FormFieldValidator<T> |    No    |
-| [autovalidateMode](https://api.flutter.dev/flutter/widgets/AutovalidateMode.html)                                                           | Used to enable/disable auto validation                             | AutovalidateMode      |    No    |
+| Option                                                                                                                        | Description                                                        | Type                  | Required |
+| ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------- | :------: |
+| [decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButtonFormField2/decoration.html) | The decoration of the dropdown button form field                   | InputDecoration       |    No    |
+| [onSaved](https://api.flutter.dev/flutter/widgets/FormField/onSaved.html)                                                     | Called with the current selected item when the form is saved       | FormFieldSetter<T>    |    No    |
+| [validator](https://api.flutter.dev/flutter/widgets/FormField/validator.html)                                                 | Called to validates if the input is invalid and display error text | FormFieldValidator<T> |    No    |
+| [autovalidateMode](https://api.flutter.dev/flutter/widgets/AutovalidateMode.html)                                             | Used to enable/disable auto validation                             | AutovalidateMode      |    No    |
 
 ## Installation
 
@@ -161,7 +168,7 @@ add this line to pubspec.yaml
 
 ```yaml
 dependencies:
-  dropdown_button2: ^2.3.8
+  dropdown_button2: ^3.0.0-beta.20
 ```
 
 import package
@@ -185,7 +192,7 @@ final List<String> items = [
   'Item3',
   'Item4',
 ];
-String? selectedValue;
+final valueListenable = ValueNotifier<String?>(null);
 
 @override
 Widget build(BuildContext context) {
@@ -202,8 +209,9 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-              .map((String item) => DropdownMenuItem<String>(
+              .map((String item) => DropdownItem<String>(
                     value: item,
+                    height: 40,
                     child: Text(
                       item,
                       style: const TextStyle(
@@ -212,19 +220,14 @@ Widget build(BuildContext context) {
                     ),
                   ))
               .toList(),
-          value: selectedValue,
+          valueListenable: valueListenable,
           onChanged: (String? value) {
-            setState(() {
-              selectedValue = value;
-            });
+            valueListenable.value = value;
           },
           buttonStyleData: const ButtonStyleData(
             padding: EdgeInsets.symmetric(horizontal: 16),
             height: 40,
             width: 140,
-          ),
-          menuItemStyleData: const MenuItemStyleData(
-            height: 40,
           ),
         ),
       ),
@@ -248,7 +251,7 @@ final List<String> items = [
   'Item7',
   'Item8',
 ];
-String? selectedValue;
+final valueListenable = ValueNotifier<String?>(null);
 
 @override
 Widget build(BuildContext context) {
@@ -281,8 +284,9 @@ Widget build(BuildContext context) {
             ],
           ),
           items: items
-              .map((String item) => DropdownMenuItem<String>(
+              .map((String item) => DropdownItem<String>(
                     value: item,
+                    height: 40,
                     child: Text(
                       item,
                       style: const TextStyle(
@@ -294,11 +298,9 @@ Widget build(BuildContext context) {
                     ),
                   ))
               .toList(),
-          value: selectedValue,
+          valueListenable: valueListenable,
           onChanged: (value) {
-            setState(() {
-              selectedValue = value;
-            });
+            valueListenable.value = value;
           },
           buttonStyleData: ButtonStyleData(
             height: 50,
@@ -336,7 +338,6 @@ Widget build(BuildContext context) {
             ),
           ),
           menuItemStyleData: const MenuItemStyleData(
-            height: 40,
             padding: EdgeInsets.only(left: 14, right: 14),
           ),
         ),
@@ -346,9 +347,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 3. DropdownButton2 with items of different heights like dividers:
+### 3. DropdownButton2 with separator widgets like dividers:
 
-<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/with_dividers.png" alt="Image" width="300"/>
+<img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/with_separators.png" alt="Image" width="300"/>
 
 ```dart
 final List<String> items = [
@@ -357,50 +358,7 @@ final List<String> items = [
   'Item3',
   'Item4',
 ];
-String? selectedValue;
-
-List<DropdownMenuItem<String>> _addDividersAfterItems(List<String> items) {
-  final List<DropdownMenuItem<String>> menuItems = [];
-  for (final String item in items) {
-    menuItems.addAll(
-      [
-        DropdownMenuItem<String>(
-          value: item,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              item,
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ),
-        //If it's last item, we will not add Divider after it.
-        if (item != items.last)
-          const DropdownMenuItem<String>(
-            enabled: false,
-            child: Divider(),
-          ),
-      ],
-    );
-  }
-  return menuItems;
-}
-
-List<double> _getCustomItemsHeights() {
-  final List<double> itemsHeights = [];
-  for (int i = 0; i < (items.length * 2) - 1; i++) {
-    if (i.isEven) {
-      itemsHeights.add(40);
-    }
-    //Dividers indexes will be the odd indexes
-    if (i.isOdd) {
-      itemsHeights.add(4);
-    }
-  }
-  return itemsHeights;
-}
+final valueListenable = ValueNotifier<String?>(null);
 
 @override
 Widget build(BuildContext context) {
@@ -416,12 +374,31 @@ Widget build(BuildContext context) {
               color: Theme.of(context).hintColor,
             ),
           ),
-          items: _addDividersAfterItems(items),
-          value: selectedValue,
-          onChanged: (String? value) {
-            setState(() {
-              selectedValue = value;
-            });
+          items: items
+              .map((String item) => DropdownItem<String>(
+                    value: item,
+                    height: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ))
+              .toList(),
+          dropdownSeparator: const DropdownSeparator(
+            height: 4,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Divider(),
+            ),
+          ),
+          valueListenable: valueListenable,
+          onChanged: (value) {
+            valueListenable.value = value;
           },
           buttonStyleData: const ButtonStyleData(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -431,9 +408,8 @@ Widget build(BuildContext context) {
           dropdownStyleData: const DropdownStyleData(
             maxHeight: 200,
           ),
-          menuItemStyleData: MenuItemStyleData(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            customHeights: _getCustomItemsHeights(),
+          menuItemStyleData: const MenuItemStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
           ),
           iconStyleData: const IconStyleData(
             openMenuIcon: Icon(Icons.arrow_drop_up),
@@ -451,12 +427,13 @@ Widget build(BuildContext context) {
 
 ```dart
 final List<String> items = [
+  'All',
   'Item1',
   'Item2',
   'Item3',
   'Item4',
 ];
-List<String> selectedItems = [];
+final multiValueListenable = ValueNotifier<List<String>>([]);
 
 @override
 Widget build(BuildContext context) {
@@ -473,64 +450,73 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items.map((item) {
-            return DropdownMenuItem(
+            return DropdownItem(
               value: item,
-              //disable default onTap to avoid closing menu when selecting an item
-              enabled: false,
-              child: StatefulBuilder(
-                builder: (context, menuSetState) {
-                  final isSelected = selectedItems.contains(item);
-                  return InkWell(
-                    onTap: () {
-                      isSelected ? selectedItems.remove(item) : selectedItems.add(item);
-                      //This rebuilds the StatefulWidget to update the button's text
-                      setState(() {});
-                      //This rebuilds the dropdownMenu Widget to update the check mark
-                      menuSetState(() {});
-                    },
-                    child: Container(
-                      height: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Row(
-                        children: [
-                          if (isSelected)
-                            const Icon(Icons.check_box_outlined)
-                          else
-                            const Icon(Icons.check_box_outline_blank),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
+              height: 40,
+              closeOnTap: false,
+              child: ValueListenableBuilder<List<String>>(
+                valueListenable: multiValueListenable,
+                builder: (context, multiValue, _) {
+                  final isSelected = multiValue.contains(item);
+                  return Container(
+                    height: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        if (isSelected)
+                          const Icon(Icons.check_box_outlined)
+                        else
+                          const Icon(Icons.check_box_outline_blank),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },
               ),
             );
           }).toList(),
-          //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
-          value: selectedItems.isEmpty ? null : selectedItems.last,
-          onChanged: (value) {},
+          multiValueListenable: multiValueListenable,
+          onChanged: (value) {
+            final multiValue = multiValueListenable.value;
+            final isSelected = multiValue.contains(value);
+            if (value == 'All') {
+              isSelected
+                  ? multiValueListenable.value = []
+                  : multiValueListenable.value = List.from(items);
+            } else {
+              multiValueListenable.value = isSelected
+                  ? ([...multiValue]..remove(value))
+                  : [...multiValue, value!];
+            }
+          },
           selectedItemBuilder: (context) {
             return items.map(
               (item) {
-                return Container(
-                  alignment: AlignmentDirectional.center,
-                  child: Text(
-                    selectedItems.join(', '),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    maxLines: 1,
-                  ),
-                );
+                return ValueListenableBuilder<List<String>>(
+                    valueListenable: multiValueListenable,
+                    builder: (context, multiValue, _) {
+                      return Container(
+                        alignment: AlignmentDirectional.center,
+                        child: Text(
+                          multiValue
+                              .where((item) => item != 'All')
+                              .join(', '),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          maxLines: 1,
+                        ),
+                      );
+                    });
               },
             ).toList();
           },
@@ -540,7 +526,6 @@ Widget build(BuildContext context) {
             width: 140,
           ),
           menuItemStyleData: const MenuItemStyleData(
-            height: 40,
             padding: EdgeInsets.zero,
           ),
         ),
@@ -566,7 +551,7 @@ final List<String> items = [
   'B_Item4',
 ];
 
-String? selectedValue;
+final valueListenable = ValueNotifier<String?>(null);
 final TextEditingController textEditingController = TextEditingController();
 
 @override
@@ -590,8 +575,9 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-              .map((item) => DropdownMenuItem(
+              .map((item) => DropdownItem(
                     value: item,
+                    height: 40,
                     child: Text(
                       item,
                       style: const TextStyle(
@@ -600,11 +586,9 @@ Widget build(BuildContext context) {
                     ),
                   ))
               .toList(),
-          value: selectedValue,
+          valueListenable: valueListenable,
           onChanged: (value) {
-            setState(() {
-              selectedValue = value;
-            });
+            valueListenable.value = value;
           },
           buttonStyleData: const ButtonStyleData(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -614,13 +598,10 @@ Widget build(BuildContext context) {
           dropdownStyleData: const DropdownStyleData(
             maxHeight: 200,
           ),
-          menuItemStyleData: const MenuItemStyleData(
-            height: 40,
-          ),
           dropdownSearchData: DropdownSearchData(
             searchController: textEditingController,
-            searchInnerWidgetHeight: 50,
-            searchInnerWidget: Container(
+            searchBarWidgetHeight: 50,
+            searchBarWidget: Container(
               height: 50,
               padding: const EdgeInsets.only(
                 top: 8,
@@ -646,6 +627,10 @@ Widget build(BuildContext context) {
                 ),
               ),
             ),
+            noResultsWidget: const Padding(
+              padding: EdgeInsets.all(8),
+              child: Text('No Item Found!'),
+            ),
             searchMatchFn: (item, searchValue) {
               return item.value.toString().contains(searchValue);
             },
@@ -670,14 +655,14 @@ Widget build(BuildContext context) {
 <img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/popup_icon.png" alt="Image" width="300"/>
 
 ```dart
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class PopupIconExample extends StatefulWidget {
+  const PopupIconExample({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<PopupIconExample> createState() => _PopupIconExampleState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PopupIconExampleState extends State<PopupIconExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -690,22 +675,28 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.red,
             ),
             items: [
-              ...MenuItems.firstItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+              ..._MenuItems.firstItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
-              ...MenuItems.secondItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+              const DropdownItem<Divider>(
+                enabled: false,
+                height: 8,
+                child: Divider(),
+              ),
+              ..._MenuItems.secondItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
             ],
             onChanged: (value) {
-              MenuItems.onChanged(context, value! as MenuItem);
+              _MenuItems.onChanged(context, value! as _MenuItem);
             },
             dropdownStyleData: DropdownStyleData(
               width: 160,
@@ -716,13 +707,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               offset: const Offset(0, 8),
             ),
-            menuItemStyleData: MenuItemStyleData(
-              customHeights: [
-                ...List<double>.filled(MenuItems.firstItems.length, 48),
-                8,
-                ...List<double>.filled(MenuItems.secondItems.length, 48),
-              ],
-              padding: const EdgeInsets.only(left: 16, right: 16),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.only(left: 16, right: 16),
             ),
           ),
         ),
@@ -731,8 +717,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MenuItem {
-  const MenuItem({
+class _MenuItem {
+  const _MenuItem({
     required this.text,
     required this.icon,
   });
@@ -741,16 +727,16 @@ class MenuItem {
   final IconData icon;
 }
 
-abstract class MenuItems {
-  static const List<MenuItem> firstItems = [home, share, settings];
-  static const List<MenuItem> secondItems = [logout];
+abstract class _MenuItems {
+  static const List<_MenuItem> firstItems = [home, share, settings];
+  static const List<_MenuItem> secondItems = [logout];
 
-  static const home = MenuItem(text: 'Home', icon: Icons.home);
-  static const share = MenuItem(text: 'Share', icon: Icons.share);
-  static const settings = MenuItem(text: 'Settings', icon: Icons.settings);
-  static const logout = MenuItem(text: 'Log Out', icon: Icons.logout);
+  static const home = _MenuItem(text: 'Home', icon: Icons.home);
+  static const share = _MenuItem(text: 'Share', icon: Icons.share);
+  static const settings = _MenuItem(text: 'Settings', icon: Icons.settings);
+  static const logout = _MenuItem(text: 'Log Out', icon: Icons.logout);
 
-  static Widget buildItem(MenuItem item) {
+  static Widget buildItem(_MenuItem item) {
     return Row(
       children: [
         Icon(item.icon, color: Colors.white, size: 22),
@@ -769,18 +755,18 @@ abstract class MenuItems {
     );
   }
 
-  static void onChanged(BuildContext context, MenuItem item) {
+  static void onChanged(BuildContext context, _MenuItem item) {
     switch (item) {
-      case MenuItems.home:
+      case _MenuItems.home:
         //Do something
         break;
-      case MenuItems.settings:
+      case _MenuItems.settings:
         //Do something
         break;
-      case MenuItems.share:
+      case _MenuItems.share:
         //Do something
         break;
-      case MenuItems.logout:
+      case _MenuItems.logout:
         //Do something
         break;
     }
@@ -793,14 +779,14 @@ abstract class MenuItems {
 <img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/popup_image.png" alt="Image" width="300"/>
 
 ```dart
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class PopupImageExample extends StatefulWidget {
+  const PopupImageExample({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<PopupImageExample> createState() => _PopupImageExampleState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _PopupImageExampleState extends State<PopupImageExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -814,7 +800,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(40),
                 image: const DecorationImage(
                   image: AssetImage(
-                    'assets/city.jpg',
+                    'assets/images/city.jpg',
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -822,22 +808,28 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             openWithLongPress: true,
             items: [
-              ...MenuItems.firstItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+              ..._MenuItems.firstItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
-              ...MenuItems.secondItems.map(
-                (item) => DropdownMenuItem<MenuItem>(
+              const DropdownItem<Divider>(
+                enabled: false,
+                height: 8,
+                child: Divider(),
+              ),
+              ..._MenuItems.secondItems.map(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
-                  child: MenuItems.buildItem(item),
+                  height: 48,
+                  child: _MenuItems.buildItem(item),
                 ),
               ),
             ],
             onChanged: (value) {
-              MenuItems.onChanged(context, value! as MenuItem);
+              _MenuItems.onChanged(context, value! as _MenuItem);
             },
             buttonStyleData: ButtonStyleData(
               // This is necessary for the ink response to match our customButton radius.
@@ -854,13 +846,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               offset: const Offset(40, -4),
             ),
-            menuItemStyleData: MenuItemStyleData(
-              customHeights: [
-                ...List<double>.filled(MenuItems.firstItems.length, 48),
-                8,
-                ...List<double>.filled(MenuItems.secondItems.length, 48),
-              ],
-              padding: const EdgeInsets.only(left: 16, right: 16),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.only(left: 16, right: 16),
             ),
           ),
         ),
@@ -869,8 +856,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MenuItem {
-  const MenuItem({
+class _MenuItem {
+  const _MenuItem({
     required this.text,
     required this.icon,
   });
@@ -879,16 +866,16 @@ class MenuItem {
   final IconData icon;
 }
 
-class MenuItems {
-  static const List<MenuItem> firstItems = [like, share, download];
-  static const List<MenuItem> secondItems = [cancel];
+class _MenuItems {
+  static const List<_MenuItem> firstItems = [like, share, download];
+  static const List<_MenuItem> secondItems = [cancel];
 
-  static const like = MenuItem(text: 'Like', icon: Icons.favorite);
-  static const share = MenuItem(text: 'Share', icon: Icons.share);
-  static const download = MenuItem(text: 'Download', icon: Icons.download);
-  static const cancel = MenuItem(text: 'Cancel', icon: Icons.cancel);
+  static const like = _MenuItem(text: 'Like', icon: Icons.favorite);
+  static const share = _MenuItem(text: 'Share', icon: Icons.share);
+  static const download = _MenuItem(text: 'Download', icon: Icons.download);
+  static const cancel = _MenuItem(text: 'Cancel', icon: Icons.cancel);
 
-  static Widget buildItem(MenuItem item) {
+  static Widget buildItem(_MenuItem item) {
     return Row(
       children: [
         Icon(
@@ -911,18 +898,18 @@ class MenuItems {
     );
   }
 
-  static void onChanged(BuildContext context, MenuItem item) {
+  static void onChanged(BuildContext context, _MenuItem item) {
     switch (item) {
-      case MenuItems.like:
+      case _MenuItems.like:
         //Do something
         break;
-      case MenuItems.share:
+      case _MenuItems.share:
         //Do something
         break;
-      case MenuItems.download:
+      case _MenuItems.download:
         //Do something
         break;
-      case MenuItems.cancel:
+      case _MenuItems.cancel:
         //Do something
         break;
     }
@@ -939,8 +926,7 @@ final List<String> genderItems = [
   'Male',
   'Female',
 ];
-
-String? selectedValue;
+final valueListenable = ValueNotifier<String?>(null);
 
 final _formKey = GlobalKey<FormState>();
 
@@ -981,7 +967,7 @@ Widget build(BuildContext context) {
                 style: TextStyle(fontSize: 14),
               ),
               items: genderItems
-                  .map((item) => DropdownMenuItem<String>(
+                  .map((item) => DropdownItem<String>(
                         value: item,
                         child: Text(
                           item,
@@ -991,6 +977,7 @@ Widget build(BuildContext context) {
                         ),
                       ))
                   .toList(),
+              valueListenable: valueListenable,
               validator: (value) {
                 if (value == null) {
                   return 'Please select gender.';
@@ -998,20 +985,13 @@ Widget build(BuildContext context) {
                 return null;
               },
               onChanged: (value) {
-                //Do something when selected item is changed.
+                valueListenable.value = value;
               },
-              onSaved: (value) {
-                selectedValue = value.toString();
-              },
-              buttonStyleData: const ButtonStyleData(
-                padding: EdgeInsets.only(right: 8),
-              ),
               iconStyleData: const IconStyleData(
                 icon: Icon(
                   Icons.arrow_drop_down,
                   color: Colors.black45,
                 ),
-                iconSize: 24,
               ),
               dropdownStyleData: DropdownStyleData(
                 decoration: BoxDecoration(
@@ -1026,7 +1006,7 @@ Widget build(BuildContext context) {
             TextButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
+                  // Do something.
                 }
               },
               child: const Text('Submit Button'),
@@ -1045,7 +1025,7 @@ Widget build(BuildContext context) {
 class CustomDropdownButton2 extends StatelessWidget {
   const CustomDropdownButton2({
     required this.hint,
-    required this.value,
+    required this.valueListenable,
     required this.dropdownItems,
     required this.onChanged,
     this.selectedItemBuilder,
@@ -1074,7 +1054,7 @@ class CustomDropdownButton2 extends StatelessWidget {
     super.key,
   });
   final String hint;
-  final String? value;
+  final ValueListenable<String?>? valueListenable;
   final List<String> dropdownItems;
   final ValueChanged<String?>? onChanged;
   final DropdownButtonBuilder? selectedItemBuilder;
@@ -1117,10 +1097,11 @@ class CustomDropdownButton2 extends StatelessWidget {
             ),
           ),
         ),
-        value: value,
+        valueListenable: valueListenable,
         items: dropdownItems
-            .map((String item) => DropdownMenuItem<String>(
+            .map((String item) => DropdownItem<String>(
                   value: item,
+                  height: itemHeight ?? 40,
                   child: Container(
                     alignment: valueAlignment,
                     child: Text(
@@ -1178,7 +1159,6 @@ class CustomDropdownButton2 extends StatelessWidget {
           ),
         ),
         menuItemStyleData: MenuItemStyleData(
-          height: itemHeight ?? 40,
           padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
         ),
       ),

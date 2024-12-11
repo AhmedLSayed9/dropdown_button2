@@ -15,7 +15,7 @@ class _SimpleExampleState extends State<SimpleExample> {
     'Item3',
     'Item4',
   ];
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +32,9 @@ class _SimpleExampleState extends State<SimpleExample> {
               ),
             ),
             items: items
-                .map((String item) => DropdownMenuItem<String>(
+                .map((String item) => DropdownItem<String>(
                       value: item,
+                      height: 40,
                       child: Text(
                         item,
                         style: const TextStyle(
@@ -42,19 +43,14 @@ class _SimpleExampleState extends State<SimpleExample> {
                       ),
                     ))
                 .toList(),
-            value: selectedValue,
+            valueListenable: valueListenable,
             onChanged: (String? value) {
-              setState(() {
-                selectedValue = value;
-              });
+              valueListenable.value = value;
             },
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.symmetric(horizontal: 16),
               height: 40,
               width: 140,
-            ),
-            menuItemStyleData: const MenuItemStyleData(
-              height: 40,
             ),
           ),
         ),

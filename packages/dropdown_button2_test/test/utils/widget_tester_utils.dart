@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 part of 'utils.dart';
 
 /// An extension that adds functions to a [WidgetTester] object.
@@ -13,15 +11,11 @@ extension WidgetTesterX on WidgetTester {
 
   /// Configure the tester view to represent the given view variant.
   void configureView(ViewVariant viewVariant) {
-    // TODO(Ahmed): use WidgetTester.view [flutter>=v3.10.0].
-    // view.physicalSize = viewVariant.physicalSize;
-    // view.devicePixelRatio = viewVariant.devicePixelRatio;
+    view.physicalSize = viewVariant.physicalSize;
+    view.devicePixelRatio = viewVariant.devicePixelRatio;
 
-    binding.window.physicalSizeTestValue = viewVariant.physicalSize;
-    binding.window.devicePixelRatioTestValue = viewVariant.devicePixelRatio;
-
-    addTearDown(binding.window.clearPhysicalSizeTestValue);
-    addTearDown(binding.window.clearDevicePixelRatioTestValue);
+    addTearDown(view.resetPhysicalSize);
+    addTearDown(view.resetDevicePixelRatio);
   }
 
   Future<void> verifyGolden(dynamic actual, Object file) async {
@@ -32,7 +26,8 @@ extension WidgetTesterX on WidgetTester {
   /// Pauses test until images are ready to be rendered.
   Future<void> precacheImages() async {
     final imageElements = find.byType(Image, skipOffstage: false).evaluate();
-    final containerElements = find.byType(DecoratedBox, skipOffstage: false).evaluate();
+    final containerElements =
+        find.byType(DecoratedBox, skipOffstage: false).evaluate();
 
     await runAsync(() async {
       for (final element in imageElements) {

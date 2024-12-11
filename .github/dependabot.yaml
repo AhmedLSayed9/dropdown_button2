@@ -1,0 +1,23 @@
+version: 2
+enable-beta-ecosystems: true
+
+updates:
+  # GitHub actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
+  # Workspace root
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: weekly
+  # Packages
+  - package-ecosystem: "pub"
+    directory: "/packages/dropdown_button2"
+    schedule:
+      interval: weekly
+  - package-ecosystem: "pub"
+    directory: "/packages/dropdown_button2_test"
+    schedule:
+      interval: weekly

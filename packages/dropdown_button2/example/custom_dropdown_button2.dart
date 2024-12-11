@@ -1,10 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton2 extends StatelessWidget {
   const CustomDropdownButton2({
     required this.hint,
-    required this.value,
+    required this.valueListenable,
     required this.dropdownItems,
     required this.onChanged,
     this.selectedItemBuilder,
@@ -33,7 +34,7 @@ class CustomDropdownButton2 extends StatelessWidget {
     super.key,
   });
   final String hint;
-  final String? value;
+  final ValueListenable<String?>? valueListenable;
   final List<String> dropdownItems;
   final ValueChanged<String?>? onChanged;
   final DropdownButtonBuilder? selectedItemBuilder;
@@ -76,10 +77,11 @@ class CustomDropdownButton2 extends StatelessWidget {
             ),
           ),
         ),
-        value: value,
+        valueListenable: valueListenable,
         items: dropdownItems
-            .map((String item) => DropdownMenuItem<String>(
+            .map((String item) => DropdownItem<String>(
                   value: item,
+                  height: itemHeight ?? 40,
                   child: Container(
                     alignment: valueAlignment,
                     child: Text(
@@ -137,7 +139,6 @@ class CustomDropdownButton2 extends StatelessWidget {
           ),
         ),
         menuItemStyleData: MenuItemStyleData(
-          height: itemHeight ?? 40,
           padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
         ),
       ),

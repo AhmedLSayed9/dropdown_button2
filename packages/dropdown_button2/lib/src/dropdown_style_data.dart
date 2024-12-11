@@ -8,6 +8,7 @@ class ButtonStyleData {
     this.width,
     this.padding,
     this.decoration,
+    this.foregroundDecoration,
     this.elevation,
     this.overlayColor,
   });
@@ -23,6 +24,9 @@ class ButtonStyleData {
 
   /// The decoration of the Button
   final BoxDecoration? decoration;
+
+  /// The decoration to paint in front of the Button
+  final BoxDecoration? foregroundDecoration;
 
   /// The elevation of the Button
   final int? elevation;
@@ -52,6 +56,28 @@ class ButtonStyleData {
   ///    match a component's state:
   ///    <https://material.io/design/interaction/states.html#anatomy>.
   final MaterialStateProperty<Color?>? overlayColor;
+
+  /// Create a clone of the current [ButtonStyleData] but with the provided
+  /// parameters overridden.
+  ButtonStyleData copyWith({
+    double? height,
+    double? width,
+    EdgeInsetsGeometry? padding,
+    BoxDecoration? decoration,
+    BoxDecoration? foregroundDecoration,
+    int? elevation,
+    MaterialStateProperty<Color?>? overlayColor,
+  }) {
+    return ButtonStyleData(
+      height: height ?? this.height,
+      width: width ?? this.width,
+      padding: padding ?? this.padding,
+      decoration: decoration ?? this.decoration,
+      foregroundDecoration: foregroundDecoration ?? this.foregroundDecoration,
+      elevation: elevation ?? this.elevation,
+      overlayColor: overlayColor ?? this.overlayColor,
+    );
+  }
 }
 
 /// A class to configure the theme of the button's icon.
@@ -93,6 +119,24 @@ class IconStyleData {
 
   /// Shows different icon when dropdown menu is open
   final Widget? openMenuIcon;
+
+  /// Create a clone of the current [IconStyleData] but with the provided
+  /// parameters overridden.
+  IconStyleData copyWith({
+    Widget? icon,
+    Color? iconDisabledColor,
+    Color? iconEnabledColor,
+    double? iconSize,
+    Widget? openMenuIcon,
+  }) {
+    return IconStyleData(
+      icon: icon ?? this.icon,
+      iconDisabledColor: iconDisabledColor ?? this.iconDisabledColor,
+      iconEnabledColor: iconEnabledColor ?? this.iconEnabledColor,
+      iconSize: iconSize ?? this.iconSize,
+      openMenuIcon: openMenuIcon ?? this.openMenuIcon,
+    );
+  }
 }
 
 /// A class to configure the theme of the dropdown menu.
@@ -113,6 +157,7 @@ class DropdownStyleData {
     this.useRootNavigator = false,
     this.scrollbarTheme,
     this.openInterval = const Interval(0.25, 0.5),
+    this.dropdownBuilder,
   });
 
   /// The maximum height of the dropdown menu
@@ -130,9 +175,15 @@ class DropdownStyleData {
   final double? width;
 
   /// The inner padding of the dropdown menu
+  ///
+  /// The horizontal padding will be added to the button's padding as well, ensuring that
+  /// the menu width and button width adapt seamlessly to the maximum width of the items.
   final EdgeInsetsGeometry? padding;
 
   /// The inner padding of the dropdown menu including the scrollbar
+  ///
+  /// The horizontal padding will be added to the button's padding as well, ensuring that
+  /// the menu width and button width adapt seamlessly to the maximum width of the items.
   final EdgeInsetsGeometry? scrollPadding;
 
   /// The decoration of the dropdown menu
@@ -178,27 +229,80 @@ class DropdownStyleData {
 
   /// The animation curve used for opening the dropdown menu (forward direction)
   final Interval openInterval;
+
+  /// A builder to customize the dropdown menu.
+  ///
+  /// Example:
+  /// ```dart
+  /// dropdownBuilder: (ctx, child) {
+  ///   return ClipRRect(
+  ///     clipBehavior: Clip.antiAlias,
+  ///     child: BackdropFilter(
+  ///       filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+  ///       child: child,
+  ///     ),
+  ///   );
+  /// },
+  /// ```
+  final DropdownBuilder? dropdownBuilder;
+
+  /// Create a clone of the current [DropdownStyleData] but with the provided
+  /// parameters overridden.
+  DropdownStyleData copyWith({
+    double? maxHeight,
+    double? width,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? scrollPadding,
+    BoxDecoration? decoration,
+    int? elevation,
+    DropdownDirection? direction,
+    Offset? offset,
+    bool? isOverButton,
+    bool? useSafeArea,
+    bool? isFullScreen,
+    bool? useRootNavigator,
+    ScrollbarThemeData? scrollbarTheme,
+    Interval? openInterval,
+    DropdownBuilder? dropdownBuilder,
+  }) {
+    return DropdownStyleData(
+      maxHeight: maxHeight ?? this.maxHeight,
+      width: width ?? this.width,
+      padding: padding ?? this.padding,
+      scrollPadding: scrollPadding ?? this.scrollPadding,
+      decoration: decoration ?? this.decoration,
+      elevation: elevation ?? this.elevation,
+      direction: direction ?? this.direction,
+      offset: offset ?? this.offset,
+      isOverButton: isOverButton ?? this.isOverButton,
+      useSafeArea: useSafeArea ?? this.useSafeArea,
+      isFullScreen: isFullScreen ?? this.isFullScreen,
+      useRootNavigator: useRootNavigator ?? this.useRootNavigator,
+      scrollbarTheme: scrollbarTheme ?? this.scrollbarTheme,
+      openInterval: openInterval ?? this.openInterval,
+      dropdownBuilder: dropdownBuilder ?? this.dropdownBuilder,
+    );
+  }
 }
 
 /// A class to configure the theme of the dropdown menu items.
 class MenuItemStyleData {
   /// Creates a MenuItemStyleData.
   const MenuItemStyleData({
-    this.height = _kMenuItemHeight,
-    this.customHeights,
     this.padding,
+    this.borderRadius,
     this.overlayColor,
     this.selectedMenuItemBuilder,
   });
 
-  /// The height of the menu item, default value is [kMinInteractiveDimension]
-  final double height;
-
-  /// Define different heights for the menu items (useful for adding dividers)
-  final List<double>? customHeights;
-
-  /// The padding of menu items
+  /// The padding applied to each menu item.
+  ///
+  /// The horizontal padding will be added to the button's padding as well, ensuring that
+  /// the menu width and button width adapt seamlessly to the maximum width of the items.
   final EdgeInsetsGeometry? padding;
+
+  /// The border radius of the menu item.
+  final BorderRadius? borderRadius;
 
   /// Defines the ink response focus, hover, and splash colors.
   ///
@@ -241,6 +345,23 @@ class MenuItemStyleData {
   /// },
   /// ```
   final SelectedMenuItemBuilder? selectedMenuItemBuilder;
+
+  /// Create a clone of the current [MenuItemStyleData] but with the provided
+  /// parameters overridden.
+  MenuItemStyleData copyWith({
+    EdgeInsetsGeometry? padding,
+    BorderRadius? borderRadius,
+    MaterialStateProperty<Color?>? overlayColor,
+    SelectedMenuItemBuilder? selectedMenuItemBuilder,
+  }) {
+    return MenuItemStyleData(
+      padding: padding ?? this.padding,
+      borderRadius: borderRadius ?? this.borderRadius,
+      overlayColor: overlayColor ?? this.overlayColor,
+      selectedMenuItemBuilder:
+          selectedMenuItemBuilder ?? this.selectedMenuItemBuilder,
+    );
+  }
 }
 
 /// A class to configure searchable dropdowns.
@@ -248,12 +369,13 @@ class DropdownSearchData<T> {
   /// Creates a DropdownSearchData.
   const DropdownSearchData({
     this.searchController,
-    this.searchInnerWidget,
-    this.searchInnerWidgetHeight,
+    this.searchBarWidget,
+    this.searchBarWidgetHeight,
+    this.noResultsWidget,
     this.searchMatchFn,
   }) : assert(
-          (searchInnerWidget == null) == (searchInnerWidgetHeight == null),
-          'searchInnerWidgetHeight should not be null when using searchInnerWidget\n'
+          (searchBarWidget == null) == (searchBarWidgetHeight == null),
+          'searchBarWidgetHeight should not be null when using searchBarWidget\n'
           'This is necessary to properly determine menu limits and scroll offset',
         );
 
@@ -263,10 +385,13 @@ class DropdownSearchData<T> {
 
   /// The widget to use for searchable dropdowns, such as search bar.
   /// It will be shown at the top of the dropdown menu.
-  final Widget? searchInnerWidget;
+  final Widget? searchBarWidget;
 
-  /// The height of the searchInnerWidget if used.
-  final double? searchInnerWidgetHeight;
+  /// The height of the searchBarWidget if used.
+  final double? searchBarWidgetHeight;
+
+  /// The widget to show when the search results are empty.
+  final Widget? noResultsWidget;
 
   /// The match function used for searchable dropdowns. If this is null,
   /// then _defaultSearchMatchFn will be used.
@@ -276,4 +401,23 @@ class DropdownSearchData<T> {
   ///   item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
   /// ```
   final SearchMatchFn<T>? searchMatchFn;
+
+  /// Create a clone of the current [DropdownSearchData] but with the provided
+  /// parameters overridden.
+  DropdownSearchData<T> copyWith({
+    TextEditingController? searchController,
+    Widget? searchBarWidget,
+    double? searchBarWidgetHeight,
+    Widget? noResultsWidget,
+    SearchMatchFn<T>? searchMatchFn,
+  }) {
+    return DropdownSearchData<T>(
+      searchController: searchController ?? this.searchController,
+      searchBarWidget: searchBarWidget ?? this.searchBarWidget,
+      searchBarWidgetHeight:
+          searchBarWidgetHeight ?? this.searchBarWidgetHeight,
+      noResultsWidget: noResultsWidget ?? this.noResultsWidget,
+      searchMatchFn: searchMatchFn ?? this.searchMatchFn,
+    );
+  }
 }

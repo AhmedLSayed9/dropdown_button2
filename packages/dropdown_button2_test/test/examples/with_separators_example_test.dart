@@ -7,15 +7,16 @@ import 'test_app.dart';
 
 void main() {
   runGoldenTests(
-    'With Dividers Example',
+    'With Separators Example',
     (WidgetTester tester, ViewVariant variant) async {
       // GIVEN
-      await tester.pumpTestApp(const WithDividersExample());
+      await tester.pumpTestApp(const WithSeparatorsExample());
 
       // THEN
       await expectLater(
         find.byType(TestApp),
-        matchesGoldenFile('goldens/with_dividers_example/${variant.name}_closed_menu.png'),
+        matchesGoldenFile(
+            'goldens/with_separators_example/${variant.name}_closed_menu.png'),
       );
 
       // GIVEN
@@ -26,7 +27,8 @@ void main() {
       // THEN
       await expectLater(
         find.byType(TestApp),
-        matchesGoldenFile('goldens/with_dividers_example/${variant.name}_open_menu.png'),
+        matchesGoldenFile(
+            'goldens/with_separators_example/${variant.name}_open_menu.png'),
       );
     },
   );

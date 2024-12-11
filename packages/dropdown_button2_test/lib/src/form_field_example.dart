@@ -13,8 +13,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
     'Male',
     'Female',
   ];
-
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -55,7 +54,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   style: TextStyle(fontSize: 14),
                 ),
                 items: genderItems
-                    .map((item) => DropdownMenuItem<String>(
+                    .map((item) => DropdownItem<String>(
                           value: item,
                           child: Text(
                             item,
@@ -65,6 +64,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                           ),
                         ))
                     .toList(),
+                valueListenable: valueListenable,
                 validator: (value) {
                   if (value == null) {
                     return 'Please select gender.';
@@ -72,14 +72,8 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   return null;
                 },
                 onChanged: (value) {
-                  //Do something when selected item is changed.
+                  valueListenable.value = value;
                 },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
-                buttonStyleData: const ButtonStyleData(
-                  padding: EdgeInsets.only(right: 8),
-                ),
                 iconStyleData: const IconStyleData(
                   icon: Icon(
                     Icons.arrow_drop_down,
@@ -99,7 +93,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
               TextButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                    // Do something.
                   }
                 },
                 child: const Text('Submit Button'),

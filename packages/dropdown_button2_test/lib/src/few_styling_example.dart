@@ -19,7 +19,7 @@ class _FewStylingExampleState extends State<FewStylingExample> {
     'Item7',
     'Item8',
   ];
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +52,9 @@ class _FewStylingExampleState extends State<FewStylingExample> {
               ],
             ),
             items: items
-                .map((String item) => DropdownMenuItem<String>(
+                .map((String item) => DropdownItem<String>(
                       value: item,
+                      height: 40,
                       child: Text(
                         item,
                         style: const TextStyle(
@@ -65,11 +66,9 @@ class _FewStylingExampleState extends State<FewStylingExample> {
                       ),
                     ))
                 .toList(),
-            value: selectedValue,
+            valueListenable: valueListenable,
             onChanged: (value) {
-              setState(() {
-                selectedValue = value;
-              });
+              valueListenable.value = value;
             },
             buttonStyleData: ButtonStyleData(
               height: 50,
@@ -107,7 +106,6 @@ class _FewStylingExampleState extends State<FewStylingExample> {
               ),
             ),
             menuItemStyleData: const MenuItemStyleData(
-              height: 40,
               padding: EdgeInsets.only(left: 14, right: 14),
             ),
           ),

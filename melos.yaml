@@ -11,6 +11,10 @@ command:
       Release
 
       {new_package_versions}
+  bootstrap:
+    environment:
+      sdk: ">=3.2.0 <4.0.0"
+      flutter: ">=3.16.0"
 
 scripts:
   lint:all:
@@ -24,7 +28,7 @@ scripts:
     description: Run `flutter analyze` for all packages.
 
   format:
-    run: melos exec dart format . --line-length=100 --fix
+    run: melos exec dart format . --fix
     description: Run `dart format` for all packages.
 
   test:select:

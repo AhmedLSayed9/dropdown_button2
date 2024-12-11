@@ -1,6 +1,190 @@
+## 3.0.0-beta.20
+
+- Remove an assert from updateSelectedIndex method.
+- Update examples.
+
+## 3.0.0-beta.19
+
+- Enhance the display of error/helper elements at DropdownButtonFormField2, closes #199.
+
+## 3.0.0-beta.18
+
+- Replaces textScaleFactor with TextScaler [Flutter core].
+- Fix DropdownButtonFormField2 ink response radius for different input borders.
+- Fix error border not showing for DropdownButtonFormField2, closes #297 & #319.
+
+## 3.0.0-beta.17
+
+- Enhance scroll position when using searchable dropdown, closes #285.
+- Temporarily fix ink splash gets displayed over search widget, closes #290.
+- Add copyWith method for style data classes, closes #314.
+
+## 3.0.0-beta.16
+
+- Fix dropdown menu position when window changes horizontally, closes #243.
+
+## 3.0.0-beta.15
+
+- Always call `onChanged` when tapping enabled item, closes #275.
+
+## 3.0.0-beta.14
+
+- Optimize scroll performance when dealing with large items list.
+- Update SDK constraints: ">=3.2.0 <4.0.0"
+
+## 3.0.0-beta.13
+
+- **BREAKING**: Add `openDropdownListenable` property that can be used to programmatically open the dropdown menu.
+
+  Instead of:
+
+  ```dart
+  final dropdownKey = GlobalKey<DropdownButton2State>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children:[
+        DropdownButton2<String>(
+          // Other properties...
+          key: dropdownKey,
+        );
+        // Open the dropdown programmatically, like when another button is pressed:
+        ElevatedButton(
+          onTap: () => dropdownKey.currentState!.callTap(),
+        ),
+      ],
+    );
+  }
+  ```
+
+  do:
+
+  ```dart
+  final openDropdownListenable = ValueNotifier<Object?>(null);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children:[
+        DropdownButton2<String>(
+          // Other properties...
+          openDropdownListenable: openDropdownListenable,
+        );
+        // Open the dropdown programmatically, like when another button is pressed:
+        ElevatedButton(
+          onTap: () => openDropdownListenable.value = Object(),
+        ),
+      ],
+    );
+  }
+  ```
+
+## 3.0.0-beta.12
+
+- Add `dropdownBuilder` property for DropdownStyleData, it can be used to customize the dropdown menu.
+
+## 3.0.0-beta.11
+
+- Introduce `valueListenable` and `multiValueListenable`, which replaces SetState with ValueListenable.
+- Support implementing select all option (Check multi-select example), closes #121 and #167.
+
+## 3.0.0-beta.10
+
+- Add the possibility to display a dropdown menu centered through `DropdownDirection.center`.
+- Add `barrierCoversButton` property, used to specify whether the modal barrier should cover the dropdown button or not.
+
+## 3.0.0-beta.9
+
+- Update DropdownItem to respect intrinsicHeight.
+- Update added menu padding to include button icon.
+
+## 3.0.0-beta.8
+
+- Add `foregroundDecoration` property for ButtonStyleData.
+
+## 3.0.0-beta.7
+
+- Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
+
+## 3.0.0-beta.6
+
+- Fix isExpanded and alignment functionality.
+
+## 3.0.0-beta.5
+
+- Enhance rendering performance when dealing with big items list.
+
+## 3.0.0-beta.4
+
+- Add `noResultsWidget` property for DropdownSearchData. It can be used to show some widget when the search results are empty.
+- Rename searchInnerWidget[Height] to searchBarWidget[Height].
+
+## 3.0.0-beta.3
+
+- Fix inkwell covers error message.
+
+## 3.0.0-beta.2
+
+- Add border radius parameter for menu item.
+
+## 3.0.0-beta.1
+
+- Fix formatting.
+
+## 3.0.0-beta.0
+
+- **BREAKING**: Replaces DropdownMenuItem with DropdownItem to provide extra functionality.
+
+  Instead of:
+
+  ```dart
+  items: items.map((String item) => DropdownMenuItem<String>(...)).toList(),
+  ```
+
+  do:
+
+  ```dart
+  items: items.map((String item) => DropdownItem<String>(...)).toList(),
+  ```
+
+- Add `closeOnTap` property to DropdownItem. It controls whether the dropdown should close when the item is tapped.
+
+- **BREAKING**: Support setting different heights for items.
+
+  Instead of:
+
+  ```dart
+  items: items
+    .map((String item) => DropdownItem<String>(
+        value: item,
+        child: Text(item),
+      ))
+    .toList(),
+  menuItemStyleData: const MenuItemStyleData(
+    height: 40,
+  ),
+  ```
+
+  do:
+
+  ```dart
+  items: items
+    .map((String item) => DropdownItem<String>(
+          value: item,
+          height: 40,
+          child: Text(item),
+        ))
+    .toList(),
+  ```
+
+- Support adding separator widget internally, closes #134.
+
+- Update highlight behavior, closes #184.
+
 ## 2.3.9
 
- - Use melos to separate package golden tests, closes #176.
+- Use melos to separate package golden tests, closes #176.
 
 ## 2.3.8
 
@@ -93,7 +277,7 @@
 
 ## 1.9.3
 
-- Add searchInnerWidgetHeight, it fixes menu limits and scroll offset when using searchInnerWidget.
+- Add searchBarWidgetHeight, it fixes menu limits and scroll offset when using searchBarWidget.
 
 ## 1.9.2
 
@@ -206,7 +390,7 @@
 
 * searchController parameter, The TextEditingController used for searchable dropdowns. If null, then
   it'll perform as a normal dropdown without searching feature.
-* searchInnerWidget parameter, The widget to be shown at the top of the dropdown menu for searchable
+* searchBarWidget parameter, The widget to be shown at the top of the dropdown menu for searchable
   dropdowns, such as search bar.
 * searchMatchFn parameter, The match function used for searchable dropdowns, if null \_
   defaultSearchMatchFn will be used.

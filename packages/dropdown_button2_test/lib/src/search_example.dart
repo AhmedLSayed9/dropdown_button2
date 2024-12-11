@@ -20,7 +20,7 @@ class _SearchExampleState extends State<SearchExample> {
     'B_Item4',
   ];
 
-  String? selectedValue;
+  final valueListenable = ValueNotifier<String?>(null);
   final TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -44,8 +44,9 @@ class _SearchExampleState extends State<SearchExample> {
               ),
             ),
             items: items
-                .map((item) => DropdownMenuItem(
+                .map((item) => DropdownItem(
                       value: item,
+                      height: 40,
                       child: Text(
                         item,
                         style: const TextStyle(
@@ -54,11 +55,9 @@ class _SearchExampleState extends State<SearchExample> {
                       ),
                     ))
                 .toList(),
-            value: selectedValue,
+            valueListenable: valueListenable,
             onChanged: (value) {
-              setState(() {
-                selectedValue = value;
-              });
+              valueListenable.value = value;
             },
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -68,17 +67,13 @@ class _SearchExampleState extends State<SearchExample> {
             dropdownStyleData: const DropdownStyleData(
               maxHeight: 200,
             ),
-            menuItemStyleData: const MenuItemStyleData(
-              height: 40,
-            ),
             dropdownSearchData: DropdownSearchData(
               searchController: textEditingController,
-              searchInnerWidgetHeight: 50,
-              searchInnerWidget: Container(
+              searchBarWidgetHeight: 50,
+              searchBarWidget: Container(
                 height: 50,
                 padding: const EdgeInsets.only(
                   top: 8,
-                  bottom: 4,
                   right: 8,
                   left: 8,
                 ),
@@ -88,10 +83,7 @@ class _SearchExampleState extends State<SearchExample> {
                   controller: textEditingController,
                   decoration: InputDecoration(
                     isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
-                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     hintText: 'Search for an item...',
                     hintStyle: const TextStyle(fontSize: 12),
                     border: OutlineInputBorder(
@@ -99,6 +91,10 @@ class _SearchExampleState extends State<SearchExample> {
                     ),
                   ),
                 ),
+              ),
+              noResultsWidget: const Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('No Item Found!'),
               ),
               searchMatchFn: (item, searchValue) {
                 return item.value.toString().contains(searchValue);

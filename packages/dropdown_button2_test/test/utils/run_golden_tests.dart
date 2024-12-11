@@ -12,7 +12,8 @@ void runGoldenTests(
   GoldenTestCallback callback, {
   ValueVariant<ViewVariant>? variantsOverride,
 }) {
-  final ValueVariant<ViewVariant> variants = variantsOverride ?? defaultVariants;
+  final ValueVariant<ViewVariant> variants =
+      variantsOverride ?? defaultVariants;
   testWidgets(
     description,
     (WidgetTester tester) async {

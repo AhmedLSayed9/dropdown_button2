@@ -22,15 +22,21 @@ class _PopupIconExampleState extends State<PopupIconExample> {
             ),
             items: [
               ..._MenuItems.firstItems.map(
-                (item) => DropdownMenuItem<_MenuItem>(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
+                  height: 48,
                   child: _MenuItems.buildItem(item),
                 ),
               ),
-              const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
+              const DropdownItem<Divider>(
+                enabled: false,
+                height: 8,
+                child: Divider(),
+              ),
               ..._MenuItems.secondItems.map(
-                (item) => DropdownMenuItem<_MenuItem>(
+                (item) => DropdownItem<_MenuItem>(
                   value: item,
+                  height: 48,
                   child: _MenuItems.buildItem(item),
                 ),
               ),
@@ -47,13 +53,8 @@ class _PopupIconExampleState extends State<PopupIconExample> {
               ),
               offset: const Offset(0, 8),
             ),
-            menuItemStyleData: MenuItemStyleData(
-              customHeights: [
-                ...List<double>.filled(_MenuItems.firstItems.length, 48),
-                8,
-                ...List<double>.filled(_MenuItems.secondItems.length, 48),
-              ],
-              padding: const EdgeInsets.only(left: 16, right: 16),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.only(left: 16, right: 16),
             ),
           ),
         ),

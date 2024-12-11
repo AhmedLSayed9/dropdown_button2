@@ -1,26 +1,131 @@
 part of 'dropdown_button2.dart';
 
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-/// Same as [num.clamp] but optimized for non-null [double].
+/// Adds separators to a list of heights.
 ///
-/// This is faster because it avoids polymorphism, boxing, and special cases for
-/// floating point numbers.
-//
-// See also: //dev/benchmarks/microbenchmarks/lib/foundation/clamp.dart
-// TODO(Ahmed): use clampDouble from Flutter [flutter>=v3.3.0].
-double _clampDouble(double x, double min, double max) {
-  assert(min <= max && !max.isNaN && !min.isNaN);
-  if (x < min) {
-    return min;
+/// The [itemHeights] property is the list of heights of the items.
+///
+/// The [separatorHeight] property is the height of the separator.
+///
+/// Returns a new list of heights with separators added.
+List<double> addSeparatorsHeights({
+  required List<double> itemHeights,
+  required double? separatorHeight,
+}) {
+  final List<double> heights = [];
+
+  bool addSeparator = false;
+  if (separatorHeight != null) {
+    for (final item in itemHeights) {
+      if (addSeparator) {
+        heights.add(separatorHeight);
+      }
+      heights.add(item);
+      addSeparator = true;
+    }
+  } else {
+    heights.addAll(itemHeights);
   }
-  if (x > max) {
-    return max;
+
+  return heights;
+}
+
+void _uniqueValueAssert<T>(
+  List<DropdownItem<T>>? items,
+  ValueListenable<T?>? valueListenable,
+  ValueListenable<List<T>>? multiValueListenable,
+) {
+  if (items == null || items.isEmpty) {
+    return;
   }
-  if (x.isNaN) {
-    return max;
+
+  String assertMessage(T value) {
+    return "There should be exactly one item with [DropdownButton]'s value: "
+        '$value. \n'
+        'Either zero or 2 or more [DropdownItem]s were detected '
+        'with the same value';
   }
-  return x;
+
+  assert(
+    valueListenable?.value == null ||
+        items.where((DropdownItem<T> item) {
+              return item.value == valueListenable!.value;
+            }).length ==
+            1,
+    assertMessage(valueListenable!.value as T),
+  );
+
+  final currentMultiValue = multiValueListenable?.value.lastOrNull;
+  assert(
+    currentMultiValue == null ||
+        items.where((DropdownItem<T> item) {
+              return item.value == currentMultiValue;
+            }).length ==
+            1,
+    assertMessage(currentMultiValue),
+  );
+}
+
+extension _InputDecorationExtension on InputDecoration {
+  InputDecoration updateSurroundingElements({
+    required Widget? error,
+    required String? errorText,
+    // TODO(Ahmed): Add this when it's supported by the min version of the package [Flutter>=3.22.0].
+    required String? helperText,
+  }) {
+    return InputDecoration(
+      icon: icon,
+      iconColor: iconColor,
+      label: label,
+      labelText: labelText,
+      labelStyle: labelStyle,
+      floatingLabelStyle: floatingLabelStyle,
+      //helper: helper,
+      helperText: helperText,
+      helperStyle: helperStyle,
+      helperMaxLines: helperMaxLines,
+      hintText: hintText,
+      hintStyle: hintStyle,
+      hintTextDirection: hintTextDirection,
+      hintMaxLines: hintMaxLines,
+      hintFadeDuration: hintFadeDuration,
+      error: error,
+      errorText: errorText,
+      errorStyle: errorStyle,
+      errorMaxLines: errorMaxLines,
+      floatingLabelBehavior: floatingLabelBehavior,
+      floatingLabelAlignment: floatingLabelAlignment,
+      isCollapsed: isCollapsed,
+      isDense: isDense,
+      contentPadding: contentPadding,
+      prefixIcon: prefixIcon,
+      prefix: prefix,
+      prefixText: prefixText,
+      prefixStyle: prefixStyle,
+      prefixIconColor: prefixIconColor,
+      prefixIconConstraints: prefixIconConstraints,
+      suffixIcon: suffixIcon,
+      suffix: suffix,
+      suffixText: suffixText,
+      suffixStyle: suffixStyle,
+      suffixIconColor: suffixIconColor,
+      suffixIconConstraints: suffixIconConstraints,
+      counter: counter,
+      counterText: counterText,
+      counterStyle: counterStyle,
+      filled: filled,
+      fillColor: fillColor,
+      focusColor: focusColor,
+      hoverColor: hoverColor,
+      errorBorder: errorBorder,
+      focusedBorder: focusedBorder,
+      focusedErrorBorder: focusedErrorBorder,
+      disabledBorder: disabledBorder,
+      enabledBorder: enabledBorder,
+      border: border,
+      enabled: enabled,
+      semanticCounterText: semanticCounterText,
+      alignLabelWithHint: alignLabelWithHint,
+      constraints: constraints,
+    );
+  }
 }

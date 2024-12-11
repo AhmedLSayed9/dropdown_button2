@@ -2,8 +2,9 @@ name: dropdown_button2_workspace
 publish_to: "none"
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: 3.16.0
 
 dev_dependencies:
-  flutter_lints: ^2.0.1
-  melos: ^3.1.1
+  flutter_lints: ^4.0.0
+  melos: ^6.0.0
