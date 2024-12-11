@@ -1538,11 +1538,9 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
       hintIndex = items.length;
       items.add(DefaultTextStyle(
         style: _textStyle!.copyWith(color: Theme.of(context).hintColor),
-        child: IgnorePointer(
-          child: _DropdownMenuItemContainer(
-            alignment: widget.alignment,
-            child: displayedHint,
-          ),
+        child: _DropdownMenuItemContainer(
+          alignment: widget.alignment,
+          child: displayedHint,
         ),
       ));
     }
