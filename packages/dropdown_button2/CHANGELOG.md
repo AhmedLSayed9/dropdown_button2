@@ -1,3 +1,7 @@
+## UNRELEASED
+
+- Fix menu limits when using searchable dropdown with separators, closes #214.
+
 ## 3.0.0-beta.20
 
 - Remove an assert from updateSelectedIndex method.

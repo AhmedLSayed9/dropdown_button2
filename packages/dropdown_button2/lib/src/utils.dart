@@ -1,34 +1,5 @@
 part of 'dropdown_button2.dart';
 
-/// Adds separators to a list of heights.
-///
-/// The [itemHeights] property is the list of heights of the items.
-///
-/// The [separatorHeight] property is the height of the separator.
-///
-/// Returns a new list of heights with separators added.
-List<double> addSeparatorsHeights({
-  required List<double> itemHeights,
-  required double? separatorHeight,
-}) {
-  final List<double> heights = [];
-
-  bool addSeparator = false;
-  if (separatorHeight != null) {
-    for (final item in itemHeights) {
-      if (addSeparator) {
-        heights.add(separatorHeight);
-      }
-      heights.add(item);
-      addSeparator = true;
-    }
-  } else {
-    heights.addAll(itemHeights);
-  }
-
-  return heights;
-}
-
 void _uniqueValueAssert<T>(
   List<DropdownItem<T>>? items,
   ValueListenable<T?>? valueListenable,
