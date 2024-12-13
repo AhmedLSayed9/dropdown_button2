@@ -1,4 +1,4 @@
-## UNRELEASED
+## 3.0.0-beta.21
 
 - Fix menu limits when using searchable dropdown with separators, closes #214.
 
