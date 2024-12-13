@@ -19,11 +19,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.menuItemStyle,
     required this.searchData,
     this.dropdownSeparator,
-  })  : itemHeights = addSeparatorsHeights(
-          itemHeights: items.map((item) => item.height).toList(),
-          separatorHeight: dropdownSeparator?.height,
-        ),
-        barrierColor = barrierCoversButton ? barrierColor : null,
+  })  : barrierColor = barrierCoversButton ? barrierColor : null,
         _altBarrierColor = barrierColor;
 
   final List<DropdownItem<T>> items;
@@ -40,7 +36,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final DropdownSearchData<T>? searchData;
   final DropdownSeparator<T>? dropdownSeparator;
 
-  final List<double> itemHeights;
   ScrollController? scrollController;
 
   @override
@@ -114,6 +109,25 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     }
   }
 
+  double _itemHeightWithSeparator(int itemIndex) {
+    final itemHeight = items[itemIndex].height;
+    final separatorHeight = dropdownSeparator?.height ?? 0;
+    return itemIndex != 0 ? itemHeight + separatorHeight : itemHeight;
+  }
+
+  double _calculateHeightUntilIndex(
+    int index, {
+    bool Function(DropdownItem<T> item)? itemPredicate,
+  }) {
+    var itemsHeight = 0.0;
+    for (int i = 0; i < index; i++) {
+      if (itemPredicate == null || itemPredicate(items[i])) {
+        itemsHeight += _itemHeightWithSeparator(i);
+      }
+    }
+    return itemsHeight;
+  }
+
   double getItemOffset(int index) {
     final double paddingTop = dropdownStyle.padding != null
         ? dropdownStyle.padding!.resolve(null).top
@@ -121,10 +135,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     double offset = paddingTop;
 
     if (items.isNotEmpty && index > 0) {
-      assert(
-        items.length + (dropdownSeparator != null ? items.length - 1 : 0) ==
-            itemHeights.length,
-      );
       if (searchData?.searchController?.text case final searchText?) {
         final searchMatchFn =
             searchData?.searchMatchFn ?? _defaultSearchMatchFn();
@@ -133,9 +143,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
           offset += _getSearchItemsHeight(index, searchText);
         }
       } else {
-        for (int i = 0; i < index; i++) {
-          offset += itemHeights[i];
-        }
+        offset += _calculateHeightUntilIndex(index);
       }
     }
 
@@ -143,14 +151,11 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   }
 
   double _getSearchItemsHeight(int index, String searchText) {
-    var itemsHeight = 0.0;
     final searchMatchFn = searchData?.searchMatchFn ?? _defaultSearchMatchFn();
-    for (int i = 0; i < index; i++) {
-      if (searchMatchFn(items[i], searchText)) {
-        itemsHeight += itemHeights[i];
-      }
-    }
-    return itemsHeight;
+    return _calculateHeightUntilIndex(
+      index,
+      itemPredicate: (item) => searchMatchFn(item, searchText),
+    );
   }
 
   // Returns the vertical extent of the menu and the initial scrollOffset
@@ -177,7 +182,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
       final searchText = searchData?.searchController?.text;
       actualMenuHeight += searchText != null
           ? _getSearchItemsHeight(items.length, searchText)
-          : itemHeights.reduce((double total, double height) => total + height);
+          : _calculateHeightUntilIndex(items.length);
     }
 
     // Use actualMenuHeight if it's less than maxHeight.
@@ -215,13 +220,11 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
       final double actualMenuNetHeight = actualMenuHeight - innerWidgetHeight;
       // The offset should be zero if the selected item is in view at the beginning
       // of the menu. Otherwise, the scroll offset should center the item if possible.
-      final actualIndex = dropdownSeparator?.height != null ? index * 2 : index;
-      final double selectedItemOffset = getItemOffset(actualIndex);
+      final double selectedItemOffset = getItemOffset(index);
       scrollOffset = math.max(
-          0.0,
-          selectedItemOffset -
-              (menuNetHeight / 2) +
-              (itemHeights[actualIndex] / 2));
+        0.0,
+        selectedItemOffset - (menuNetHeight / 2) + (items[index].height / 2),
+      );
       // If the selected item's scroll offset is greater than the maximum scroll offset,
       // set it instead to the maximum allowed scroll offset.
       final double maxScrollOffset = actualMenuNetHeight - menuNetHeight;

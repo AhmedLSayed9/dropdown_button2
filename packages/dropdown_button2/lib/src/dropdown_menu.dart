@@ -209,9 +209,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                                     if (index >= childrenLength) {
                                       return 100;
                                     }
-                                    return separator != null && index.isOdd
-                                        ? separator.height
-                                        : route.itemHeights[index];
+                                    return separator == null
+                                        ? route.items[index].height
+                                        : index.isOdd
+                                            ? separator.height
+                                            : route.items[index ~/ 2].height;
                                   },
                             childrenDelegate: separator == null
                                 ? SliverChildBuilderDelegate(
