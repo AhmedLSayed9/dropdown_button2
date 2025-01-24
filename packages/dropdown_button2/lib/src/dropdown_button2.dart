@@ -672,8 +672,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (buttonRadius != null) {
       return buttonRadius.resolve(Directionality.of(context));
     }
-    if (widget._inputDecoration case final border?) {
-      return _inputDecorationBorderRadius(border);
+    if (widget._inputDecoration case final decoration?) {
+      return _inputDecorationBorderRadius(decoration);
     }
     return null;
   }
