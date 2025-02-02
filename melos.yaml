@@ -22,8 +22,10 @@ scripts:
     description: Run all static analysis checks.
 
   analyze:
+    # We are setting the concurrency to 1 because a higher concurrency can crash
+    # the analysis server on low performance machines (like GitHub Actions).
     run: |
-      melos exec -c 10 -- \
+      melos exec -c 1 -- \
         flutter analyze --fatal-infos
     description: Run `flutter analyze` for all packages.
 
