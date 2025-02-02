@@ -592,11 +592,6 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
     _isMenuOpen.value = true;
     _focusNode.requestFocus();
-    // This is a temporary fix for the "dropdown menu steal the focus from the
-    // underlying button" issue, until share focus is fixed in flutter (#106923).
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _dropdownRoute?._childNode.requestFocus();
-    });
     navigator
         .push(_dropdownRoute!)
         .then<void>((_DropdownRouteResult<T>? newValue) {
