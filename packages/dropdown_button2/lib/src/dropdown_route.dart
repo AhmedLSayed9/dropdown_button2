@@ -18,6 +18,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.dropdownStyle,
     required this.menuItemStyle,
     required this.searchData,
+    required this.dropdownOnlyBelowButton,
     this.dropdownSeparator,
   })  : barrierColor = barrierCoversButton ? barrierColor : null,
         _altBarrierColor = barrierColor;
@@ -54,6 +55,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final String? barrierLabel;
 
   final bool barrierCoversButton;
+
+  final bool dropdownOnlyBelowButton;
 
   final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
 
@@ -167,7 +170,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     int index,
   ) {
     double maxHeight =
-        getMenuAvailableHeight(availableHeight, mediaQueryPadding);
+        getMenuAvailableHeight(availableHeight, mediaQueryPadding, buttonRect);
     // If a preferred MaxHeight is set by the user, use it instead of the available maxHeight.
     final double? preferredMaxHeight = dropdownStyle.maxHeight;
     if (preferredMaxHeight != null) {
@@ -242,11 +245,16 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   double getMenuAvailableHeight(
     double availableHeight,
     EdgeInsets mediaQueryPadding,
+    Rect buttonRect,
   ) {
+    if (!dropdownOnlyBelowButton) {
+      return math.max(
+        0.0,
+        availableHeight - mediaQueryPadding.vertical - _kMenuItemHeight,
+      );
+    }
     return math.max(
-      0.0,
-      availableHeight - mediaQueryPadding.vertical - _kMenuItemHeight,
-    );
+        0.0, availableHeight - buttonRect.bottom - mediaQueryPadding.bottom);
   }
 }
 
@@ -348,8 +356,8 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
     final double? itemWidth = route.dropdownStyle.width;
-    double maxHeight =
-        route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
+    double maxHeight = route.getMenuAvailableHeight(
+        availableHeight, mediaQueryPadding, buttonRect);
     final double? preferredMaxHeight = route.dropdownStyle.maxHeight;
     if (preferredMaxHeight != null && preferredMaxHeight <= maxHeight) {
       maxHeight = preferredMaxHeight;
