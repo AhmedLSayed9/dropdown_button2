@@ -111,9 +111,12 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: intrinsicHeight ? null : height,
-      child: Align(alignment: alignment, child: child),
+    return Semantics(
+      button: true,
+      child: SizedBox(
+        height: intrinsicHeight ? null : height,
+        child: Align(alignment: alignment, child: child),
+      ),
     );
   }
 }

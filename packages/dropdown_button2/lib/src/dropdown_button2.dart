@@ -882,8 +882,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       );
     }
 
+    final bool childHasButtonSemantic = hintIndex != null ||
+        (_selectedIndex != null && widget.selectedItemBuilder == null);
     return Semantics(
-      button: true,
+      button: !childHasButtonSemantic,
       child: Actions(
         actions: _actionMap,
         child: InkWell(
