@@ -1,6 +1,7 @@
 ## UNRELEASED
 
 - Fix errorStyle has no effect for DropdownButtonFormField2, closes #327.
+- DropdownRoutePage should dispose the created ScrollController [Flutter core].
 
 ## 3.0.0-beta.21
 

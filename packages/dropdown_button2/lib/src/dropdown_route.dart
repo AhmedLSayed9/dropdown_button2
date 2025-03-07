@@ -36,8 +36,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final DropdownSearchData<T>? searchData;
   final DropdownSeparator<T>? dropdownSeparator;
 
-  ScrollController? scrollController;
-
   @override
   Duration get transitionDuration => _kDropdownMenuDuration;
 
@@ -250,7 +248,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   }
 }
 
-class _DropdownRoutePage<T> extends StatelessWidget {
+class _DropdownRoutePage<T> extends StatefulWidget {
   const _DropdownRoutePage({
     super.key,
     required this.route,
@@ -275,35 +273,50 @@ class _DropdownRoutePage<T> extends StatelessWidget {
   final bool enableFeedback;
 
   @override
-  Widget build(BuildContext context) {
-    assert(debugCheckHasDirectionality(context));
+  State<_DropdownRoutePage<T>> createState() => _DropdownRoutePageState<T>();
+}
 
+class _DropdownRoutePageState<T> extends State<_DropdownRoutePage<T>> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
     // Computing the initialScrollOffset now, before the items have been laid
     // out. This only works if the item heights are effectively fixed, i.e. either
     // DropdownButton.itemHeight is specified or DropdownButton.itemHeight is null
     // and all of the items' intrinsic heights are less than _kMenuItemHeight.
     // Otherwise the initialScrollOffset is just a rough approximation based on
     // treating the items as if their heights were all equal to _kMenuItemHeight.
-    if (route.scrollController == null) {
-      final _MenuLimits menuLimits = route.getMenuLimits(
-        buttonRect,
-        constraints.maxHeight,
-        mediaQueryPadding,
-        selectedIndex,
-      );
-      route.scrollController =
-          ScrollController(initialScrollOffset: menuLimits.scrollOffset);
-    }
+    final _MenuLimits menuLimits = widget.route.getMenuLimits(
+      widget.buttonRect,
+      widget.constraints.maxHeight,
+      widget.mediaQueryPadding,
+      widget.selectedIndex,
+    );
+    _scrollController =
+        ScrollController(initialScrollOffset: menuLimits.scrollOffset);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    assert(debugCheckHasDirectionality(context));
 
     final TextDirection? textDirection = Directionality.maybeOf(context);
-
     final Widget menu = _DropdownMenu<T>(
-      route: route,
+      route: widget.route,
+      scrollController: _scrollController,
       textDirection: textDirection,
-      buttonRect: buttonRect,
-      constraints: constraints,
-      mediaQueryPadding: mediaQueryPadding,
-      enableFeedback: enableFeedback,
+      buttonRect: widget.buttonRect,
+      constraints: widget.constraints,
+      mediaQueryPadding: widget.mediaQueryPadding,
+      enableFeedback: widget.enableFeedback,
     );
 
     return MediaQuery.removePadding(
@@ -316,13 +329,13 @@ class _DropdownRoutePage<T> extends StatelessWidget {
         builder: (BuildContext context) {
           return CustomSingleChildLayout(
             delegate: _DropdownMenuRouteLayout<T>(
-              route: route,
+              route: widget.route,
               textDirection: textDirection,
-              buttonRect: buttonRect,
-              availableHeight: constraints.maxHeight,
-              mediaQueryPadding: mediaQueryPadding,
+              buttonRect: widget.buttonRect,
+              availableHeight: widget.constraints.maxHeight,
+              mediaQueryPadding: widget.mediaQueryPadding,
             ),
-            child: capturedThemes.wrap(menu),
+            child: widget.capturedThemes.wrap(menu),
           );
         },
       ),
