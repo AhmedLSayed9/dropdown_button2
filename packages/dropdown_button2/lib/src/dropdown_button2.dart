@@ -785,7 +785,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
           ? _textStyle!
           : _textStyle!.copyWith(color: Theme.of(context).disabledColor),
       child: widget.customButton ??
-          Container(
+          _ConditionalDecoratedBox(
             decoration: _buttonStyle?.decoration?.copyWith(
               boxShadow: _buttonStyle!.decoration!.boxShadow ??
                   kElevationToShadow[_buttonStyle!.elevation ?? 0],
@@ -794,45 +794,47 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
               boxShadow: _buttonStyle!.foregroundDecoration!.boxShadow ??
                   kElevationToShadow[_buttonStyle!.elevation ?? 0],
             ),
-            padding: (_buttonStyle?.padding ??
-                    padding.resolve(Directionality.of(context)))
-                .add(
-              // When buttonWidth & dropdownWidth is null, their width will be calculated
-              // from the maximum width of menu items or the hint text (width of IndexedStack).
-              // We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
-              _buttonStyle?.width == null && _dropdownStyle.width == null
-                  ? _getMenuPadding()
-                      .resolve(Directionality.of(context))
-                      .copyWith(top: 0, bottom: 0)
-                  : EdgeInsets.zero,
-            ),
             height: buttonHeight,
             width: _buttonStyle?.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                if (widget.isExpanded)
-                  Expanded(child: innerItemsWidget)
-                else
-                  innerItemsWidget,
-                IconTheme(
-                  data: IconThemeData(
-                    color: _iconColor,
-                    size: _iconStyle.iconSize,
+            child: Padding(
+              padding: (_buttonStyle?.padding ??
+                      padding.resolve(Directionality.of(context)))
+                  .add(
+                // When buttonWidth & dropdownWidth is null, their width will be calculated
+                // from the maximum width of menu items or the hint text (width of IndexedStack).
+                // We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
+                _buttonStyle?.width == null && _dropdownStyle.width == null
+                    ? _getMenuPadding()
+                        .resolve(Directionality.of(context))
+                        .copyWith(top: 0, bottom: 0)
+                    : EdgeInsets.zero,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  if (widget.isExpanded)
+                    Expanded(child: innerItemsWidget)
+                  else
+                    innerItemsWidget,
+                  IconTheme(
+                    data: IconThemeData(
+                      color: _iconColor,
+                      size: _iconStyle.iconSize,
+                    ),
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: _isMenuOpen,
+                      builder: (BuildContext context, bool isOpen, _) {
+                        return _iconStyle.openMenuIcon != null
+                            ? isOpen
+                                ? _iconStyle.openMenuIcon!
+                                : _iconStyle.icon
+                            : _iconStyle.icon;
+                      },
+                    ),
                   ),
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: _isMenuOpen,
-                    builder: (BuildContext context, bool isOpen, _) {
-                      return _iconStyle.openMenuIcon != null
-                          ? isOpen
-                              ? _iconStyle.openMenuIcon!
-                              : _iconStyle.icon
-                          : _iconStyle.icon;
-                    },
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
     );
