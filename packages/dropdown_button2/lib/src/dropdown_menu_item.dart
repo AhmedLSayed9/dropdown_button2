@@ -147,6 +147,46 @@ class _DropdownItemButton<T> extends StatefulWidget {
 }
 
 class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
+  late CurvedAnimation _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _setOpacityAnimation();
+  }
+
+  @override
+  void didUpdateWidget(_DropdownItemButton<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.itemIndex != widget.itemIndex ||
+        oldWidget.route.animation != widget.route.animation ||
+        oldWidget.route.selectedIndex != widget.route.selectedIndex ||
+        widget.route.items.length != oldWidget.route.items.length ||
+        widget.route.dropdownStyle.openInterval.end !=
+            oldWidget.route.dropdownStyle.openInterval.end) {
+      _opacityAnimation.dispose();
+      _setOpacityAnimation();
+    }
+  }
+
+  @override
+  void dispose() {
+    _opacityAnimation.dispose();
+    super.dispose();
+  }
+
+  void _setOpacityAnimation() {
+    final double menuCurveEnd = widget.route.dropdownStyle.openInterval.end;
+    final double unit = 0.5 / (widget.route.items.length + 1.5);
+    final double start =
+        clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
+    final double end = clampDouble(start + 1.5 * unit, 0.0, 1.0);
+    _opacityAnimation = CurvedAnimation(
+      parent: widget.route.animation!,
+      curve: Interval(start, end),
+    );
+  }
+
   void _handleFocusChange(bool focused) {
     final bool inTraditionalMode =
         switch (FocusManager.instance.highlightMode) {
@@ -197,15 +237,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final double menuCurveEnd = widget.route.dropdownStyle.openInterval.end;
-
     final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
-    final double unit = 0.5 / (widget.route.items.length + 1.5);
-    final double start =
-        clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
-    final double end = clampDouble(start + 1.5 * unit, 0.0, 1.0);
-    final CurvedAnimation opacity = CurvedAnimation(
-        parent: widget.route.animation!, curve: Interval(start, end));
 
     Widget child = Container(
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
@@ -230,7 +262,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
             : child,
       );
     }
-    child = FadeTransition(opacity: opacity, child: child);
+    child = FadeTransition(opacity: _opacityAnimation, child: child);
     if (kIsWeb && dropdownItem.enabled) {
       child = Shortcuts(
         shortcuts: _webShortcuts,
