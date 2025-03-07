@@ -6,6 +6,7 @@
 - Form fields onChange callback should be called on reset [Flutter core].
 - Implement switch expressions.
 - Fix memory leak in CurvedAnimation [Flutter core].
+- Avoid Container objects when possible for better performance [Flutter core].
 
 ## 3.0.0-beta.21
 

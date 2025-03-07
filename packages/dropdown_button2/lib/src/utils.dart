@@ -36,6 +36,35 @@ void _uniqueValueAssert<T>(
   );
 }
 
+class _ConditionalDecoratedBox extends StatelessWidget {
+  const _ConditionalDecoratedBox({
+    required this.child,
+    this.height,
+    this.width,
+    this.decoration,
+    this.foregroundDecoration,
+  });
+
+  final double? height;
+  final double? width;
+  final Decoration? decoration;
+  final Decoration? foregroundDecoration;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return decoration != null || foregroundDecoration != null
+        ? Container(
+            height: height,
+            width: width,
+            decoration: decoration,
+            foregroundDecoration: foregroundDecoration,
+            child: child,
+          )
+        : SizedBox(height: height, width: width, child: child);
+  }
+}
+
 extension _InputDecorationExtension on InputDecoration {
   InputDecoration updateSurroundingElements({
     required Widget? error,

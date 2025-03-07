@@ -111,10 +111,9 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: intrinsicHeight ? null : height,
-      alignment: alignment,
-      child: child,
+      child: Align(alignment: alignment, child: child),
     );
   }
 }
@@ -239,7 +238,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
   Widget build(BuildContext context) {
     final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
 
-    Widget child = Container(
+    Widget child = Padding(
       padding: (menuItemStyle.padding ?? _kMenuItemPadding)
           .resolve(widget.textDirection),
       child: dropdownItem,
