@@ -17,6 +17,7 @@ class _DropdownMenu<T> extends StatefulWidget {
   const _DropdownMenu({
     super.key,
     required this.route,
+    required this.scrollController,
     required this.textDirection,
     required this.buttonRect,
     required this.constraints,
@@ -25,6 +26,7 @@ class _DropdownMenu<T> extends StatefulWidget {
   });
 
   final _DropdownRoute<T> route;
+  final ScrollController scrollController;
   final TextDirection? textDirection;
   final Rect buttonRect;
   final BoxConstraints constraints;
@@ -50,6 +52,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   _DropdownItemButton<T> dropdownItemButton(int index) =>
       _DropdownItemButton<T>(
         route: widget.route,
+        scrollController: widget.scrollController,
         textDirection: widget.textDirection,
         buttonRect: widget.buttonRect,
         constraints: widget.constraints,
@@ -177,7 +180,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                       platform: Theme.of(context).platform,
                     ),
                     child: PrimaryScrollController(
-                      controller: route.scrollController!,
+                      controller: widget.scrollController,
                       child: Theme(
                         data: Theme.of(context).copyWith(
                           scrollbarTheme: dropdownStyle.scrollbarTheme,

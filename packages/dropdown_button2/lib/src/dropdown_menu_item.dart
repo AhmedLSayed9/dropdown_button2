@@ -124,6 +124,7 @@ class _DropdownItemButton<T> extends StatefulWidget {
   const _DropdownItemButton({
     super.key,
     required this.route,
+    required this.scrollController,
     required this.textDirection,
     required this.buttonRect,
     required this.constraints,
@@ -133,6 +134,7 @@ class _DropdownItemButton<T> extends StatefulWidget {
   });
 
   final _DropdownRoute<T> route;
+  final ScrollController scrollController;
   final TextDirection? textDirection;
   final Rect buttonRect;
   final BoxConstraints constraints;
@@ -163,7 +165,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
         widget.mediaQueryPadding,
         widget.itemIndex,
       );
-      widget.route.scrollController!.animateTo(
+      widget.scrollController.animateTo(
         menuLimits.scrollOffset,
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 100),
