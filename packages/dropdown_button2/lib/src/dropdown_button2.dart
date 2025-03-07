@@ -1103,7 +1103,7 @@ class _DropdownButtonFormFieldState<T> extends FormFieldState<T> {
   @override
   void didChange(T? value) {
     super.didChange(value);
-    _dropdownButtonFormField.onChanged!(value);
+    _dropdownButtonFormField.onChanged?.call(value);
   }
 
   @override
@@ -1117,6 +1117,6 @@ class _DropdownButtonFormFieldState<T> extends FormFieldState<T> {
   @override
   void reset() {
     super.reset();
-    _dropdownButtonFormField.onChanged!(value);
+    _dropdownButtonFormField.onChanged?.call(value);
   }
 }
