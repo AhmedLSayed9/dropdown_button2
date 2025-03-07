@@ -1017,6 +1017,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                       error: effectiveDecoration.error,
                       errorText:
                           field.errorText ?? effectiveDecoration.errorText,
+                      errorStyle: effectiveDecoration.errorStyle,
                       //helper: effectiveDecoration.helper,
                       helperText: effectiveDecoration.helperText,
                     ),
@@ -1057,6 +1058,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                             .updateSurroundingElements(
                               error: null,
                               errorText: null,
+                              errorStyle: null,
                               //helper: null,
                               helperText: null,
                             )
