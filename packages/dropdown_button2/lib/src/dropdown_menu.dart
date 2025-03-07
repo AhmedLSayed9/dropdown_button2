@@ -38,8 +38,8 @@ class _DropdownMenu<T> extends StatefulWidget {
 }
 
 class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
-  late CurvedAnimation _fadeOpacity;
-  late CurvedAnimation _resize;
+  late final CurvedAnimation _fadeOpacity;
+  late final CurvedAnimation _resize;
   late List<Widget> _children;
   late SearchMatchFn<T> _searchMatchFn;
 

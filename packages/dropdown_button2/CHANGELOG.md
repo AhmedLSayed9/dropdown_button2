@@ -5,6 +5,7 @@
 - Remove 'must be non-null' and 'must not be null' comments [Flutter core].
 - Form fields onChange callback should be called on reset [Flutter core].
 - Implement switch expressions.
+- Fix memory leak in CurvedAnimation [Flutter core].
 
 ## 3.0.0-beta.21
 
