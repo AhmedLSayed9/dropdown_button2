@@ -623,28 +623,19 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   Color get _iconColor {
     // These colors are not defined in the Material Design spec.
+    final Brightness brightness = Theme.of(context).brightness;
     if (_enabled) {
-      if (_iconStyle.iconEnabledColor != null) {
-        return _iconStyle.iconEnabledColor!;
-      }
-
-      switch (Theme.of(context).brightness) {
-        case Brightness.light:
-          return Colors.grey.shade700;
-        case Brightness.dark:
-          return Colors.white70;
-      }
+      return _iconStyle.iconEnabledColor ??
+          switch (brightness) {
+            Brightness.light => Colors.grey.shade700,
+            Brightness.dark => Colors.white70,
+          };
     } else {
-      if (_iconStyle.iconDisabledColor != null) {
-        return _iconStyle.iconDisabledColor!;
-      }
-
-      switch (Theme.of(context).brightness) {
-        case Brightness.light:
-          return Colors.grey.shade400;
-        case Brightness.dark:
-          return Colors.white10;
-      }
+      return _iconStyle.iconDisabledColor ??
+          switch (brightness) {
+            Brightness.light => Colors.grey.shade400,
+            Brightness.dark => Colors.white10,
+          };
     }
   }
 

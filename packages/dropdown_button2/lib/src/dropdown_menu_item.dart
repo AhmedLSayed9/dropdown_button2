@@ -148,15 +148,11 @@ class _DropdownItemButton<T> extends StatefulWidget {
 
 class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
   void _handleFocusChange(bool focused) {
-    final bool inTraditionalMode;
-    switch (FocusManager.instance.highlightMode) {
-      case FocusHighlightMode.touch:
-        inTraditionalMode = false;
-        break;
-      case FocusHighlightMode.traditional:
-        inTraditionalMode = true;
-        break;
-    }
+    final bool inTraditionalMode =
+        switch (FocusManager.instance.highlightMode) {
+      FocusHighlightMode.touch => false,
+      FocusHighlightMode.traditional => true,
+    };
 
     if (focused && inTraditionalMode) {
       final _MenuLimits menuLimits = widget.route.getMenuLimits(

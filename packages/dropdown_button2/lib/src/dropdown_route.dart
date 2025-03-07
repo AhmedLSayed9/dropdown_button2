@@ -401,49 +401,35 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     assert(textDirection != null);
 
     final Offset offset = route.dropdownStyle.offset;
-    final double left;
-
-    switch (route.dropdownStyle.direction) {
-      case DropdownDirection.textDirection:
-        switch (textDirection!) {
-          case TextDirection.rtl:
-            left = clampDouble(
+    final double left = switch (route.dropdownStyle.direction) {
+      DropdownDirection.textDirection => switch (textDirection!) {
+          TextDirection.rtl => clampDouble(
               buttonRect.right - childSize.width + offset.dx,
               0.0,
               size.width - childSize.width,
-            );
-            break;
-          case TextDirection.ltr:
-            left = clampDouble(
+            ),
+          TextDirection.ltr => clampDouble(
               buttonRect.left + offset.dx,
               0.0,
               size.width - childSize.width,
-            );
-            break;
-        }
-        break;
-      case DropdownDirection.right:
-        left = clampDouble(
+            ),
+        },
+      DropdownDirection.right => clampDouble(
           buttonRect.left + offset.dx,
           0.0,
           size.width - childSize.width,
-        );
-        break;
-      case DropdownDirection.left:
-        left = clampDouble(
+        ),
+      DropdownDirection.left => clampDouble(
           buttonRect.right - childSize.width + offset.dx,
           0.0,
           size.width - childSize.width,
-        );
-        break;
-      case DropdownDirection.center:
-        left = clampDouble(
+        ),
+      DropdownDirection.center => clampDouble(
           (size.width - childSize.width) / 2 + offset.dx,
           0.0,
           size.width - childSize.width,
-        );
-        break;
-    }
+        ),
+    };
 
     return Offset(left, menuLimits.top);
   }
