@@ -40,7 +40,9 @@ extension _InputDecorationExtension on InputDecoration {
   InputDecoration updateSurroundingElements({
     required Widget? error,
     required String? errorText,
+    required TextStyle? errorStyle,
     // TODO(Ahmed): Add this when it's supported by the min version of the package [Flutter>=3.22.0].
+    // required Widget? helper,
     required String? helperText,
   }) {
     return InputDecoration(
