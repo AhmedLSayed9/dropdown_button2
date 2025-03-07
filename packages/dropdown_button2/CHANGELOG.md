@@ -4,6 +4,7 @@
 - DropdownRoutePage should dispose the created ScrollController [Flutter core].
 - Remove 'must be non-null' and 'must not be null' comments [Flutter core].
 - Form fields onChange callback should be called on reset [Flutter core].
+- Implement switch expressions.
 
 ## 3.0.0-beta.21
 
