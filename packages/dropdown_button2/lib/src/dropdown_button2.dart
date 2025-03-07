@@ -304,7 +304,7 @@ class DropdownButton2<T> extends StatefulWidget {
 
   /// Defines how the hint or the selected item is positioned within the button.
   ///
-  /// This property must not be null. It defaults to [AlignmentDirectional.centerStart].
+  /// Defaults to [AlignmentDirectional.centerStart].
   ///
   /// See also:
   ///
@@ -931,9 +931,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   /// For a description of the `onSaved`, `validator`, or `autovalidateMode`
   /// parameters, see [FormField]. For the rest (other than [decoration]), see
   /// [DropdownButton2].
-  ///
-  /// The `items`, `elevation`, `iconSize`, `isDense`, `isExpanded`,
-  /// `autofocus`, and `decoration`  parameters must not be null.
   DropdownButtonFormField2({
     super.key,
     required List<DropdownItem<T>>? items,
