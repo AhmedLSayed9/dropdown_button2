@@ -172,6 +172,8 @@ class DropdownStyleData {
   final double? maxHeight;
 
   /// The width of the dropdown menu
+  ///
+  /// If it is not provided, the width of the menu is the width of the dropdown button.
   final double? width;
 
   /// The inner padding of the dropdown menu

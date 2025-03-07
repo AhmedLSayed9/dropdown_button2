@@ -360,7 +360,6 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    final double? itemWidth = route.dropdownStyle.width;
     double maxHeight =
         route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
     final double? preferredMaxHeight = route.dropdownStyle.maxHeight;
@@ -369,8 +368,9 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     }
     // The width of a menu should be at most the view width. This ensures that
     // the menu does not extend past the left and right edges of the screen.
+    final double? menuWidth = route.dropdownStyle.width;
     final double width =
-        math.min(constraints.maxWidth, itemWidth ?? buttonRect.width);
+        math.min(constraints.maxWidth, menuWidth ?? buttonRect.width);
     return BoxConstraints(
       minWidth: width,
       maxWidth: width,
