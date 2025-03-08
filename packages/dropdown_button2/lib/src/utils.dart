@@ -67,12 +67,15 @@ class _ConditionalDecoratedBox extends StatelessWidget {
 
 extension _InputDecorationExtension on InputDecoration {
   InputDecoration updateSurroundingElements({
-    required Widget? error,
-    required String? errorText,
-    required TextStyle? errorStyle,
     // TODO(Ahmed): Add this when it's supported by the min version of the package [Flutter>=3.22.0].
     // required Widget? helper,
     required String? helperText,
+    required TextStyle? helperStyle,
+    required int? helperMaxLines,
+    required Widget? error,
+    required String? errorText,
+    required TextStyle? errorStyle,
+    required int? errorMaxLines,
   }) {
     return InputDecoration(
       icon: icon,
@@ -130,4 +133,14 @@ extension _InputDecorationExtension on InputDecoration {
       constraints: constraints,
     );
   }
+
+  InputDecoration get emptySurroundingElements => updateSurroundingElements(
+        helperText: null,
+        helperStyle: null,
+        helperMaxLines: null,
+        error: null,
+        errorText: null,
+        errorStyle: null,
+        errorMaxLines: null,
+      );
 }
