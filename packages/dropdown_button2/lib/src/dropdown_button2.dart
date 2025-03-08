@@ -1006,12 +1006,15 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                   return InputDecorator(
                     decoration: const InputDecoration.collapsed(hintText: '')
                         .updateSurroundingElements(
+                      //helper: effectiveDecoration.helper,
+                      helperText: effectiveDecoration.helperText,
+                      helperStyle: effectiveDecoration.helperStyle,
+                      helperMaxLines: effectiveDecoration.helperMaxLines,
                       error: effectiveDecoration.error,
                       errorText:
                           field.errorText ?? effectiveDecoration.errorText,
                       errorStyle: effectiveDecoration.errorStyle,
-                      //helper: effectiveDecoration.helper,
-                      helperText: effectiveDecoration.helperText,
+                      errorMaxLines: effectiveDecoration.errorMaxLines,
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2<T>._formField(
@@ -1047,21 +1050,15 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                             // that surrounds the DropdownButton FormField. This setup is crucial
                             // to prevent the inkwell from covering the error or helper widget
                             // and to ensure that the menu does not open below them.
-                            .updateSurroundingElements(
-                              error: null,
-                              errorText: null,
-                              errorStyle: null,
-                              //helper: null,
-                              helperText: null,
-                            )
+                            .emptySurroundingElements
                             // This is crucial for the error border functionality to work.
                             .copyWith(
-                              error: field.hasError ||
-                                      effectiveDecoration.error != null ||
-                                      effectiveDecoration.errorText != null
-                                  ? const SizedBox.shrink()
-                                  : null,
-                            ),
+                          error: field.hasError ||
+                                  effectiveDecoration.error != null ||
+                                  effectiveDecoration.errorText != null
+                              ? const SizedBox.shrink()
+                              : null,
+                        ),
                         isEmpty: isEmpty,
                         isFocused: Focus.of(context).hasFocus,
                       ),
