@@ -390,10 +390,11 @@ class DropdownButton2<T> extends StatefulWidget {
   final bool _isFocused;
 
   @override
-  State<DropdownButton2<T>> createState() => _DropdownButton2State<T>();
+  State<DropdownButton2<T>> createState() => DropdownButton2State<T>();
 }
 
-class _DropdownButton2State<T> extends State<DropdownButton2<T>>
+/// The [State] for a [DropdownButton2].
+class DropdownButton2State<T> extends State<DropdownButton2<T>>
     with WidgetsBindingObserver {
   int? _selectedIndex;
   _DropdownRoute<T>? _dropdownRoute;
@@ -439,10 +440,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     }
     _actionMap = <Type, Action<Intent>>{
       ActivateIntent: CallbackAction<ActivateIntent>(
-        onInvoke: (ActivateIntent intent) => _handleTap(),
+        onInvoke: (ActivateIntent intent) => handleTap(),
       ),
       ButtonActivateIntent: CallbackAction<ButtonActivateIntent>(
-        onInvoke: (ButtonActivateIntent intent) => _handleTap(),
+        onInvoke: (ButtonActivateIntent intent) => handleTap(),
       ),
     };
   }
@@ -521,7 +522,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   void _programmaticallyOpenDropdown() {
     if (_enabled && !_isMenuOpen.value) {
-      _handleTap();
+      handleTap();
     }
   }
 
@@ -558,7 +559,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
         .add(_dropdownStyle.scrollPadding ?? EdgeInsets.zero);
   }
 
-  void _handleTap() {
+  /// allow handling tap event for public state
+  void handleTap() {
     final NavigatorState navigator = Navigator.of(context,
         rootNavigator:
             _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator);
@@ -890,8 +892,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
         actions: _actionMap,
         child: InkWell(
           mouseCursor: effectiveMouseCursor,
-          onTap: _enabled && !widget.openWithLongPress ? _handleTap : null,
-          onLongPress: _enabled && widget.openWithLongPress ? _handleTap : null,
+          onTap: _enabled && !widget.openWithLongPress ? handleTap : null,
+          onLongPress: _enabled && widget.openWithLongPress ? handleTap : null,
           canRequestFocus: _enabled,
           focusNode: _focusNode,
           autofocus: widget.autofocus,
