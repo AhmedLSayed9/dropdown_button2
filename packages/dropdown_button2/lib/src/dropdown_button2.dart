@@ -409,7 +409,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
   late Map<Type, Action<Intent>> _actionMap;
   bool _isHovering = false;
-  bool _hasPrimaryFocus = false;
+  bool _isFocused = false;
 
   // Using ValueNotifier for tracking when menu is open/close to update the button icon.
   final ValueNotifier<bool> _isMenuOpen = ValueNotifier<bool>(false);
@@ -461,9 +461,9 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
   }
 
   void _handleFocusChanged() {
-    if (_hasPrimaryFocus != _focusNode.hasPrimaryFocus) {
+    if (_isFocused != _focusNode.hasFocus) {
       setState(() {
-        _hasPrimaryFocus = _focusNode.hasPrimaryFocus;
+        _isFocused = _focusNode.hasFocus;
       });
     }
   }
@@ -493,7 +493,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       if (widget.focusNode == null) {
         _internalNode ??= _createFocusNode();
       }
-      _hasPrimaryFocus = _focusNode.hasPrimaryFocus;
+      _isFocused = _focusNode.hasFocus;
       _focusNode.addListener(_handleFocusChanged);
     }
 
@@ -866,7 +866,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     // https://m2.material.io/components/menus#dropdown-menu
     if (widget._inputDecoration != null) {
       InputDecoration effectiveDecoration = widget._inputDecoration!;
-      if (_hasPrimaryFocus) {
+      if (_isFocused) {
         final Color? focusColor = widget.buttonStyleData?.overlayColor
                 ?.resolve(<MaterialState>{MaterialState.focused}) ??
             effectiveDecoration.focusColor;
@@ -904,7 +904,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
             child: InputDecorator(
               decoration: effectiveDecoration,
               isEmpty: widget._isEmpty,
-              isFocused: _hasPrimaryFocus,
+              isFocused: _isFocused,
               isHovering: _isHovering,
               child: result,
             ),
