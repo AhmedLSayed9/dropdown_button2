@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 
 import 'seperated_sliver_child_builder_delegate.dart';
 
+part 'button_style_data.dart';
 part 'dropdown_style_data.dart';
 part 'dropdown_route.dart';
 part 'dropdown_menu.dart';
@@ -867,9 +868,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     if (widget._inputDecoration != null) {
       InputDecoration effectiveDecoration = widget._inputDecoration!;
       if (_isFocused) {
-        final Color? focusColor = widget.buttonStyleData?.overlayColor
-                ?.resolve(<MaterialState>{MaterialState.focused}) ??
-            effectiveDecoration.focusColor;
+        final focusColor = effectiveDecoration.focusColor;
         // For compatibility, override the fill color when focusColor is set.
         if (focusColor != null) {
           effectiveDecoration =
@@ -980,7 +979,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     AutovalidateMode? autovalidateMode,
     bool? enableFeedback,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
-    ButtonStyleData? buttonStyleData,
+    FormFieldButtonStyleData? buttonStyleData,
     IconStyleData iconStyleData = const IconStyleData(),
     DropdownStyleData dropdownStyleData = const DropdownStyleData(),
     MenuItemStyleData menuItemStyleData = const MenuItemStyleData(),
@@ -1051,7 +1050,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                   autofocus: autofocus,
                   enableFeedback: enableFeedback,
                   alignment: alignment,
-                  buttonStyleData: buttonStyleData,
+                  buttonStyleData: buttonStyleData?._toButtonStyleData,
                   iconStyleData: iconStyleData,
                   dropdownStyleData: dropdownStyleData,
                   menuItemStyleData: menuItemStyleData,
@@ -1082,9 +1081,6 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   ///
   /// By default, draws a horizontal line under the dropdown button field but
   /// can be configured to show an icon, label, hint text, and error text.
-  ///
-  /// If not specified, an [InputDecorator] with the `focusColor` and `hoverColor`
-  /// set to the supplied `buttonStyleData.overlayColor` (if any) will be used.
   final InputDecoration decoration;
 
   @override
