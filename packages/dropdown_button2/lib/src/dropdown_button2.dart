@@ -415,9 +415,11 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
   // Using ValueNotifier for tracking when menu is open/close to update the button icon.
   final ValueNotifier<bool> _isMenuOpen = ValueNotifier<bool>(false);
 
+  final _buttonRectKey = GlobalKey();
+
   // Using ValueNotifier for the Rect of DropdownButton so the dropdown menu listen and
   // update its position if DropdownButton's position has changed, as when keyboard open.
-  final ValueNotifier<Rect?> _rect = ValueNotifier<Rect?>(null);
+  final ValueNotifier<Rect?> _buttonRect = ValueNotifier<Rect?>(null);
 
   // Only used if needed to create _internalNode.
   FocusNode _createFocusNode() {
@@ -457,7 +459,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     _focusNode.removeListener(_handleFocusChanged);
     _internalNode?.dispose();
     _isMenuOpen.dispose();
-    _rect.dispose();
+    _buttonRect.dispose();
     super.dispose();
   }
 
@@ -543,28 +545,34 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
   @override
   void didChangeMetrics() {
     //This fix the bug of calling didChangeMetrics() on iOS when app starts
-    if (_rect.value == null) {
+    if (_buttonRect.value == null) {
       return;
     }
-    _rect.value = _getRect();
+    _buttonRect.value = _getButtonRect();
   }
 
   TextStyle? get _textStyle =>
       widget.style ?? Theme.of(context).textTheme.titleMedium;
 
-  Rect _getRect() {
+  Rect _getButtonRect() {
     final TextDirection? textDirection = Directionality.maybeOf(context);
-    const EdgeInsetsGeometry menuMargin = EdgeInsets.zero;
+    final EdgeInsetsGeometry contentPadding = switch (widget._inputDecoration) {
+      final decoration? => decoration.contentPadding ??
+          Theme.of(context).inputDecorationTheme.contentPadding ??
+          EdgeInsets.zero,
+      null => EdgeInsets.zero,
+    };
     final NavigatorState navigator = Navigator.of(context,
         rootNavigator:
             _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator);
 
-    final RenderBox itemBox = context.findRenderObject()! as RenderBox;
+    final RenderBox itemBox =
+        _buttonRectKey.currentContext!.findRenderObject()! as RenderBox;
     final Rect itemRect = itemBox.localToGlobal(Offset.zero,
             ancestor: navigator.context.findRenderObject()) &
         itemBox.size;
 
-    return menuMargin.resolve(textDirection).inflateRect(itemRect);
+    return contentPadding.resolve(textDirection).inflateRect(itemRect);
   }
 
   EdgeInsetsGeometry _getMenuPadding() {
@@ -580,12 +588,12 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
 
     final items = widget.items!;
     final separator = widget.dropdownSeparator;
-    _rect.value = _getRect();
+    _buttonRect.value = _getButtonRect();
 
     assert(_dropdownRoute == null);
     _dropdownRoute = _DropdownRoute<T>(
       items: items,
-      buttonRect: _rect,
+      buttonRect: _buttonRect,
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
       onChanged: widget.onChanged,
@@ -856,6 +864,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
         if (!_enabled) MaterialState.disabled,
       },
     );
+
+    result = KeyedSubtree(key: _buttonRectKey, child: result);
 
     // When an InputDecoration is provided, use it instead of using an InkWell
     // that overflows in some cases (such as showing an errorText) and requires
