@@ -235,15 +235,25 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
         DirectionalFocusIntent(TraversalDirection.up),
   };
 
-  MenuItemStyleData get menuItemStyle => widget.route.menuItemStyle;
+  MenuItemStyleData get _menuItemStyle => widget.route.menuItemStyle;
+  EdgeInsets? get _inputDecorationPadding =>
+      widget.route.inputDecorationPadding;
+  bool get _useDecorationHPadding =>
+      _menuItemStyle.useDecorationHorizontalPadding;
 
   @override
   Widget build(BuildContext context) {
     final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
 
+    final menuItemPadding =
+        _menuItemStyle.padding?.resolve(widget.textDirection) ??
+            _kMenuItemPadding;
+
     Widget child = Padding(
-      padding: (menuItemStyle.padding ?? _kMenuItemPadding)
-          .resolve(widget.textDirection),
+      padding: menuItemPadding.copyWith(
+        left: _useDecorationHPadding ? _inputDecorationPadding?.left : null,
+        right: _useDecorationHPadding ? _inputDecorationPadding?.right : null,
+      ),
       child: dropdownItem,
     );
     // An [InkWell] is added to the item only if it is enabled
@@ -256,10 +266,10 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
-        borderRadius: menuItemStyle.borderRadius,
-        overlayColor: menuItemStyle.overlayColor,
+        borderRadius: _menuItemStyle.borderRadius,
+        overlayColor: _menuItemStyle.overlayColor,
         child: isSelectedItem
-            ? menuItemStyle.selectedMenuItemBuilder?.call(context, child) ??
+            ? _menuItemStyle.selectedMenuItemBuilder?.call(context, child) ??
                 child
             : child,
       );

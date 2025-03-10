@@ -555,13 +555,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       widget.style ?? Theme.of(context).textTheme.titleMedium;
 
   Rect _getButtonRect() {
-    final TextDirection? textDirection = Directionality.maybeOf(context);
-    final EdgeInsetsGeometry contentPadding = switch (widget._inputDecoration) {
-      final decoration? => decoration.contentPadding ??
-          Theme.of(context).inputDecorationTheme.contentPadding ??
-          EdgeInsets.zero,
-      null => EdgeInsets.zero,
-    };
+    // InputDecorator is a parent of _buttonRect (to avoid the dropdown menu opening under the button's error/helper),
+    // so we need to consider its padding in additional to _buttonRect.
+    final EdgeInsets contentPadding =
+        _getInputDecorationPadding() ?? EdgeInsets.zero;
     final NavigatorState navigator = Navigator.of(context,
         rootNavigator:
             _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator);
@@ -572,13 +569,38 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
             ancestor: navigator.context.findRenderObject()) &
         itemBox.size;
 
-    return contentPadding.resolve(textDirection).inflateRect(itemRect);
+    return contentPadding.inflateRect(itemRect);
   }
 
-  EdgeInsetsGeometry _getMenuPadding() {
-    return (_menuItemStyle.padding ?? _kMenuItemPadding)
+  EdgeInsets? _getInputDecorationPadding() {
+    // Return the contentPadding only if inputDecoration is defined.
+    if (widget._inputDecoration case final decoration?) {
+      final TextDirection? textDirection = Directionality.maybeOf(context);
+      return (decoration.contentPadding ??
+              Theme.of(context).inputDecorationTheme.contentPadding)
+          ?.resolve(textDirection);
+    } else {
+      return null;
+    }
+  }
+
+  EdgeInsetsGeometry _buttonAdditionalHPadding() {
+    final TextDirection? textDirection = Directionality.maybeOf(context);
+
+    final menuItemPadding =
+        _menuItemStyle.padding?.resolve(textDirection) ?? _kMenuItemPadding;
+    final removeItemHPadding = _menuItemStyle.useDecorationHorizontalPadding &&
+        _getInputDecorationPadding() != null;
+    final effectiveMenuItemPadding = menuItemPadding.copyWith(
+      left: removeItemHPadding ? 0 : null,
+      right: removeItemHPadding ? 0 : null,
+    );
+
+    return effectiveMenuItemPadding
         .add(_dropdownStyle.padding ?? EdgeInsets.zero)
-        .add(_dropdownStyle.scrollPadding ?? EdgeInsets.zero);
+        .add(_dropdownStyle.scrollPadding ?? EdgeInsets.zero)
+        .resolve(textDirection)
+        .copyWith(top: 0, bottom: 0);
   }
 
   void _handleTap() {
@@ -609,6 +631,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
       enableFeedback: widget.enableFeedback ?? true,
       dropdownStyle: _dropdownStyle,
       menuItemStyle: _menuItemStyle,
+      inputDecorationPadding: _getInputDecorationPadding(),
       searchData: _searchData,
       dropdownSeparator: separator,
     );
@@ -684,7 +707,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     final buttonRadius = _buttonStyle?.decoration?.borderRadius ??
         _buttonStyle?.foregroundDecoration?.borderRadius;
     if (buttonRadius != null) {
-      return buttonRadius.resolve(Directionality.of(context));
+      return buttonRadius.resolve(Directionality.maybeOf(context));
     }
     return null;
   }
@@ -789,16 +812,12 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
             height: buttonHeight,
             width: _buttonStyle?.width,
             child: Padding(
-              padding: (_buttonStyle?.padding ??
-                      padding.resolve(Directionality.of(context)))
-                  .add(
+              padding: (_buttonStyle?.padding ?? padding).add(
                 // When buttonWidth & dropdownWidth is null, their width will be calculated
                 // from the maximum width of menu items or the hint text (width of IndexedStack).
-                // We need to add MenuHorizontalPadding so menu width adapts to max items width with padding properly
+                // We need to add menu's horizontal padding so menu width adapts to max items width with padding properly
                 _buttonStyle?.width == null && _dropdownStyle.width == null
-                    ? _getMenuPadding()
-                        .resolve(Directionality.of(context))
-                        .copyWith(top: 0, bottom: 0)
+                    ? _buttonAdditionalHPadding()
                     : EdgeInsets.zero,
               ),
               child: Row(

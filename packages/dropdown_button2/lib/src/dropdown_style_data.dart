@@ -153,6 +153,7 @@ class MenuItemStyleData {
   /// Creates a MenuItemStyleData.
   const MenuItemStyleData({
     this.padding,
+    this.useDecorationHorizontalPadding = false,
     this.borderRadius,
     this.overlayColor,
     this.selectedMenuItemBuilder,
@@ -163,6 +164,13 @@ class MenuItemStyleData {
   /// The horizontal padding will be added to the button's padding as well, ensuring that
   /// the menu width and button width adapt seamlessly to the maximum width of the items.
   final EdgeInsetsGeometry? padding;
+
+  /// Whether to use the horizontal padding from `decoration.contentPadding`
+  /// instead of `padding`, applicable only when using `DropdownButtonFormField2`.
+  ///
+  /// If `true`, the horizontal padding defined in `decoration.contentPadding`
+  /// will be applied, ensuring consistency with the form field's padding.
+  final bool useDecorationHorizontalPadding;
 
   /// The border radius of the menu item.
   final BorderRadius? borderRadius;
