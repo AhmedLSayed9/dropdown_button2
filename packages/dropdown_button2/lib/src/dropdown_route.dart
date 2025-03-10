@@ -17,6 +17,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.enableFeedback,
     required this.dropdownStyle,
     required this.menuItemStyle,
+    required this.inputDecorationPadding,
     required this.searchData,
     this.dropdownSeparator,
   })  : barrierColor = barrierCoversButton ? barrierColor : null,
@@ -33,6 +34,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final bool enableFeedback;
   final DropdownStyleData dropdownStyle;
   final MenuItemStyleData menuItemStyle;
+  final EdgeInsets? inputDecorationPadding;
   final DropdownSearchData<T>? searchData;
   final DropdownSeparator<T>? dropdownSeparator;
 

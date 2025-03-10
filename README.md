@@ -136,12 +136,13 @@ customize to your needs.
 
 #### Subclass MenuItemStyleData:
 
-| Option                                                                                                                                           | Description                                                            | Type                          | Required |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ----------------------------- | :------: |
-| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                 | The padding of menu items                                              | EdgeInsetsGeometry            |    No    |
-| [borderRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/borderRadius.html)                       | The border radius of the menu item                                     | BorderRadius                  |    No    |
-| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                       | Defines the ink response focus, hover, and splash colors for the items | MaterialStateProperty<Color?> |    No    |
-| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html) | A builder to customize the selected menu item                          | SelectedMenuItemBuilder       |    No    |
+| Option                                                                                                                                                         | Description                                                                                                                           | Type                          | Required |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | :------: |
+| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                               | The padding of menu items                                                                                                             | EdgeInsetsGeometry            |    No    |
+| [useDecorationHorizontalPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/useDecorationHorizontalPadding.html) | Determine whether to use the horizontal padding from "decoration.contentPadding" for menu items when using `DropdownButtonFormField2` | bool                          |    No    |
+| [borderRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/borderRadius.html)                                     | The border radius of the menu item                                                                                                    | BorderRadius                  |    No    |
+| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                                     | Defines the ink response focus, hover, and splash colors for the items                                                                | MaterialStateProperty<Color?> |    No    |
+| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html)               | A builder to customize the selected menu item                                                                                         | SelectedMenuItemBuilder       |    No    |
 
 #### Subclass DropdownSearchData:
 
@@ -954,9 +955,8 @@ Widget build(BuildContext context) {
             DropdownButtonFormField2<String>(
               isExpanded: true,
               decoration: InputDecoration(
-                // Add Horizontal padding using menuItemStyleData.padding so it matches
-                // the menu padding when button's width is not specified.
-                contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -999,7 +999,7 @@ Widget build(BuildContext context) {
                 ),
               ),
               menuItemStyleData: const MenuItemStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                useDecorationHorizontalPadding: true,
               ),
             ),
             const SizedBox(height: 30),

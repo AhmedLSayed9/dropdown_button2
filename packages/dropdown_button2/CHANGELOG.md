@@ -9,6 +9,7 @@
 - Avoid Container objects when possible for better performance [Flutter core].
 - Add semantics to dropdown menu items [Flutter core].
 - Support helperStyle/helperMaxLines/errorMaxLines for DropdownButtonFormField2.
+- Add `MenuItemStyleData.useDecorationHorizontalPadding`, used to determine whether to use the horizontal padding from "decoration.contentPadding" for menu items when using `DropdownButtonFormField2`.
 
 ## 3.0.0-beta.21
 

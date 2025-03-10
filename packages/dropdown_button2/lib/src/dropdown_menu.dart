@@ -268,9 +268,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             clipBehavior: dropdownStyle.decoration?.borderRadius != null
                 ? Clip.antiAlias
                 : Clip.none,
-            borderRadius: dropdownStyle.decoration?.borderRadius
-                    ?.resolve(Directionality.of(context)) ??
-                BorderRadius.zero,
+            borderRadius:
+                dropdownStyle.decoration?.borderRadius ?? BorderRadius.zero,
             child: dropdownStyle.dropdownBuilder?.call(context, dropdownMenu) ??
                 dropdownMenu,
           ),

@@ -41,9 +41,8 @@ class _FormFieldExampleState extends State<FormFieldExample> {
               DropdownButtonFormField2<String>(
                 isExpanded: true,
                 decoration: InputDecoration(
-                  // Add Horizontal padding using menuItemStyleData.padding so it matches
-                  // the menu padding when button's width is not specified.
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -86,7 +85,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   ),
                 ),
                 menuItemStyleData: const MenuItemStyleData(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  useDecorationHorizontalPadding: true,
                 ),
               ),
               const SizedBox(height: 30),
