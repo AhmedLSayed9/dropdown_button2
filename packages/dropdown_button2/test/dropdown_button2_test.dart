@@ -129,15 +129,7 @@ void main() {
 
         final findInkWell = find.descendant(
             of: findDropdownButton, matching: find.byType(InkWell));
-        expect(findInkWell, findsOneWidget);
-
-        final findInkwellInputDecorator = find.descendant(
-          of: findInkWell,
-          matching: find.byType(InputDecorator),
-        );
-        final inkwellInputDecorator =
-            tester.widget<InputDecorator>(findInkwellInputDecorator);
-        expect(inkwellInputDecorator.decoration.errorText, null);
+        expect(findInkWell, findsNothing);
 
         final findFormFieldInputDecorator = find.descendant(
           of: findDropdownButtonFormField,
