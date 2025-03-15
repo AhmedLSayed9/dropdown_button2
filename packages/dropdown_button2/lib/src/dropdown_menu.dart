@@ -1,8 +1,7 @@
 part of 'dropdown_button2.dart';
 
-SearchMatchFn<T> _defaultSearchMatchFn<T>() =>
-    (DropdownItem<T> item, String searchValue) =>
-        item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+SearchMatchFn<T> _defaultSearchMatchFn<T>() => (DropdownItem<T> item, String searchValue) =>
+    item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
 
 class _MenuLimits {
   const _MenuLimits(this.top, this.bottom, this.height, this.scrollOffset);
@@ -49,8 +48,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 
   DropdownSearchData<T>? get searchData => widget.route.searchData;
 
-  _DropdownItemButton<T> dropdownItemButton(int index) =>
-      _DropdownItemButton<T>(
+  _DropdownItemButton<T> dropdownItemButton(int index) => _DropdownItemButton<T>(
         route: widget.route,
         scrollController: widget.scrollController,
         textDirection: widget.textDirection,
@@ -83,8 +81,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     final searchController = searchData?.searchController;
     if (searchController == null) {
       _children = <Widget>[
-        for (int index = 0; index < items.length; ++index)
-          dropdownItemButton(index),
+        for (int index = 0; index < items.length; ++index) dropdownItemButton(index),
       ];
     } else {
       _searchMatchFn = searchData?.searchMatchFn ?? _defaultSearchMatchFn();
@@ -103,8 +100,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     final String currentSearch = searchData!.searchController!.text;
     return <Widget>[
       for (int index = 0; index < items.length; ++index)
-        if (_searchMatchFn(items[index], currentSearch))
-          dropdownItemButton(index),
+        if (_searchMatchFn(items[index], currentSearch)) dropdownItemButton(index),
     ];
   }
 
@@ -125,13 +121,11 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 
   ScrollbarThemeData? get _scrollbarTheme => dropdownStyle.scrollbarTheme;
 
-  bool get _iOSThumbVisibility =>
-      _scrollbarTheme?.thumbVisibility?.resolve(_states) ?? true;
+  bool get _iOSThumbVisibility => _scrollbarTheme?.thumbVisibility?.resolve(_states) ?? true;
 
   bool get _hasIntrinsicHeight =>
       widget.route.items.any((item) => item.intrinsicHeight) ||
-      (widget.route.dropdownSeparator != null &&
-          widget.route.dropdownSeparator!.intrinsicHeight);
+      (widget.route.dropdownSeparator != null && widget.route.dropdownSeparator!.intrinsicHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +138,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     // When the menu is dismissed we just fade the entire thing out
     // in the first 0.25s.
     assert(debugCheckHasMaterialLocalizations(context));
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
     final _DropdownRoute<T> route = widget.route;
 
     final separator = widget.route.dropdownSeparator;
@@ -189,24 +182,20 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                           thumbVisibility:
                               // ignore: avoid_bool_literals_in_conditional_expressions
                               _isIOS ? _iOSThumbVisibility : true,
-                          thickness: _isIOS
-                              ? _scrollbarTheme?.thickness?.resolve(_states)
-                              : null,
+                          thickness: _isIOS ? _scrollbarTheme?.thickness?.resolve(_states) : null,
                           radius: _isIOS ? _scrollbarTheme?.radius : null,
                           child: ListView.custom(
                             // Ensure this always inherits the PrimaryScrollController
                             primary: true,
                             shrinkWrap: true,
-                            padding:
-                                dropdownStyle.padding ?? kMaterialListPadding,
+                            padding: dropdownStyle.padding ?? kMaterialListPadding,
                             itemExtentBuilder: _hasIntrinsicHeight
                                 ? null
                                 : (index, dimensions) {
                                     final childrenLength = separator == null
                                         ? _children.length
                                         : SeparatedSliverChildBuilderDelegate
-                                            .computeActualChildCount(
-                                                _children.length);
+                                            .computeActualChildCount(_children.length);
                                     // TODO(Ahmed): Remove this when https://github.com/flutter/flutter/pull/142428
                                     // is supported by the min version of the package [Flutter>=3.22.0].
                                     if (index >= childrenLength) {
@@ -225,13 +214,9 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                                   )
                                 : SeparatedSliverChildBuilderDelegate(
                                     itemCount: _children.length,
-                                    itemBuilder: (context, index) =>
-                                        _children[index],
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(
-                                      height: separator.intrinsicHeight
-                                          ? null
-                                          : separator.height,
+                                    itemBuilder: (context, index) => _children[index],
+                                    separatorBuilder: (context, index) => SizedBox(
+                                      height: separator.intrinsicHeight ? null : separator.height,
                                       child: separator,
                                     ),
                                   ),
@@ -265,13 +250,10 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           label: localizations.popupMenuLabel,
           child: ClipRRect(
             //Prevent scrollbar, ripple effect & items from going beyond border boundaries when scrolling.
-            clipBehavior: dropdownStyle.decoration?.borderRadius != null
-                ? Clip.antiAlias
-                : Clip.none,
-            borderRadius:
-                dropdownStyle.decoration?.borderRadius ?? BorderRadius.zero,
-            child: dropdownStyle.dropdownBuilder?.call(context, dropdownMenu) ??
-                dropdownMenu,
+            clipBehavior:
+                dropdownStyle.decoration?.borderRadius != null ? Clip.antiAlias : Clip.none,
+            borderRadius: dropdownStyle.decoration?.borderRadius ?? BorderRadius.zero,
+            child: dropdownStyle.dropdownBuilder?.call(context, dropdownMenu) ?? dropdownMenu,
           ),
         ),
       ),
@@ -290,8 +272,7 @@ class _DropdownMenuPainter extends CustomPainter {
   })  : _painter = dropdownDecoration
                 ?.copyWith(
                   color: dropdownDecoration.color ?? color,
-                  boxShadow: dropdownDecoration.boxShadow ??
-                      kElevationToShadow[elevation],
+                  boxShadow: dropdownDecoration.boxShadow ?? kElevationToShadow[elevation],
                 )
                 .createBoxPainter(() {}) ??
             BoxDecoration(
@@ -323,13 +304,11 @@ class _DropdownMenuPainter extends CustomPainter {
     );
 
     final Tween<double> bottom = Tween<double>(
-      begin: clampDouble(top.begin! + itemHeight,
-          math.min(itemHeight, size.height), size.height),
+      begin: clampDouble(top.begin! + itemHeight, math.min(itemHeight, size.height), size.height),
       end: size.height,
     );
 
-    final Rect rect = Rect.fromLTRB(
-        0.0, top.evaluate(resize), size.width, bottom.evaluate(resize));
+    final Rect rect = Rect.fromLTRB(0.0, top.evaluate(resize), size.width, bottom.evaluate(resize));
 
     _painter.paint(canvas, rect.topLeft, ImageConfiguration(size: rect.size));
   }

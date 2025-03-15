@@ -69,8 +69,8 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
           //This will ensure menu is drawn in the actual available height.
           final padding = MediaQuery.paddingOf(context);
           final viewInsets = MediaQuery.viewInsetsOf(context);
-          final BoxConstraints actualConstraints = constraints.copyWith(
-              maxHeight: constraints.maxHeight - viewInsets.bottom);
+          final BoxConstraints actualConstraints =
+              constraints.copyWith(maxHeight: constraints.maxHeight - viewInsets.bottom);
           final EdgeInsets mediaQueryPadding =
               dropdownStyle.useSafeArea ? padding : EdgeInsets.zero;
           return ValueListenableBuilder<Rect?>(
@@ -136,8 +136,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
     if (items.isNotEmpty && index > 0) {
       if (searchData?.searchController?.text case final searchText?) {
-        final searchMatchFn =
-            searchData?.searchMatchFn ?? _defaultSearchMatchFn();
+        final searchMatchFn = searchData?.searchMatchFn ?? _defaultSearchMatchFn();
         final selectedItemExist = searchMatchFn(items[index], searchText);
         if (selectedItemExist) {
           offset += _getSearchItemsHeight(index, searchText);
@@ -166,16 +165,14 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     EdgeInsets mediaQueryPadding,
     int index,
   ) {
-    double maxHeight =
-        getMenuAvailableHeight(availableHeight, mediaQueryPadding);
+    double maxHeight = getMenuAvailableHeight(availableHeight, mediaQueryPadding);
     // If a preferred MaxHeight is set by the user, use it instead of the available maxHeight.
     final double? preferredMaxHeight = dropdownStyle.maxHeight;
     if (preferredMaxHeight != null) {
       maxHeight = math.min(maxHeight, preferredMaxHeight);
     }
 
-    double actualMenuHeight =
-        dropdownStyle.padding?.vertical ?? kMaterialListPadding.vertical;
+    double actualMenuHeight = dropdownStyle.padding?.vertical ?? kMaterialListPadding.vertical;
     final double innerWidgetHeight = searchData?.searchBarWidgetHeight ?? 0.0;
     actualMenuHeight += innerWidgetHeight;
     if (items.isNotEmpty) {
@@ -296,8 +293,7 @@ class _DropdownRoutePageState<T> extends State<_DropdownRoutePage<T>> {
       widget.mediaQueryPadding,
       widget.selectedIndex,
     );
-    _scrollController =
-        ScrollController(initialScrollOffset: menuLimits.scrollOffset);
+    _scrollController = ScrollController(initialScrollOffset: menuLimits.scrollOffset);
   }
 
   @override
@@ -362,8 +358,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    double maxHeight =
-        route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
+    double maxHeight = route.getMenuAvailableHeight(availableHeight, mediaQueryPadding);
     final double? preferredMaxHeight = route.dropdownStyle.maxHeight;
     if (preferredMaxHeight != null && preferredMaxHeight <= maxHeight) {
       maxHeight = preferredMaxHeight;
@@ -371,8 +366,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     // The width of a menu should be at most the view width. This ensures that
     // the menu does not extend past the left and right edges of the screen.
     final double? menuWidth = route.dropdownStyle.width;
-    final double width =
-        math.min(constraints.maxWidth, menuWidth ?? buttonRect.width);
+    final double width = math.min(constraints.maxWidth, menuWidth ?? buttonRect.width);
     return BoxConstraints(
       minWidth: width,
       maxWidth: width,
@@ -438,8 +432,7 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
 
   @override
   bool shouldRelayout(_DropdownMenuRouteLayout<T> oldDelegate) {
-    return buttonRect != oldDelegate.buttonRect ||
-        textDirection != oldDelegate.textDirection;
+    return buttonRect != oldDelegate.buttonRect || textDirection != oldDelegate.textDirection;
   }
 }
 
@@ -534,8 +527,8 @@ class _DropdownBarrierPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (barrierColor != null && buttonRect != null) {
-      final Rect rect = Rect.fromLTRB(
-          -buttonRect!.left, -buttonRect!.top, pageSize.width, pageSize.height);
+      final Rect rect =
+          Rect.fromLTRB(-buttonRect!.left, -buttonRect!.top, pageSize.width, pageSize.height);
       canvas.saveLayer(rect, Paint());
       canvas.drawRect(rect, Paint()..color = barrierColor!);
       canvas.drawRect(buttonRect!, Paint()..blendMode = BlendMode.clear);
@@ -545,7 +538,6 @@ class _DropdownBarrierPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_DropdownBarrierPainter oldPainter) {
-    return oldPainter.buttonRect != buttonRect ||
-        oldPainter.barrierColor != barrierColor;
+    return oldPainter.buttonRect != buttonRect || oldPainter.barrierColor != barrierColor;
   }
 }

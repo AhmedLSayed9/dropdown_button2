@@ -229,8 +229,7 @@ class MenuItemStyleData {
       padding: padding ?? this.padding,
       borderRadius: borderRadius ?? this.borderRadius,
       overlayColor: overlayColor ?? this.overlayColor,
-      selectedMenuItemBuilder:
-          selectedMenuItemBuilder ?? this.selectedMenuItemBuilder,
+      selectedMenuItemBuilder: selectedMenuItemBuilder ?? this.selectedMenuItemBuilder,
     );
   }
 }
@@ -285,8 +284,7 @@ class DropdownSearchData<T> {
     return DropdownSearchData<T>(
       searchController: searchController ?? this.searchController,
       searchBarWidget: searchBarWidget ?? this.searchBarWidget,
-      searchBarWidgetHeight:
-          searchBarWidgetHeight ?? this.searchBarWidgetHeight,
+      searchBarWidgetHeight: searchBarWidgetHeight ?? this.searchBarWidgetHeight,
       noResultsWidget: noResultsWidget ?? this.noResultsWidget,
       searchMatchFn: searchMatchFn ?? this.searchMatchFn,
     );
