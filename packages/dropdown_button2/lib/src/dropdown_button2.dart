@@ -1044,18 +1044,24 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                 items
                     .where((DropdownItem<T> item) => item.value == state.value)
                     .isNotEmpty;
-            bool isHintOrDisabledHintAvailable() {
-              final bool isDropdownDisabled =
-                  onChanged == null || (items == null || items.isEmpty);
-              if (isDropdownDisabled) {
-                return hint != null || disabledHint != null;
-              } else {
-                return hint != null;
-              }
-            }
-
+            final bool isDropdownEnabled =
+                onChanged != null && items != null && items.isNotEmpty;
+            // If decoration hintText is provided, use it as the default value for both hint and disabledHint.
+            final Widget? decorationHint = effectiveDecoration.hintText != null
+                ? Text(
+                    effectiveDecoration.hintText!,
+                    style: effectiveDecoration.hintStyle,
+                    textDirection: effectiveDecoration.hintTextDirection,
+                    maxLines: effectiveDecoration.hintMaxLines,
+                  )
+                : null;
+            final Widget? effectiveHint = hint ?? decorationHint;
+            final Widget? effectiveDisabledHint = disabledHint ?? effectiveHint;
+            final bool isHintOrDisabledHintAvailable = isDropdownEnabled
+                ? effectiveHint != null
+                : effectiveHint != null || effectiveDisabledHint != null;
             final bool isEmpty =
-                !showSelectedItem && !isHintOrDisabledHintAvailable();
+                !showSelectedItem && !isHintOrDisabledHintAvailable;
 
             // An unFocusable Focus widget so that this widget can detect if its
             // descendants have focus or not.
@@ -1068,8 +1074,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                   selectedItemBuilder: selectedItemBuilder,
                   valueListenable: valueListenable,
                   multiValueListenable: multiValueListenable,
-                  hint: hint,
-                  disabledHint: disabledHint,
+                  hint: effectiveHint,
+                  disabledHint: effectiveDisabledHint,
                   onChanged: onChanged == null ? null : state.didChange,
                   onMenuStateChange: onMenuStateChange,
                   style: style,
