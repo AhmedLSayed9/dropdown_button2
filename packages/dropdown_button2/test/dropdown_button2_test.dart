@@ -11,10 +11,9 @@ void main() {
       final value = valueListenable.value;
 
       final findDropdownButton = find.byType(DropdownButton2<int>);
-      final findDropdownButtonFormField =
-          find.byType(DropdownButtonFormField2<int>);
-      final findDropdownButtonText = find.descendant(
-          of: findDropdownButton, matching: find.text('$value'));
+      final findDropdownButtonFormField = find.byType(DropdownButtonFormField2<int>);
+      final findDropdownButtonText =
+          find.descendant(of: findDropdownButton, matching: find.text('$value'));
       final findDropdownMenu = find.byType(ListView);
       final findDropdownMenuText =
           find.descendant(of: findDropdownMenu, matching: find.text('$value'));
@@ -40,8 +39,7 @@ void main() {
           ),
         );
 
-        final buttonFocusNode =
-            Focus.of(tester.element(findDropdownButtonText));
+        final buttonFocusNode = Focus.of(tester.element(findDropdownButtonText));
 
         expect(findDropdownMenu, findsNothing);
         expect(buttonFocusNode.hasFocus, isFalse);
@@ -56,8 +54,7 @@ void main() {
         expect(buttonFocusNode.hasFocus, isTrue);
       });
 
-      testWidgets('button should stay highlighted when menu closes',
-          (WidgetTester tester) async {
+      testWidgets('button should stay highlighted when menu closes', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -77,8 +74,7 @@ void main() {
           ),
         );
 
-        final buttonFocusNode =
-            Focus.of(tester.element(findDropdownButtonText));
+        final buttonFocusNode = Focus.of(tester.element(findDropdownButtonText));
 
         expect(buttonFocusNode.hasFocus, isFalse);
 
@@ -93,8 +89,7 @@ void main() {
         expect(buttonFocusNode.hasPrimaryFocus, isTrue);
       });
 
-      testWidgets(
-          'inkwell should not go beyond border and cover error message when pressed',
+      testWidgets('inkwell should not go beyond border and cover error message when pressed',
           (WidgetTester tester) async {
         // Regression test for https://github.com/AhmedLSayed9/dropdown_button2/issues/56
 
@@ -127,8 +122,7 @@ void main() {
         formKey.currentState!.validate();
         await tester.pumpAndSettle();
 
-        final findInkWell = find.descendant(
-            of: findDropdownButton, matching: find.byType(InkWell));
+        final findInkWell = find.descendant(of: findDropdownButton, matching: find.byType(InkWell));
         expect(findInkWell, findsNothing);
 
         final findFormFieldInputDecorator = find.descendant(

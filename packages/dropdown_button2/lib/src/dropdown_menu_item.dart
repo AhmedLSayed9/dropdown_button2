@@ -180,8 +180,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
   void _setOpacityAnimation() {
     final double menuCurveEnd = widget.route.dropdownStyle.openInterval.end;
     final double unit = 0.5 / (widget.route.items.length + 1.5);
-    final double start =
-        clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
+    final double start = clampDouble(menuCurveEnd + (widget.itemIndex + 1) * unit, 0.0, 1.0);
     final double end = clampDouble(start + 1.5 * unit, 0.0, 1.0);
     _opacityAnimation = CurvedAnimation(
       parent: widget.route.animation!,
@@ -190,8 +189,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
   }
 
   void _handleFocusChange(bool focused) {
-    final bool inTraditionalMode =
-        switch (FocusManager.instance.highlightMode) {
+    final bool inTraditionalMode = switch (FocusManager.instance.highlightMode) {
       FocusHighlightMode.touch => false,
       FocusHighlightMode.traditional => true,
     };
@@ -225,29 +223,23 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
     }
   }
 
-  static const Map<ShortcutActivator, Intent> _webShortcuts =
-      <ShortcutActivator, Intent>{
+  static const Map<ShortcutActivator, Intent> _webShortcuts = <ShortcutActivator, Intent>{
     // On the web, up/down don't change focus, *except* in a <select>
     // element, which is what a dropdown emulates.
-    SingleActivator(LogicalKeyboardKey.arrowDown):
-        DirectionalFocusIntent(TraversalDirection.down),
-    SingleActivator(LogicalKeyboardKey.arrowUp):
-        DirectionalFocusIntent(TraversalDirection.up),
+    SingleActivator(LogicalKeyboardKey.arrowDown): DirectionalFocusIntent(TraversalDirection.down),
+    SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
   };
 
   MenuItemStyleData get _menuItemStyle => widget.route.menuItemStyle;
-  EdgeInsets? get _inputDecorationPadding =>
-      widget.route.inputDecorationPadding;
-  bool get _useDecorationHPadding =>
-      _menuItemStyle.useDecorationHorizontalPadding;
+  EdgeInsets? get _inputDecorationPadding => widget.route.inputDecorationPadding;
+  bool get _useDecorationHPadding => _menuItemStyle.useDecorationHorizontalPadding;
 
   @override
   Widget build(BuildContext context) {
     final DropdownItem<T> dropdownItem = widget.route.items[widget.itemIndex];
 
     final menuItemPadding =
-        _menuItemStyle.padding?.resolve(widget.textDirection) ??
-            _kMenuItemPadding;
+        _menuItemStyle.padding?.resolve(widget.textDirection) ?? _kMenuItemPadding;
 
     Widget child = Padding(
       padding: menuItemPadding.copyWith(
@@ -259,8 +251,8 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
     if (dropdownItem.enabled) {
-      final bool isSelectedItem = !widget.route.isNoSelectedItem &&
-          widget.itemIndex == widget.route.selectedIndex;
+      final bool isSelectedItem =
+          !widget.route.isNoSelectedItem && widget.itemIndex == widget.route.selectedIndex;
       child = InkWell(
         autofocus: isSelectedItem,
         enableFeedback: widget.enableFeedback,
@@ -269,8 +261,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
         borderRadius: _menuItemStyle.borderRadius,
         overlayColor: _menuItemStyle.overlayColor,
         child: isSelectedItem
-            ? _menuItemStyle.selectedMenuItemBuilder?.call(context, child) ??
-                child
+            ? _menuItemStyle.selectedMenuItemBuilder?.call(context, child) ?? child
             : child,
       );
     }
