@@ -13,15 +13,19 @@ jobs:
   build:
     name: Run flutter test and analyze
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        channel:
+          - stable
+          - master
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Flutter environment
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v2.7.1
         with:
-          channel: stable
-          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+          channel: ${{ matrix.channel }}
 
       - name: Set environment paths
         run: |
