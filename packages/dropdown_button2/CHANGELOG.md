@@ -11,6 +11,7 @@
 - Support helperStyle/helperMaxLines/errorMaxLines for DropdownButtonFormField2.
 - Add `MenuItemStyleData.useDecorationHorizontalPadding`, used to determine whether to use the horizontal padding from "decoration.contentPadding" for menu items when using `DropdownButtonFormField2`.
 - Use decoration hint text as the default value for dropdown button hints [Flutter core].
+- Update SDK constraints: ">=3.4.0 <4.0.0"
 
 ## 3.0.0-beta.21
 
