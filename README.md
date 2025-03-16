@@ -103,7 +103,7 @@ customize to your needs.
 | [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/padding.html)           | The inner padding of the Button                                         | EdgeInsetsGeometry            |    No    |
 | [decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/decoration.html)     | The decoration of the Button                                            | BoxDecoration                 |    No    |
 | [elevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/elevation.html)       | The elevation of the Button                                             | int                           |    No    |
-| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/overlayColor.html) | Defines the ink response focus, hover, and splash colors for the button | MaterialStateProperty<Color?> |    No    |
+| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/overlayColor.html) | Defines the ink response focus, hover, and splash colors for the button | WidgetStateProperty<Color?> |    No    |
 
 #### Subclass IconStyleData:
 
@@ -141,7 +141,7 @@ customize to your needs.
 | [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                               | The padding of menu items                                                                                                             | EdgeInsetsGeometry            |    No    |
 | [useDecorationHorizontalPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/useDecorationHorizontalPadding.html) | Determine whether to use the horizontal padding from "decoration.contentPadding" for menu items when using `DropdownButtonFormField2` | bool                          |    No    |
 | [borderRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/borderRadius.html)                                     | The border radius of the menu item                                                                                                    | BorderRadius                  |    No    |
-| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                                     | Defines the ink response focus, hover, and splash colors for the items                                                                | MaterialStateProperty<Color?> |    No    |
+| [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                                     | Defines the ink response focus, hover, and splash colors for the items                                                                | WidgetStateProperty<Color?> |    No    |
 | [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html)               | A builder to customize the selected menu item                                                                                         | SelectedMenuItemBuilder       |    No    |
 
 #### Subclass DropdownSearchData:
@@ -334,8 +334,8 @@ Widget build(BuildContext context) {
             offset: const Offset(-20, 0),
             scrollbarTheme: ScrollbarThemeData(
               radius: const Radius.circular(40),
-              thickness: MaterialStateProperty.all(6),
-              thumbVisibility: MaterialStateProperty.all(true),
+              thickness: WidgetStateProperty.all(6),
+              thumbVisibility: WidgetStateProperty.all(true),
             ),
           ),
           menuItemStyleData: const MenuItemStyleData(
@@ -1151,10 +1151,10 @@ class CustomDropdownButton2 extends StatelessWidget {
           scrollbarTheme: ScrollbarThemeData(
             radius: scrollbarRadius ?? const Radius.circular(40),
             thickness: scrollbarThickness != null
-                ? MaterialStateProperty.all<double>(scrollbarThickness!)
+                ? WidgetStateProperty.all<double>(scrollbarThickness!)
                 : null,
             thumbVisibility: scrollbarAlwaysShow != null
-                ? MaterialStateProperty.all<bool>(scrollbarAlwaysShow!)
+                ? WidgetStateProperty.all<bool>(scrollbarAlwaysShow!)
                 : null,
           ),
         ),
