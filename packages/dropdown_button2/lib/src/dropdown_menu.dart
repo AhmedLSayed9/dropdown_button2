@@ -116,9 +116,9 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
     super.dispose();
   }
 
-  final _states = <MaterialState>{
-    MaterialState.dragged,
-    MaterialState.hovered,
+  final _states = <WidgetState>{
+    WidgetState.dragged,
+    WidgetState.hovered,
   };
 
   bool get _isIOS => Theme.of(context).platform == TargetPlatform.iOS;
