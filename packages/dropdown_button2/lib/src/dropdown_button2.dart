@@ -725,7 +725,9 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     }
 
     final EdgeInsetsGeometry padding =
-        ButtonTheme.of(context).alignedDropdown ? _kAlignedButtonPadding : _kUnalignedButtonPadding;
+        ButtonTheme.of(context).alignedDropdown && widget._inputDecoration == null
+            ? _kAlignedButtonPadding
+            : _kUnalignedButtonPadding;
 
     final buttonHeight = _buttonStyle?.height ?? (widget.isDense ? _denseButtonHeight : null);
 
