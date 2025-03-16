@@ -483,7 +483,10 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
     super.initState();
     color = widget.animation!.drive(
       ColorTween(
-        begin: widget.barrierColor?.withValues(alpha: 0.0),
+        // TODO(Ahmed): Use `.withValues(alpha: 0.0)`
+        // when it's supported by the min version of the package [Flutter>=3.27.0]
+        // ignore: deprecated_member_use
+        begin: widget.barrierColor?.withOpacity(0.0),
         end: widget.barrierColor,
       ).chain(CurveTween(curve: widget.barrierCurve)),
     );
