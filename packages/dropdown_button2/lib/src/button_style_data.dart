@@ -50,7 +50,7 @@ class ButtonStyleData extends _ButtonStyleDataBase {
   /// [splashColor]. If non-null, it is resolved against one of
   /// [MaterialState.focused], [MaterialState.hovered], and
   /// [MaterialState.pressed]. It's convenient to use when the parent
-  /// widget can pass along its own MaterialStateProperty value for
+  /// widget can pass along its own WidgetStateProperty value for
   /// the overlay color.
   ///
   /// [MaterialState.pressed] triggers a ripple (an ink splash), per
@@ -67,7 +67,7 @@ class ButtonStyleData extends _ButtonStyleDataBase {
   ///  * The Material Design specification for overlay colors and how they
   ///    match a component's state:
   ///    <https://material.io/design/interaction/states.html#anatomy>.
-  final MaterialStateProperty<Color?>? overlayColor;
+  final WidgetStateProperty<Color?>? overlayColor;
 
   /// Create a clone of the current [ButtonStyleData] but with the provided
   /// parameters overridden.
@@ -78,7 +78,7 @@ class ButtonStyleData extends _ButtonStyleDataBase {
     BoxDecoration? decoration,
     BoxDecoration? foregroundDecoration,
     int? elevation,
-    MaterialStateProperty<Color?>? overlayColor,
+    WidgetStateProperty<Color?>? overlayColor,
   }) {
     return ButtonStyleData(
       height: height ?? this.height,

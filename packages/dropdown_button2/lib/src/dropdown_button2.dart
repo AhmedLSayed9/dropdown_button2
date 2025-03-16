@@ -877,7 +877,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>>
     }
 
     final MouseCursor effectiveMouseCursor =
-        MaterialStateProperty.resolveAs<MouseCursor>(
+        WidgetStateProperty.resolveAs<MouseCursor>(
       MaterialStateMouseCursor.clickable,
       <MaterialState>{
         if (!_enabled) MaterialState.disabled,

@@ -182,7 +182,7 @@ class MenuItemStyleData {
   /// [splashColor]. If non-null, it is resolved against one of
   /// [MaterialState.focused], [MaterialState.hovered], and
   /// [MaterialState.pressed]. It's convenient to use when the parent
-  /// widget can pass along its own MaterialStateProperty value for
+  /// widget can pass along its own WidgetStateProperty value for
   /// the overlay color.
   ///
   /// [MaterialState.pressed] triggers a ripple (an ink splash), per
@@ -199,7 +199,7 @@ class MenuItemStyleData {
   ///  * The Material Design specification for overlay colors and how they
   ///    match a component's state:
   ///    <https://material.io/design/interaction/states.html#anatomy>.
-  final MaterialStateProperty<Color?>? overlayColor;
+  final WidgetStateProperty<Color?>? overlayColor;
 
   /// A builder to customize the selected menu item.
   ///
@@ -222,7 +222,7 @@ class MenuItemStyleData {
   MenuItemStyleData copyWith({
     EdgeInsetsGeometry? padding,
     BorderRadius? borderRadius,
-    MaterialStateProperty<Color?>? overlayColor,
+    WidgetStateProperty<Color?>? overlayColor,
     SelectedMenuItemBuilder? selectedMenuItemBuilder,
   }) {
     return MenuItemStyleData(
