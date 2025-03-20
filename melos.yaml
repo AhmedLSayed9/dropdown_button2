@@ -30,7 +30,8 @@ scripts:
     description: Run `flutter analyze` for all packages.
 
   format:
-    run: melos exec dart format .
+    # Remove --line-length=100 when upgrading the min dart sdk to at least 3.7
+    run: melos exec dart format --line-length=100 .
     description: Run `dart format` for all packages.
 
   test:select:

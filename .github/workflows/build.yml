@@ -40,7 +40,8 @@ jobs:
           melos bootstrap
 
       - name: Verify formatting
-        run: melos exec dart format --output=none --set-exit-if-changed .
+        # Remove --line-length=100 when upgrading the min dart sdk to at least 3.7
+        run: melos exec dart format --output=none --set-exit-if-changed --line-length=100 .
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Run flutter analyze

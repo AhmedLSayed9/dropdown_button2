@@ -75,9 +75,8 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
                     ? multiValueListenable.value = []
                     : multiValueListenable.value = List.from(items);
               } else {
-                multiValueListenable.value = isSelected
-                    ? ([...multiValue]..remove(value))
-                    : [...multiValue, value!];
+                multiValueListenable.value =
+                    isSelected ? ([...multiValue]..remove(value)) : [...multiValue, value!];
               }
             },
             selectedItemBuilder: (context) {
@@ -89,9 +88,7 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
                         return Container(
                           alignment: AlignmentDirectional.center,
                           child: Text(
-                            multiValue
-                                .where((item) => item != 'All')
-                                .join(', '),
+                            multiValue.where((item) => item != 'All').join(', '),
                             style: const TextStyle(
                               fontSize: 14,
                               overflow: TextOverflow.ellipsis,

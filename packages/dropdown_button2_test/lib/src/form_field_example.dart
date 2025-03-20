@@ -41,8 +41,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
               DropdownButtonFormField2<String>(
                 isExpanded: true,
                 decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
