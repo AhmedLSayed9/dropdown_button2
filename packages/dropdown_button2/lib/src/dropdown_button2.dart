@@ -116,9 +116,9 @@ class DropdownButton2<T> extends StatefulWidget {
     this.customButton,
     this.openWithLongPress = false,
     this.barrierDismissible = true,
+    this.barrierCoversButton = true,
     this.barrierColor,
     this.barrierLabel,
-    this.barrierCoversButton = true,
     this.openDropdownListenable,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
@@ -155,8 +155,8 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.customButton,
     required this.openWithLongPress,
     required this.barrierDismissible,
+    required this.barrierCoversButton,
     required this.barrierColor,
-    this.barrierCoversButton = true,
     required this.barrierLabel,
     required this.openDropdownListenable,
     required InputDecoration inputDecoration,
@@ -338,6 +338,11 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Whether you can dismiss this route by tapping the modal barrier.
   final bool barrierDismissible;
 
+  /// Specifies whether the modal barrier should cover the dropdown button or not.
+  ///
+  /// Defaults to true.
+  final bool barrierCoversButton;
+
   /// The color to use for the modal barrier. If this is null, the barrier will
   /// be transparent.
   final Color? barrierColor;
@@ -347,11 +352,6 @@ class DropdownButton2<T> extends StatefulWidget {
   /// If the barrier is dismissible, this label will be read out if
   /// accessibility tools (like VoiceOver on iOS) focus on the barrier.
   final String? barrierLabel;
-
-  /// Specifies whether the modal barrier should cover the dropdown button or not.
-  ///
-  /// Defaults to true.
-  final bool barrierCoversButton;
 
   /// A [Listenable] that can be used to programmatically open the dropdown menu.
   ///
@@ -985,6 +985,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? customButton,
     bool openWithLongPress = false,
     bool barrierDismissible = true,
+    bool barrierCoversButton = true,
     Color? barrierColor,
     String? barrierLabel,
     Listenable? openDropdownListenable,
@@ -1056,6 +1057,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                   customButton: customButton,
                   openWithLongPress: openWithLongPress,
                   barrierDismissible: barrierDismissible,
+                  barrierCoversButton: barrierCoversButton,
                   barrierColor: barrierColor,
                   barrierLabel: barrierLabel,
                   openDropdownListenable: openDropdownListenable,

@@ -14,6 +14,7 @@
 - Update SDK constraints: ">=3.4.0 <4.0.0"
 - Fix DropdownButtonFormField clips text when large text scale is used [Flutter core].
 - Fix DropdownButtonFormField padding when ButtonTheme.alignedDropdown is true [Flutter core].
+- Add barrierCoversButton to DropdownButtonFormField2.
 
 ## 3.0.0-beta.21
 
