@@ -602,6 +602,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     _dropdownRoute = _DropdownRoute<T>(
       items: items,
       buttonRect: _buttonRect,
+      buttonBorderRadius: _getButtonBorderRadius(context) ?? BorderRadius.zero,
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
       onChanged: widget.onChanged,
