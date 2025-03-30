@@ -26,7 +26,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
   final List<DropdownItem<T>> items;
   final ValueNotifier<Rect?> buttonRect;
-  final BorderRadius buttonBorderRadius;
+  final BorderRadius? buttonBorderRadius;
   final int selectedIndex;
   final bool isNoSelectedItem;
   final ValueChanged<T?>? onChanged;
@@ -95,7 +95,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
                       animation: animation,
                       barrierCurve: barrierCurve,
                       buttonRect: rect,
-                      buttonBorderRadius: buttonBorderRadius,
+                      buttonBorderRadius: buttonBorderRadius ?? BorderRadius.zero,
                       child: routePage,
                     );
             },
@@ -563,8 +563,8 @@ class _DropdownBarrierPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_DropdownBarrierPainter oldPainter) {
-    return oldPainter.barrierColor != barrierColor ||
-        oldPainter.buttonRect != buttonRect ||
+    return oldPainter.buttonRect != buttonRect ||
+        oldPainter.barrierColor != barrierColor ||
         oldPainter.buttonBorderRadius != buttonBorderRadius;
   }
 }
