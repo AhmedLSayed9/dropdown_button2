@@ -242,6 +242,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           resize: _resize,
           itemHeight: items[0].height,
           dropdownDecoration: dropdownStyle.decoration,
+          textDirection: widget.textDirection,
         ),
         child: Semantics(
           scopesRoute: true,
@@ -263,12 +264,13 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
 
 class _DropdownMenuPainter extends CustomPainter {
   _DropdownMenuPainter({
-    this.color,
-    this.elevation,
-    this.selectedIndex,
+    required this.color,
+    required this.elevation,
+    required this.selectedIndex,
     required this.resize,
     required this.itemHeight,
-    this.dropdownDecoration,
+    required this.dropdownDecoration,
+    required this.textDirection,
   })  : _painter = dropdownDecoration
                 ?.copyWith(
                   color: dropdownDecoration.color ?? color,
@@ -291,6 +293,7 @@ class _DropdownMenuPainter extends CustomPainter {
   final Animation<double> resize;
   final double itemHeight;
   final BoxDecoration? dropdownDecoration;
+  final TextDirection? textDirection;
 
   final BoxPainter _painter;
 
@@ -310,7 +313,11 @@ class _DropdownMenuPainter extends CustomPainter {
 
     final Rect rect = Rect.fromLTRB(0.0, top.evaluate(resize), size.width, bottom.evaluate(resize));
 
-    _painter.paint(canvas, rect.topLeft, ImageConfiguration(size: rect.size));
+    _painter.paint(
+      canvas,
+      rect.topLeft,
+      ImageConfiguration(size: rect.size, textDirection: textDirection),
+    );
   }
 
   @override
@@ -318,8 +325,9 @@ class _DropdownMenuPainter extends CustomPainter {
     return oldPainter.color != color ||
         oldPainter.elevation != elevation ||
         oldPainter.selectedIndex != selectedIndex ||
-        oldPainter.dropdownDecoration != dropdownDecoration ||
         oldPainter.itemHeight != itemHeight ||
+        oldPainter.dropdownDecoration != dropdownDecoration ||
+        oldPainter.textDirection != textDirection ||
         oldPainter.resize != resize;
   }
 }
