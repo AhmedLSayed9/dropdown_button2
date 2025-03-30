@@ -4,6 +4,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   _DropdownRoute({
     required this.items,
     required this.buttonRect,
+    required this.buttonBorderRadius,
     required this.selectedIndex,
     required this.isNoSelectedItem,
     required this.onChanged,
@@ -25,6 +26,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
   final List<DropdownItem<T>> items;
   final ValueNotifier<Rect?> buttonRect;
+  final BorderRadius? buttonBorderRadius;
   final int selectedIndex;
   final bool isNoSelectedItem;
   final ValueChanged<T?>? onChanged;
@@ -89,10 +91,11 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
               return barrierCoversButton
                   ? routePage
                   : _CustomModalBarrier(
-                      animation: animation,
                       barrierColor: _altBarrierColor,
+                      animation: animation,
                       barrierCurve: barrierCurve,
                       buttonRect: rect,
+                      buttonBorderRadius: buttonBorderRadius ?? BorderRadius.zero,
                       child: routePage,
                     );
             },
@@ -458,18 +461,20 @@ class _DropdownRouteResult<T> {
 /// It's used instead of the route barrier when `barrierCoversButton` is set to false.
 class _CustomModalBarrier extends StatefulWidget {
   const _CustomModalBarrier({
-    this.animation,
-    this.barrierColor,
+    required this.barrierColor,
+    required this.animation,
     required this.barrierCurve,
+    required this.buttonRect,
+    required this.buttonBorderRadius,
     required this.child,
-    this.buttonRect,
   });
 
-  final Animation<double>? animation;
   final Color? barrierColor;
+  final Animation<double>? animation;
   final Curve barrierCurve;
+  final Rect buttonRect;
+  final BorderRadius buttonBorderRadius;
   final Widget child;
-  final Rect? buttonRect;
 
   @override
   State<_CustomModalBarrier> createState() => _CustomModalBarrierState();
@@ -503,8 +508,9 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
           builder: (BuildContext context, Color? value, Widget? child) {
             return CustomPaint(
               painter: _DropdownBarrierPainter(
-                buttonRect: widget.buttonRect,
                 barrierColor: value,
+                buttonRect: widget.buttonRect,
+                buttonBorderRadius: widget.buttonBorderRadius,
                 pageSize: size,
               ),
             );
@@ -518,29 +524,47 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
 
 class _DropdownBarrierPainter extends CustomPainter {
   const _DropdownBarrierPainter({
-    this.buttonRect,
-    this.barrierColor,
+    required this.barrierColor,
+    required this.buttonRect,
+    required this.buttonBorderRadius,
     required this.pageSize,
   });
 
-  final Rect? buttonRect;
   final Color? barrierColor;
+  final Rect buttonRect;
+  final BorderRadius buttonBorderRadius;
   final Size pageSize;
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (barrierColor != null && buttonRect != null) {
-      final Rect rect =
-          Rect.fromLTRB(-buttonRect!.left, -buttonRect!.top, pageSize.width, pageSize.height);
+    if (barrierColor != null) {
+      final Rect rect = Rect.fromLTRB(
+        -buttonRect.left,
+        -buttonRect.top,
+        pageSize.width,
+        pageSize.height,
+      );
+
       canvas.saveLayer(rect, Paint());
       canvas.drawRect(rect, Paint()..color = barrierColor!);
-      canvas.drawRect(buttonRect!, Paint()..blendMode = BlendMode.clear);
+
+      final RRect buttonRRect = RRect.fromRectAndCorners(
+        buttonRect,
+        topLeft: buttonBorderRadius.topLeft,
+        topRight: buttonBorderRadius.topRight,
+        bottomLeft: buttonBorderRadius.bottomLeft,
+        bottomRight: buttonBorderRadius.bottomRight,
+      );
+
+      canvas.drawRRect(buttonRRect, Paint()..blendMode = BlendMode.clear);
       canvas.restore();
     }
   }
 
   @override
   bool shouldRepaint(_DropdownBarrierPainter oldPainter) {
-    return oldPainter.buttonRect != buttonRect || oldPainter.barrierColor != barrierColor;
+    return oldPainter.buttonRect != buttonRect ||
+        oldPainter.barrierColor != barrierColor ||
+        oldPainter.buttonBorderRadius != buttonBorderRadius;
   }
 }

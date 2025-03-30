@@ -127,7 +127,8 @@ class DropdownButton2<T> extends StatefulWidget {
           'Only one of valueListenable or multiValueListenable can be used.',
         ),
         _inputDecoration = null,
-        _isEmpty = false;
+        _isEmpty = false,
+        _hasError = false;
 
   const DropdownButton2._formField({
     super.key,
@@ -161,9 +162,11 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.openDropdownListenable,
     required InputDecoration inputDecoration,
     required bool isEmpty,
+    required bool hasError,
   })  : underline = null,
         _inputDecoration = inputDecoration,
-        _isEmpty = isEmpty;
+        _isEmpty = isEmpty,
+        _hasError = hasError;
 
   /// The list of items the user can select.
   ///
@@ -382,6 +385,8 @@ class DropdownButton2<T> extends StatefulWidget {
 
   final bool _isEmpty;
 
+  final bool _hasError;
+
   @override
   State<DropdownButton2<T>> createState() => _DropdownButton2State<T>();
 }
@@ -572,6 +577,30 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     }
   }
 
+  Set<WidgetState> _materialState(InputDecoration decoration) => <WidgetState>{
+        if (!decoration.enabled) WidgetState.disabled,
+        if (_isFocused) WidgetState.focused,
+        if (_isHovering) WidgetState.hovered,
+        if (widget._hasError) WidgetState.error,
+      };
+
+  BorderRadius? _getInputDecorationBorderRadius(InputDecoration decoration) {
+    InputBorder? border;
+    if (!decoration.enabled) {
+      border = widget._hasError ? decoration.errorBorder : decoration.disabledBorder;
+    } else if (_isFocused) {
+      border = widget._hasError ? decoration.focusedErrorBorder : decoration.focusedBorder;
+    } else {
+      border = widget._hasError ? decoration.errorBorder : decoration.enabledBorder;
+    }
+    border ??= WidgetStateProperty.resolveAs(decoration.border, _materialState(decoration));
+
+    if (border is OutlineInputBorder) {
+      return border.borderRadius;
+    }
+    return null;
+  }
+
   EdgeInsetsGeometry _buttonAdditionalHPadding() {
     final TextDirection? textDirection = Directionality.maybeOf(context);
 
@@ -602,6 +631,9 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     _dropdownRoute = _DropdownRoute<T>(
       items: items,
       buttonRect: _buttonRect,
+      buttonBorderRadius: widget._inputDecoration != null
+          ? _getInputDecorationBorderRadius(widget._inputDecoration!)
+          : _getButtonBorderRadius(context),
       selectedIndex: _selectedIndex ?? 0,
       isNoSelectedItem: _selectedIndex == null,
       onChanged: widget.onChanged,
@@ -1026,6 +1058,10 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                 : effectiveHint != null || effectiveDisabledHint != null;
             final bool isEmpty = !showSelectedItem && !isHintOrDisabledHintAvailable;
 
+            final bool hasError = field.hasError ||
+                effectiveDecoration.errorText != null ||
+                effectiveDecoration.error != null;
+
             // An unFocusable Focus widget so that this widget can detect if its
             // descendants have focus or not.
             return Focus(
@@ -1067,6 +1103,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     hintText: effectiveDecoration.hintText != null ? '' : null,
                   ),
                   isEmpty: isEmpty,
+                  hasError: hasError,
                 ),
               ),
             );
