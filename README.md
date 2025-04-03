@@ -96,13 +96,13 @@ customize to your needs.
 
 #### Subclass ButtonStyleData:
 
-| Option                                                                                                                   | Description                                                             | Type                          | Required |
-| ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | ----------------------------- | :------: |
-| [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/height.html)             | The height of the button                                                | double                        |    No    |
-| [width](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/width.html)               | The width of the button                                                 | double                        |    No    |
-| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/padding.html)           | The inner padding of the Button                                         | EdgeInsetsGeometry            |    No    |
-| [decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/decoration.html)     | The decoration of the Button                                            | BoxDecoration                 |    No    |
-| [elevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/elevation.html)       | The elevation of the Button                                             | int                           |    No    |
+| Option                                                                                                                   | Description                                                             | Type                        | Required |
+| ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | --------------------------- | :------: |
+| [height](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/height.html)             | The height of the button                                                | double                      |    No    |
+| [width](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/width.html)               | The width of the button                                                 | double                      |    No    |
+| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/padding.html)           | The inner padding of the Button                                         | EdgeInsetsGeometry          |    No    |
+| [decoration](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/decoration.html)     | The decoration of the Button                                            | BoxDecoration               |    No    |
+| [elevation](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/elevation.html)       | The elevation of the Button                                             | int                         |    No    |
 | [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/ButtonStyleData/overlayColor.html) | Defines the ink response focus, hover, and splash colors for the button | WidgetStateProperty<Color?> |    No    |
 
 #### Subclass IconStyleData:
@@ -136,13 +136,13 @@ customize to your needs.
 
 #### Subclass MenuItemStyleData:
 
-| Option                                                                                                                                                         | Description                                                                                                                           | Type                          | Required |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | :------: |
-| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                               | The padding of menu items                                                                                                             | EdgeInsetsGeometry            |    No    |
-| [useDecorationHorizontalPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/useDecorationHorizontalPadding.html) | Determine whether to use the horizontal padding from "decoration.contentPadding" for menu items when using `DropdownButtonFormField2` | bool                          |    No    |
-| [borderRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/borderRadius.html)                                     | The border radius of the menu item                                                                                                    | BorderRadius                  |    No    |
+| Option                                                                                                                                                         | Description                                                                                                                           | Type                        | Required |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | :------: |
+| [padding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/padding.html)                                               | The padding of menu items                                                                                                             | EdgeInsetsGeometry          |    No    |
+| [useDecorationHorizontalPadding](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/useDecorationHorizontalPadding.html) | Determine whether to use the horizontal padding from "decoration.contentPadding" for menu items when using `DropdownButtonFormField2` | bool                        |    No    |
+| [borderRadius](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/borderRadius.html)                                     | The border radius of the menu item                                                                                                    | BorderRadius                |    No    |
 | [overlayColor](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/overlayColor.html)                                     | Defines the ink response focus, hover, and splash colors for the items                                                                | WidgetStateProperty<Color?> |    No    |
-| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html)               | A builder to customize the selected menu item                                                                                         | SelectedMenuItemBuilder       |    No    |
+| [selectedMenuItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/MenuItemStyleData/selectedMenuItemBuilder.html)               | A builder to customize the selected menu item                                                                                         | SelectedMenuItemBuilder     |    No    |
 
 #### Subclass DropdownSearchData:
 
@@ -169,7 +169,7 @@ add this line to pubspec.yaml
 
 ```yaml
 dependencies:
-  dropdown_button2: ^3.0.0-beta.21
+  dropdown_button2: ^3.0.0-beta.22
 ```
 
 import package
