@@ -563,7 +563,17 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
         itemBox.localToGlobal(Offset.zero, ancestor: navigator.context.findRenderObject()) &
             itemBox.size;
 
-    return contentPadding.inflateRect(itemRect);
+    final denseRect = contentPadding.inflateRect(itemRect);
+
+    if (widget._inputDecoration?.isDense == false) {
+      final extraHeight = kMinInteractiveDimension - denseRect.height;
+      if (extraHeight > 0) {
+        return (contentPadding + EdgeInsets.symmetric(vertical: extraHeight / 2))
+            .inflateRect(itemRect);
+      }
+    }
+
+    return denseRect;
   }
 
   EdgeInsets? _getInputDecorationPadding() {
