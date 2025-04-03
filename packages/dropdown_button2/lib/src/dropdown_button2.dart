@@ -1041,8 +1041,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
               : multiValueListenable?.value.lastOrNull,
           autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
           builder: (FormFieldState<T> field) {
-            final _DropdownButtonFormFieldState<T> state =
-                field as _DropdownButtonFormFieldState<T>;
+            final _DropdownButtonFormField2State<T> state =
+                field as _DropdownButtonFormField2State<T>;
             final InputDecoration decorationArg = decoration ?? const InputDecoration();
             final InputDecoration effectiveDecoration = decorationArg.applyDefaults(
               Theme.of(field.context).inputDecorationTheme,
@@ -1129,11 +1129,11 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   final InputDecoration decoration;
 
   @override
-  FormFieldState<T> createState() => _DropdownButtonFormFieldState<T>();
+  FormFieldState<T> createState() => _DropdownButtonFormField2State<T>();
 }
 
-class _DropdownButtonFormFieldState<T> extends FormFieldState<T> {
-  DropdownButtonFormField<T> get _dropdownButtonFormField => widget as DropdownButtonFormField<T>;
+class _DropdownButtonFormField2State<T> extends FormFieldState<T> {
+  DropdownButtonFormField2<T> get _dropdownButtonFormField => widget as DropdownButtonFormField2<T>;
 
   @override
   void didChange(T? value) {
