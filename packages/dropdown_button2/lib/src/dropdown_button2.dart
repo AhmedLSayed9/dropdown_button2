@@ -572,9 +572,13 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       final TextDirection? textDirection = Directionality.maybeOf(context);
       // Use inputDecorationTheme.visualDensity when added (https://github.com/flutter/flutter/issues/166201#issuecomment-2774622584)
       final Offset densityOffset = Theme.of(context).visualDensity.baseSizeAdjustment;
-      return (decoration.contentPadding ?? Theme.of(context).inputDecorationTheme.contentPadding)
-          ?.add(EdgeInsets.symmetric(vertical: densityOffset.dy / 2))
-          .resolve(textDirection);
+      final EdgeInsets? contentPadding =
+          (decoration.contentPadding ?? Theme.of(context).inputDecorationTheme.contentPadding)
+              ?.resolve(textDirection);
+      return contentPadding?.copyWith(
+        top: math.max(0, contentPadding.top + densityOffset.dy / 2),
+        bottom: math.max(0, contentPadding.bottom + densityOffset.dy / 2),
+      );
     } else {
       return null;
     }
