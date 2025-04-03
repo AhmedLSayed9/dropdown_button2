@@ -16,6 +16,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     required this.barrierCoversButton,
     required this.parentFocusNode,
     required this.enableFeedback,
+    required this.textDirection,
     required this.dropdownStyle,
     required this.menuItemStyle,
     required this.inputDecorationPadding,
@@ -34,6 +35,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final TextStyle style;
   final FocusNode parentFocusNode;
   final bool enableFeedback;
+  final TextDirection? textDirection;
   final DropdownStyleData dropdownStyle;
   final MenuItemStyleData menuItemStyle;
   final EdgeInsets? inputDecorationPadding;
@@ -61,46 +63,49 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
   @override
   Widget buildPage(BuildContext context, _, __) {
-    return FocusScope.withExternalFocusNode(
-      focusScopeNode: _childNode,
-      parentNode: parentFocusNode,
-      child: LayoutBuilder(
-        builder: (BuildContext ctx, BoxConstraints constraints) {
-          //Exclude BottomInset from maxHeight to avoid overlapping menu items
-          //with keyboard when using searchable dropdown.
-          //This will ensure menu is drawn in the actual available height.
-          final padding = MediaQuery.paddingOf(context);
-          final viewInsets = MediaQuery.viewInsetsOf(context);
-          final BoxConstraints actualConstraints =
-              constraints.copyWith(maxHeight: constraints.maxHeight - viewInsets.bottom);
-          final EdgeInsets mediaQueryPadding =
-              dropdownStyle.useSafeArea ? padding : EdgeInsets.zero;
-          return ValueListenableBuilder<Rect?>(
-            valueListenable: buttonRect,
-            builder: (BuildContext context, Rect? rect, _) {
-              final routePage = _DropdownRoutePage<T>(
-                route: this,
-                constraints: actualConstraints,
-                mediaQueryPadding: mediaQueryPadding,
-                buttonRect: rect!,
-                selectedIndex: selectedIndex,
-                capturedThemes: capturedThemes,
-                style: style,
-                enableFeedback: enableFeedback,
-              );
-              return barrierCoversButton
-                  ? routePage
-                  : _CustomModalBarrier(
-                      barrierColor: _altBarrierColor,
-                      animation: animation,
-                      barrierCurve: barrierCurve,
-                      buttonRect: rect,
-                      buttonBorderRadius: buttonBorderRadius ?? BorderRadius.zero,
-                      child: routePage,
-                    );
-            },
-          );
-        },
+    return Directionality(
+      textDirection: textDirection ?? Directionality.of(context),
+      child: FocusScope.withExternalFocusNode(
+        focusScopeNode: _childNode,
+        parentNode: parentFocusNode,
+        child: LayoutBuilder(
+          builder: (BuildContext ctx, BoxConstraints constraints) {
+            //Exclude BottomInset from maxHeight to avoid overlapping menu items
+            //with keyboard when using searchable dropdown.
+            //This will ensure menu is drawn in the actual available height.
+            final padding = MediaQuery.paddingOf(context);
+            final viewInsets = MediaQuery.viewInsetsOf(context);
+            final BoxConstraints actualConstraints =
+                constraints.copyWith(maxHeight: constraints.maxHeight - viewInsets.bottom);
+            final EdgeInsets mediaQueryPadding =
+                dropdownStyle.useSafeArea ? padding : EdgeInsets.zero;
+            return ValueListenableBuilder<Rect?>(
+              valueListenable: buttonRect,
+              builder: (BuildContext context, Rect? rect, _) {
+                final routePage = _DropdownRoutePage<T>(
+                  route: this,
+                  constraints: actualConstraints,
+                  mediaQueryPadding: mediaQueryPadding,
+                  buttonRect: rect!,
+                  selectedIndex: selectedIndex,
+                  capturedThemes: capturedThemes,
+                  style: style,
+                  enableFeedback: enableFeedback,
+                );
+                return barrierCoversButton
+                    ? routePage
+                    : _CustomModalBarrier(
+                        barrierColor: _altBarrierColor,
+                        animation: animation,
+                        barrierCurve: barrierCurve,
+                        buttonRect: rect,
+                        buttonBorderRadius: buttonBorderRadius ?? BorderRadius.zero,
+                        child: routePage,
+                      );
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -503,18 +508,21 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
 
     return Stack(
       children: [
-        ValueListenableBuilder(
-          valueListenable: color,
-          builder: (BuildContext context, Color? value, Widget? child) {
-            return CustomPaint(
-              painter: _DropdownBarrierPainter(
-                barrierColor: value,
-                buttonRect: widget.buttonRect,
-                buttonBorderRadius: widget.buttonBorderRadius,
-                pageSize: size,
-              ),
-            );
-          },
+        IgnorePointer(
+          child: ValueListenableBuilder(
+            valueListenable: color,
+            builder: (BuildContext context, Color? value, Widget? child) {
+              return CustomPaint(
+                size: Size(size.width, size.height),
+                painter: _DropdownBarrierPainter(
+                  barrierColor: value,
+                  buttonRect: widget.buttonRect,
+                  buttonBorderRadius: widget.buttonBorderRadius,
+                  pageSize: size,
+                ),
+              );
+            },
+          ),
         ),
         widget.child,
       ],
@@ -538,15 +546,10 @@ class _DropdownBarrierPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (barrierColor != null) {
-      final Rect rect = Rect.fromLTRB(
-        -buttonRect.left,
-        -buttonRect.top,
-        pageSize.width,
-        pageSize.height,
-      );
+      final Rect pageRect = Offset.zero & pageSize;
 
-      canvas.saveLayer(rect, Paint());
-      canvas.drawRect(rect, Paint()..color = barrierColor!);
+      canvas.saveLayer(pageRect, Paint());
+      canvas.drawRect(pageRect, Paint()..color = barrierColor!);
 
       final RRect buttonRRect = RRect.fromRectAndCorners(
         buttonRect,

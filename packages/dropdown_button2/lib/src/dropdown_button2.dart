@@ -622,6 +622,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
   void _handleTap() {
     final NavigatorState navigator = Navigator.of(context,
         rootNavigator: _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator);
+    final TextDirection? textDirection = Directionality.maybeOf(context);
 
     final items = widget.items!;
     final separator = widget.dropdownSeparator;
@@ -646,6 +647,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       barrierCoversButton: widget.barrierCoversButton,
       parentFocusNode: _focusNode,
       enableFeedback: widget.enableFeedback ?? true,
+      textDirection: textDirection,
       dropdownStyle: _dropdownStyle,
       menuItemStyle: _menuItemStyle,
       inputDecorationPadding: _getInputDecorationPadding(),

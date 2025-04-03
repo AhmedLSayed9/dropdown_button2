@@ -17,6 +17,8 @@
 - Add barrierCoversButton to DropdownButtonFormField2.
 - Respect button's borderRadius when barrierCoversButton is false.
 - Respect inputDecoration's borderRadius when barrierCoversButton is false.
+- Support BorderRadiusDirectional for dropdown menu.
+- Fix barrier when using TextDirection.rtl while barrierCoversButton set to false.
 
 ## 3.0.0-beta.21
 
