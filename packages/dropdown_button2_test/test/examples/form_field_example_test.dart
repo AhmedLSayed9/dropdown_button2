@@ -8,8 +8,6 @@ import 'test_app.dart';
 void main() {
   runGoldenTests(
     'FormField Example',
-    // NOTE: InputDecorator's contentPadding.vertical is incorrect on desktop
-    // until https://github.com/flutter/flutter/issues/166201 is fixed
     (WidgetTester tester, ViewVariant variant) async {
       // GIVEN
       await tester.pumpTestApp(const FormFieldExample());
