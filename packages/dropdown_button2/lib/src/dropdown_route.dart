@@ -508,18 +508,21 @@ class _CustomModalBarrierState extends State<_CustomModalBarrier> {
 
     return Stack(
       children: [
-        ValueListenableBuilder(
-          valueListenable: color,
-          builder: (BuildContext context, Color? value, Widget? child) {
-            return CustomPaint(
-              painter: _DropdownBarrierPainter(
-                barrierColor: value,
-                buttonRect: widget.buttonRect,
-                buttonBorderRadius: widget.buttonBorderRadius,
-                pageSize: size,
-              ),
-            );
-          },
+        IgnorePointer(
+          child: ValueListenableBuilder(
+            valueListenable: color,
+            builder: (BuildContext context, Color? value, Widget? child) {
+              return CustomPaint(
+                size: Size(size.width, size.height),
+                painter: _DropdownBarrierPainter(
+                  barrierColor: value,
+                  buttonRect: widget.buttonRect,
+                  buttonBorderRadius: widget.buttonBorderRadius,
+                  pageSize: size,
+                ),
+              );
+            },
+          ),
         ),
         widget.child,
       ],
@@ -543,15 +546,10 @@ class _DropdownBarrierPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (barrierColor != null) {
-      final Rect rect = Rect.fromLTRB(
-        -buttonRect.left,
-        -buttonRect.top,
-        pageSize.width,
-        pageSize.height,
-      );
+      final Rect pageRect = Offset.zero & pageSize;
 
-      canvas.saveLayer(rect, Paint());
-      canvas.drawRect(rect, Paint()..color = barrierColor!);
+      canvas.saveLayer(pageRect, Paint());
+      canvas.drawRect(pageRect, Paint()..color = barrierColor!);
 
       final RRect buttonRRect = RRect.fromRectAndCorners(
         buttonRect,
