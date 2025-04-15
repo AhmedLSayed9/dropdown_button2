@@ -802,23 +802,28 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
               // which enhances the performance when dealing with big items list.
               // Note: Both buttonHeight & buttonWidth must be specified to avoid changing
               // button's size when selecting different items, which is a bad UX.
-              return buttonHeight != null && _buttonStyle?.width != null
+              return buttonHeight != null
                   ? Align(
                       alignment: widget.alignment,
                       child: item,
                     )
-                  : IndexedStack(
-                      index: _selectedIndex ?? hintIndex,
-                      alignment: widget.alignment,
-                      children: buttonHeight != null
-                          ? buttonItems
-                          : buttonItems.map((item) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[item],
-                              );
-                            }).toList(),
-                    );
+                  : _buttonStyle?.width != null
+                      ? IndexedStack(
+                          index: _selectedIndex ?? hintIndex,
+                          alignment: widget.alignment,
+                          children: buttonHeight != null
+                              ? buttonItems
+                              : buttonItems.map((item) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[item],
+                                  );
+                                }).toList(),
+                        )
+                      : SizedBox(
+                          height: buttonHeight,
+                          child: item,
+                        );
             },
           );
 
@@ -849,7 +854,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  if (widget.isExpanded) Expanded(child: innerItemsWidget) else innerItemsWidget,
+                  if (widget.isExpanded && _buttonStyle?.width != null)
+                    Expanded(child: innerItemsWidget)
+                  else
+                    innerItemsWidget,
                   IconTheme(
                     data: IconThemeData(
                       color: _iconColor,
