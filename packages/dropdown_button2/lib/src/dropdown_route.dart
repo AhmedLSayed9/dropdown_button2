@@ -409,29 +409,29 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
       DropdownDirection.textDirection => switch (textDirection!) {
           TextDirection.rtl => clampDouble(
               buttonRect.right - childSize.width + offset.dx,
-              0.0,
-              size.width - childSize.width,
+              route.dropdownStyle.margin?.right ?? 0.00,
+              size.width - childSize.width - (route.dropdownStyle.margin?.left ?? 0),
             ),
           TextDirection.ltr => clampDouble(
               buttonRect.left + offset.dx,
-              0.0,
-              size.width - childSize.width,
+              route.dropdownStyle.margin?.left ?? 0.00,
+              size.width - childSize.width - (route.dropdownStyle.margin?.right ?? 0),
             ),
         },
       DropdownDirection.right => clampDouble(
           buttonRect.left + offset.dx,
-          0.0,
-          size.width - childSize.width,
+          route.dropdownStyle.margin?.right ?? 0.00,
+          size.width - childSize.width - (route.dropdownStyle.margin?.left ?? 0),
         ),
       DropdownDirection.left => clampDouble(
           buttonRect.right - childSize.width + offset.dx,
-          0.0,
-          size.width - childSize.width,
+          route.dropdownStyle.margin?.right ?? 0.00,
+          size.width - childSize.width - (route.dropdownStyle.margin?.right ?? 0),
         ),
       DropdownDirection.center => clampDouble(
           (size.width - childSize.width) / 2 + offset.dx,
-          0.0,
-          size.width - childSize.width,
+          route.dropdownStyle.margin?.left ?? 0.00,
+          size.width - childSize.width - (route.dropdownStyle.margin?.right ?? 0),
         ),
     };
 
