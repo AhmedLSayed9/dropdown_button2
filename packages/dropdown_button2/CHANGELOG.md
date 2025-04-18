@@ -1,3 +1,7 @@
+## UNRELEASED
+
+- Avoid dropdown internal FocusNode listener leak when replaced by an external FocusNode
+
 ## 3.0.0-beta.22
 
 - Fix errorStyle has no effect for DropdownButtonFormField2, closes #327.

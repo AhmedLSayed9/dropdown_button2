@@ -493,6 +493,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     super.didUpdateWidget(oldWidget);
     if (widget.focusNode != oldWidget.focusNode) {
       oldWidget.focusNode?.removeListener(_handleFocusChanged);
+      if (_internalNode != null && widget.focusNode != null) {
+        _internalNode!.removeListener(_handleFocusChanged);
+      }
+
       if (widget.focusNode == null) {
         _internalNode ??= _createFocusNode();
       }
