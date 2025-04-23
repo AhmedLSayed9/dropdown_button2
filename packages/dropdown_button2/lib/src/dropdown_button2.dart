@@ -1418,7 +1418,7 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
     );
 
     _isMenuOpen.value = true;
-    _focusNode?.requestFocus();
+    _focusNode.requestFocus();
     navigator.push(_dropdownRoute!).then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
       _isMenuOpen.value = false;
