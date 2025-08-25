@@ -546,11 +546,17 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
 
   @override
   void didChangeMetrics() {
-    //This fix the bug of calling didChangeMetrics() on iOS when app starts
+    // This fixes the bug of calling didChangeMetrics() on iOS when app starts.
     if (_buttonRect.value == null) {
       return;
     }
-    _buttonRect.value = _getButtonRect();
+
+    // Defer rect calculation to next frame to ensure layout is complete and dimensions are accurate.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _buttonRectKey.currentContext != null) {
+        _buttonRect.value = _getButtonRect();
+      }
+    });
   }
 
   TextStyle? get _textStyle => widget.style ?? Theme.of(context).textTheme.titleMedium;
