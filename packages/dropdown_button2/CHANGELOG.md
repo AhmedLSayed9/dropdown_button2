@@ -1,4 +1,4 @@
-## UNRELEASED
+## 3.0.0-beta.23
 
 - Avoid dropdown internal FocusNode listener leak when replaced by an external FocusNode.
 - Fix incorrect dropdown position when resizing the window rapidly on web, closes #395.
