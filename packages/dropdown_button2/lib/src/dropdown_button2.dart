@@ -511,6 +511,11 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       oldWidget.multiValueListenable?.removeListener(_updateSelectedIndex);
       widget.valueListenable?.addListener(_updateSelectedIndex);
       widget.multiValueListenable?.addListener(_updateSelectedIndex);
+    } else if (widget.items?.length != oldWidget.items?.length ||
+        Iterable<int>.generate(widget.items?.length ?? 0).any((i) =>
+            widget.items![i].enabled != oldWidget.items![i].enabled ||
+            widget.items![i].value != oldWidget.items![i].value)) {
+      _updateSelectedIndex();
     }
 
     if (widget.openDropdownListenable != oldWidget.openDropdownListenable) {
