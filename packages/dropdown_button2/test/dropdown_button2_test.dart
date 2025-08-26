@@ -8,17 +8,20 @@ void main() {
     () {
       final List<int> menuItems = List<int>.generate(10, (int index) => index);
       final valueListenable = ValueNotifier(menuItems.first);
-      final value = valueListenable.value;
 
       final findDropdownButton = find.byType(DropdownButton2<int>);
       final findDropdownButtonFormField = find.byType(DropdownButtonFormField2<int>);
-      final findDropdownButtonText =
-          find.descendant(of: findDropdownButton, matching: find.text('$value'));
       final findDropdownMenu = find.byType(ListView);
-      final findDropdownMenuText =
-          find.descendant(of: findDropdownMenu, matching: find.text('$value'));
 
-      testWidgets('onTap should request focus for both button and menu',
+      final findDropdownButtonFocus = find
+          .descendant(of: find.byType(DropdownButton2<int>), matching: find.byType(Focus))
+          .first;
+      final findDropdownButtonText =
+          find.descendant(of: findDropdownButton, matching: find.text('${valueListenable.value}'));
+      final findSelectedMenuItemText =
+          find.descendant(of: findDropdownMenu, matching: find.text('${valueListenable.value}'));
+
+      testWidgets('onTap should request focus for both button and selected menu item',
           (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -39,7 +42,7 @@ void main() {
           ),
         );
 
-        final buttonFocusNode = Focus.of(tester.element(findDropdownButtonText));
+        final buttonFocusNode = tester.widget<Focus>(findDropdownButtonFocus).focusNode!;
 
         expect(findDropdownMenu, findsNothing);
         expect(buttonFocusNode.hasFocus, isFalse);
@@ -48,9 +51,9 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(findDropdownMenu, findsOneWidget);
-        final menuFocusNode = Focus.of(tester.element(findDropdownMenuText));
+        final selectedMenuItemFocusNode = Focus.of(tester.element(findSelectedMenuItemText));
 
-        expect(menuFocusNode.hasPrimaryFocus, isTrue);
+        expect(selectedMenuItemFocusNode.hasPrimaryFocus, isTrue);
         expect(buttonFocusNode.hasFocus, isTrue);
       });
 
@@ -74,7 +77,7 @@ void main() {
           ),
         );
 
-        final buttonFocusNode = Focus.of(tester.element(findDropdownButtonText));
+        final buttonFocusNode = tester.widget<Focus>(findDropdownButtonFocus).focusNode!;
 
         expect(buttonFocusNode.hasFocus, isFalse);
 
@@ -83,7 +86,7 @@ void main() {
 
         expect(buttonFocusNode.hasFocus, isTrue);
 
-        await tester.tap(findDropdownMenuText);
+        await tester.tap(findSelectedMenuItemText);
         await tester.pumpAndSettle();
 
         expect(buttonFocusNode.hasPrimaryFocus, isTrue);

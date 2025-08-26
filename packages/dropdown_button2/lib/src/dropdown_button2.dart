@@ -691,7 +691,9 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     });
     navigator.push(_dropdownRoute!).then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
-      _isMenuOpen.value = false;
+      if (mounted) {
+        _isMenuOpen.value = false;
+      }
       widget.onMenuStateChange?.call(false);
     });
 
