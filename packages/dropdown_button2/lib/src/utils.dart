@@ -3,7 +3,7 @@ part of 'dropdown_button2.dart';
 void _uniqueValueAssert<T>(
   List<DropdownItem<T>>? items,
   ValueListenable<T?>? valueListenable,
-  ValueListenable<List<T>>? multiValueListenable,
+  ValueListenable<Iterable<T>>? multiValueListenable,
 ) {
   if (items == null || items.isEmpty) {
     return;

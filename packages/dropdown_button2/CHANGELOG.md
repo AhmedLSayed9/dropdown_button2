@@ -1,3 +1,7 @@
+## UNRELEASED
+
+- Accept `Iterable` instead of `List` for `selectedItemBuilder` and `multiValueListenable` properties.
+
 ## 3.0.0-beta.23
 
 - Avoid dropdown internal FocusNode listener leak when replaced by an external FocusNode.
