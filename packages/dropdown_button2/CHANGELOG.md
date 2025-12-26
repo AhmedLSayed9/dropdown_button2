@@ -1,4 +1,4 @@
-## UNRELEASED
+## 3.0.0-beta.24
 
 - Accept `Iterable` instead of `List` for `selectedItemBuilder` and `multiValueListenable` properties.
 
