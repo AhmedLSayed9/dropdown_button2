@@ -28,6 +28,11 @@ const EdgeInsets _kMenuItemPadding = EdgeInsets.symmetric(horizontal: 16.0);
 const EdgeInsetsGeometry _kAlignedButtonPadding = EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
 const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 
+/// A builder to customize dropdown buttons.
+///
+/// Used by [DropdownButton2.selectedItemBuilder].
+typedef DropdownButton2Builder = Iterable<Widget> Function(BuildContext context);
+
 /// A builder to customize the selected menu item.
 typedef SelectedMenuItemBuilder = Widget Function(BuildContext context, Widget child);
 
@@ -191,7 +196,7 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   /// If this callback is null, the [DropdownItem] from [items]
   /// that matches the selected [DropdownItem]'s value will be displayed.
-  final DropdownButtonBuilder? selectedItemBuilder;
+  final DropdownButton2Builder? selectedItemBuilder;
 
   /// A [ValueListenable] that represents the value of the currently selected [DropdownItem].
   /// It holds a value of type `T?`, where `T` represents the type of [DropdownItem]'s value.
@@ -213,7 +218,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// If the list is empty and the button is disabled, [disabledHint] will be displayed
   /// if it is non-null. If [disabledHint] is null, then [hint] will be displayed
   /// if it is non-null.
-  final ValueListenable<List<T>>? multiValueListenable;
+  final ValueListenable<Iterable<T>>? multiValueListenable;
 
   /// A placeholder widget that is displayed by the dropdown button.
   ///
@@ -1021,9 +1026,9 @@ class DropdownButtonFormField2<T> extends FormField<T> {
   DropdownButtonFormField2({
     super.key,
     required List<DropdownItem<T>>? items,
-    DropdownButtonBuilder? selectedItemBuilder,
+    DropdownButton2Builder? selectedItemBuilder,
     ValueListenable<T?>? valueListenable,
-    ValueListenable<List<T>>? multiValueListenable,
+    ValueListenable<Iterable<T>>? multiValueListenable,
     Widget? hint,
     Widget? disabledHint,
     this.onChanged,
