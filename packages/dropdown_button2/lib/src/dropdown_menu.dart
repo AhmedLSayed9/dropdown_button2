@@ -192,15 +192,6 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                             itemExtentBuilder: _hasIntrinsicHeight
                                 ? null
                                 : (index, dimensions) {
-                                    final childrenLength = separator == null
-                                        ? _children.length
-                                        : SeparatedSliverChildBuilderDelegate
-                                            .computeActualChildCount(_children.length);
-                                    // TODO(Ahmed): Remove this when https://github.com/flutter/flutter/pull/142428
-                                    // is supported by the min version of the package [Flutter>=3.22.0].
-                                    if (index >= childrenLength) {
-                                      return 100;
-                                    }
                                     return separator == null
                                         ? route.items[index].height
                                         : index.isOdd
