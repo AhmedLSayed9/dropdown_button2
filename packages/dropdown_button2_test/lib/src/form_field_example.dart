@@ -34,6 +34,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   hintStyle: const TextStyle(fontSize: 14),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
+                    gapPadding: 0,
                   ),
                 ),
               ),
@@ -44,6 +45,7 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
+                    gapPadding: 0,
                   ),
                   // Add more decoration..
                 ),

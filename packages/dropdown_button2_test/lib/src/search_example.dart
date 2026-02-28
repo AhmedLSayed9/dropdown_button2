@@ -88,6 +88,7 @@ class _SearchExampleState extends State<SearchExample> {
                     hintStyle: const TextStyle(fontSize: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
+                      gapPadding: 0,
                     ),
                   ),
                 ),
