@@ -595,14 +595,27 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
   EdgeInsets? _getInputDecorationPadding() {
     // Return the contentPadding only if inputDecoration is defined.
     if (widget._inputDecoration case final decoration?) {
+      final ThemeData theme = Theme.of(context);
       final TextDirection? textDirection = Directionality.maybeOf(context);
-      // Use inputDecorationTheme.visualDensity when added (https://github.com/flutter/flutter/issues/166201#issuecomment-2774622584)
-      final Offset densityOffset = Theme.of(context).visualDensity.baseSizeAdjustment;
+
       final EdgeInsets? contentPadding =
-          (decoration.contentPadding ?? Theme.of(context).inputDecorationTheme.contentPadding)
+          (decoration.contentPadding ?? theme.inputDecorationTheme.contentPadding)
               ?.resolve(textDirection);
+
+      // InputDecorator adds gapPadding horizontally for OutlineInputBorder.
+      final border = decoration.border ?? theme.inputDecorationTheme.border;
+      final double gapPadding = switch (border) {
+        OutlineInputBorder(:final gapPadding) => gapPadding,
+        _ => 0.0,
+      };
+
+      // Use inputDecorationTheme.visualDensity when added (https://github.com/flutter/flutter/issues/166201#issuecomment-2774622584)
+      final Offset densityOffset = theme.visualDensity.baseSizeAdjustment;
+
       return contentPadding?.copyWith(
+        left: contentPadding.left + gapPadding,
         top: math.max(0, contentPadding.top + densityOffset.dy / 2),
+        right: contentPadding.right + gapPadding,
         bottom: math.max(0, contentPadding.bottom + densityOffset.dy / 2),
       );
     } else {
