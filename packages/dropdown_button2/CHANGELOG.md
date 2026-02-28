@@ -2,6 +2,7 @@
 
 - Remove temporary fix for list not respecting itemCount when calling itemExtentBuilder.
 - Fix selected index not updating when items list changes, closes #392.
+- Fix dropdown menu width not matching button width with OutlineInputBorder.
 
 ## 3.0.0-beta.24
 
