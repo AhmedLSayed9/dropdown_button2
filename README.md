@@ -624,6 +624,7 @@ Widget build(BuildContext context) {
                   hintStyle: const TextStyle(fontSize: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
+                    gapPadding: 0,
                   ),
                 ),
               ),
@@ -638,7 +639,7 @@ Widget build(BuildContext context) {
           ),
           //This to clear the search value when you close the menu
           onMenuStateChange: (isOpen) {
-            if (!isOpen) {
+            if (!isOpen && mounted) {
               textEditingController.clear();
             }
           },
@@ -948,6 +949,7 @@ Widget build(BuildContext context) {
                 hintStyle: const TextStyle(fontSize: 14),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
+                  gapPadding: 0,
                 ),
               ),
             ),
@@ -959,6 +961,7 @@ Widget build(BuildContext context) {
                     const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
+                  gapPadding: 0,
                 ),
                 // Add more decoration..
               ),

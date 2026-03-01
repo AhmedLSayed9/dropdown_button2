@@ -88,6 +88,7 @@ class _SearchExampleState extends State<SearchExample> {
                     hintStyle: const TextStyle(fontSize: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
+                      gapPadding: 0,
                     ),
                   ),
                 ),
@@ -102,7 +103,7 @@ class _SearchExampleState extends State<SearchExample> {
             ),
             //This to clear the search value when you close the menu
             onMenuStateChange: (isOpen) {
-              if (!isOpen) {
+              if (!isOpen && mounted) {
                 textEditingController.clear();
               }
             },
