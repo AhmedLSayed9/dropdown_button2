@@ -103,7 +103,7 @@ class _SearchExampleState extends State<SearchExample> {
             ),
             //This to clear the search value when you close the menu
             onMenuStateChange: (isOpen) {
-              if (!isOpen) {
+              if (!isOpen && mounted) {
                 textEditingController.clear();
               }
             },
