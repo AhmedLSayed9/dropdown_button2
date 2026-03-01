@@ -1,3 +1,165 @@
+## 3.0.0
+
+A stable release for DropdownButton2 3.0!
+
+### Breaking Changes
+
+- **Replaces DropdownMenuItem with DropdownItem** to provide extra functionality.
+
+  Instead of:
+
+  ```dart
+  items: items.map((String item) => DropdownMenuItem<String>(...)).toList(),
+  ```
+
+  do:
+
+  ```dart
+  items: items.map((String item) => DropdownItem<String>(...)).toList(),
+  ```
+
+- **Support setting different heights for items.** Item height is now set per-item instead of globally.
+
+  Instead of:
+
+  ```dart
+  items: items
+    .map((String item) => DropdownItem<String>(
+        value: item,
+        child: Text(item),
+      ))
+    .toList(),
+  menuItemStyleData: const MenuItemStyleData(
+    height: 40,
+  ),
+  ```
+
+  do:
+
+  ```dart
+  items: items
+    .map((String item) => DropdownItem<String>(
+          value: item,
+          height: 40,
+          child: Text(item),
+        ))
+    .toList(),
+  ```
+
+- **Add `openDropdownListenable` property** to programmatically open the dropdown menu.
+
+  Instead of:
+
+  ```dart
+  final dropdownKey = GlobalKey<DropdownButton2State>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children:[
+        DropdownButton2<String>(
+          // Other properties...
+          key: dropdownKey,
+        );
+        // Open the dropdown programmatically:
+        ElevatedButton(
+          onTap: () => dropdownKey.currentState!.callTap(),
+        ),
+      ],
+    );
+  }
+  ```
+
+  do:
+
+  ```dart
+  final openDropdownListenable = ValueNotifier<Object?>(null);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children:[
+        DropdownButton2<String>(
+          // Other properties...
+          openDropdownListenable: openDropdownListenable,
+        );
+        // Open the dropdown programmatically:
+        ElevatedButton(
+          onTap: () => openDropdownListenable.value = Object(),
+        ),
+      ],
+    );
+  }
+  ```
+
+- Rename searchInnerWidget[Height] to searchBarWidget[Height].
+
+### New Features
+
+- Add `closeOnTap` property to DropdownItem. It controls whether the dropdown should close when the item is tapped.
+- Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
+- Support adding separator widget internally, closes #134.
+- Introduce `valueListenable` and `multiValueListenable`, which replaces SetState with ValueListenable.
+- Support implementing select all option (Check multi-select example), closes #121 and #167.
+- Add the possibility to display a dropdown menu centered through `DropdownDirection.center`.
+- Add `barrierCoversButton` property, used to specify whether the modal barrier should cover the dropdown button or not.
+- Add `foregroundDecoration` property for ButtonStyleData.
+- Add `noResultsWidget` property for DropdownSearchData. It can be used to show some widget when the search results are empty.
+- Add border radius parameter for menu item.
+- Add `dropdownBuilder` property for DropdownStyleData, it can be used to customize the dropdown menu.
+- Add copyWith method for style data classes, closes #314.
+- Support helperStyle/helperMaxLines/errorMaxLines for DropdownButtonFormField2.
+- Add `MenuItemStyleData.useDecorationHorizontalPadding`, used to determine whether to use the horizontal padding from "decoration.contentPadding" for menu items when using `DropdownButtonFormField2`.
+- Add barrierCoversButton to DropdownButtonFormField2.
+- Support BorderRadiusDirectional for dropdown menu.
+- Add semantics to dropdown menu items [Flutter core].
+- Accept `Iterable` instead of `List` for `selectedItemBuilder` and `multiValueListenable` properties.
+
+### Bug Fixes
+
+- Fix isExpanded and alignment functionality.
+- Fix inkwell covers error message.
+- Fix dropdown menu position when window changes horizontally, closes #243.
+- Temporarily fix ink splash gets displayed over search widget, closes #290.
+- Fix error border not showing for DropdownButtonFormField2, closes #297 & #319.
+- Fix DropdownButtonFormField2 ink response radius for different input borders.
+- Fix menu limits when using searchable dropdown with separators, closes #214.
+- Fix errorStyle has no effect for DropdownButtonFormField2, closes #327.
+- Fix memory leak in CurvedAnimation [Flutter core].
+- Fix DropdownButtonFormField clips text when large text scale is used [Flutter core].
+- Fix DropdownButtonFormField padding when ButtonTheme.alignedDropdown is true [Flutter core].
+- Fix barrier when using TextDirection.rtl while barrierCoversButton set to false.
+- Avoid dropdown internal FocusNode listener leak when replaced by an external FocusNode.
+- Fix incorrect dropdown position when resizing the window rapidly on web, closes #395.
+- Ensure dropdown menu state updated only when mounted.
+- Fix selected index not updating when items list changes, closes #392.
+- Fix dropdown menu width not matching button width with OutlineInputBorder.
+
+### Improvements
+
+- Update highlight behavior, closes #184.
+- Enhance rendering performance when dealing with big items list.
+- Optimize scroll performance when dealing with large items list.
+- Always call `onChanged` when tapping enabled item, closes #275.
+- Enhance scroll position when using searchable dropdown, closes #285.
+- Enhance the display of error/helper elements at DropdownButtonFormField2, closes #199.
+- Avoid Container objects when possible for better performance [Flutter core].
+- Respect button's borderRadius when barrierCoversButton is false.
+- Respect inputDecoration's borderRadius when barrierCoversButton is false.
+- Take InputDecoration's densityOffset into account when determining the button size.
+- Use decoration hint text as the default value for dropdown button hints [Flutter core].
+- Replaces textScaleFactor with TextScaler [Flutter core].
+- Update SDK constraints: ">=3.4.0 <4.0.0"
+- DropdownRoutePage should dispose the created ScrollController [Flutter core].
+- Remove 'must be non-null' and 'must not be null' comments [Flutter core].
+- Form fields onChange callback should be called on reset [Flutter core].
+- Implement switch expressions.
+- Update DropdownItem to respect intrinsicHeight.
+- Update added menu padding to include button icon.
+- Remove temporary fix for list not respecting itemCount when calling itemExtentBuilder.
+- Remove an assert from updateSelectedIndex method.
+- Update examples.
+
 ## 3.0.0-beta.25
 
 - Remove temporary fix for list not respecting itemCount when calling itemExtentBuilder.
