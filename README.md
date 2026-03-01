@@ -639,7 +639,7 @@ Widget build(BuildContext context) {
           ),
           //This to clear the search value when you close the menu
           onMenuStateChange: (isOpen) {
-            if (!isOpen) {
+            if (!isOpen && mounted) {
               textEditingController.clear();
             }
           },
