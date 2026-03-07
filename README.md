@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub" alt="Pub Version"/>
 </a>
 <a href="https://flutter.dev/">
-  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.0.0-green.svg" alt="Flutter Version"/>
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.22.0-green.svg" alt="Flutter Version"/>
 </a>
 <a href="https://opensource.org/licenses/MIT">
   <img src="https://img.shields.io/badge/License-MIT-red" alt="License: MIT"/>
