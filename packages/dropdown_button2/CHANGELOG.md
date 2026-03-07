@@ -1,3 +1,7 @@
+## UNRELEASED
+
+- Upgrade minimum required Flutter SDK version to 3.32.0
+
 ## 3.0.0
 
 A stable release for DropdownButton2 3.0!
