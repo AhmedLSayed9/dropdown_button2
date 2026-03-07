@@ -4,6 +4,7 @@ part of 'dropdown_button2.dart';
 class DropdownStyleData {
   /// Creates a DropdownStyleData.
   const DropdownStyleData({
+    this.margin,
     this.maxHeight,
     this.width,
     this.padding,
@@ -20,6 +21,9 @@ class DropdownStyleData {
     this.openInterval = const Interval(0.25, 0.5),
     this.dropdownBuilder,
   });
+
+  /// The outer margin of the dropdown menu
+  final EdgeInsets? margin;
 
   /// The maximum height of the dropdown menu
   ///
@@ -112,6 +116,7 @@ class DropdownStyleData {
   /// Create a clone of the current [DropdownStyleData] but with the provided
   /// parameters overridden.
   DropdownStyleData copyWith({
+    EdgeInsets? margin,
     double? maxHeight,
     double? width,
     EdgeInsetsGeometry? padding,
@@ -129,6 +134,7 @@ class DropdownStyleData {
     DropdownBuilder? dropdownBuilder,
   }) {
     return DropdownStyleData(
+      margin: margin ?? this.margin,
       maxHeight: maxHeight ?? this.maxHeight,
       width: width ?? this.width,
       padding: padding ?? this.padding,
