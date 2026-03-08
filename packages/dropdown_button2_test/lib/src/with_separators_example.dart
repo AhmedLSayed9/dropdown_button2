@@ -32,19 +32,21 @@ class _WithSeparatorsExampleState extends State<WithSeparatorsExample> {
               ),
             ),
             items: items
-                .map((String item) => DropdownItem<String>(
-                      value: item,
-                      height: 40,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
+                .map(
+                  (String item) => DropdownItem<String>(
+                    value: item,
+                    height: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
                         ),
                       ),
-                    ))
+                    ),
+                  ),
+                )
                 .toList(),
             dropdownSeparator: const DropdownSeparator(
               height: 4,

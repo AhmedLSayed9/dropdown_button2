@@ -47,8 +47,9 @@ Future<void> _loadMaterialIconFont() async {
     ),
   );
 
-  final Future<ByteData> bytes =
-      Future<ByteData>.value(iconFont.readAsBytesSync().buffer.asByteData());
+  final Future<ByteData> bytes = Future<ByteData>.value(
+    iconFont.readAsBytesSync().buffer.asByteData(),
+  );
 
   await (FontLoader('MaterialIcons')..addFont(bytes)).load();
 }

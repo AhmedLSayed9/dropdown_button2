@@ -54,15 +54,17 @@ class _FormFieldExampleState extends State<FormFieldExample> {
                   style: TextStyle(fontSize: 14),
                 ),
                 items: genderItems
-                    .map((item) => DropdownItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                    .map(
+                      (item) => DropdownItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 14,
                           ),
-                        ))
+                        ),
+                      ),
+                    )
                     .toList(),
                 valueListenable: valueListenable,
                 validator: (value) {

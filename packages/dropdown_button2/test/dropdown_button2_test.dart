@@ -16,13 +16,18 @@ void main() {
       final findDropdownButtonFocus = find
           .descendant(of: find.byType(DropdownButton2<int>), matching: find.byType(Focus))
           .first;
-      final findDropdownButtonText =
-          find.descendant(of: findDropdownButton, matching: find.text('${valueListenable.value}'));
-      final findSelectedMenuItemText =
-          find.descendant(of: findDropdownMenu, matching: find.text('${valueListenable.value}'));
+      final findDropdownButtonText = find.descendant(
+        of: findDropdownButton,
+        matching: find.text('${valueListenable.value}'),
+      );
+      final findSelectedMenuItemText = find.descendant(
+        of: findDropdownMenu,
+        matching: find.text('${valueListenable.value}'),
+      );
 
-      testWidgets('onTap should request focus for both button and selected menu item',
-          (WidgetTester tester) async {
+      testWidgets('onTap should request focus for both button and selected menu item', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -92,8 +97,9 @@ void main() {
         expect(buttonFocusNode.hasPrimaryFocus, isTrue);
       });
 
-      testWidgets('inkwell should not go beyond border and cover error message when pressed',
-          (WidgetTester tester) async {
+      testWidgets('inkwell should not go beyond border and cover error message when pressed', (
+        WidgetTester tester,
+      ) async {
         // Regression test for https://github.com/AhmedLSayed9/dropdown_button2/issues/56
 
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -132,8 +138,9 @@ void main() {
           of: findDropdownButtonFormField,
           matching: find.byType(InputDecorator),
         );
-        final formFieldInputDecorator =
-            tester.widget<InputDecorator>(findFormFieldInputDecorator.first);
+        final formFieldInputDecorator = tester.widget<InputDecorator>(
+          findFormFieldInputDecorator.first,
+        );
         expect(formFieldInputDecorator.decoration.errorText, errorMessage);
       });
     },

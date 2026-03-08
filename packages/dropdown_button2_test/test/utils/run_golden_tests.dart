@@ -1,9 +1,10 @@
 part of 'utils.dart';
 
-typedef GoldenTestCallback = Future<void> Function(
-  WidgetTester widgetTester,
-  ViewVariant viewVariant,
-);
+typedef GoldenTestCallback =
+    Future<void> Function(
+      WidgetTester widgetTester,
+      ViewVariant viewVariant,
+    );
 
 /// Wrapper around [testWidgets] that will be executed for all test variants.
 @isTest

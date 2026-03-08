@@ -1,7 +1,8 @@
 part of 'dropdown_button2.dart';
 
-SearchMatchFn<T> _defaultSearchMatchFn<T>() => (DropdownItem<T> item, String searchValue) =>
-    item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+SearchMatchFn<T> _defaultSearchMatchFn<T>() =>
+    (DropdownItem<T> item, String searchValue) =>
+        item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
 
 class _MenuLimits {
   const _MenuLimits(this.top, this.bottom, this.height, this.scrollOffset);
@@ -49,15 +50,15 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
   DropdownSearchData<T>? get searchData => widget.route.searchData;
 
   _DropdownItemButton<T> dropdownItemButton(int index) => _DropdownItemButton<T>(
-        route: widget.route,
-        scrollController: widget.scrollController,
-        textDirection: widget.textDirection,
-        buttonRect: widget.buttonRect,
-        constraints: widget.constraints,
-        mediaQueryPadding: widget.mediaQueryPadding,
-        itemIndex: index,
-        enableFeedback: widget.enableFeedback,
-      );
+    route: widget.route,
+    scrollController: widget.scrollController,
+    textDirection: widget.textDirection,
+    buttonRect: widget.buttonRect,
+    constraints: widget.constraints,
+    mediaQueryPadding: widget.mediaQueryPadding,
+    itemIndex: index,
+    enableFeedback: widget.enableFeedback,
+  );
 
   @override
   void initState() {
@@ -195,8 +196,8 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
                                     return separator == null
                                         ? route.items[index].height
                                         : index.isOdd
-                                            ? separator.height
-                                            : route.items[index ~/ 2].height;
+                                        ? separator.height
+                                        : route.items[index ~/ 2].height;
                                   },
                             childrenDelegate: separator == null
                                 ? SliverChildBuilderDelegate(
@@ -242,8 +243,9 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           label: localizations.popupMenuLabel,
           child: ClipRRect(
             //Prevent scrollbar, ripple effect & items from going beyond border boundaries when scrolling.
-            clipBehavior:
-                dropdownStyle.decoration?.borderRadius != null ? Clip.antiAlias : Clip.none,
+            clipBehavior: dropdownStyle.decoration?.borderRadius != null
+                ? Clip.antiAlias
+                : Clip.none,
             borderRadius: dropdownStyle.decoration?.borderRadius ?? BorderRadius.zero,
             child: dropdownStyle.dropdownBuilder?.call(context, dropdownMenu) ?? dropdownMenu,
           ),
@@ -262,21 +264,22 @@ class _DropdownMenuPainter extends CustomPainter {
     required this.itemHeight,
     required this.dropdownDecoration,
     required this.textDirection,
-  })  : _painter = dropdownDecoration
-                ?.copyWith(
-                  color: dropdownDecoration.color ?? color,
-                  boxShadow: dropdownDecoration.boxShadow ?? kElevationToShadow[elevation],
-                )
-                .createBoxPainter(() {}) ??
-            BoxDecoration(
-              // If you add an image here, you must provide a real
-              // configuration in the paint() function and you must provide some sort
-              // of onChanged callback here.
-              color: color,
-              borderRadius: const BorderRadius.all(Radius.circular(2.0)),
-              boxShadow: kElevationToShadow[elevation],
-            ).createBoxPainter(),
-        super(repaint: resize);
+  }) : _painter =
+           dropdownDecoration
+               ?.copyWith(
+                 color: dropdownDecoration.color ?? color,
+                 boxShadow: dropdownDecoration.boxShadow ?? kElevationToShadow[elevation],
+               )
+               .createBoxPainter(() {}) ??
+           BoxDecoration(
+             // If you add an image here, you must provide a real
+             // configuration in the paint() function and you must provide some sort
+             // of onChanged callback here.
+             color: color,
+             borderRadius: const BorderRadius.all(Radius.circular(2.0)),
+             boxShadow: kElevationToShadow[elevation],
+           ).createBoxPainter(),
+       super(repaint: resize);
 
   final Color? color;
   final int? elevation;

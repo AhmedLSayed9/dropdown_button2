@@ -244,10 +244,10 @@ class DropdownSearchData<T> {
     this.noResultsWidget,
     this.searchMatchFn,
   }) : assert(
-          (searchBarWidget == null) == (searchBarWidgetHeight == null),
-          'searchBarWidgetHeight should not be null when using searchBarWidget\n'
-          'This is necessary to properly determine menu limits and scroll offset',
-        );
+         (searchBarWidget == null) == (searchBarWidgetHeight == null),
+         'searchBarWidgetHeight should not be null when using searchBarWidget\n'
+         'This is necessary to properly determine menu limits and scroll offset',
+       );
 
   /// The TextEditingController used for searchable dropdowns. If this is null,
   /// then it'll perform as a normal dropdown without searching feature.

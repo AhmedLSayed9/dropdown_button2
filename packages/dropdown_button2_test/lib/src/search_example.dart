@@ -44,16 +44,18 @@ class _SearchExampleState extends State<SearchExample> {
               ),
             ),
             items: items
-                .map((item) => DropdownItem(
-                      value: item,
-                      height: 40,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
+                .map(
+                  (item) => DropdownItem(
+                    value: item,
+                    height: 40,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
                       ),
-                    ))
+                    ),
+                  ),
+                )
                 .toList(),
             valueListenable: valueListenable,
             onChanged: (value) {

@@ -20,6 +20,8 @@ analyzer:
     - "**/*.mocks.dart" # Mockito @GenerateMocks
 
 formatter:
+  # Preserve trailing commas until Dart formatting improves
+  trailing_commas: preserve
   page_width: 100
 
 linter:

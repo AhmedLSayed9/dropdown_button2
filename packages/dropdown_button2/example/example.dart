@@ -68,19 +68,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             items: items
-                .map((String item) => DropdownItem<String>(
-                      value: item,
-                      height: 40,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                .map(
+                  (String item) => DropdownItem<String>(
+                    value: item,
+                    height: 40,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                    ))
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                )
                 .toList(),
             valueListenable: valueListenable,
             onChanged: (value) {
