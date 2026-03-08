@@ -162,6 +162,7 @@ customize to your needs.
 | [onSaved](https://api.flutter.dev/flutter/widgets/FormField/onSaved.html)                                                     | Called with the current selected item when the form is saved       | FormFieldSetter<T>    |    No    |
 | [validator](https://api.flutter.dev/flutter/widgets/FormField/validator.html)                                                 | Called to validates if the input is invalid and display error text  | FormFieldValidator<T>         |    No    |
 | [errorBuilder](https://api.flutter.dev/flutter/widgets/FormField/errorBuilder.html)                                           | Called to display a custom error widget instead of the default error text      | Widget Function(BuildContext, String) |    No    |
+| [forceErrorText](https://api.flutter.dev/flutter/widgets/FormField/forceErrorText.html)                                       | Forces the FormFieldState into an error state and displays the given text           | String                                |    No    |
 | [autovalidateMode](https://api.flutter.dev/flutter/widgets/AutovalidateMode.html)                                             | Used to enable/disable auto validation                             | AutovalidateMode              |    No    |
 
 ## Installation
