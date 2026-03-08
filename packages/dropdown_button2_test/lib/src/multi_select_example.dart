@@ -75,28 +75,30 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
                     ? multiValueListenable.value = []
                     : multiValueListenable.value = List.from(items);
               } else {
-                multiValueListenable.value =
-                    isSelected ? ([...multiValue]..remove(value)) : [...multiValue, value!];
+                multiValueListenable.value = isSelected
+                    ? ([...multiValue]..remove(value))
+                    : [...multiValue, value!];
               }
             },
             selectedItemBuilder: (context) {
               return items.map(
                 (item) {
                   return ValueListenableBuilder<List<String>>(
-                      valueListenable: multiValueListenable,
-                      builder: (context, multiValue, _) {
-                        return Container(
-                          alignment: AlignmentDirectional.center,
-                          child: Text(
-                            multiValue.where((item) => item != 'All').join(', '),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            maxLines: 1,
+                    valueListenable: multiValueListenable,
+                    builder: (context, multiValue, _) {
+                      return Container(
+                        alignment: AlignmentDirectional.center,
+                        child: Text(
+                          multiValue.where((item) => item != 'All').join(', '),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        );
-                      });
+                          maxLines: 1,
+                        ),
+                      );
+                    },
+                  );
                 },
               ).toList();
             },

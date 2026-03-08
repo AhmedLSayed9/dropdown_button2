@@ -79,21 +79,23 @@ class CustomDropdownButton2 extends StatelessWidget {
         ),
         valueListenable: valueListenable,
         items: dropdownItems
-            .map((String item) => DropdownItem<String>(
-                  value: item,
-                  height: itemHeight ?? 40,
-                  child: Container(
-                    alignment: valueAlignment,
-                    child: Text(
-                      item,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
+            .map(
+              (String item) => DropdownItem<String>(
+                value: item,
+                height: itemHeight ?? 40,
+                child: Container(
+                  alignment: valueAlignment,
+                  child: Text(
+                    item,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontSize: 14,
                     ),
                   ),
-                ))
+                ),
+              ),
+            )
             .toList(),
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
@@ -101,7 +103,8 @@ class CustomDropdownButton2 extends StatelessWidget {
           height: buttonHeight ?? 40,
           width: buttonWidth ?? 140,
           padding: buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
-          decoration: buttonDecoration ??
+          decoration:
+              buttonDecoration ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
@@ -121,7 +124,8 @@ class CustomDropdownButton2 extends StatelessWidget {
           maxHeight: dropdownHeight ?? 200,
           width: dropdownWidth ?? 140,
           padding: dropdownPadding,
-          decoration: dropdownDecoration ??
+          decoration:
+              dropdownDecoration ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
               ),

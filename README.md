@@ -210,16 +210,18 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-              .map((String item) => DropdownItem<String>(
-                    value: item,
-                    height: 40,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
+              .map(
+                (String item) => DropdownItem<String>(
+                  value: item,
+                  height: 40,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                      fontSize: 14,
                     ),
-                  ))
+                  ),
+                ),
+              )
               .toList(),
           valueListenable: valueListenable,
           onChanged: (String? value) {
@@ -285,19 +287,21 @@ Widget build(BuildContext context) {
             ],
           ),
           items: items
-              .map((String item) => DropdownItem<String>(
-                    value: item,
-                    height: 40,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                      overflow: TextOverflow.ellipsis,
+              .map(
+                (String item) => DropdownItem<String>(
+                  value: item,
+                  height: 40,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                  ))
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              )
               .toList(),
           valueListenable: valueListenable,
           onChanged: (value) {
@@ -376,19 +380,21 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-              .map((String item) => DropdownItem<String>(
-                    value: item,
-                    height: 40,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
+              .map(
+                (String item) => DropdownItem<String>(
+                  value: item,
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
                       ),
                     ),
-                  ))
+                  ),
+                ),
+              )
               .toList(),
           dropdownSeparator: const DropdownSeparator(
             height: 4,
@@ -502,22 +508,21 @@ Widget build(BuildContext context) {
             return items.map(
               (item) {
                 return ValueListenableBuilder<List<String>>(
-                    valueListenable: multiValueListenable,
-                    builder: (context, multiValue, _) {
-                      return Container(
-                        alignment: AlignmentDirectional.center,
-                        child: Text(
-                          multiValue
-                              .where((item) => item != 'All')
-                              .join(', '),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          maxLines: 1,
+                  valueListenable: multiValueListenable,
+                  builder: (context, multiValue, _) {
+                    return Container(
+                      alignment: AlignmentDirectional.center,
+                      child: Text(
+                        multiValue.where((item) => item != 'All').join(', '),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      );
-                    });
+                        maxLines: 1,
+                      ),
+                    );
+                  },
+                );
               },
             ).toList();
           },
@@ -576,16 +581,18 @@ Widget build(BuildContext context) {
             ),
           ),
           items: items
-              .map((item) => DropdownItem(
-                    value: item,
-                    height: 40,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
+              .map(
+                (item) => DropdownItem(
+                  value: item,
+                  height: 40,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                      fontSize: 14,
                     ),
-                  ))
+                  ),
+                ),
+              )
               .toList(),
           valueListenable: valueListenable,
           onChanged: (value) {
@@ -970,15 +977,17 @@ Widget build(BuildContext context) {
                 style: TextStyle(fontSize: 14),
               ),
               items: genderItems
-                  .map((item) => DropdownItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
+                  .map(
+                    (item) => DropdownItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
                         ),
-                      ))
+                      ),
+                    ),
+                  )
                   .toList(),
               valueListenable: valueListenable,
               validator: (value) {
@@ -1102,21 +1111,23 @@ class CustomDropdownButton2 extends StatelessWidget {
         ),
         valueListenable: valueListenable,
         items: dropdownItems
-            .map((String item) => DropdownItem<String>(
-                  value: item,
-                  height: itemHeight ?? 40,
-                  child: Container(
-                    alignment: valueAlignment,
-                    child: Text(
-                      item,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
+            .map(
+              (String item) => DropdownItem<String>(
+                value: item,
+                height: itemHeight ?? 40,
+                child: Container(
+                  alignment: valueAlignment,
+                  child: Text(
+                    item,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontSize: 14,
                     ),
                   ),
-                ))
+                ),
+              ),
+            )
             .toList(),
         onChanged: onChanged,
         selectedItemBuilder: selectedItemBuilder,
@@ -1124,7 +1135,8 @@ class CustomDropdownButton2 extends StatelessWidget {
           height: buttonHeight ?? 40,
           width: buttonWidth ?? 140,
           padding: buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
-          decoration: buttonDecoration ??
+          decoration:
+              buttonDecoration ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
@@ -1144,7 +1156,8 @@ class CustomDropdownButton2 extends StatelessWidget {
           maxHeight: dropdownHeight ?? 200,
           width: dropdownWidth ?? 140,
           padding: dropdownPadding,
-          decoration: dropdownDecoration ??
+          decoration:
+              dropdownDecoration ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
               ),

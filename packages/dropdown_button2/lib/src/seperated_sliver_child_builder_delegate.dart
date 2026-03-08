@@ -44,26 +44,26 @@ class SeparatedSliverChildBuilderDelegate extends SliverChildBuilderDelegate {
     bool addSemanticIndexes = true,
     ChildIndexGetter? findChildIndexCallback,
   }) : super(
-          (BuildContext context, int index) {
-            final itemIndex = index ~/ 2;
+         (BuildContext context, int index) {
+           final itemIndex = index ~/ 2;
 
-            if (index.isEven) {
-              return itemBuilder(context, itemIndex);
-            }
+           if (index.isEven) {
+             return itemBuilder(context, itemIndex);
+           }
 
-            final widget = separatorBuilder(context, itemIndex);
+           final widget = separatorBuilder(context, itemIndex);
 
-            return widget;
-          },
-          findChildIndexCallback: findChildIndexCallback,
-          childCount: computeActualChildCount(itemCount),
-          addAutomaticKeepAlives: addAutomaticKeepAlives,
-          addRepaintBoundaries: addRepaintBoundaries,
-          addSemanticIndexes: addSemanticIndexes,
-          semanticIndexCallback: (Widget _, int index) {
-            return index.isEven ? index ~/ 2 : null;
-          },
-        );
+           return widget;
+         },
+         findChildIndexCallback: findChildIndexCallback,
+         childCount: computeActualChildCount(itemCount),
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+         addSemanticIndexes: addSemanticIndexes,
+         semanticIndexCallback: (Widget _, int index) {
+           return index.isEven ? index ~/ 2 : null;
+         },
+       );
 
   /// Computes the actual child count from the given item count, taking into account separators.
   /// It returns the actual child count, excluding separators.

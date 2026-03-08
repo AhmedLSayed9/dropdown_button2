@@ -32,16 +32,18 @@ class _SimpleExampleState extends State<SimpleExample> {
               ),
             ),
             items: items
-                .map((String item) => DropdownItem<String>(
-                      value: item,
-                      height: 40,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
+                .map(
+                  (String item) => DropdownItem<String>(
+                    value: item,
+                    height: 40,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
                       ),
-                    ))
+                    ),
+                  ),
+                )
                 .toList(),
             valueListenable: valueListenable,
             onChanged: (String? value) {
