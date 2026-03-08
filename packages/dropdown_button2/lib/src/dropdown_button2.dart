@@ -1067,6 +1067,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     InputDecoration? decoration,
     super.onSaved,
     super.validator,
+    super.errorBuilder,
     AutovalidateMode? autovalidateMode,
     bool? enableFeedback,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
@@ -1096,10 +1097,8 @@ class DropdownButtonFormField2<T> extends FormField<T> {
          builder: (FormFieldState<T> field) {
            final _DropdownButtonFormField2State<T> state =
                field as _DropdownButtonFormField2State<T>;
-           final InputDecoration decorationArg = decoration ?? const InputDecoration();
-           final InputDecoration effectiveDecoration = decorationArg.applyDefaults(
-             Theme.of(field.context).inputDecorationTheme,
-           );
+           InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
+               .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
            final bool showSelectedItem =
                items != null &&
@@ -1120,6 +1119,21 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                ? effectiveHint != null
                : effectiveHint != null || effectiveDisabledHint != null;
            final bool isEmpty = !showSelectedItem && !isHintOrDisabledHintAvailable;
+
+           if (field.errorText != null || effectiveDecoration.hintText != null) {
+             final Widget? error = field.errorText != null && errorBuilder != null
+                 ? errorBuilder(state.context, field.errorText!)
+                 : null;
+             final String? errorText = error == null ? field.errorText : null;
+             // Clear the decoration hintText because DropdownButton has its own hint logic.
+             final String? hintText = effectiveDecoration.hintText != null ? '' : null;
+
+             effectiveDecoration = effectiveDecoration.copyWith(
+               error: error,
+               errorText: errorText,
+               hintText: hintText,
+             );
+           }
 
            final bool hasError =
                field.hasError ||
@@ -1161,11 +1175,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                  barrierColor: barrierColor,
                  barrierLabel: barrierLabel,
                  openDropdownListenable: openDropdownListenable,
-                 inputDecoration: effectiveDecoration.copyWith(
-                   errorText: field.errorText,
-                   // Clear the decoration hintText because DropdownButton has its own hint logic.
-                   hintText: effectiveDecoration.hintText != null ? '' : null,
-                 ),
+                 inputDecoration: effectiveDecoration,
                  isEmpty: isEmpty,
                  hasError: hasError,
                ),
