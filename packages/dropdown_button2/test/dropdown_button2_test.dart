@@ -7,7 +7,6 @@ void main() {
     'Button and Menu Focus',
     () {
       final List<int> menuItems = List<int>.generate(10, (int index) => index);
-      final valueListenable = ValueNotifier(menuItems.first);
 
       final findDropdownButton = find.byType(DropdownButton2<int>);
       final findDropdownButtonFormField = find.byType(DropdownButtonFormField2<int>);
@@ -16,32 +15,32 @@ void main() {
       final findDropdownButtonFocus = find
           .descendant(of: find.byType(DropdownButton2<int>), matching: find.byType(Focus))
           .first;
-      final findDropdownButtonText = find.descendant(
-        of: findDropdownButton,
-        matching: find.text('${valueListenable.value}'),
-      );
-      final findSelectedMenuItemText = find.descendant(
-        of: findDropdownMenu,
-        matching: find.text('${valueListenable.value}'),
-      );
 
       testWidgets('onTap should request focus for both button and selected menu item', (
         WidgetTester tester,
       ) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+        final findDropdownButtonText = find.descendant(
+          of: findDropdownButton,
+          matching: find.text('${valueListenable.value}'),
+        );
+        final findSelectedMenuItemText = find.descendant(
+          of: findDropdownMenu,
+          matching: find.text('${valueListenable.value}'),
+        );
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButton2<int>(
-                  valueListenable: valueListenable,
-                  items: menuItems.map<DropdownItem<int>>((int item) {
-                    return DropdownItem<int>(
-                      value: item,
-                      child: Text(item.toString()),
-                    );
-                  }).toList(),
-                  onChanged: (_) {},
-                ),
+              body: DropdownButton2<int>(
+                valueListenable: valueListenable,
+                items: menuItems.map<DropdownItem<int>>((int item) {
+                  return DropdownItem<int>(
+                    value: item,
+                    child: Text(item.toString()),
+                  );
+                }).toList(),
+                onChanged: (_) {},
               ),
             ),
           ),
@@ -63,20 +62,28 @@ void main() {
       });
 
       testWidgets('button should stay highlighted when menu closes', (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+        final findDropdownButtonText = find.descendant(
+          of: findDropdownButton,
+          matching: find.text('${valueListenable.value}'),
+        );
+        final findSelectedMenuItemText = find.descendant(
+          of: findDropdownMenu,
+          matching: find.text('${valueListenable.value}'),
+        );
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButton2<int>(
-                  valueListenable: valueListenable,
-                  items: menuItems.map<DropdownItem<int>>((int item) {
-                    return DropdownItem<int>(
-                      value: item,
-                      child: Text(item.toString()),
-                    );
-                  }).toList(),
-                  onChanged: (_) {},
-                ),
+              body: DropdownButton2<int>(
+                valueListenable: valueListenable,
+                items: menuItems.map<DropdownItem<int>>((int item) {
+                  return DropdownItem<int>(
+                    value: item,
+                    child: Text(item.toString()),
+                  );
+                }).toList(),
+                onChanged: (_) {},
               ),
             ),
           ),
@@ -105,25 +112,24 @@ void main() {
         // https://github.com/AhmedLSayed9/dropdown_button2/issues/199
 
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final valueListenable = ValueNotifier(menuItems.first);
         const errorMessage = 'error_message';
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: Form(
-                  key: formKey,
-                  child: DropdownButtonFormField2<int>(
-                    valueListenable: valueListenable,
-                    items: menuItems.map<DropdownItem<int>>((int item) {
-                      return DropdownItem<int>(
-                        value: item,
-                        child: Text(item.toString()),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                    validator: (value) => errorMessage,
-                  ),
+              body: Form(
+                key: formKey,
+                child: DropdownButtonFormField2<int>(
+                  valueListenable: valueListenable,
+                  items: menuItems.map<DropdownItem<int>>((int item) {
+                    return DropdownItem<int>(
+                      value: item,
+                      child: Text(item.toString()),
+                    );
+                  }).toList(),
+                  onChanged: (_) {},
+                  validator: (value) => errorMessage,
                 ),
               ),
             ),
@@ -152,7 +158,6 @@ void main() {
     'DropdownButtonFormField2 Error Properties',
     () {
       final List<int> menuItems = List<int>.generate(10, (int index) => index);
-      final valueListenable = ValueNotifier(menuItems.first);
 
       final findDropdownButtonFormField = find.byType(DropdownButtonFormField2<int>);
 
@@ -177,20 +182,19 @@ void main() {
         WidgetTester tester,
       ) async {
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final valueListenable = ValueNotifier(menuItems.first);
         const errorMessage = 'Please select a value';
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: Form(
-                  key: formKey,
-                  child: DropdownButtonFormField2<int>(
-                    valueListenable: valueListenable,
-                    items: buildItems(),
-                    onChanged: (_) {},
-                    validator: (int? v) => errorMessage,
-                  ),
+              body: Form(
+                key: formKey,
+                child: DropdownButtonFormField2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                  validator: (int? v) => errorMessage,
                 ),
               ),
             ),
@@ -207,19 +211,18 @@ void main() {
         WidgetTester tester,
       ) async {
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final valueListenable = ValueNotifier(menuItems.first);
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: Form(
-                  key: formKey,
-                  child: DropdownButtonFormField2<int>(
-                    valueListenable: valueListenable,
-                    items: buildItems(),
-                    onChanged: (_) {},
-                    validator: (int? v) => null,
-                  ),
+              body: Form(
+                key: formKey,
+                child: DropdownButtonFormField2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                  validator: (int? v) => null,
                 ),
               ),
             ),
@@ -237,22 +240,21 @@ void main() {
       testWidgets('autovalidateMode.always should validate on first build', (
         WidgetTester tester,
       ) async {
+        final valueListenable = ValueNotifier(menuItems.first);
         int validateCalled = 0;
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButtonFormField2<int>(
-                  valueListenable: valueListenable,
-                  items: buildItems(),
-                  onChanged: (_) {},
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: (int? value) {
-                    validateCalled++;
-                    return 'Error';
-                  },
-                ),
+              body: DropdownButtonFormField2<int>(
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+                autovalidateMode: AutovalidateMode.always,
+                validator: (int? value) {
+                  validateCalled++;
+                  return 'Error';
+                },
               ),
             ),
           ),
@@ -265,20 +267,19 @@ void main() {
       testWidgets('decoration errorStyle should be applied to error text', (
         WidgetTester tester,
       ) async {
+        final valueListenable = ValueNotifier(menuItems.first);
         const errorStyle = TextStyle(color: Colors.orange, fontSize: 20);
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButtonFormField2<int>(
-                  valueListenable: valueListenable,
-                  items: buildItems(),
-                  onChanged: (_) {},
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: (int? v) => 'Styled error',
-                  decoration: const InputDecoration(errorStyle: errorStyle),
-                ),
+              body: DropdownButtonFormField2<int>(
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+                autovalidateMode: AutovalidateMode.always,
+                validator: (int? v) => 'Styled error',
+                decoration: const InputDecoration(errorStyle: errorStyle),
               ),
             ),
           ),
@@ -292,18 +293,18 @@ void main() {
       });
 
       testWidgets('decoration errorMaxLines should be respected', (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButtonFormField2<int>(
-                  valueListenable: valueListenable,
-                  items: buildItems(),
-                  onChanged: (_) {},
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: (int? v) => 'A very long error message\nthat spans multiple lines',
-                  decoration: const InputDecoration(errorMaxLines: 2),
-                ),
+              body: DropdownButtonFormField2<int>(
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+                autovalidateMode: AutovalidateMode.always,
+                validator: (int? v) => 'A very long error message\nthat spans multiple lines',
+                decoration: const InputDecoration(errorMaxLines: 2),
               ),
             ),
           ),
@@ -318,20 +319,20 @@ void main() {
       testWidgets('errorBuilder should replace default error text when provided', (
         WidgetTester tester,
       ) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButtonFormField2<int>(
-                  valueListenable: valueListenable,
-                  items: buildItems(),
-                  onChanged: (_) {},
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: (int? v) => 'Required',
-                  errorBuilder: (BuildContext context, String errorText) {
-                    return Text('Custom: $errorText');
-                  },
-                ),
+              body: DropdownButtonFormField2<int>(
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+                autovalidateMode: AutovalidateMode.always,
+                validator: (int? v) => 'Required',
+                errorBuilder: (BuildContext context, String errorText) {
+                  return Text('Custom: $errorText');
+                },
               ),
             ),
           ),
@@ -347,27 +348,26 @@ void main() {
         WidgetTester tester,
       ) async {
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final valueListenable = ValueNotifier(menuItems.first);
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: Form(
-                  key: formKey,
-                  child: DropdownButtonFormField2<int>(
-                    valueListenable: valueListenable,
-                    items: buildItems(),
-                    onChanged: (_) {},
-                    validator: (int? v) => 'Required',
-                    errorBuilder: (BuildContext context, String errorText) {
-                      return Row(
-                        children: [
-                          const Icon(Icons.error, color: Colors.red),
-                          Text(errorText),
-                        ],
-                      );
-                    },
-                  ),
+              body: Form(
+                key: formKey,
+                child: DropdownButtonFormField2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                  validator: (int? v) => 'Required',
+                  errorBuilder: (BuildContext context, String errorText) {
+                    return Row(
+                      children: [
+                        const Icon(Icons.error, color: Colors.red),
+                        Text(errorText),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
@@ -387,23 +387,22 @@ void main() {
       testWidgets('errorBuilder should not be called when there is no error', (
         WidgetTester tester,
       ) async {
+        final valueListenable = ValueNotifier(menuItems.first);
         bool errorBuilderCalled = false;
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButtonFormField2<int>(
-                  valueListenable: valueListenable,
-                  items: buildItems(),
-                  onChanged: (_) {},
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: (int? v) => null,
-                  errorBuilder: (BuildContext context, String errorText) {
-                    errorBuilderCalled = true;
-                    return Text(errorText);
-                  },
-                ),
+              body: DropdownButtonFormField2<int>(
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+                autovalidateMode: AutovalidateMode.always,
+                validator: (int? v) => null,
+                errorBuilder: (BuildContext context, String errorText) {
+                  errorBuilderCalled = true;
+                  return Text(errorText);
+                },
               ),
             ),
           ),
@@ -417,16 +416,16 @@ void main() {
       testWidgets('forceErrorText should force field to display error', (
         WidgetTester tester,
       ) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButtonFormField2<int>(
-                  valueListenable: valueListenable,
-                  items: buildItems(),
-                  onChanged: (_) {},
-                  forceErrorText: 'Forced error',
-                ),
+              body: DropdownButtonFormField2<int>(
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+                forceErrorText: 'Forced error',
               ),
             ),
           ),
@@ -441,18 +440,17 @@ void main() {
 
       testWidgets('forceErrorText should make isValid return false', (WidgetTester tester) async {
         final GlobalKey<FormFieldState<int>> fieldKey = GlobalKey<FormFieldState<int>>();
+        final valueListenable = ValueNotifier(menuItems.first);
 
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: Center(
-                child: DropdownButtonFormField2<int>(
-                  key: fieldKey,
-                  valueListenable: valueListenable,
-                  items: buildItems(),
-                  onChanged: (_) {},
-                  forceErrorText: 'Forced error',
-                ),
+              body: DropdownButtonFormField2<int>(
+                key: fieldKey,
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+                forceErrorText: 'Forced error',
               ),
             ),
           ),
@@ -464,20 +462,18 @@ void main() {
 
       testWidgets(
         'forceErrorText should override InputDecoration.errorText when both are provided',
-        (
-          WidgetTester tester,
-        ) async {
+        (WidgetTester tester) async {
+          final valueListenable = ValueNotifier(menuItems.first);
+
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
-                body: Center(
-                  child: DropdownButtonFormField2<int>(
-                    valueListenable: valueListenable,
-                    items: buildItems(),
-                    onChanged: (_) {},
-                    decoration: const InputDecoration(errorText: 'Decoration error'),
-                    forceErrorText: 'Forced error',
-                  ),
+                body: DropdownButtonFormField2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                  decoration: const InputDecoration(errorText: 'Decoration error'),
+                  forceErrorText: 'Forced error',
                 ),
               ),
             ),
