@@ -173,7 +173,7 @@ void main() {
         return tester.widget<InputDecorator>(findInputDecorator.first);
       }
 
-      testWidgets('validator error text is displayed', (WidgetTester tester) async {
+      testWidgets('validator error text should be displayed when validation fails', (WidgetTester tester) async {
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
         const errorMessage = 'Please select a value';
 
@@ -201,7 +201,7 @@ void main() {
         expect(find.text(errorMessage), findsOneWidget);
       });
 
-      testWidgets('validator returning null shows no error', (WidgetTester tester) async {
+      testWidgets('validator should show no error when returning null', (WidgetTester tester) async {
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
         await tester.pumpWidget(
@@ -230,7 +230,7 @@ void main() {
         expect(inputDecorator.decoration.error, isNull);
       });
 
-      testWidgets('autovalidateMode.always validates on first build', (
+      testWidgets('autovalidateMode.always should validate on first build', (
         WidgetTester tester,
       ) async {
         int validateCalled = 0;
@@ -258,7 +258,7 @@ void main() {
         expect(find.text('Error'), findsOneWidget);
       });
 
-      testWidgets('decoration errorStyle is applied to error text', (
+      testWidgets('decoration errorStyle should be applied to error text', (
         WidgetTester tester,
       ) async {
         const errorStyle = TextStyle(color: Colors.orange, fontSize: 20);
@@ -287,7 +287,7 @@ void main() {
         expect(find.text('Styled error'), findsOneWidget);
       });
 
-      testWidgets('decoration errorMaxLines is respected', (WidgetTester tester) async {
+      testWidgets('decoration errorMaxLines should be respected', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -311,7 +311,7 @@ void main() {
         expect(inputDecorator.decoration.errorMaxLines, 2);
       });
 
-      testWidgets('widget returned by errorBuilder is shown', (WidgetTester tester) async {
+      testWidgets('errorBuilder should replace default error text when provided', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -337,7 +337,7 @@ void main() {
         expect(find.text('Required'), findsNothing);
       });
 
-      testWidgets('errorBuilder widget is passed to InputDecorator as error', (
+      testWidgets('errorBuilder widget should be passed to InputDecorator as error', (
         WidgetTester tester,
       ) async {
         final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -378,7 +378,7 @@ void main() {
         expect(find.byIcon(Icons.error), findsOneWidget);
       });
 
-      testWidgets('errorBuilder is not called when there is no error', (
+      testWidgets('errorBuilder should not be called when there is no error', (
         WidgetTester tester,
       ) async {
         bool errorBuilderCalled = false;
@@ -406,6 +406,77 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(errorBuilderCalled, isFalse);
+      });
+
+      testWidgets('forceErrorText should force field to display error', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: DropdownButtonFormField2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                  forceErrorText: 'Forced error',
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pumpAndSettle();
+
+        expect(find.text('Forced error'), findsOneWidget);
+        final inputDecorator = getFormFieldInputDecorator(tester);
+        expect(inputDecorator.decoration.errorText, 'Forced error');
+      });
+
+      testWidgets('forceErrorText should make isValid return false', (WidgetTester tester) async {
+        final GlobalKey<FormFieldState<int>> fieldKey = GlobalKey<FormFieldState<int>>();
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: DropdownButtonFormField2<int>(
+                  key: fieldKey,
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                  forceErrorText: 'Forced error',
+                ),
+              ),
+            ),
+          ),
+        );
+
+        expect(fieldKey.currentState!.isValid, isFalse);
+        expect(fieldKey.currentState!.hasError, isTrue);
+      });
+
+      testWidgets('forceErrorText should override InputDecoration.errorText when both are provided', (
+        WidgetTester tester,
+      ) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: DropdownButtonFormField2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                  decoration: const InputDecoration(errorText: 'Decoration error'),
+                  forceErrorText: 'Forced error',
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pumpAndSettle();
+
+        expect(find.text('Forced error'), findsOneWidget);
+        expect(find.text('Decoration error'), findsNothing);
       });
     },
   );
