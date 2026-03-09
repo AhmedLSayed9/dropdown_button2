@@ -1068,6 +1068,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     super.onSaved,
     super.validator,
     super.errorBuilder,
+    super.forceErrorText,
     AutovalidateMode? autovalidateMode,
     bool? enableFeedback,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
