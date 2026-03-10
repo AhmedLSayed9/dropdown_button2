@@ -6,6 +6,7 @@
 */
 
 import 'dart:math' as math;
+import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -419,7 +420,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
   bool _isFocused = false;
 
   // Using ValueNotifier for tracking when menu is open/close to update the button icon.
-  final ValueNotifier<bool> _isMenuOpen = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _isMenuExpanded = ValueNotifier<bool>(false);
 
   final _buttonRectKey = GlobalKey();
 
@@ -463,7 +464,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     _removeDropdownRoute();
     _focusNode.removeListener(_handleFocusChanged);
     _internalNode?.dispose();
-    _isMenuOpen.dispose();
+    _isMenuExpanded.dispose();
     _buttonRect.dispose();
     super.dispose();
   }
@@ -545,7 +546,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
   }
 
   void _programmaticallyOpenDropdown() {
-    if (_enabled && !_isMenuOpen.value) {
+    if (_enabled && !_isMenuExpanded.value) {
       _handleTap();
     }
   }
@@ -707,7 +708,6 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       dropdownSeparator: separator,
     );
 
-    _isMenuOpen.value = true;
     _focusNode.requestFocus();
     // This is a temporary fix for the "dropdown menu steal the focus from the
     // underlying button" issue, until share focus is fixed in flutter (#106923).
@@ -717,11 +717,12 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     navigator.push(_dropdownRoute!).then<void>((_DropdownRouteResult<T>? newValue) {
       _removeDropdownRoute();
       if (mounted) {
-        _isMenuOpen.value = false;
+        _isMenuExpanded.value = false;
       }
       widget.onMenuStateChange?.call(false);
     });
 
+    _isMenuExpanded.value = true;
     widget.onMenuStateChange?.call(true);
   }
 
@@ -898,10 +899,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
                       size: _iconStyle.iconSize,
                     ),
                     child: ValueListenableBuilder<bool>(
-                      valueListenable: _isMenuOpen,
-                      builder: (BuildContext context, bool isOpen, _) {
+                      valueListenable: _isMenuExpanded,
+                      builder: (BuildContext context, bool isExpanded, _) {
                         return _iconStyle.openMenuIcon != null
-                            ? isOpen
+                            ? isExpanded
                                   ? _iconStyle.openMenuIcon!
                                   : _iconStyle.icon
                             : _iconStyle.icon;
@@ -1018,8 +1019,15 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
 
     final bool childHasButtonSemantic =
         hintIndex != null || (_selectedIndex != null && widget.selectedItemBuilder == null);
-    return Semantics(
-      button: !childHasButtonSemantic,
+    return ValueListenableBuilder<bool>(
+      valueListenable: _isMenuExpanded,
+      builder: (BuildContext context, bool isExpanded, Widget? child) {
+        return Semantics(
+          button: !childHasButtonSemantic,
+          expanded: isExpanded,
+          child: child,
+        );
+      },
       child: Actions(
         actions: _actionMap,
         child: result,

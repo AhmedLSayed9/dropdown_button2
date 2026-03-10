@@ -3,6 +3,7 @@
 - Upgrade minimum required Flutter SDK version to 3.32.0.
 - Add `errorBuilder` support for DropdownButtonFormField2 [Flutter core].
 - Add `forceErrorText` support for DropdownButtonFormField2 [Flutter core].
+- Add ARIA menu roles to menu-related widgets for accessibility [Flutter core].
 
 ## 3.0.0
 
