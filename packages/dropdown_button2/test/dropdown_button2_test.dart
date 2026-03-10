@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -485,6 +487,128 @@ void main() {
           expect(find.text('Decoration error'), findsNothing);
         },
       );
+    },
+  );
+
+  group(
+    'Semantics',
+    () {
+      final List<int> menuItems = List<int>.generate(4, (int index) => index);
+
+      List<DropdownItem<int>> buildItems() {
+        return menuItems.map<DropdownItem<int>>((int item) {
+          return DropdownItem<int>(
+            value: item,
+            child: Text(item.toString()),
+          );
+        }).toList();
+      }
+
+      testWidgets(
+        'button should include expanded state semantics and update when menu opens and closes',
+        (
+          WidgetTester tester,
+        ) async {
+          final valueListenable = ValueNotifier(menuItems.first);
+
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: DropdownButton2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                ),
+              ),
+            ),
+          );
+
+          // Before opening: should have expanded state but not be expanded.
+          expect(
+            tester.getSemantics(find.byType(DropdownButton2<int>)),
+            matchesSemantics(
+              isButton: true,
+              hasExpandedState: true,
+              isFocusable: true,
+              hasTapAction: true,
+              hasFocusAction: true,
+              label: '${valueListenable.value}',
+            ),
+          );
+
+          // Open the menu.
+          await tester.tap(find.text('${valueListenable.value}'));
+          await tester.pumpAndSettle();
+
+          // While the menu is open, BlockSemantics in ModalBarrier blocks the
+          // button's semantics node (making tester.getSemantics return a stale node).
+          // Verify the Semantics widget's expanded property directly instead.
+          final expandedSemantics = tester.widget<Semantics>(
+            find.descendant(
+              of: find.byType(DropdownButton2<int>),
+              matching: find.byWidgetPredicate(
+                (widget) => widget is Semantics && widget.properties.expanded != null,
+              ),
+            ),
+          );
+          expect(expandedSemantics.properties.expanded, isTrue);
+
+          // Close the menu by selecting an item.
+          await tester.tap(find.text('1'));
+          await tester.pumpAndSettle();
+
+          expect(
+            tester.getSemantics(find.byType(DropdownButton2<int>)),
+            matchesSemantics(
+              isButton: true,
+              hasExpandedState: true,
+              isFocusable: true,
+              isFocused: true,
+              hasTapAction: true,
+              hasFocusAction: true,
+              label: '${valueListenable.value}',
+            ),
+          );
+        },
+      );
+
+      testWidgets('menu should include menu and menuItem role semantics', (
+        WidgetTester tester,
+      ) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: DropdownButton2<int>(
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+              ),
+            ),
+          ),
+        );
+
+        // Open the menu.
+        await tester.tap(find.text('${valueListenable.value}'));
+        await tester.pumpAndSettle();
+
+        // Verify menu role.
+        expect(
+          find.byWidgetPredicate(
+            (widget) => widget is Semantics && widget.properties.role == SemanticsRole.menu,
+          ),
+          findsOneWidget,
+        );
+
+        // Verify menuItem roles for each item.
+        expect(
+          find.byWidgetPredicate(
+            (widget) => widget is Semantics && widget.properties.role == SemanticsRole.menuItem,
+          ),
+          findsNWidgets(menuItems.length),
+        );
+      });
     },
   );
 }
