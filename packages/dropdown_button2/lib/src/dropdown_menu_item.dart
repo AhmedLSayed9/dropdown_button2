@@ -272,6 +272,6 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
         child: child,
       );
     }
-    return child;
+    return Semantics(role: SemanticsRole.menuItem, child: child);
   }
 }

@@ -237,6 +237,7 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
           textDirection: widget.textDirection,
         ),
         child: Semantics(
+          role: SemanticsRole.menu,
           scopesRoute: true,
           namesRoute: true,
           explicitChildNodes: true,
