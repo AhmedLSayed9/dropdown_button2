@@ -554,9 +554,10 @@ void main() {
           expect(expandedSemantics.properties.expanded, isTrue);
 
           // Close the menu by selecting an item.
-          await tester.tap(find.text('1'));
+          await tester.tap(find.text('1').last);
           await tester.pumpAndSettle();
 
+          // After closing: should have expanded state but not be expanded.
           expect(
             tester.getSemantics(find.byType(DropdownButton2<int>)),
             matchesSemantics(
