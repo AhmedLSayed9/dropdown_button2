@@ -554,9 +554,10 @@ void main() {
           expect(expandedSemantics.properties.expanded, isTrue);
 
           // Close the menu by selecting an item.
-          await tester.tap(find.text('1'));
+          await tester.tap(find.text('1').last);
           await tester.pumpAndSettle();
 
+          // After closing: should have expanded state but not be expanded.
           expect(
             tester.getSemantics(find.byType(DropdownButton2<int>)),
             matchesSemantics(
@@ -568,6 +569,75 @@ void main() {
               hasFocusAction: true,
               label: '${valueListenable.value}',
             ),
+          );
+        },
+      );
+
+      testWidgets(
+        'button should include hint semantics when no value is selected',
+        (
+          WidgetTester tester,
+        ) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: DropdownButton2<int>(
+                  hint: const Text('Select a number'),
+                  items: buildItems(),
+                  onChanged: (_) {},
+                ),
+              ),
+            ),
+          );
+
+          expect(
+            tester.getSemantics(find.byType(DropdownButton2<int>)),
+            matchesSemantics(
+              hasExpandedState: true,
+              isFocusable: true,
+              hasTapAction: true,
+              hasFocusAction: true,
+              label: 'Select a number',
+            ),
+          );
+        },
+      );
+
+      testWidgets(
+        'semantics tree should only contain the selected item label when the menu is closed',
+        (
+          WidgetTester tester,
+        ) async {
+          final valueListenable = ValueNotifier(menuItems[1]);
+
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: DropdownButton2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                ),
+              ),
+            ),
+          );
+
+          // Only the selected item (1) should be in the semantics tree.
+          expect(
+            find.bySemanticsLabel('${menuItems[0]}'),
+            findsNothing,
+          );
+          expect(
+            find.bySemanticsLabel('${menuItems[1]}'),
+            findsOneWidget,
+          );
+          expect(
+            find.bySemanticsLabel('${menuItems[2]}'),
+            findsNothing,
+          );
+          expect(
+            find.bySemanticsLabel('${menuItems[3]}'),
+            findsNothing,
           );
         },
       );
