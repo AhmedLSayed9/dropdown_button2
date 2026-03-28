@@ -949,8 +949,6 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       },
     );
 
-    result = KeyedSubtree(key: _buttonRectKey, child: result);
-
     // When an InputDecoration is provided, use it instead of using an InkWell
     // that overflows in some cases (such as showing an errorText) and requires
     // additional logic to manage clipping properly.
@@ -992,12 +990,15 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
             onTap: _enabled && !widget.openWithLongPress ? _handleTap : null,
             onLongPress: _enabled && widget.openWithLongPress ? _handleTap : null,
             behavior: HitTestBehavior.opaque,
-            child: InputDecorator(
-              decoration: effectiveDecoration,
-              isEmpty: widget._isEmpty,
-              isFocused: _isFocused,
-              isHovering: _isHovering,
-              child: result,
+            child: KeyedSubtree(
+              key: _buttonRectKey,
+              child: InputDecorator(
+                decoration: effectiveDecoration,
+                isEmpty: widget._isEmpty,
+                isFocused: _isFocused,
+                isHovering: _isHovering,
+                child: result,
+              ),
             ),
           ),
         ),
@@ -1013,7 +1014,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
         overlayColor: _buttonStyle?.overlayColor,
         enableFeedback: false,
         borderRadius: _getButtonBorderRadius(context),
-        child: result,
+        child: KeyedSubtree(key: _buttonRectKey, child: result),
       );
     }
 
