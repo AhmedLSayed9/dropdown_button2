@@ -681,4 +681,92 @@ void main() {
       });
     },
   );
+
+  group('barrierBlocksInteraction', () {
+    final List<int> menuItems = List<int>.generate(4, (int i) => i);
+    final findDropdownMenu = find.byType(ListView);
+
+    List<DropdownItem<int>> buildItems() {
+      return menuItems.map((int item) {
+        return DropdownItem<int>(
+          value: item,
+          child: Text(item.toString()),
+        );
+      }).toList();
+    }
+
+    testWidgets(
+      'barrierBlocksInteraction false: outside control receives tap and menu closes',
+      (WidgetTester tester) async {
+        int outsideTaps = 0;
+        final valueListenable = ValueNotifier(menuItems.first);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: DropdownButton2<int>(
+                      barrierBlocksInteraction: false,
+                      valueListenable: valueListenable,
+                      items: buildItems(),
+                      onChanged: (_) {},
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => outsideTaps++,
+                    child: const Text('Outside'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(find.text('${valueListenable.value}'));
+        await tester.pumpAndSettle();
+        expect(findDropdownMenu, findsOneWidget);
+
+        await tester.tap(find.text('Outside'));
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 1);
+        expect(findDropdownMenu, findsNothing);
+      },
+    );
+
+    testWidgets(
+      'barrierBlocksInteraction true: tapping scaffold outside menu dismisses',
+      (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Align(
+                alignment: Alignment.topLeft,
+                child: DropdownButton2<int>(
+                  valueListenable: valueListenable,
+                  items: buildItems(),
+                  onChanged: (_) {},
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(find.text('${valueListenable.value}'));
+        await tester.pumpAndSettle();
+        expect(findDropdownMenu, findsOneWidget);
+
+        // Bottom-right of the 800x600 test surface is outside the open menu.
+        await tester.tapAt(const Offset(780, 580));
+        await tester.pumpAndSettle();
+
+        expect(findDropdownMenu, findsNothing);
+      },
+    );
+  });
 }

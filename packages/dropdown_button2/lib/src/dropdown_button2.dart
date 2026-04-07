@@ -7,18 +7,20 @@
 
 import 'dart:math' as math;
 import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'seperated_sliver_child_builder_delegate.dart';
 
 part 'button_style_data.dart';
-part 'dropdown_style_data.dart';
-part 'dropdown_route.dart';
 part 'dropdown_menu.dart';
 part 'dropdown_menu_item.dart';
 part 'dropdown_menu_separators.dart';
+part 'dropdown_route.dart';
+part 'dropdown_style_data.dart';
 part 'enums.dart';
 part 'utils.dart';
 
@@ -123,6 +125,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.openWithLongPress = false,
     this.barrierDismissible = true,
     this.barrierCoversButton = true,
+    this.barrierBlocksInteraction = true,
     this.barrierColor,
     this.barrierLabel,
     this.openDropdownListenable,
@@ -163,6 +166,7 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.openWithLongPress,
     required this.barrierDismissible,
     required this.barrierCoversButton,
+    required this.barrierBlocksInteraction,
     required this.barrierColor,
     required this.barrierLabel,
     required this.openDropdownListenable,
@@ -353,6 +357,14 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   /// Defaults to `true`.
   final bool barrierCoversButton;
+
+  /// Whether to block interaction with underlying widgets when the dropdown is open.
+  ///
+  /// When false, taps outside the dropdown can pass through to underlying
+  /// widgets while still dismissing the dropdown.
+  ///
+  /// Defaults to true.
+  final bool barrierBlocksInteraction;
 
   /// The color to use for the modal barrier. If this is null, the barrier will
   /// be transparent.
@@ -726,6 +738,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       barrierLabel:
           widget.barrierLabel ?? MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierCoversButton: widget.barrierCoversButton,
+      barrierBlocksInteraction: widget.barrierBlocksInteraction,
       parentFocusNode: _focusNode,
       enableFeedback: widget.enableFeedback ?? true,
       textDirection: textDirection,
@@ -1118,6 +1131,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     bool openWithLongPress = false,
     bool barrierDismissible = true,
     bool barrierCoversButton = true,
+    bool barrierBlocksInteraction = true,
     Color? barrierColor,
     String? barrierLabel,
     Listenable? openDropdownListenable,
@@ -1209,6 +1223,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                  openWithLongPress: openWithLongPress,
                  barrierDismissible: barrierDismissible,
                  barrierCoversButton: barrierCoversButton,
+                 barrierBlocksInteraction: barrierBlocksInteraction,
                  barrierColor: barrierColor,
                  barrierLabel: barrierLabel,
                  openDropdownListenable: openDropdownListenable,
