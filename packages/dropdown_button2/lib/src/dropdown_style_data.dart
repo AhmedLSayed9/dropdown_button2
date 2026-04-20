@@ -5,6 +5,7 @@ class DropdownStyleData {
   /// Creates a DropdownStyleData.
   const DropdownStyleData({
     this.maxHeight,
+    this.anchoredMinHeight,
     this.width,
     this.padding,
     this.scrollPadding,
@@ -31,6 +32,17 @@ class DropdownStyleData {
   /// mentioned above, then the menu defaults to being padded at the top
   /// and bottom of the menu by at one menu item's height.
   final double? maxHeight;
+
+  /// The minimum height for the dropdown menu to remain anchored to the button.
+  ///
+  /// When set, the menu stays anchored to the button and shrinks to fit
+  /// the space below the button instead of being repositioned.
+  ///
+  /// If the available space is less than this value, the menu falls back to the
+  /// default repositioning behavior with its height capped at this value.
+  ///
+  /// When null (default), the default repositioning behavior is used.
+  final double? anchoredMinHeight;
 
   /// The width of the dropdown menu
   ///
@@ -113,6 +125,7 @@ class DropdownStyleData {
   /// parameters overridden.
   DropdownStyleData copyWith({
     double? maxHeight,
+    double? anchoredMinHeight,
     double? width,
     EdgeInsetsGeometry? padding,
     EdgeInsetsGeometry? scrollPadding,
@@ -130,6 +143,7 @@ class DropdownStyleData {
   }) {
     return DropdownStyleData(
       maxHeight: maxHeight ?? this.maxHeight,
+      anchoredMinHeight: anchoredMinHeight ?? this.anchoredMinHeight,
       width: width ?? this.width,
       padding: padding ?? this.padding,
       scrollPadding: scrollPadding ?? this.scrollPadding,
