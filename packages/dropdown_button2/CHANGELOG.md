@@ -4,6 +4,7 @@
 - Add `errorBuilder` support for DropdownButtonFormField2 [Flutter core].
 - Add `forceErrorText` support for DropdownButtonFormField2 [Flutter core].
 - Add ARIA menu roles to menu-related widgets for accessibility [Flutter core].
+- Add `anchoredMinHeight` to keep the menu anchored to the button and shrink to fit when possible, closes #429.
 
 ## 3.0.0
 
