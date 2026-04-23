@@ -428,6 +428,11 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
   // update its position if DropdownButton's position has changed, as when keyboard open.
   final ValueNotifier<Rect?> _buttonRect = ValueNotifier<Rect?>(null);
 
+  // Ancestor scroll positions we listen to while the menu is open, so the menu
+  // re-lays out as the anchor scrolls (re-evaluates its position and preferred height).
+  // Walks all ancestors so nested scrollables are supported.
+  final List<ScrollPosition> _ancestorScrollPositions = [];
+
   // Only used if needed to create _internalNode.
   FocusNode _createFocusNode() {
     return FocusNode(debugLabel: '${widget.runtimeType}');
@@ -492,6 +497,20 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     _dropdownRoute?._dismiss();
     _dropdownRoute = null;
     _lastOrientation = null;
+    _removeAncestorScrollListeners();
+  }
+
+  void _removeAncestorScrollListeners() {
+    for (final position in _ancestorScrollPositions) {
+      position.removeListener(_handleAncestorScroll);
+    }
+    _ancestorScrollPositions.clear();
+  }
+
+  void _handleAncestorScroll() {
+    if (_buttonRectKey.currentContext != null) {
+      _buttonRect.value = _getButtonRect();
+    }
   }
 
   @override
@@ -680,6 +699,13 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     final items = widget.items!;
     final separator = widget.dropdownSeparator;
     _buttonRect.value = _getButtonRect();
+
+    ScrollableState? scrollable = Scrollable.maybeOf(context);
+    while (scrollable != null) {
+      _ancestorScrollPositions.add(scrollable.position);
+      scrollable.position.addListener(_handleAncestorScroll);
+      scrollable = Scrollable.maybeOf(scrollable.context);
+    }
 
     assert(_dropdownRoute == null);
     _dropdownRoute = _DropdownRoute<T>(
