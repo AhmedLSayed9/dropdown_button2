@@ -64,17 +64,33 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
   final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
 
+  /// When [barrierBlocksInteraction] is false, wraps the default modal barrier
+  /// so pointer events pass through while still dismissing on barrier tap (if dismissible).
   @override
-  Widget buildModalBarrier() => IgnorePointer(
-    ignoring: !barrierBlocksInteraction,
-    child: super.buildModalBarrier(),
-  );
+  Widget buildModalBarrier() {
+    if (barrierBlocksInteraction) {
+      return super.buildModalBarrier();
+    }
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (PointerDownEvent event) {
+        if (buttonRect.value!.contains(event.position)) {
+          // Intercept anchor-button taps while the menu is open so the underlying
+          // button's GestureDetector doesn't fire onTap.
+          GestureBinding.instance.cancelPointer(event.pointer);
+        }
+        if (barrierDismissible) {
+          _dismiss();
+        }
+      },
+      child: IgnorePointer(child: super.buildModalBarrier()),
+    );
+  }
 
   @override
   Widget buildPage(BuildContext context, _, __) {
-    final TextDirection resolvedTextDirection = textDirection ?? Directionality.of(context);
     return Directionality(
-      textDirection: resolvedTextDirection,
+      textDirection: textDirection ?? Directionality.of(context),
       child: FocusScope.withExternalFocusNode(
         focusScopeNode: _childNode,
         parentNode: parentFocusNode,
@@ -104,56 +120,15 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
                   style: style,
                   enableFeedback: enableFeedback,
                 );
-                final dismissibleRoutePage = barrierBlocksInteraction
-                    ? routePage
-                    : Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          // In non-blocking mode, listen for outside taps so we can
-                          // dismiss the menu, while still passing the same pointer
-                          // event through to underlying widgets.
-                          if (barrierDismissible)
-                            Positioned.fill(
-                              child: Listener(
-                                behavior: HitTestBehavior.translucent,
-                                onPointerDown: (PointerDownEvent event) {
-                                  final Rect menuRect = getMenuRect(
-                                    buttonRect: rect,
-                                    availableSize: Size(
-                                      constraints.maxWidth,
-                                      actualConstraints.maxHeight,
-                                    ),
-                                    mediaQueryPadding: mediaQueryPadding,
-                                    textDirection: resolvedTextDirection,
-                                  );
-                                  if (!menuRect.contains(event.position)) {
-                                    _dismiss();
-                                  }
-                                },
-                              ),
-                            ),
-                          routePage,
-                          // Always intercept anchor-button taps while the menu is open
-                          // so the underlying button does not receive the same gesture.
-                          // If the route is dismissible, treat the tap as close.
-                          Positioned.fromRect(
-                            rect: rect,
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: barrierDismissible ? _dismiss : () {},
-                            ),
-                          ),
-                        ],
-                      );
                 return barrierCoversButton
-                    ? dismissibleRoutePage
+                    ? routePage
                     : _CustomModalBarrier(
                         barrierColor: _altBarrierColor,
                         animation: animation,
                         barrierCurve: barrierCurve,
                         buttonRect: rect,
                         buttonBorderRadius: buttonBorderRadius ?? BorderRadius.zero,
-                        child: dismissibleRoutePage,
+                        child: routePage,
                       );
               },
             );
@@ -346,81 +321,6 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     return _MenuLimits(menuTop, menuBottom, menuHeight, scrollOffset);
   }
 
-  double getMenuWidth({
-    required double availableWidth,
-    required double buttonWidth,
-  }) {
-    // The width of a menu should be at most the view width. This ensures that
-    // the menu does not extend past the left and right edges of the screen.
-    final double? configuredMenuWidth = dropdownStyle.width;
-    return math.min(availableWidth, configuredMenuWidth ?? buttonWidth);
-  }
-
-  double getMenuLeft({
-    required Rect buttonRect,
-    required double availableWidth,
-    required double menuWidth,
-    required TextDirection textDirection,
-  }) {
-    final Offset offset = dropdownStyle.offset;
-    return switch (dropdownStyle.direction) {
-      DropdownDirection.textDirection => switch (textDirection) {
-        TextDirection.rtl => clampDouble(
-          buttonRect.right - menuWidth + offset.dx,
-          0.0,
-          availableWidth - menuWidth,
-        ),
-        TextDirection.ltr => clampDouble(
-          buttonRect.left + offset.dx,
-          0.0,
-          availableWidth - menuWidth,
-        ),
-      },
-      DropdownDirection.right => clampDouble(
-        buttonRect.left + offset.dx,
-        0.0,
-        availableWidth - menuWidth,
-      ),
-      DropdownDirection.left => clampDouble(
-        buttonRect.right - menuWidth + offset.dx,
-        0.0,
-        availableWidth - menuWidth,
-      ),
-      DropdownDirection.center => clampDouble(
-        (availableWidth - menuWidth) / 2 + offset.dx,
-        0.0,
-        availableWidth - menuWidth,
-      ),
-    };
-  }
-
-  Rect getMenuRect({
-    required Rect buttonRect,
-    required Size availableSize,
-    required EdgeInsets mediaQueryPadding,
-    required TextDirection textDirection,
-  }) {
-    final _MenuLimits menuLimits = getMenuLimits(
-      buttonRect,
-      availableSize.height,
-      mediaQueryPadding,
-      selectedIndex,
-    );
-
-    final double menuWidth = getMenuWidth(
-      availableWidth: availableSize.width,
-      buttonWidth: buttonRect.width,
-    );
-    final double left = getMenuLeft(
-      buttonRect: buttonRect,
-      availableWidth: availableSize.width,
-      menuWidth: menuWidth,
-      textDirection: textDirection,
-    );
-
-    return Rect.fromLTWH(left, menuLimits.top, menuWidth, menuLimits.height);
-  }
-
   // The maximum height of a simple menu should be one or more rows less than
   // the view height. This ensures a tappable area outside of the simple menu
   // with which to dismiss the menu.
@@ -553,10 +453,10 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
       menuAnchoredTop: menuAnchoredTop,
       mediaQueryPadding: mediaQueryPadding,
     );
-    final double width = route.getMenuWidth(
-      availableWidth: constraints.maxWidth,
-      buttonWidth: buttonRect.width,
-    );
+    // The width of a menu should be at most the view width. This ensures that
+    // the menu does not extend past the left and right edges of the screen.
+    final double? menuWidth = route.dropdownStyle.width;
+    final double width = math.min(constraints.maxWidth, menuWidth ?? buttonRect.width);
     return BoxConstraints(
       minWidth: width,
       maxWidth: width,
@@ -586,12 +486,36 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
     }());
     assert(textDirection != null);
 
-    final double left = route.getMenuLeft(
-      buttonRect: buttonRect,
-      availableWidth: size.width,
-      menuWidth: childSize.width,
-      textDirection: textDirection!,
-    );
+    final Offset offset = route.dropdownStyle.offset;
+    final double left = switch (route.dropdownStyle.direction) {
+      DropdownDirection.textDirection => switch (textDirection!) {
+        TextDirection.rtl => clampDouble(
+          buttonRect.right - childSize.width + offset.dx,
+          0.0,
+          size.width - childSize.width,
+        ),
+        TextDirection.ltr => clampDouble(
+          buttonRect.left + offset.dx,
+          0.0,
+          size.width - childSize.width,
+        ),
+      },
+      DropdownDirection.right => clampDouble(
+        buttonRect.left + offset.dx,
+        0.0,
+        size.width - childSize.width,
+      ),
+      DropdownDirection.left => clampDouble(
+        buttonRect.right - childSize.width + offset.dx,
+        0.0,
+        size.width - childSize.width,
+      ),
+      DropdownDirection.center => clampDouble(
+        (size.width - childSize.width) / 2 + offset.dx,
+        0.0,
+        size.width - childSize.width,
+      ),
+    };
 
     return Offset(left, menuLimits.top);
   }
