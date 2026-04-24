@@ -358,10 +358,10 @@ class DropdownButton2<T> extends StatefulWidget {
   /// Defaults to `true`.
   final bool barrierCoversButton;
 
-  /// Whether to block interaction with underlying widgets when the dropdown is open.
+  /// Whether to block interaction with underlying widgets when the dropdown menu is open.
   ///
-  /// When false, taps outside the dropdown can pass through to underlying
-  /// widgets while still dismissing the dropdown.
+  /// When false, taps outside the dropdown menu can pass through to underlying
+  /// widgets while still dismissing the menu.
   ///
   /// Defaults to true.
   final bool barrierBlocksInteraction;
