@@ -345,11 +345,13 @@ class DropdownButton2<T> extends StatefulWidget {
   final bool openWithLongPress;
 
   /// Whether you can dismiss this route by tapping the modal barrier.
+  ///
+  /// Defaults to `true`.
   final bool barrierDismissible;
 
   /// Specifies whether the modal barrier should cover the dropdown button or not.
   ///
-  /// Defaults to true.
+  /// Defaults to `true`.
   final bool barrierCoversButton;
 
   /// The color to use for the modal barrier. If this is null, the barrier will
