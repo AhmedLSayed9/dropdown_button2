@@ -363,7 +363,7 @@ class DropdownButton2<T> extends StatefulWidget {
   /// When false, taps outside the dropdown menu can pass through to underlying
   /// widgets while still dismissing the menu.
   ///
-  /// Defaults to true.
+  /// Defaults to `true`.
   final bool barrierBlocksInteraction;
 
   /// The color to use for the modal barrier. If this is null, the barrier will
