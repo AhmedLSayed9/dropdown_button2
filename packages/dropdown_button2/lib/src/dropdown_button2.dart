@@ -767,7 +767,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
 
   Color get _iconColor {
     // These colors are not defined in the Material Design spec.
-    final Brightness brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.brightnessOf(context);
     if (_enabled) {
       return _iconStyle.iconEnabledColor ??
           switch (brightness) {
