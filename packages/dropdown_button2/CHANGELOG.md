@@ -13,6 +13,43 @@ A stable release for DropdownButton2 3.0!
 
 ### Breaking Changes
 
+- **Replaces `value` with `valueListenable`** (and adds `multiValueListenable` for multi-select).
+  The button now receives a `ValueListenable<T?>` and updates from the listenable directly,
+  so the parent doesn't need to `setState`.
+
+  Instead of:
+
+  ```dart
+  String? selected;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton2<String>(
+      // Other properties...
+      value: selected,
+      onChanged: (value) => setState(() => selected = value),
+    );
+  }
+  ```
+
+  do:
+
+  ```dart
+  final selected = ValueNotifier<String?>(null);
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton2<String>(
+      // Other properties...
+      valueListenable: selected,
+      onChanged: (value) => selected.value = value,
+    );
+  }
+  ```
+
+  For multi-select, use `multiValueListenable: ValueNotifier<List<String>>([])` and update the list
+  inside `onChanged`. See the multi-select example for the full setup.
+
 - **Replaces DropdownMenuItem with DropdownItem** to provide extra functionality.
 
   Instead of:
@@ -108,7 +145,6 @@ A stable release for DropdownButton2 3.0!
 - Add `closeOnTap` property to DropdownItem. It controls whether the dropdown should close when the item is tapped.
 - Add intrinsicHeight property to DropdownItem. This enables setting item's height according to its intrinsic height.
 - Support adding separator widget internally, closes #134.
-- Introduce `valueListenable` and `multiValueListenable`, which replaces SetState with ValueListenable.
 - Support implementing select all option (Check multi-select example), closes #121 and #167.
 - Add the possibility to display a dropdown menu centered through `DropdownDirection.center`.
 - Add `barrierCoversButton` property, used to specify whether the modal barrier should cover the dropdown button or not.
