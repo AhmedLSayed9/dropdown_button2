@@ -14,6 +14,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     Color? barrierColor,
     this.barrierLabel,
     required this.barrierCoversButton,
+    required this.barrierBlocksInteraction,
     required this.parentFocusNode,
     required this.enableFeedback,
     required this.textDirection,
@@ -59,7 +60,32 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
 
   final bool barrierCoversButton;
 
+  final bool barrierBlocksInteraction;
+
   final FocusScopeNode _childNode = FocusScopeNode(debugLabel: 'Child');
+
+  /// When [barrierBlocksInteraction] is false, wraps the default modal barrier
+  /// so pointer events pass through while still dismissing on barrier tap (if dismissible).
+  @override
+  Widget buildModalBarrier() {
+    if (barrierBlocksInteraction) {
+      return super.buildModalBarrier();
+    }
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (PointerDownEvent event) {
+        if (buttonRect.value!.contains(event.position)) {
+          // Intercept anchor-button taps while the menu is open so the underlying
+          // button's GestureDetector doesn't fire onTap.
+          GestureBinding.instance.cancelPointer(event.pointer);
+        }
+        if (barrierDismissible) {
+          _dismiss();
+        }
+      },
+      child: IgnorePointer(child: super.buildModalBarrier()),
+    );
+  }
 
   @override
   Widget buildPage(BuildContext context, _, __) {

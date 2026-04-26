@@ -29,10 +29,6 @@ void main() {
         WidgetTester tester,
       ) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        final findDropdownButtonText = find.descendant(
-          of: findDropdownButton,
-          matching: find.text('${valueListenable.value}'),
-        );
         final findSelectedMenuItemText = find.descendant(
           of: findDropdownMenu,
           matching: find.text('${valueListenable.value}'),
@@ -60,7 +56,7 @@ void main() {
         expect(findDropdownMenu, findsNothing);
         expect(buttonFocusNode.hasFocus, isFalse);
 
-        await tester.tap(findDropdownButtonText);
+        await tester.tap(findDropdownButton);
         await tester.pumpAndSettle();
 
         expect(findDropdownMenu, findsOneWidget);
@@ -72,10 +68,6 @@ void main() {
 
       testWidgets('button should stay highlighted when menu closes', (WidgetTester tester) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        final findDropdownButtonText = find.descendant(
-          of: findDropdownButton,
-          matching: find.text('${valueListenable.value}'),
-        );
         final findSelectedMenuItemText = find.descendant(
           of: findDropdownMenu,
           matching: find.text('${valueListenable.value}'),
@@ -102,7 +94,7 @@ void main() {
 
         expect(buttonFocusNode.hasFocus, isFalse);
 
-        await tester.tap(findDropdownButtonText);
+        await tester.tap(findDropdownButton);
         await tester.pumpAndSettle();
 
         expect(buttonFocusNode.hasFocus, isTrue);
@@ -618,6 +610,8 @@ void main() {
     () {
       final List<int> menuItems = List<int>.generate(4, (int index) => index);
 
+      final findDropdownButton = find.byType(DropdownButton2<int>);
+
       List<DropdownItem<int>> buildItems() {
         return menuItems.map<DropdownItem<int>>((int item) {
           return DropdownItem<int>(
@@ -660,7 +654,7 @@ void main() {
           );
 
           // Open the menu.
-          await tester.tap(find.text('${valueListenable.value}'));
+          await tester.tap(findDropdownButton);
           await tester.pumpAndSettle();
 
           // While the menu is open, BlockSemantics in ModalBarrier blocks the
@@ -804,4 +798,259 @@ void main() {
       });
     },
   );
+
+  group('Modal Barrier', () {
+    final List<int> menuItems = List<int>.generate(4, (int i) => i);
+
+    final findDropdownButton = find.byType(DropdownButton2<int>);
+    final findDropdownMenu = find.byType(ListView);
+
+    List<DropdownItem<int>> buildItems() {
+      return menuItems.map<DropdownItem<int>>((int item) {
+        return DropdownItem<int>(
+          value: item,
+          child: Text(item.toString()),
+        );
+      }).toList();
+    }
+
+    testWidgets(
+      'outside tap should dismiss menu and not pass through '
+      'when barrierDismissible and barrierBlocksInteraction are true (default)',
+      (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+        int outsideTaps = 0;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Row(
+                children: [
+                  DropdownButton2<int>(
+                    valueListenable: valueListenable,
+                    items: buildItems(),
+                    onChanged: (_) {},
+                  ),
+                  ElevatedButton(
+                    onPressed: () => outsideTaps++,
+                    child: const Text('Outside'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 0);
+        expect(findDropdownMenu, findsOneWidget);
+
+        // The barrier absorbs the tap; warnIfMissed silences the hit-test warning.
+        await tester.tap(find.text('Outside'), warnIfMissed: false);
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 0);
+        expect(findDropdownMenu, findsNothing);
+      },
+    );
+
+    testWidgets(
+      'outside tap should dismiss menu and pass through '
+      'when barrierDismissible is true (default) and barrierBlocksInteraction is false',
+      (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+        int outsideTaps = 0;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Row(
+                children: [
+                  DropdownButton2<int>(
+                    barrierBlocksInteraction: false,
+                    valueListenable: valueListenable,
+                    items: buildItems(),
+                    onChanged: (_) {},
+                  ),
+                  ElevatedButton(
+                    onPressed: () => outsideTaps++,
+                    child: const Text('Outside'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 0);
+        expect(findDropdownMenu, findsOneWidget);
+
+        await tester.tap(find.text('Outside'));
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 1);
+        expect(findDropdownMenu, findsNothing);
+      },
+    );
+
+    testWidgets(
+      'outside tap should not dismiss menu or pass through '
+      'when barrierDismissible is false and barrierBlocksInteraction is true (default)',
+      (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+        int outsideTaps = 0;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Row(
+                children: [
+                  DropdownButton2<int>(
+                    barrierDismissible: false,
+                    valueListenable: valueListenable,
+                    items: buildItems(),
+                    onChanged: (_) {},
+                  ),
+                  ElevatedButton(
+                    onPressed: () => outsideTaps++,
+                    child: const Text('Outside'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 0);
+        expect(findDropdownMenu, findsOneWidget);
+
+        await tester.tap(find.text('Outside'), warnIfMissed: false);
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 0);
+        expect(findDropdownMenu, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'outside tap should not dismiss menu but pass through '
+      'when barrierDismissible and barrierBlocksInteraction are false',
+      (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+        int outsideTaps = 0;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Row(
+                children: [
+                  DropdownButton2<int>(
+                    barrierDismissible: false,
+                    barrierBlocksInteraction: false,
+                    valueListenable: valueListenable,
+                    items: buildItems(),
+                    onChanged: (_) {},
+                  ),
+                  ElevatedButton(
+                    onPressed: () => outsideTaps++,
+                    child: const Text('Outside'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 0);
+        expect(findDropdownMenu, findsOneWidget);
+
+        await tester.tap(find.text('Outside'));
+        await tester.pumpAndSettle();
+
+        expect(outsideTaps, 1);
+        expect(findDropdownMenu, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'menu should close without re-opening on anchor-button tap '
+      'when barrierDismissible is true (default) and barrierBlocksInteraction is false',
+      (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: DropdownButton2<int>(
+                barrierBlocksInteraction: false,
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        expect(findDropdownMenu, findsOneWidget);
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        // Barrier intercepts the anchor-button tap, and barrierDismissible (true) closes the menu.
+        expect(findDropdownMenu, findsNothing);
+      },
+    );
+
+    testWidgets(
+      'menu should not close on anchor-button tap '
+      'when barrierDismissible and barrierBlocksInteraction are false',
+      (WidgetTester tester) async {
+        final valueListenable = ValueNotifier(menuItems.first);
+        int stateChanges = 0;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: DropdownButton2<int>(
+                barrierDismissible: false,
+                barrierBlocksInteraction: false,
+                onMenuStateChange: (_) => stateChanges++,
+                valueListenable: valueListenable,
+                items: buildItems(),
+                onChanged: (_) {},
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        expect(stateChanges, 1);
+        expect(findDropdownMenu, findsOneWidget);
+
+        await tester.tap(findDropdownButton);
+        await tester.pumpAndSettle();
+
+        // Menu's route stays active (no close/re-open).
+        expect(stateChanges, 1);
+        // Barrier intercepts the anchor-button tap, and barrierDismissible (false) keeps menu open.
+        expect(findDropdownMenu, findsOneWidget);
+      },
+    );
+  });
 }
