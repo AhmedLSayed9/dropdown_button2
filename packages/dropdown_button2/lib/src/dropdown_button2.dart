@@ -533,7 +533,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     if (widget.focusNode != oldWidget.focusNode) {
       oldWidget.focusNode?.removeListener(_handleFocusChanged);
       if (_internalNode != null && widget.focusNode != null) {
-        _internalNode!.removeListener(_handleFocusChanged);
+        _internalNode!.dispose();
+        _internalNode = null;
       }
 
       if (widget.focusNode == null) {
@@ -942,10 +943,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
                     child: ValueListenableBuilder<bool>(
                       valueListenable: _isMenuExpanded,
                       builder: (BuildContext context, bool isExpanded, _) {
-                        return _iconStyle.openMenuIcon != null
-                            ? isExpanded
-                                  ? _iconStyle.openMenuIcon!
-                                  : _iconStyle.icon
+                        return isExpanded && _iconStyle.openMenuIcon != null
+                            ? _iconStyle.openMenuIcon!
                             : _iconStyle.icon;
                       },
                     ),

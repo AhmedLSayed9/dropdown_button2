@@ -4,6 +4,13 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+Finder findInputDecoratorBorderPainter() {
+  return find.descendant(
+    of: find.byWidgetPredicate((Widget w) => '${w.runtimeType}' == '_BorderContainer'),
+    matching: find.byWidgetPredicate((Widget w) => w is CustomPaint),
+  );
+}
+
 void main() {
   group(
     'Button and Menu Focus',
@@ -145,6 +152,122 @@ void main() {
         );
         expect(formFieldInputDecorator.decoration.errorText, errorMessage);
       });
+
+      testWidgets('DropdownButtonFormField2 can replace focusNode properly', (
+        WidgetTester tester,
+      ) async {
+        tester.binding.focusManager.highlightStrategy = FocusHighlightStrategy.alwaysTraditional;
+        final valueListenable = ValueNotifier(menuItems.first);
+        FocusNode focusNode = FocusNode(debugLabel: 'DropdownButtonFormField2');
+        addTearDown(() => focusNode.dispose());
+
+        Widget buildFormField() => MaterialApp(
+          home: Scaffold(
+            body: DropdownButtonFormField2<int>(
+              valueListenable: valueListenable,
+              items: menuItems.map<DropdownItem<int>>((int item) {
+                return DropdownItem<int>(
+                  value: item,
+                  child: Text(item.toString()),
+                );
+              }).toList(),
+              onChanged: (_) {},
+              focusNode: focusNode,
+              decoration: const InputDecoration(
+                filled: true,
+                focusColor: Color(0xff00ff00),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pumpWidget(buildFormField());
+        final Color defaultBorderColor = Theme.of(
+          tester.element(find.byType(InputDecorator)),
+        ).colorScheme.surfaceContainerHighest;
+        expect(
+          findInputDecoratorBorderPainter(),
+          paints..path(style: PaintingStyle.fill, color: defaultBorderColor),
+        );
+
+        // Replace focusNode and request focus.
+        focusNode.dispose();
+        focusNode = FocusNode(debugLabel: 'DropdownButtonFormField2');
+        focusNode.requestFocus();
+
+        await tester.pumpWidget(buildFormField());
+        await tester.pump(); // Wait for requestFocus to take effect.
+        expect(
+          findInputDecoratorBorderPainter(),
+          paints..path(style: PaintingStyle.fill, color: const Color(0xff00ff00)),
+        );
+
+        // Replace focusNode and request focus.
+        focusNode.dispose();
+        focusNode = FocusNode(debugLabel: 'DropdownButtonFormField2');
+        focusNode.requestFocus();
+
+        await tester.pumpWidget(buildFormField());
+        FocusManager.instance.primaryFocus?.unfocus();
+        await tester.pump(); // Wait for unfocus to take effect.
+        expect(
+          findInputDecoratorBorderPainter(),
+          paints..path(style: PaintingStyle.fill, color: defaultBorderColor),
+        );
+      });
+
+      testWidgets(
+        'DropdownButtonFormField2 should properly dispose its internal FocusNode '
+        'when replaced by an external FocusNode',
+        (WidgetTester tester) async {
+          final valueListenable = ValueNotifier(menuItems.first);
+          FocusNode? focusNode;
+          addTearDown(() => focusNode?.dispose());
+
+          Widget buildFormField() => MaterialApp(
+            home: Scaffold(
+              body: DropdownButtonFormField2<int>(
+                valueListenable: valueListenable,
+                items: menuItems.map<DropdownItem<int>>((int item) {
+                  return DropdownItem<int>(
+                    value: item,
+                    child: Text(item.toString()),
+                  );
+                }).toList(),
+                onChanged: (_) {},
+                focusNode: focusNode,
+              ),
+            ),
+          );
+
+          await tester.pumpWidget(buildFormField());
+          final FocusNode internalNode = tester
+              .widget<Focus>(
+                find
+                    .descendant(
+                      of: find.byType(DropdownButton2<int>),
+                      matching: find.byType(Focus),
+                    )
+                    .first,
+              )
+              .focusNode!;
+
+          // Replace internal FocusNode with external FocusNode.
+          focusNode = FocusNode(debugLabel: 'DropdownButtonFormField2');
+          await tester.pumpWidget(buildFormField());
+
+          expect(
+            internalNode.dispose,
+            throwsA(
+              isA<FlutterError>().having(
+                (FlutterError error) => error.message,
+                'message',
+                startsWith('A FocusNode was used after being disposed.'),
+              ),
+            ),
+          );
+        },
+      );
     },
   );
 

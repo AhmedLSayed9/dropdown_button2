@@ -7,6 +7,7 @@
 - Add `anchoredMinHeight` to keep the menu anchored to the button and shrink to fit when possible, closes #429.
 - Re-lay out dropdown menu on ancestor scroll.
 - Add `barrierBlocksInteraction` to allow interaction with underlying widgets while the dropdown menu is open.
+- Properly dispose internal FocusNode when replaced by an external FocusNode.
 
 ## 3.0.0
 
