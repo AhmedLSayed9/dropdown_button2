@@ -1236,6 +1236,10 @@ class DropdownButtonFormField2<T> extends FormField<T> {
        );
 
   /// {@macro flutter.material.dropdownButton.onChanged}
+  ///
+  /// This callback is invoked after the parent [Form]'s [Form.onChanged] callback.
+  /// The field's updated value is available in the [Form.onChanged] callback
+  /// via [FormFieldState.value].
   final ValueChanged<T?>? onChanged;
 
   /// The decoration to show around the dropdown button form field.
