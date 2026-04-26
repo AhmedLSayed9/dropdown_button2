@@ -9,6 +9,7 @@
 - Re-lay out dropdown menu on ancestor scroll.
 - Add `barrierBlocksInteraction` to allow interaction with underlying widgets while the dropdown menu is open.
 - Properly dispose internal FocusNode when replaced by an external FocusNode.
+- Inherit local `InputDecorationTheme` (contentPadding, border, visualDensity) instead of only the global theme.
 
 ## 3.0.0
 
