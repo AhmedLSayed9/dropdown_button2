@@ -2,12 +2,16 @@ name: Build
 
 on:
   push:
-    branches: [master, main]
+    branches: [ master, main ]
     paths-ignore:
       - "**.md"
   pull_request:
     paths-ignore:
       - "**.md"
+  schedule:
+    # Run daily at 03:00 UTC to catch regressions from new Flutter releases
+    # (scheduled workflows only run on the default branch).
+    - cron: "0 3 * * *"
 
 jobs:
   build:
