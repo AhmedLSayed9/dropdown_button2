@@ -258,6 +258,7 @@ class _DropdownItemButtonState<T> extends State<_DropdownItemButton<T>> {
         enableFeedback: widget.enableFeedback,
         onTap: _handleOnTap,
         onFocusChange: _handleFocusChange,
+        mouseCursor: _menuItemStyle.mouseCursor,
         borderRadius: _menuItemStyle.borderRadius,
         overlayColor: _menuItemStyle.overlayColor,
         child: isSelectedItem

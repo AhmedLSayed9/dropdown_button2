@@ -170,6 +170,7 @@ class MenuItemStyleData {
     this.useDecorationHorizontalPadding = false,
     this.borderRadius,
     this.overlayColor,
+    this.mouseCursor,
     this.selectedMenuItemBuilder,
   });
 
@@ -215,6 +216,15 @@ class MenuItemStyleData {
   ///    <https://material.io/design/interaction/states.html#anatomy>.
   final WidgetStateProperty<Color?>? overlayColor;
 
+  /// The cursor for a mouse pointer when it enters or is hovering over a menu item.
+  ///
+  /// {@macro flutter.material.InkWell.mouseCursor}
+  ///
+  // TODO(Ahmed): Update to [WidgetStateMouseCursor.adaptiveClickable]
+  // when it's supported by the min version of the package [Flutter>=3.41.0]
+  /// If this property is null, [WidgetStateMouseCursor.clickable] will be used.
+  final MouseCursor? mouseCursor;
+
   /// A builder to customize the selected menu item.
   ///
   /// If this callback is null, the selected menu item will be displayed as other [items].
@@ -237,12 +247,14 @@ class MenuItemStyleData {
     EdgeInsetsGeometry? padding,
     BorderRadius? borderRadius,
     WidgetStateProperty<Color?>? overlayColor,
+    MouseCursor? mouseCursor,
     SelectedMenuItemBuilder? selectedMenuItemBuilder,
   }) {
     return MenuItemStyleData(
       padding: padding ?? this.padding,
       borderRadius: borderRadius ?? this.borderRadius,
       overlayColor: overlayColor ?? this.overlayColor,
+      mouseCursor: mouseCursor ?? this.mouseCursor,
       selectedMenuItemBuilder: selectedMenuItemBuilder ?? this.selectedMenuItemBuilder,
     );
   }
