@@ -114,6 +114,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.enableFeedback,
+    this.mouseCursor,
     this.alignment = AlignmentDirectional.centerStart,
     this.buttonStyleData,
     this.iconStyleData = const IconStyleData(),
@@ -155,6 +156,7 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.focusNode,
     required this.autofocus,
     required this.enableFeedback,
+    required this.mouseCursor,
     required this.alignment,
     required this.buttonStyleData,
     required this.iconStyleData,
@@ -309,6 +311,16 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   ///  * [Feedback] for providing platform-specific feedback to certain actions.
   final bool? enableFeedback;
+
+  /// The cursor for a mouse pointer when it enters or is hovering over this
+  /// button.
+  ///
+  /// {@macro flutter.material.InkWell.mouseCursor}
+  ///
+  // TODO(Ahmed): Update to [WidgetStateMouseCursor.adaptiveClickable]
+  // when it's supported by the min version of the package [Flutter>=3.41.0]
+  /// If this property is null, [WidgetStateMouseCursor.clickable] will be used.
+  final MouseCursor? mouseCursor;
 
   /// Defines how the hint or the selected item is positioned within the button.
   ///
@@ -982,8 +994,10 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       );
     }
 
+    // TODO(Ahmed): Use [WidgetStateMouseCursor.adaptiveClickable]
+    // when it's supported by the min version of the package [Flutter>=3.41.0]
     final MouseCursor effectiveMouseCursor = WidgetStateProperty.resolveAs<MouseCursor>(
-      WidgetStateMouseCursor.clickable,
+      widget.mouseCursor ?? WidgetStateMouseCursor.clickable,
       <WidgetState>{
         if (!_enabled) WidgetState.disabled,
       },
@@ -1119,6 +1133,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     super.forceErrorText,
     AutovalidateMode? autovalidateMode,
     bool? enableFeedback,
+    MouseCursor? mouseCursor,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
     FormFieldButtonStyleData? buttonStyleData,
     IconStyleData iconStyleData = const IconStyleData(),
@@ -1211,6 +1226,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                  focusNode: focusNode,
                  autofocus: autofocus,
                  enableFeedback: enableFeedback,
+                 mouseCursor: mouseCursor,
                  alignment: alignment,
                  buttonStyleData: buttonStyleData?._toButtonStyleData,
                  iconStyleData: iconStyleData,
