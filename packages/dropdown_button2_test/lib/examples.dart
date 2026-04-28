@@ -1,5 +1,3 @@
-library examples;
-
 export 'src/few_styling_example.dart';
 export 'src/form_field_example.dart';
 export 'src/multi_select_example.dart';

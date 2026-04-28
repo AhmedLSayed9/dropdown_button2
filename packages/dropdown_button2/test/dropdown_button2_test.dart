@@ -15,7 +15,7 @@ void main() {
   group(
     'Button and Menu Focus',
     () {
-      final List<int> menuItems = List<int>.generate(10, (int index) => index);
+      final menuItems = List<int>.generate(10, (int index) => index);
 
       final findDropdownButton = find.byType(DropdownButton2<int>);
       final findDropdownButtonFormField = find.byType(DropdownButtonFormField2<int>);
@@ -112,7 +112,7 @@ void main() {
         // https://github.com/AhmedLSayed9/dropdown_button2/issues/56
         // https://github.com/AhmedLSayed9/dropdown_button2/issues/199
 
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final formKey = GlobalKey<FormState>();
         final valueListenable = ValueNotifier(menuItems.first);
         const errorMessage = 'error_message';
 
@@ -158,7 +158,7 @@ void main() {
       ) async {
         tester.binding.focusManager.highlightStrategy = FocusHighlightStrategy.alwaysTraditional;
         final valueListenable = ValueNotifier(menuItems.first);
-        FocusNode focusNode = FocusNode(debugLabel: 'DropdownButtonFormField2');
+        var focusNode = FocusNode(debugLabel: 'DropdownButtonFormField2');
         addTearDown(() => focusNode.dispose());
 
         Widget buildFormField() => MaterialApp(
@@ -274,7 +274,7 @@ void main() {
   group(
     'DropdownButtonFormField2 Error Properties',
     () {
-      final List<int> menuItems = List<int>.generate(10, (int index) => index);
+      final menuItems = List<int>.generate(10, (int index) => index);
 
       final findDropdownButtonFormField = find.byType(DropdownButtonFormField2<int>);
 
@@ -298,7 +298,7 @@ void main() {
       testWidgets('validator error text should be displayed when validation fails', (
         WidgetTester tester,
       ) async {
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final formKey = GlobalKey<FormState>();
         final valueListenable = ValueNotifier(menuItems.first);
         const errorMessage = 'Please select a value';
 
@@ -327,7 +327,7 @@ void main() {
       testWidgets('validator should show no error when returning null', (
         WidgetTester tester,
       ) async {
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final formKey = GlobalKey<FormState>();
         final valueListenable = ValueNotifier(menuItems.first);
 
         await tester.pumpWidget(
@@ -358,7 +358,7 @@ void main() {
         WidgetTester tester,
       ) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        int validateCalled = 0;
+        var validateCalled = 0;
 
         await tester.pumpWidget(
           MaterialApp(
@@ -464,7 +464,7 @@ void main() {
       testWidgets('errorBuilder widget should be passed to InputDecorator as error', (
         WidgetTester tester,
       ) async {
-        final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+        final formKey = GlobalKey<FormState>();
         final valueListenable = ValueNotifier(menuItems.first);
 
         await tester.pumpWidget(
@@ -505,7 +505,7 @@ void main() {
         WidgetTester tester,
       ) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        bool errorBuilderCalled = false;
+        var errorBuilderCalled = false;
 
         await tester.pumpWidget(
           MaterialApp(
@@ -556,7 +556,7 @@ void main() {
       });
 
       testWidgets('forceErrorText should make isValid return false', (WidgetTester tester) async {
-        final GlobalKey<FormFieldState<int>> fieldKey = GlobalKey<FormFieldState<int>>();
+        final fieldKey = GlobalKey<FormFieldState<int>>();
         final valueListenable = ValueNotifier(menuItems.first);
 
         await tester.pumpWidget(
@@ -608,7 +608,7 @@ void main() {
   group(
     'Semantics',
     () {
-      final List<int> menuItems = List<int>.generate(4, (int index) => index);
+      final menuItems = List<int>.generate(4, (int index) => index);
 
       final findDropdownButton = find.byType(DropdownButton2<int>);
 
@@ -800,7 +800,7 @@ void main() {
   );
 
   group('Modal Barrier', () {
-    final List<int> menuItems = List<int>.generate(4, (int i) => i);
+    final menuItems = List<int>.generate(4, (int i) => i);
 
     final findDropdownButton = find.byType(DropdownButton2<int>);
     final findDropdownMenu = find.byType(ListView);
@@ -819,7 +819,7 @@ void main() {
       'when barrierDismissible and barrierBlocksInteraction are true (default)',
       (WidgetTester tester) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        int outsideTaps = 0;
+        var outsideTaps = 0;
 
         await tester.pumpWidget(
           MaterialApp(
@@ -861,7 +861,7 @@ void main() {
       'when barrierDismissible is true (default) and barrierBlocksInteraction is false',
       (WidgetTester tester) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        int outsideTaps = 0;
+        var outsideTaps = 0;
 
         await tester.pumpWidget(
           MaterialApp(
@@ -903,7 +903,7 @@ void main() {
       'when barrierDismissible is false and barrierBlocksInteraction is true (default)',
       (WidgetTester tester) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        int outsideTaps = 0;
+        var outsideTaps = 0;
 
         await tester.pumpWidget(
           MaterialApp(
@@ -945,7 +945,7 @@ void main() {
       'when barrierDismissible and barrierBlocksInteraction are false',
       (WidgetTester tester) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        int outsideTaps = 0;
+        var outsideTaps = 0;
 
         await tester.pumpWidget(
           MaterialApp(
@@ -1020,7 +1020,7 @@ void main() {
       'when barrierDismissible and barrierBlocksInteraction are false',
       (WidgetTester tester) async {
         final valueListenable = ValueNotifier(menuItems.first);
-        int stateChanges = 0;
+        var stateChanges = 0;
 
         await tester.pumpWidget(
           MaterialApp(
