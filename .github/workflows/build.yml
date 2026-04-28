@@ -14,11 +14,14 @@ jobs:
     name: Run flutter test and analyze
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        channel:
-          - stable
+        include:
+          # Minimum supported version (keep in sync with pubspec.yaml).
+          - flutter-version: "3.32.0"
+          - channel: stable
           # We'll add master after migrating to Melos 7.x.x and flutter workspaces
-          # - master
+          # - channel: master
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,6 +29,7 @@ jobs:
       - name: Setup Flutter environment
         uses: subosito/flutter-action@v2.7.1
         with:
+          flutter-version: ${{ matrix.flutter-version }}
           channel: ${{ matrix.channel }}
 
       - name: Set environment paths
