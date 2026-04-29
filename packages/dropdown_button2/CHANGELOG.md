@@ -1,4 +1,4 @@
-## UNRELEASED
+## 3.1.0
 
 - Upgrade minimum required Flutter SDK version to 3.32.0.
 - Add `errorBuilder` support for DropdownButtonFormField2 [Flutter core].
