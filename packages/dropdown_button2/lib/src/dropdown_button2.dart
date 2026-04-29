@@ -448,7 +448,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
   // Using ValueNotifier for tracking when menu is open/close to update the button icon.
   final ValueNotifier<bool> _isMenuExpanded = ValueNotifier<bool>(false);
 
-  final _buttonRectKey = GlobalKey();
+  final GlobalKey<State<StatefulWidget>> _buttonRectKey = GlobalKey();
 
   // Using ValueNotifier for the Rect of DropdownButton so the dropdown menu listen and
   // update its position if DropdownButton's position has changed, as when keyboard open.
@@ -583,7 +583,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       return;
     }
 
-    for (int itemIndex = 0; itemIndex < widget.items!.length; itemIndex++) {
+    for (var itemIndex = 0; itemIndex < widget.items!.length; itemIndex++) {
       if (widget.items![itemIndex].value == _currentValue) {
         _selectedIndex = itemIndex;
         return;
@@ -623,7 +623,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
       rootNavigator: _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator,
     );
 
-    final RenderBox itemBox = _buttonRectKey.currentContext!.findRenderObject()! as RenderBox;
+    final itemBox = _buttonRectKey.currentContext!.findRenderObject()! as RenderBox;
     final Rect itemRect =
         itemBox.localToGlobal(Offset.zero, ancestor: navigator.context.findRenderObject()) &
         itemBox.size;
@@ -850,7 +850,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     // We should explicitly type the items list to be a list of <Widget>,
     // otherwise, no explicit type adding items maybe trigger a crash/failure
     // when hint and selectedItemBuilder are provided.
-    final List<Widget> buttonItems = widget.selectedItemBuilder == null
+    final buttonItems = widget.selectedItemBuilder == null
         ? (widget.items != null ? List<Widget>.of(widget.items!) : <Widget>[])
         : List<Widget>.of(widget.selectedItemBuilder!(context));
 
@@ -968,7 +968,7 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     );
 
     if (!DropdownButtonHideUnderline.at(context)) {
-      final double bottom = widget.isDense ? 0.0 : 8.0;
+      final bottom = widget.isDense ? 0.0 : 8.0;
       result = Stack(
         children: <Widget>[
           result,
@@ -1160,8 +1160,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
              : multiValueListenable?.value.lastOrNull,
          autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
          builder: (FormFieldState<T> field) {
-           final _DropdownButtonFormField2State<T> state =
-               field as _DropdownButtonFormField2State<T>;
+           final state = field as _DropdownButtonFormField2State<T>;
            InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

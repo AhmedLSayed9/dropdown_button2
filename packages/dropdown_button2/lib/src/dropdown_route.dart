@@ -211,7 +211,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     bool Function(DropdownItem<T> item)? itemPredicate,
   }) {
     var itemsHeight = 0.0;
-    for (int i = 0; i < index; i++) {
+    for (var i = 0; i < index; i++) {
       if (itemPredicate == null || itemPredicate(items[i])) {
         itemsHeight += _itemHeightWithSeparator(i);
       }
@@ -223,7 +223,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     final double paddingTop = dropdownStyle.padding != null
         ? dropdownStyle.padding!.resolve(null).top
         : kMaterialListPadding.top;
-    double offset = paddingTop;
+    var offset = paddingTop;
 
     if (items.isNotEmpty && index > 0) {
       if (searchData?.searchController?.text case final searchText?) {
@@ -279,7 +279,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     final double menuHeight = math.min(maxHeight, actualMenuHeight);
 
     // The computed top and bottom of the menu
-    double menuTop = menuAnchoredTop;
+    var menuTop = menuAnchoredTop;
     double menuBottom = menuTop + menuHeight;
 
     // If the computed top or bottom of the menu are outside of the range
@@ -633,7 +633,7 @@ class _DropdownBarrierPainter extends CustomPainter {
       canvas.saveLayer(pageRect, Paint());
       canvas.drawRect(pageRect, Paint()..color = barrierColor!);
 
-      final RRect buttonRRect = RRect.fromRectAndCorners(
+      final buttonRRect = RRect.fromRectAndCorners(
         buttonRect,
         topLeft: buttonBorderRadius.topLeft,
         topRight: buttonBorderRadius.topRight,
