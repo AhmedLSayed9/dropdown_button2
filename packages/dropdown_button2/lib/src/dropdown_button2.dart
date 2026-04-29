@@ -1153,6 +1153,10 @@ class DropdownButtonFormField2<T> extends FormField<T> {
          valueListenable == null || multiValueListenable == null,
          'Only one of valueListenable or multiValueListenable can be used.',
        ),
+       assert(
+         errorBuilder == null || decoration?.errorText == null,
+         'Declaring both errorBuilder and decoration.errorText is not supported.',
+       ),
        decoration = decoration ?? const InputDecoration(),
        super(
          initialValue: valueListenable != null
