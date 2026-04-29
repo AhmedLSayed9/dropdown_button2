@@ -1053,4 +1053,45 @@ void main() {
       },
     );
   });
+
+  group(
+    'Selected Item Builder',
+    () {
+      final menuItems = List<int>.generate(4, (int index) => index);
+
+      List<DropdownItem<int>> buildItems() {
+        return menuItems.map<DropdownItem<int>>((int item) {
+          return DropdownItem<int>(
+            value: item,
+            child: Text(item.toString()),
+          );
+        }).toList();
+      }
+
+      testWidgets(
+        'selectedItemBuilder should assert when it returns a different number of widgets than items',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: DropdownButton2<int>(
+                  items: buildItems(),
+                  selectedItemBuilder: (BuildContext context) => const [Text('only one')],
+                  onChanged: (_) {},
+                ),
+              ),
+            ),
+          );
+
+          final Object? exception = tester.takeException();
+          expect(exception, isA<AssertionError>());
+          expect(
+            (exception! as AssertionError).message,
+            'The selectedItemBuilder must return a list of widgets with the same length as the items list.\n'
+            'Currently, selectedItemBuilder returns a list of length 1, but items has length 4.',
+          );
+        },
+      );
+    },
+  );
 }

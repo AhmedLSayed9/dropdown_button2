@@ -25,7 +25,7 @@ class DropdownItem<T> extends _DropdownMenuItemContainer {
 
   /// The value to return if the user selects this menu item.
   ///
-  /// Eventually returned in a call to [DropdownButton.onChanged].
+  /// Eventually returned in a call to [DropdownButton2.onChanged].
   final T? value;
 
   /// Whether or not a user can select this menu item.
@@ -63,8 +63,8 @@ class DropdownItem<T> extends _DropdownMenuItemContainer {
 }
 
 // The container widget for a menu item created by a [DropdownButton2]. It
-// provides the default configuration for [DropdownMenuItem]s, as well as a
-// [DropdownButton]'s hint and disabledHint widgets.
+// provides the default configuration for [DropdownItem]s, as well as a
+// [DropdownButton2]'s hint and disabledHint widgets.
 class _DropdownMenuItemContainer extends StatelessWidget {
   /// Creates an item for a dropdown menu.
   ///

@@ -10,6 +10,7 @@
 - Add `barrierBlocksInteraction` to allow interaction with underlying widgets while the dropdown menu is open.
 - Properly dispose internal FocusNode when replaced by an external FocusNode.
 - Add `mouseCursor` to the dropdown button and MenuItemStyleData to customize the mouse cursor when hovering, closes #416.
+- Improve docs and validate selectedItemBuilder length.
 
 ## 3.0.0
 

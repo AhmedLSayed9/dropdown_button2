@@ -371,11 +371,10 @@ class _DropdownRoutePageState<T> extends State<_DropdownRoutePage<T>> {
   void initState() {
     super.initState();
     // Computing the initialScrollOffset now, before the items have been laid
-    // out. This only works if the item heights are effectively fixed, i.e. either
-    // DropdownButton.itemHeight is specified or DropdownButton.itemHeight is null
-    // and all of the items' intrinsic heights are less than _kMenuItemHeight.
-    // Otherwise the initialScrollOffset is just a rough approximation based on
-    // treating the items as if their heights were all equal to _kMenuItemHeight.
+    // out. This is accurate only if no item sets [DropdownItem.intrinsicHeight]
+    // to true. When an item uses an intrinsic height, the offset is just a
+    // rough approximation that uses the declared [DropdownItem.height] as a
+    // fallback, since the actual height can't be known until layout.
     final _MenuLimits menuLimits = widget.route.getMenuLimits(
       widget.buttonRect,
       widget.constraints.maxHeight,
