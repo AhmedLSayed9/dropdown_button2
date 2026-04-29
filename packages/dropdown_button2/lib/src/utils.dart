@@ -10,7 +10,7 @@ void _uniqueValueAssert<T>(
   }
 
   String assertMessage(T value) {
-    return "There should be exactly one item with [DropdownButton]'s value: "
+    return "There should be exactly one item with [DropdownButton2]'s value: "
         '$value. \n'
         'Either zero or 2 or more [DropdownItem]s were detected '
         'with the same value';

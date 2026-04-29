@@ -15,7 +15,7 @@
 
 ## Intro
 
-Flutter's core Dropdown Button widget with steady dropdown menu and many other options you can
+Flutter's core Dropdown Button widget with a steady dropdown menu and many other options you can
 customize to your needs.
 
 <img src="https://raw.githubusercontent.com/AhmedLSayed9/dropdown_button2/master/.github/images/banner.jpg" alt="Image" width="700"/>
@@ -68,7 +68,7 @@ customize to your needs.
 | Option                                                                                                                                       | Description                                                                              | Type                       | Required |
 | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------- | :------: |
 | [items](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/items.html)                                   | The list of items the user can select                                                    | List<DropdownItem<T>>      |   Yes    |
-| [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html)       | A builder to customize how the selected item will be displayed on the button             | DropdownButtonBuilder      |    No    |
+| [selectedItemBuilder](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/selectedItemBuilder.html)       | A builder to customize how the selected item will be displayed on the button             | DropdownButton2Builder      |    No    |
 | [valueListenable](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/valueListenable.html)               | A [ValueListenable] that represents the value of the currently selected [DropdownItem].  | ValueListenable<T?>?       |    No    |
 | [multiValueListenable](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/multiValueListenable.html)     | A [ValueListenable] that represents a list of the currently selected [DropdownItem]s     | ValueListenable<List\<T>>? |    No    |
 | [hint](https://pub.dev/documentation/dropdown_button2/latest/dropdown_button2/DropdownButton2/hint.html)                                     | The placeholder displayed before the user choose an item                                 | Widget                     |    No    |
@@ -1079,7 +1079,7 @@ class CustomDropdownButton2 extends StatelessWidget {
   final ValueListenable<String?>? valueListenable;
   final List<String> dropdownItems;
   final ValueChanged<String?>? onChanged;
-  final DropdownButtonBuilder? selectedItemBuilder;
+  final DropdownButton2Builder? selectedItemBuilder;
   final Alignment? hintAlignment;
   final Alignment? valueAlignment;
   final double? buttonHeight, buttonWidth;

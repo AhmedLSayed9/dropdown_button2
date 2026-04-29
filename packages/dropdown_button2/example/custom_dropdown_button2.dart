@@ -37,7 +37,7 @@ class CustomDropdownButton2 extends StatelessWidget {
   final ValueListenable<String?>? valueListenable;
   final List<String> dropdownItems;
   final ValueChanged<String?>? onChanged;
-  final DropdownButtonBuilder? selectedItemBuilder;
+  final DropdownButton2Builder? selectedItemBuilder;
   final Alignment? hintAlignment;
   final Alignment? valueAlignment;
   final double? buttonHeight, buttonWidth;

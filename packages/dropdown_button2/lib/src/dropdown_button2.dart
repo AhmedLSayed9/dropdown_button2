@@ -34,6 +34,9 @@ const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
 /// A builder to customize dropdown buttons.
 ///
 /// Used by [DropdownButton2.selectedItemBuilder].
+///
+/// The list of widgets returned by this builder must be exactly the same length
+/// as the [DropdownButton2.items] list.
 typedef DropdownButton2Builder = Iterable<Widget> Function(BuildContext context);
 
 /// A builder to customize the selected menu item.
@@ -83,7 +86,7 @@ typedef SearchMatchFn<T> = bool Function(DropdownItem<T> item, String searchValu
 ///  * <https://material.io/design/components/menus.html#dropdown-menu>
 class DropdownButton2<T> extends StatefulWidget {
   /// Creates a DropdownButton2.
-  /// It's customizable DropdownButton with steady dropdown menu and many other features.
+  /// It's a customizable dropdown button with a steady dropdown menu and many other features.
   ///
   /// The [items] must have distinct values. If [valueListenable] isn't null then its value
   /// must be equal to one of the [DropdownItem] values. If [multiValueListenable] isn't null
@@ -192,14 +195,8 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   /// When a [DropdownItem] is selected, the widget that will be displayed
   /// from the list corresponds to the [DropdownItem] of the same index
-  /// in [items].
-  ///
-  /// {@tool dartpad}
-  /// This sample shows a [DropdownButton] with a button with [Text] that
-  /// corresponds to but is unique from [DropdownItem].
-  ///
-  /// ** See code in examples/api/lib/material/dropdown/dropdown_button.selected_item_builder.0.dart **
-  /// {@end-tool}
+  /// in [items]. The list of widgets returned by this builder must be exactly
+  /// the same length as the [items] list.
   ///
   /// If this callback is null, the [DropdownItem] from [items]
   /// that matches the selected [DropdownItem]'s value will be displayed.
@@ -262,13 +259,6 @@ class DropdownButton2<T> extends StatefulWidget {
   ///
   /// To use a separate text style for selected item when it's displayed within
   /// the dropdown button, consider using [selectedItemBuilder].
-  ///
-  /// {@tool dartpad}
-  /// This sample shows a `DropdownButton` with a dropdown button text style
-  /// that is different than its menu items.
-  ///
-  /// ** See code in examples/api/lib/material/dropdown/dropdown_button.style.0.dart **
-  /// {@end-tool}
   ///
   /// Defaults to the [TextTheme.titleMedium] value of the current
   /// [ThemeData.textTheme] of the current [Theme].
@@ -450,8 +440,8 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
 
   final GlobalKey<State<StatefulWidget>> _buttonRectKey = GlobalKey();
 
-  // Using ValueNotifier for the Rect of DropdownButton so the dropdown menu listen and
-  // update its position if DropdownButton's position has changed, as when keyboard open.
+  // Using ValueNotifier for the Rect of DropdownButton2 so the dropdown menu listen and
+  // update its position if DropdownButton2's position has changed, as when keyboard open.
   final ValueNotifier<Rect?> _buttonRect = ValueNotifier<Rect?>(null);
 
   // Ancestor scroll positions we listen to while the menu is open, so the menu
@@ -850,9 +840,19 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
     // We should explicitly type the items list to be a list of <Widget>,
     // otherwise, no explicit type adding items maybe trigger a crash/failure
     // when hint and selectedItemBuilder are provided.
-    final buttonItems = widget.selectedItemBuilder == null
-        ? (widget.items != null ? List<Widget>.of(widget.items!) : <Widget>[])
-        : List<Widget>.of(widget.selectedItemBuilder!(context));
+    final List<Widget> buttonItems;
+    if (widget.selectedItemBuilder != null) {
+      final selectedItems = List<Widget>.of(widget.selectedItemBuilder!(context));
+      assert(
+        widget.items == null || selectedItems.length == widget.items!.length,
+        'The selectedItemBuilder must return a list of widgets with the same length as the items list.\n'
+        'Currently, selectedItemBuilder returns a list of length ${selectedItems.length}, '
+        'but items has length ${widget.items!.length}.',
+      );
+      buttonItems = selectedItems;
+    } else {
+      buttonItems = widget.items != null ? List<Widget>.of(widget.items!) : <Widget>[];
+    }
 
     int? hintIndex;
     if (widget.hint != null || (!_enabled && widget.disabledHint != null)) {
@@ -1189,7 +1189,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                  ? errorBuilder(state.context, field.errorText!)
                  : null;
              final String? errorText = error == null ? field.errorText : null;
-             // Clear the decoration hintText because DropdownButton has its own hint logic.
+             // Clear the decoration hintText because DropdownButton2 has its own hint logic.
              final String? hintText = effectiveDecoration.hintText != null ? '' : null;
 
              effectiveDecoration = effectiveDecoration.copyWith(
