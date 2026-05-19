@@ -187,7 +187,7 @@ void main() {
         ).colorScheme.surfaceContainerHighest;
         expect(
           findInputDecoratorBorderPainter(),
-          paints..path(style: PaintingStyle.fill, color: defaultBorderColor),
+          paints..rrect(style: PaintingStyle.fill, color: defaultBorderColor),
         );
 
         // Replace focusNode and request focus.
@@ -199,7 +199,7 @@ void main() {
         await tester.pump(); // Wait for requestFocus to take effect.
         expect(
           findInputDecoratorBorderPainter(),
-          paints..path(style: PaintingStyle.fill, color: const Color(0xff00ff00)),
+          paints..rrect(style: PaintingStyle.fill, color: const Color(0xff00ff00)),
         );
 
         // Replace focusNode and request focus.
@@ -212,7 +212,7 @@ void main() {
         await tester.pump(); // Wait for unfocus to take effect.
         expect(
           findInputDecoratorBorderPainter(),
-          paints..path(style: PaintingStyle.fill, color: defaultBorderColor),
+          paints..rrect(style: PaintingStyle.fill, color: defaultBorderColor),
         );
       });
 
