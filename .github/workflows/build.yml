@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [master, main]
     paths-ignore:
       - "**.md"
   pull_request:
@@ -22,10 +22,11 @@ jobs:
       matrix:
         include:
           # Minimum supported version (keep in sync with pubspec.yaml).
-          - flutter-version: "3.32.0"
           - channel: stable
-          # We'll add master after migrating to Melos 7.x.x and flutter workspaces
-          # - channel: master
+            flutter-version: "3.32.0"
+          # Latest stable — no version pin, so it runs against the current stable release.
+          - channel: stable
+          # - channel: master   # We'll enable it after migrating to Melos 7.x & flutter workspaces
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
