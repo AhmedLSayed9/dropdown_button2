@@ -2,8 +2,8 @@ name: dropdown_button2_test
 publish_to: none
 
 environment:
-  sdk: ">=3.8.0 <4.0.0"
-  flutter: ">=3.32.0"
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
 
 dependencies:
   flutter:
@@ -13,7 +13,7 @@ dependencies:
   dropdown_button2:
     path: ../dropdown_button2
 
-  material_ui: 1.0.0
+  material_ui: ^1.0.0
 dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:
