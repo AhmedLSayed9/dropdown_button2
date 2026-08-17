@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 /// A specialized [SliverChildBuilderDelegate] that builds children for slivers
 /// with separators between them.

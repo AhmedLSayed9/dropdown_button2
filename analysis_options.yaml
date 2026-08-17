@@ -20,6 +20,13 @@ analyzer:
     - "**/*.pb.dart"
     - "**/*.g.dart"
     - "**/*.mocks.dart" # Mockito @GenerateMocks
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 formatter:
   # Preserve trailing commas until Dart formatting improves
