@@ -71,13 +71,22 @@ class _MultiSelectExampleState extends State<MultiSelectExample> {
               final multiValue = multiValueListenable.value;
               final isSelected = multiValue.contains(value);
               if (value == 'All') {
-                isSelected
-                    ? multiValueListenable.value = []
-                    : multiValueListenable.value = List.from(items);
+                multiValueListenable.value = isSelected ? [] : List.from(items);
               } else {
-                multiValueListenable.value = isSelected
+                final newValue = isSelected
                     ? ([...multiValue]..remove(value))
                     : [...multiValue, value!];
+                // Keep the 'All' checkbox in sync: checked only when every
+                // real item ends up selected, regardless of how it was reached.
+                final allRealItemsSelected = items
+                    .where((item) => item != 'All')
+                    .every(newValue.contains);
+                if (allRealItemsSelected) {
+                  newValue.add('All');
+                } else {
+                  newValue.remove('All');
+                }
+                multiValueListenable.value = newValue;
               }
             },
             selectedItemBuilder: (context) {
