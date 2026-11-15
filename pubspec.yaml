@@ -2,9 +2,67 @@ name: dropdown_button2_workspace
 publish_to: "none"
 
 environment:
-  sdk: ">=3.8.0 <4.0.0"
-  flutter: ">=3.32.0"
+  sdk: "^3.13.0"
+  flutter: ">=3.47.0"
+
+workspace:
+  - packages/dropdown_button2
+  - packages/dropdown_button2_test
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
-  melos: ^6.3.2
+  flutter_lints: ^6.0.0
+  melos: ^8.10.1
+
+melos:
+  repository: https://github.com/AhmedLSayed9/dropdown_button2
+  command:
+    version:
+      message: |
+        Release
+
+        {new_package_versions}
+    bootstrap:
+      environment:
+        sdk: "^3.13.0"
+        flutter: ">=3.47.0"
+
+  scripts:
+    lint:all:
+      run: dart run melos run analyze && dart run melos run format
+      description: Run all static analysis checks.
+
+    analyze:
+      # We are setting the concurrency to 1 because a higher concurrency can crash
+      # the analysis server on low performance machines (like GitHub Actions).
+      run: |
+        dart run melos exec -c 1 -- \
+          flutter analyze --fatal-infos
+      description: Run `flutter analyze` for all packages.
+
+    format:
+      run: dart run melos exec dart format .
+      description: Run `dart format` for all packages.
+
+    test:select:
+      run: dart run melos exec -- flutter test
+      packageFilters:
+        dirExists: test
+      description: Run `flutter test` for selected packages.
+
+    test:
+      run: dart run melos run test:select --no-select
+      description: Run all Flutter tests in this project.
+
+    coverage:
+      run: |
+        dart run melos exec -- flutter test --coverage &&
+        dart run melos exec -- genhtml coverage/lcov.info --output-directory=coverage/
+      packageFilters:
+        dirExists: test
+      description: Generate coverage for the selected package.
+
+    update-goldens:
+      run: dart run melos exec -- flutter test --update-goldens
+      packageFilters:
+        dirExists: test
+      description: Re-generate all golden test files

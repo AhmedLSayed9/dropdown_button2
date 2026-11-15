@@ -1,3 +1,10 @@
+## Unreleased
+
+- Require Flutter 3.47 and Dart 3.13 or newer.
+- Migrate Material widgets to the standalone `material_ui` package.
+- Update dependencies and migrate development tooling to Melos 8 and Dart workspaces.
+- Refresh golden test references for Flutter 3.47 rendering.
+
 ## 3.1.0
 
 - Upgrade minimum required Flutter SDK version to 3.32.0.

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 /// A specialized [SliverChildBuilderDelegate] that builds children for slivers
 /// with separators between them.
@@ -39,10 +39,10 @@ class SeparatedSliverChildBuilderDelegate extends SliverChildBuilderDelegate {
     required IndexedWidgetBuilder itemBuilder,
     required int itemCount,
     required IndexedWidgetBuilder separatorBuilder,
-    bool addAutomaticKeepAlives = true,
-    bool addRepaintBoundaries = true,
-    bool addSemanticIndexes = true,
-    ChildIndexGetter? findChildIndexCallback,
+    super.addAutomaticKeepAlives,
+    super.addRepaintBoundaries,
+    super.addSemanticIndexes,
+    super.findChildIndexCallback,
   }) : super(
          (BuildContext context, int index) {
            final itemIndex = index ~/ 2;
@@ -55,11 +55,7 @@ class SeparatedSliverChildBuilderDelegate extends SliverChildBuilderDelegate {
 
            return widget;
          },
-         findChildIndexCallback: findChildIndexCallback,
          childCount: computeActualChildCount(itemCount),
-         addAutomaticKeepAlives: addAutomaticKeepAlives,
-         addRepaintBoundaries: addRepaintBoundaries,
-         addSemanticIndexes: addSemanticIndexes,
          semanticIndexCallback: (Widget _, int index) {
            return index.isEven ? index ~/ 2 : null;
          },

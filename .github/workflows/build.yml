@@ -21,18 +21,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Minimum supported version (keep in sync with pubspec.yaml).
+          # Flutter 3.47 migration baseline.
           - channel: stable
-            flutter-version: "3.32.0"
+            flutter-version: "3.47.9"
           # Latest stable — no version pin, so it runs against the current stable release.
           - channel: stable
-          # - channel: master   # We'll enable it after migrating to Melos 7.x & flutter workspaces
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Flutter environment
-        uses: subosito/flutter-action@v2.7.1
+        uses: subosito/flutter-action@v2.23.0
         with:
           flutter-version: ${{ matrix.flutter-version }}
           channel: ${{ matrix.channel }}
@@ -44,16 +43,15 @@ jobs:
 
       - name: Setup melos
         run: |
-          dart pub global activate melos
-          melos --version
-          melos bootstrap
+          flutter pub get
+          dart run melos --version
+          dart run melos bootstrap
 
       - name: Verify formatting
-        run: melos exec dart format --output=none --set-exit-if-changed .
+        run: dart run melos exec dart format --output=none --set-exit-if-changed .
 
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Run flutter analyze
-        run: melos run analyze
+        run: dart run melos run analyze
 
       - name: Run tests
-        run: melos run test
+        run: dart run melos run test

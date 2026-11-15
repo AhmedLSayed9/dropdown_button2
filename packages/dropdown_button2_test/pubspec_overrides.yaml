@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: dropdown_button2
-dependency_overrides:
-  dropdown_button2:
-    path: ../dropdown_button2

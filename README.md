@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/pub/v/dropdown_button2?label=Pub" alt="Pub Version"/>
 </a>
 <a href="https://flutter.dev/">
-  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.32.0-green.svg" alt="Flutter Version"/>
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%203.47.0-green.svg" alt="Flutter Version"/>
 </a>
 <a href="https://opensource.org/licenses/MIT">
   <img src="https://img.shields.io/badge/License-MIT-red" alt="License: MIT"/>
@@ -175,11 +175,16 @@ customize to your needs.
 
 ## Installation
 
+Requires Flutter 3.47+ and Dart 3.13+. Material widgets now use the standalone
+[`material_ui`](https://pub.dev/packages/material_ui) package. Applications should
+import `package:material_ui/material_ui.dart` for Material widgets and themes.
+
 add this line to pubspec.yaml
 
 ```yaml
 dependencies:
   dropdown_button2: ^3.1.0
+  material_ui: ^1.11.0
 ```
 
 import package
@@ -187,6 +192,7 @@ import package
 ```dart
 
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:material_ui/material_ui.dart';
 
 ```
 
@@ -1209,3 +1215,18 @@ class CustomDropdownButton2 extends StatelessWidget {
 If something is missing or you want to add some feature, feel free to open a ticket or contribute!
 
 [LICENSE: MIT](LICENSE)
+
+## Development
+
+Use Flutter 3.47.9 with Dart 3.13.7, or a compatible newer SDK. From the repository root:
+
+```sh
+flutter pub get
+dart run melos bootstrap
+dart run melos run analyze
+dart run melos exec -- dart format --output=none --set-exit-if-changed .
+dart run melos run test
+```
+
+This repository uses a Dart workspace and Melos 8. Configuration lives in the root
+`pubspec.yaml`, with a shared `pubspec.lock`. Golden tests run on macOS.

@@ -202,7 +202,6 @@ linter:
     - type_literal_in_constant_pattern
     - unintended_html_in_doc_comment # DIFFERENT FROM FLUTTER/FLUTTER: Disabled due to an issue that has been fixed, so just hasn't been adopted there yet.
     - unawaited_futures # DIFFERENT FROM FLUTTER/FLUTTER: It's disabled there for "too many false positives"; that's not an issue here, and missing awaits have caused production issues in plugins.
-    - unnecessary_await_in_return
     - unnecessary_brace_in_string_interps
     - unnecessary_breaks
     - unnecessary_const
@@ -234,7 +233,6 @@ linter:
     - use_enums
     - use_full_hex_values_for_flutter_colors
     - use_function_type_syntax_for_parameters
-    - use_if_null_to_convert_nulls_to_bools
     - use_is_even_rather_than_modulo
     - use_key_in_widget_constructors
     - use_late_for_private_fields_and_variables

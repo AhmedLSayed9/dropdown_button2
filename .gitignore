@@ -32,6 +32,7 @@ coverage/
 .pub/
 build/
 pubspec.lock
+!/pubspec.lock
 
 # Android related
 **/android/**/gradle-wrapper.jar
