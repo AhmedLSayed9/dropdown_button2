@@ -1,3 +1,6 @@
+analyzer:
+  exclude:
+    - ios/**
 include: ../../analysis_options.yaml
 
 linter:

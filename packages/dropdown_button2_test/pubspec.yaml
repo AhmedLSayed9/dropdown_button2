@@ -20,7 +20,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   file: ^7.0.0
-  platform: ^3.1.0
+  platform: ^3.2.0
 
 flutter:
   fonts:
