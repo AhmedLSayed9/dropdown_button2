@@ -1,4 +1,4 @@
-## UNRELEASED
+## 4.0.0
 
 - Fix 'All' checkbox not syncing in multi-select example.
 - Upgrade minimum required Flutter SDK version to 3.47.0.

@@ -179,7 +179,7 @@ add this line to pubspec.yaml
 
 ```yaml
 dependencies:
-  dropdown_button2: ^3.1.0
+  dropdown_button2: ^4.0.0
 ```
 
 import package
