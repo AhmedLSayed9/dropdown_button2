@@ -175,13 +175,10 @@ class DropdownButton2<T> extends StatefulWidget {
     required this.barrierColor,
     required this.barrierLabel,
     required this.openDropdownListenable,
-    required InputDecoration inputDecoration,
-    required bool isEmpty,
-    required bool hasError,
-  }) : underline = null,
-       _inputDecoration = inputDecoration,
-       _isEmpty = isEmpty,
-       _hasError = hasError;
+    required InputDecoration this._inputDecoration,
+    required this._isEmpty,
+    required this._hasError,
+  }) : underline = null;
 
   /// The list of items the user can select.
   ///

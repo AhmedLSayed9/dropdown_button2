@@ -2,6 +2,7 @@
 
 - Fix 'All' checkbox not syncing in multi-select example.
 - Upgrade minimum required Flutter SDK version to 3.47.0.
+- Migrate to standalone material_ui and cupertino_ui packages.
 
 ## 3.1.0
 

@@ -23,7 +23,7 @@ jobs:
         include:
           # Minimum supported version (keep in sync with pubspec.yaml).
           - channel: stable
-            flutter-version: "3.32.0"
+            flutter-version: "3.47.0"
           # Latest stable — no version pin, so it runs against the current stable release.
           - channel: stable
           # - channel: master   # We'll enable it after migrating to Melos 7.x & flutter workspaces

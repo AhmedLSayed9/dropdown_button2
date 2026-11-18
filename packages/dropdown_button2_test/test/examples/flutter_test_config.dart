@@ -34,7 +34,7 @@ Future<void> _loadRobotoFont() async {
 /// https://stackoverflow.com/questions/65191069/golden-tests-with-custom-icon-font-class
 Future<void> _loadMaterialIconFont() async {
   const f.FileSystem fs = l.LocalFileSystem();
-  const p.Platform platform = p.LocalPlatform();
+  final p.NativePlatform platform = p.NativePlatform.current!;
   final f.Directory flutterRoot = fs.directory(platform.environment['FLUTTER_ROOT']);
 
   final f.File iconFont = flutterRoot.childFile(
