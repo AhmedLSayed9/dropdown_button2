@@ -8,6 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: ^1.11.1
+  cupertino_ui: ^1.1.7
   meta: ^1.9.1
 
   dropdown_button2:
