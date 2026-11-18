@@ -16,6 +16,14 @@ analyzer:
     # to annotate every member in every test, assert, etc, when we deprecate something)
     deprecated_member_use_from_same_package: ignore
   exclude: # DIFFERENT FROM FLUTTER/FLUTTER
+    - "build/**"
+    - "**/build/**"
+    - "**/android/**"
+    - "**/ios/**"
+    - "**/web/**"
+    - "**/windows/**"
+    - "**/macos/**"
+    - "**/linux/**"
     # Ignore generated files
     - "**/*.pb.dart"
     - "**/*.g.dart"
