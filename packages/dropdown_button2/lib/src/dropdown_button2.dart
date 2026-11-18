@@ -632,23 +632,24 @@ class _DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBin
   EdgeInsets? _getInputDecorationPadding() {
     // Return the contentPadding only if inputDecoration is defined.
     if (widget._inputDecoration case final decoration?) {
-      final ThemeData theme = Theme.of(context);
+      final InputDecorationThemeData inputDecorationTheme = InputDecorationTheme.of(context);
       final TextDirection? textDirection = Directionality.maybeOf(context);
 
       final EdgeInsets? contentPadding =
-          (decoration.contentPadding ?? theme.inputDecorationTheme.contentPadding)?.resolve(
+          (decoration.contentPadding ?? inputDecorationTheme.contentPadding)?.resolve(
             textDirection,
           );
 
       // InputDecorator adds gapPadding horizontally for OutlineInputBorder.
-      final border = decoration.border ?? theme.inputDecorationTheme.border;
+      final border = decoration.border ?? inputDecorationTheme.border;
       final double gapPadding = switch (border) {
         OutlineInputBorder(:final gapPadding) => gapPadding,
         _ => 0.0,
       };
 
-      // Use inputDecorationTheme.visualDensity when added (https://github.com/flutter/flutter/issues/166201#issuecomment-2774622584)
-      final Offset densityOffset = theme.visualDensity.baseSizeAdjustment;
+      final Offset densityOffset =
+          (inputDecorationTheme.visualDensity ?? Theme.of(context).visualDensity)
+              .baseSizeAdjustment;
 
       return contentPadding?.copyWith(
         left: contentPadding.left + gapPadding,
@@ -1163,7 +1164,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
          builder: (FormFieldState<T> field) {
            final state = field as _DropdownButtonFormField2State<T>;
            InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
-               .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+               .applyDefaults(InputDecorationTheme.of(field.context));
 
            final bool showSelectedItem =
                items != null &&

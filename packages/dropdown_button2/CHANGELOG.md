@@ -3,6 +3,7 @@
 - Fix 'All' checkbox not syncing in multi-select example.
 - Upgrade minimum required Flutter SDK version to 3.47.0.
 - Migrate to standalone material_ui and cupertino_ui packages.
+- Inherit local `InputDecorationTheme` (contentPadding, border, visualDensity) instead of only the global theme.
 
 ## 3.1.0
 
